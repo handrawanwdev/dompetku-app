@@ -1,0 +1,913 @@
+{
+  "versi": "KeuanganV1",
+  "tanggal_simpan": "2026-06-04T00:11:12.106Z",
+  "hutang": [
+    {
+      "id": 1,
+      "nama": "JAGO 1",
+      "cicilan": 554000,
+      "sisa": 4,
+      "ekstra": 0,
+      "jatuhTempo": 30,
+      "terakhirBayar": "2026-05-30"
+    },
+    {
+      "id": 2,
+      "nama": "JAGO 2",
+      "cicilan": 500000,
+      "sisa": 4,
+      "ekstra": 0,
+      "jatuhTempo": 30,
+      "terakhirBayar": "2026-05-30"
+    },
+    {
+      "id": 3,
+      "nama": "KREDIVO",
+      "cicilan": 420000,
+      "sisa": 1,
+      "ekstra": 0,
+      "jatuhTempo": 30,
+      "terakhirBayar": "2026-05-31"
+    },
+    {
+      "id": 4,
+      "nama": "BPKB",
+      "cicilan": 830000,
+      "sisa": 7,
+      "ekstra": 0,
+      "jatuhTempo": 30,
+      "terakhirBayar": "2026-05-30"
+    },
+    {
+      "id": 5,
+      "nama": "Laptop",
+      "cicilan": 1000000,
+      "sisa": 2,
+      "ekstra": 0,
+      "jatuhTempo": 30,
+      "terakhirBayar": "2026-05-30"
+    },
+    {
+      "id": 8,
+      "nama": "Tiktok Paylater",
+      "cicilan": 210000,
+      "sisa": 2,
+      "ekstra": 0,
+      "jatuhTempo": 30,
+      "terakhirBayar": "2026-05-30"
+    },
+    {
+      "id": 12,
+      "nama": "Paket Lebaran",
+      "cicilan": 250000,
+      "sisa": 10,
+      "ekstra": 0,
+      "jatuhTempo": 30,
+      "terakhirBayar": "2026-05-31"
+    }
+  ],
+  "txList": [
+    {
+      "tgl": "2026-06-04",
+      "kat": "Tarik Tabungan",
+      "ket": "Tarik dari Dana Darurat",
+      "nominal": 100000,
+      "allocHutang": 0,
+      "allocHutangId": 0,
+      "allocTab": 0,
+      "allocTabId": 0,
+      "allocKas": 100000,
+      "fromTabungan": true
+    },
+    {
+      "tgl": "2026-06-03",
+      "kat": "Ngojek",
+      "ket": "",
+      "nominal": 45000,
+      "allocHutang": 0,
+      "allocHutangId": 0,
+      "allocTab": 0,
+      "allocTabId": 0,
+      "allocKas": 45000
+    },
+    {
+      "tgl": "2026-06-03",
+      "kat": "Ngojek",
+      "ket": "",
+      "nominal": 45000,
+      "allocHutang": 0,
+      "allocHutangId": 0,
+      "allocTab": 0,
+      "allocTabId": 0,
+      "allocKas": 45000
+    },
+    {
+      "tgl": "2026-06-03",
+      "kat": "Bonus",
+      "ket": "",
+      "nominal": 600000,
+      "allocHutang": 0,
+      "allocHutangId": 0,
+      "allocTab": 0,
+      "allocTabId": 0,
+      "allocKas": 600000
+    },
+    {
+      "tgl": "2026-06-02",
+      "kat": "Ngojek",
+      "ket": "",
+      "nominal": 40000,
+      "allocHutang": 0,
+      "allocHutangId": 0,
+      "allocTab": 0,
+      "allocTabId": 0,
+      "allocKas": 40000
+    },
+    {
+      "tgl": "2026-06-02",
+      "kat": "Transfer",
+      "ket": "",
+      "nominal": 500000,
+      "allocHutang": 0,
+      "allocHutangId": 0,
+      "allocTab": 0,
+      "allocTabId": 0,
+      "allocKas": 500000
+    },
+    {
+      "tgl": "2026-06-01",
+      "kat": "Tarik Tabungan",
+      "ket": "Tarik dari DCA Kripto - Pindahin ke kas oper ke TABUNGAN KAS",
+      "nominal": 50000,
+      "allocHutang": 0,
+      "allocHutangId": 0,
+      "allocTab": 0,
+      "allocTabId": 0,
+      "allocKas": 50000,
+      "fromTabungan": true
+    },
+    {
+      "tgl": "2026-06-01",
+      "kat": "Tarik Tabungan",
+      "ket": "Tarik dari Uang Makan",
+      "nominal": 50000,
+      "allocHutang": 0,
+      "allocHutangId": 0,
+      "allocTab": 0,
+      "allocTabId": 0,
+      "allocKas": 50000,
+      "fromTabungan": true
+    },
+    {
+      "tgl": "2026-05-31",
+      "kat": "Tarik Tabungan",
+      "ket": "Tarik dari DCA Kripto",
+      "nominal": 476000,
+      "allocHutang": 0,
+      "allocHutangId": 0,
+      "allocTab": 0,
+      "allocTabId": 0,
+      "allocKas": 476000,
+      "fromTabungan": true
+    },
+    {
+      "tgl": "2026-05-30",
+      "kat": "Gaji",
+      "ket": "",
+      "nominal": 5400000,
+      "allocHutang": 0,
+      "allocHutangId": 0,
+      "allocTab": 0,
+      "allocTabId": 0,
+      "allocKas": 5400000
+    }
+  ],
+  "keluarList": [
+    {
+      "tgl": "2026-06-04",
+      "kat": "Belanja",
+      "ket": "Jajan",
+      "nominal": 50000,
+      "sumber": "tabungan",
+      "tabId": 1
+    },
+    {
+      "tgl": "2026-06-04",
+      "kat": "Makan",
+      "ket": "",
+      "nominal": 50000,
+      "sumber": "tabungan",
+      "tabId": 1
+    },
+    {
+      "tgl": "2026-06-04",
+      "kat": "Tabungan",
+      "ket": "Setor ke KAS Cicilan",
+      "nominal": 45000,
+      "sumber": "kas",
+      "tabId": 0,
+      "auto": true
+    },
+    {
+      "tgl": "2026-06-04",
+      "kat": "Lainnya",
+      "ket": "Tarik dari KAS Cicilan",
+      "nominal": 45000,
+      "sumber": "tabungan",
+      "tabId": 10,
+      "auto": true
+    },
+    {
+      "tgl": "2026-06-04",
+      "kat": "Lainnya",
+      "ket": "Admin tf",
+      "nominal": 8000,
+      "sumber": "tabungan",
+      "tabId": 1,
+      "auto": true
+    },
+    {
+      "tgl": "2026-06-04",
+      "kat": "Tabungan",
+      "ket": "Setor ke Dana Darurat",
+      "nominal": 433000,
+      "sumber": "kas",
+      "tabId": 0,
+      "auto": true
+    },
+    {
+      "tgl": "2026-06-04",
+      "kat": "Tabungan",
+      "ket": "Setor ke KAS Cicilan",
+      "nominal": 45000,
+      "sumber": "kas",
+      "tabId": 0,
+      "auto": true
+    },
+    {
+      "tgl": "2026-06-03",
+      "kat": "Belanja",
+      "ket": "TOPUP CLAUDE CREDIT",
+      "nominal": 100000,
+      "sumber": "kas",
+      "tabId": 1
+    },
+    {
+      "tgl": "2026-06-03",
+      "kat": "Makan",
+      "ket": "SARI INDAH",
+      "nominal": 67000,
+      "sumber": "kas",
+      "tabId": 1
+    },
+    {
+      "tgl": "2026-06-03",
+      "kat": "Makan",
+      "ket": "Tarik dari Uang Parkir",
+      "nominal": 50000,
+      "sumber": "tabungan",
+      "tabId": 5,
+      "auto": true
+    },
+    {
+      "tgl": "2026-06-02",
+      "kat": "Tabungan",
+      "ket": "Setor ke KAS Cicilan",
+      "nominal": 40000,
+      "sumber": "kas",
+      "tabId": 0,
+      "auto": true
+    },
+    {
+      "tgl": "2026-06-02",
+      "kat": "Lainnya",
+      "ket": "Amel Ongkos",
+      "nominal": 25000,
+      "sumber": "tabungan",
+      "tabId": 5,
+      "auto": true
+    },
+    {
+      "tgl": "2026-06-02",
+      "kat": "Makan",
+      "ket": "Tarik dari Uang Parkir",
+      "nominal": 50000,
+      "sumber": "tabungan",
+      "tabId": 5,
+      "auto": true
+    },
+    {
+      "tgl": "2026-06-02",
+      "kat": "Tabungan",
+      "ket": "Setor ke Dana Darurat",
+      "nominal": 500000,
+      "sumber": "kas",
+      "tabId": 0,
+      "auto": true
+    },
+    {
+      "tgl": "2026-06-01",
+      "kat": "Tabungan",
+      "ket": "Setor ke KAS Cicilan",
+      "nominal": 50000,
+      "sumber": "kas",
+      "tabId": 0,
+      "auto": true
+    },
+    {
+      "tgl": "2026-06-01",
+      "kat": "Tabungan",
+      "ket": "Setor ke DCA Kripto",
+      "nominal": 50000,
+      "sumber": "kas",
+      "tabId": 0,
+      "auto": true
+    },
+    {
+      "tgl": "2026-06-01",
+      "kat": "Lainnya",
+      "ket": "",
+      "nominal": 200000,
+      "sumber": "tabungan",
+      "tabId": 4
+    },
+    {
+      "tgl": "2026-06-01",
+      "kat": "Service Motor",
+      "ket": "Servis Tali Gas",
+      "nominal": 230000,
+      "sumber": "tabungan",
+      "tabId": 4
+    },
+    {
+      "tgl": "2026-05-31",
+      "kat": "Tabungan",
+      "ket": "Setor ke Uang Parkir",
+      "nominal": 176000,
+      "sumber": "kas",
+      "tabId": 0,
+      "auto": true
+    },
+    {
+      "tgl": "2026-05-31",
+      "kat": "Tabungan",
+      "ket": "Setor ke Uang Makan",
+      "nominal": 600000,
+      "sumber": "kas",
+      "tabId": 0,
+      "auto": true
+    },
+    {
+      "tgl": "2026-05-31",
+      "kat": "Cicilan",
+      "ket": "Bayar KREDIVO dari tabungan DCA Kripto",
+      "nominal": 420000,
+      "sumber": "tabungan",
+      "tabId": 2,
+      "auto": true
+    },
+    {
+      "tgl": "2026-05-31",
+      "kat": "Lainnya",
+      "ket": "",
+      "nominal": 100000,
+      "sumber": "tabungan",
+      "tabId": 2
+    },
+    {
+      "tgl": "2026-05-31",
+      "kat": "Belanja",
+      "ket": "Tarik Tunai",
+      "nominal": 200000,
+      "sumber": "tabungan",
+      "tabId": 2
+    },
+    {
+      "tgl": "2026-05-31",
+      "kat": "Cicilan",
+      "ket": "Bayar Paket Lebaran dari tabungan DCA Kripto",
+      "nominal": 250000,
+      "sumber": "tabungan",
+      "tabId": 2,
+      "auto": true
+    },
+    {
+      "tgl": "2026-05-30",
+      "kat": "Belanja",
+      "ket": "Gacoan",
+      "nominal": 150000,
+      "sumber": "kas",
+      "tabId": 2
+    },
+    {
+      "tgl": "2026-05-30",
+      "kat": "Cicilan",
+      "ket": "Bayar JAGO 2 dari tabungan DCA Kripto",
+      "nominal": 500000,
+      "sumber": "tabungan",
+      "tabId": 2,
+      "auto": true
+    },
+    {
+      "tgl": "2026-05-30",
+      "kat": "Cicilan",
+      "ket": "Bayar JAGO 1 dari tabungan DCA Kripto",
+      "nominal": 554000,
+      "sumber": "tabungan",
+      "tabId": 2,
+      "auto": true
+    },
+    {
+      "tgl": "2026-05-30",
+      "kat": "Cicilan",
+      "ket": "Bayar cicilan: Laptop",
+      "nominal": 1500000,
+      "sumber": "kas",
+      "tabId": 0,
+      "auto": true
+    },
+    {
+      "tgl": "2026-05-30",
+      "kat": "Cicilan",
+      "ket": "Bayar cicilan: KREDIVO",
+      "nominal": 420000,
+      "sumber": "kas",
+      "tabId": 0,
+      "auto": true
+    },
+    {
+      "tgl": "2026-05-30",
+      "kat": "Cicilan",
+      "ket": "Bayar cicilan: Kredivo Pulsa",
+      "nominal": 50000,
+      "sumber": "kas",
+      "tabId": 0,
+      "auto": true
+    },
+    {
+      "tgl": "2026-05-30",
+      "kat": "Cicilan",
+      "ket": "Bayar cicilan: Kredivo Gopay",
+      "nominal": 600000,
+      "sumber": "kas",
+      "tabId": 0,
+      "auto": true
+    },
+    {
+      "tgl": "2026-05-30",
+      "kat": "Cicilan",
+      "ket": "Bayar cicilan: BPKB",
+      "nominal": 830000,
+      "sumber": "kas",
+      "tabId": 0,
+      "auto": true
+    },
+    {
+      "tgl": "2026-05-30",
+      "kat": "Cicilan",
+      "ket": "Bayar cicilan: Tiktok Paylater",
+      "nominal": 210000,
+      "sumber": "kas",
+      "tabId": 0,
+      "auto": true
+    },
+    {
+      "tgl": "2026-05-30",
+      "kat": "Cicilan",
+      "ket": "Bayar cicilan: Rupiah Cepat",
+      "nominal": 170000,
+      "sumber": "kas",
+      "tabId": 0,
+      "auto": true
+    },
+    {
+      "tgl": "2026-05-30",
+      "kat": "Cicilan",
+      "ket": "Bayar cicilan: Pinjem Ayang",
+      "nominal": 150000,
+      "sumber": "kas",
+      "tabId": 0,
+      "auto": true
+    },
+    {
+      "tgl": "2026-05-30",
+      "kat": "Cicilan",
+      "ket": "Bayar cicilan: Bayar Hutang Wifi Mama",
+      "nominal": 200000,
+      "sumber": "kas",
+      "tabId": 0,
+      "auto": true
+    },
+    {
+      "tgl": "2026-05-30",
+      "kat": "Lainnya",
+      "ket": "Jajan Ayang",
+      "nominal": 100000,
+      "sumber": "kas",
+      "tabId": 2
+    },
+    {
+      "tgl": "2026-05-30",
+      "kat": "Lainnya",
+      "ket": "Beli Seng",
+      "nominal": 120000,
+      "sumber": "kas",
+      "tabId": 2
+    },
+    {
+      "tgl": "2026-05-30",
+      "kat": "Bulanan Ortu",
+      "ket": "Buat Bapa",
+      "nominal": 100000,
+      "sumber": "kas",
+      "tabId": 0
+    },
+    {
+      "tgl": "2026-05-30",
+      "kat": "Bulanan Ortu",
+      "ket": "",
+      "nominal": 500000,
+      "sumber": "kas",
+      "tabId": 0
+    }
+  ],
+  "tabungan": [
+    {
+      "id": 1,
+      "nama": "Dana Darurat",
+      "ikon": "🛡️",
+      "target": 11502000,
+      "saldo": 725000,
+      "mutasi": [
+        {
+          "tgl": "2026-06-02",
+          "ket": "Setor manual (dari Kas)",
+          "nominal": 500000,
+          "jenis": "masuk"
+        },
+        {
+          "tgl": "2026-06-04",
+          "ket": "Setor manual (dari Kas)",
+          "nominal": 433000,
+          "jenis": "masuk"
+        },
+        {
+          "tgl": "2026-06-04",
+          "ket": "Admin tf",
+          "nominal": -8000,
+          "jenis": "keluar"
+        },
+        {
+          "tgl": "2026-06-04",
+          "ket": "Tarik ke Kas Bebas",
+          "nominal": -100000,
+          "jenis": "keluar"
+        },
+        {
+          "tgl": "2026-06-04",
+          "ket": "Pengeluaran: Makan",
+          "nominal": -50000,
+          "jenis": "keluar"
+        },
+        {
+          "tgl": "2026-06-04",
+          "ket": "Pengeluaran: Belanja - Jajan",
+          "nominal": -50000,
+          "jenis": "keluar"
+        }
+      ],
+      "arsip": false
+    },
+    {
+      "id": 2,
+      "nama": "DCA Kripto",
+      "ikon": "🪙",
+      "target": 3500000,
+      "saldo": 1000000,
+      "mutasi": [
+        {
+          "tgl": "2026-05-30",
+          "ket": "Saldo awal (sebelum pencatatan)",
+          "nominal": 3500000,
+          "jenis": "masuk"
+        },
+        {
+          "tgl": "2026-05-30",
+          "ket": "Bayar cicilan: JAGO 1",
+          "nominal": -554000,
+          "jenis": "keluar"
+        },
+        {
+          "tgl": "2026-05-30",
+          "ket": "Bayar cicilan: JAGO 2",
+          "nominal": -500000,
+          "jenis": "keluar"
+        },
+        {
+          "tgl": "2026-05-31",
+          "ket": "Bayar cicilan: Paket Lebaran",
+          "nominal": -250000,
+          "jenis": "keluar"
+        },
+        {
+          "tgl": "2026-05-31",
+          "ket": "Pengeluaran: Belanja - Tarik Tunai",
+          "nominal": -200000,
+          "jenis": "keluar"
+        },
+        {
+          "tgl": "2026-05-31",
+          "ket": "Pengeluaran: Lainnya",
+          "nominal": -100000,
+          "jenis": "keluar"
+        },
+        {
+          "tgl": "2026-05-31",
+          "ket": "Bayar cicilan: KREDIVO",
+          "nominal": -420000,
+          "jenis": "keluar"
+        },
+        {
+          "tgl": "2026-05-31",
+          "ket": "Tarik ke Kas Bebas",
+          "nominal": -476000,
+          "jenis": "keluar"
+        },
+        {
+          "tgl": "2026-06-01",
+          "ket": "Simpan ke Blockchain TKO (dari Kas)",
+          "nominal": 50000,
+          "jenis": "masuk"
+        },
+        {
+          "tgl": "2026-06-01",
+          "ket": "Pindahin ke kas oper ke TABUNGAN KAS",
+          "nominal": -50000,
+          "jenis": "keluar"
+        }
+      ],
+      "arsip": false
+    },
+    {
+      "id": 3,
+      "nama": "Investasi Solana",
+      "ikon": "🪙",
+      "target": 2350000,
+      "saldo": 0,
+      "mutasi": [
+        {
+          "tgl": "2026-05-30",
+          "ket": "Saldo awal (sebelum pencatatan)",
+          "nominal": 2350000,
+          "jenis": "masuk"
+        },
+        {
+          "tgl": "2026-05-31",
+          "ket": "Beli SOLIDR",
+          "nominal": -2350000,
+          "jenis": "keluar"
+        }
+      ],
+      "arsip": false
+    },
+    {
+      "id": 4,
+      "nama": "Uang Makan",
+      "ikon": "⭐",
+      "target": 1500000,
+      "saldo": 120000,
+      "mutasi": [
+        {
+          "tgl": "2026-05-31",
+          "ket": "Uang Makan Harian (dari Kas)",
+          "nominal": 600000,
+          "jenis": "masuk"
+        },
+        {
+          "tgl": "2026-06-01",
+          "ket": "Pengeluaran: Service Motor - Servis Tali Gas",
+          "nominal": -230000,
+          "jenis": "keluar"
+        },
+        {
+          "tgl": "2026-06-01",
+          "ket": "Pengeluaran: Lainnya",
+          "nominal": -200000,
+          "jenis": "keluar"
+        },
+        {
+          "tgl": "2026-06-01",
+          "ket": "Tarik ke Kas Bebas",
+          "nominal": -50000,
+          "jenis": "keluar"
+        }
+      ],
+      "arsip": false
+    },
+    {
+      "id": 5,
+      "nama": "Uang Parkir",
+      "ikon": "⭐",
+      "target": 300000,
+      "saldo": 51000,
+      "mutasi": [
+        {
+          "tgl": "2026-05-31",
+          "ket": "Setor manual (dari Kas)",
+          "nominal": 176000,
+          "jenis": "masuk"
+        },
+        {
+          "tgl": "2026-06-02",
+          "ket": "Pengeluaran dari tabungan",
+          "nominal": -50000,
+          "jenis": "keluar"
+        },
+        {
+          "tgl": "2026-06-02",
+          "ket": "Amel Ongkos",
+          "nominal": -25000,
+          "jenis": "keluar"
+        },
+        {
+          "tgl": "2026-06-03",
+          "ket": "Pengeluaran dari tabungan",
+          "nominal": -50000,
+          "jenis": "keluar"
+        }
+      ],
+      "arsip": false
+    },
+    {
+      "id": 6,
+      "nama": "DCA Doge",
+      "ikon": "📈",
+      "target": 10000000,
+      "saldo": 0,
+      "mutasi": [],
+      "arsip": true
+    },
+    {
+      "id": 7,
+      "nama": "Tabungan Nikah",
+      "ikon": "📈",
+      "target": 100000000,
+      "saldo": 0,
+      "mutasi": [],
+      "arsip": true
+    },
+    {
+      "id": 8,
+      "nama": "Dana Anak",
+      "ikon": "⭐",
+      "target": 20000000,
+      "saldo": 0,
+      "mutasi": [],
+      "arsip": true
+    },
+    {
+      "id": 9,
+      "nama": "KPR Rumah",
+      "ikon": "🏠",
+      "target": 30000000,
+      "saldo": 0,
+      "mutasi": [],
+      "arsip": true
+    },
+    {
+      "id": 10,
+      "nama": "KAS Cicilan",
+      "ikon": "🛡️",
+      "target": 10000000,
+      "saldo": 135000,
+      "mutasi": [
+        {
+          "tgl": "2026-06-01",
+          "ket": "Setor manual (dari Kas)",
+          "nominal": 50000,
+          "jenis": "masuk"
+        },
+        {
+          "tgl": "2026-06-02",
+          "ket": "Setor manual (dari Kas)",
+          "nominal": 40000,
+          "jenis": "masuk"
+        },
+        {
+          "tgl": "2026-06-04",
+          "ket": "Setor manual (dari Kas)",
+          "nominal": 45000,
+          "jenis": "masuk"
+        },
+        {
+          "tgl": "2026-06-04",
+          "ket": "Pengeluaran dari tabungan",
+          "nominal": -45000,
+          "jenis": "keluar"
+        },
+        {
+          "tgl": "2026-06-04",
+          "ket": "Setor manual (dari Kas)",
+          "nominal": 45000,
+          "jenis": "masuk"
+        }
+      ],
+      "arsip": false
+    }
+  ],
+  "investasi": [
+    {
+      "id": 1,
+      "nama": "SOLIDR",
+      "tipe": "kripto",
+      "modal": 2350000,
+      "qty": 1.6206896551724137,
+      "hps": 1450000,
+      "tgl": "2026-05-31",
+      "fromTabId": 3,
+      "note": ""
+    }
+  ],
+  "goals": [
+    {
+      "id": 1,
+      "nama": "Nikah",
+      "ikon": "💍",
+      "target": 100000000,
+      "deadline": "",
+      "posId": 7,
+      "terkumpul": 0
+    },
+    {
+      "id": 2,
+      "nama": "Dana Anak",
+      "ikon": "👶",
+      "target": 20000000,
+      "deadline": "",
+      "posId": 8,
+      "terkumpul": 0
+    },
+    {
+      "id": 3,
+      "nama": "KPR Rumah",
+      "ikon": "🏠",
+      "target": 30000000,
+      "deadline": "",
+      "posId": 9,
+      "terkumpul": 0
+    }
+  ],
+  "kategori": [
+    "Ngojek",
+    "Bonus",
+    "Freelance",
+    "Transfer",
+    "Lainnya",
+    "Gaji",
+    "Trading"
+  ],
+  "kategoriKeluar": [
+    "Makan",
+    "Transport",
+    "Belanja",
+    "Listrik/Air",
+    "Pulsa/Wifi",
+    "Kesehatan",
+    "Hiburan",
+    "Lainnya",
+    "Bulanan Ortu",
+    "Bensin",
+    "Service Motor"
+  ],
+  "params": {
+    "batasCicilan": 25,
+    "hariLibur": []
+  },
+  "asetFisik": [
+    {
+      "id": 1,
+      "nama": "Motor Beat 2018",
+      "kat": "kendaraan",
+      "harga": 8600000,
+      "tglBeli": "2025-06-05",
+      "umur": 5,
+      "nilaislisa": 5000000,
+      "note": ""
+    },
+    {
+      "id": 2,
+      "nama": "Komputer",
+      "kat": "elektronik",
+      "harga": 7500000,
+      "tglBeli": "2024-06-10",
+      "umur": 6,
+      "nilaislisa": 4000000,
+      "note": ""
+    }
+  ],
+  "afIdSeq": 3,
+  "hutangIdSeq": 13,
+  "tabIdSeq": 11,
+  "invIdSeq": 2,
+  "goalIdSeq": 4
+}
