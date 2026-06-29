@@ -152,7 +152,7 @@ export function IncomeListScreen() {
               style={[styles.filterChip, isActive && styles.filterChipActive]}
               activeOpacity={0.7}
             >
-              <Text style={[styles.filterChipText, isActive && styles.filterChipTextActive]}>
+              <Text style={[styles.filterChipText, isActive ? styles.filterChipTextActive : null]}>
                 {opt.label}
               </Text>
             </TouchableOpacity>

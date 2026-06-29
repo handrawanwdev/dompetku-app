@@ -208,7 +208,7 @@ export function ExpenseFormScreen() {
                     activeOpacity={0.7}
                   >
                     <Text style={styles.chipEmoji}>{cat.emoji}</Text>
-                    <Text style={[styles.chipLabel, isSelected && styles.chipLabelSelected]}>
+                    <Text style={[styles.chipLabel, isSelected ? styles.chipLabelSelected : null]}>
                       {cat.label}
                     </Text>
                   </TouchableOpacity>
@@ -242,7 +242,7 @@ export function ExpenseFormScreen() {
                         isSelected && { borderColor: src.color, backgroundColor: src.color },
                       ]}
                     />
-                    <Text style={[styles.sourceLabel, isSelected && { color: src.color }]}>
+                    <Text style={[styles.sourceLabel, isSelected ? { color: src.color } : null]}>
                       {src.label}
                     </Text>
                   </TouchableOpacity>

@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   StatusBar,
   ListRenderItemInfo,
+  TextStyle,
 } from 'react-native';
 import { useQuery } from '@realm/react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -87,7 +88,7 @@ function ExpenseItem({ item, onPress }: ExpenseItemProps) {
           <View style={styles.itemTopRow}>
             <Text style={styles.itemCategory}>{item.category}</Text>
             <View style={[styles.sourceBadge, { backgroundColor: sourceBg + '22' }]}>
-              <Text style={[styles.sourceBadgeText, { color: sourceBg }]}>{sourceLabel}</Text>
+              <Text style={[styles.sourceBadgeText, { color: sourceBg }] as TextStyle[]}>{sourceLabel}</Text>
             </View>
           </View>
           <Text style={styles.itemDate}>{formatDate(item.date)}</Text>
@@ -173,7 +174,7 @@ export function ExpenseListScreen() {
               style={[styles.filterChip, isActive && styles.filterChipActive]}
               activeOpacity={0.7}
             >
-              <Text style={[styles.filterChipText, isActive && styles.filterChipTextActive]}>
+              <Text style={[styles.filterChipText, isActive ? styles.filterChipTextActive : null]}>
                 {opt.label}
               </Text>
             </TouchableOpacity>

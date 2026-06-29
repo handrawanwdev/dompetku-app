@@ -78,7 +78,7 @@ export function IncomeFormScreen() {
     watch,
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(schema) as any,
     defaultValues: {
       amount: '',
       category: '',

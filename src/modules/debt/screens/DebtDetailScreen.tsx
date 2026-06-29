@@ -292,7 +292,7 @@ export function DebtDetailScreen() {
             </View>
             <View style={styles.statItem}>
               <Text style={styles.statLabel}>Jatuh Tempo</Text>
-              <Text style={[styles.statValue, overdue && { color: COLORS.danger }]}>
+              <Text style={[styles.statValue, overdue ? { color: COLORS.danger } : null]}>
                 Tgl {debt.dueDate}
               </Text>
             </View>
