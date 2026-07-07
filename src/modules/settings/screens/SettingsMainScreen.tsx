@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Alert,
+  StatusBar,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -32,6 +33,7 @@ export type SettingsStackParamList = {
   SettingsMain: undefined;
   ParametersScreen: undefined;
   CategoriesScreen: undefined;
+  ReportScreen: undefined;
   GoalsNavScreen: undefined;
 };
 
@@ -177,9 +179,12 @@ export function SettingsMainScreen({ navigation }: Props) {
   );
 
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView style={styles.safe} edges={['top']}>
+      <StatusBar barStyle="light-content" backgroundColor={COLORS.topbar} />
+      <View style={styles.topbar}>
+        <Text style={styles.topbarTitle}>⚙️ Pengaturan</Text>
+      </View>
       <ScrollView style={styles.scroll} contentContainerStyle={styles.content}>
-        <Text style={styles.header}>Pengaturan</Text>
 
         <Text style={styles.sectionTitle}>Preferensi</Text>
         <Card padding={0}>
@@ -188,6 +193,11 @@ export function SettingsMainScreen({ navigation }: Props) {
           <MenuItem emoji="🏷️" label="Kategori" onPress={() => navigation.navigate('CategoriesScreen')} />
           <View style={styles.separator} />
           <MenuItem emoji="🎯" label="Financial Goals" onPress={() => navigation.navigate('GoalsNavScreen')} />
+        </Card>
+
+        <Text style={styles.sectionTitle}>Laporan</Text>
+        <Card padding={0}>
+          <MenuItem emoji="📊" label="Laporan Bulanan & Tahunan" onPress={() => navigation.navigate('ReportScreen')} />
         </Card>
 
         <Text style={styles.sectionTitle}>Data</Text>
@@ -210,10 +220,12 @@ export function SettingsMainScreen({ navigation }: Props) {
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: COLORS.background },
-  scroll: { flex: 1 },
+  safe: { flex: 1, backgroundColor: COLORS.topbar },
+  topbar: { backgroundColor: COLORS.topbar, paddingHorizontal: SPACING.lg, paddingVertical: SPACING.lg },
+  topbarTitle: { fontSize: FONTS.xl, fontWeight: '700', color: '#ffffff' },
+  scroll: { flex: 1, backgroundColor: COLORS.background },
   content: { padding: SPACING.lg, paddingBottom: SPACING.xxxl },
-  header: { fontSize: FONTS.xxl, fontWeight: '700', color: COLORS.text, marginBottom: SPACING.xl },
+  header: { fontSize: FONTS.xxl, fontWeight: '700', color: COLORS.text, marginBottom: SPACING.xl, display: 'none' },
   sectionTitle: { fontSize: FONTS.sm, color: COLORS.textMuted, marginBottom: SPACING.sm, marginTop: SPACING.lg, textTransform: 'uppercase', letterSpacing: 0.5 },
   menuItem: { flexDirection: 'row', alignItems: 'center', padding: SPACING.lg, gap: SPACING.md },
   menuEmoji: { fontSize: 20 },

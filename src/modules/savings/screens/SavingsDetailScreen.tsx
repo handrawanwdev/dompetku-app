@@ -5,13 +5,13 @@ import {
   FlatList,
   TouchableOpacity,
   StyleSheet,
-  SafeAreaView,
   Modal,
   TextInput,
   Alert,
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import Realm from 'realm';
 import { useRealm, useQuery, useObject } from '@realm/react';
@@ -24,6 +24,7 @@ import { calcGoalProgress } from '../../../utils/finance';
 import { ProgressBar } from '../../../components/common/ProgressBar';
 import { Button } from '../../../components/common/Button';
 import { EmptyState } from '../../../components/common/EmptyState';
+import { BackButton } from '../../../components/common/BackButton';
 
 import type { SavingsStackParamList } from './SavingsListScreen';
 
@@ -64,7 +65,10 @@ export function SavingsDetailScreen({ navigation, route }: Props) {
 
   if (!saving) {
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.container} edges={['top']}>
+        <View style={styles.header}>
+          <BackButton onPress={() => navigation.goBack()} color={COLORS.text} />
+        </View>
         <EmptyState emoji="🏦" title="Tabungan tidak ditemukan" />
       </SafeAreaView>
     );
@@ -182,7 +186,7 @@ export function SavingsDetailScreen({ navigation, route }: Props) {
         : 'Transfer Tabungan';
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <FlatList
         data={[...history]}
         keyExtractor={item => item._id.toHexString()}
@@ -191,9 +195,7 @@ export function SavingsDetailScreen({ navigation, route }: Props) {
           <>
             {/* Header */}
             <View style={styles.header}>
-              <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-                <Text style={styles.backText}>‹</Text>
-              </TouchableOpacity>
+              <BackButton onPress={() => navigation.goBack()} color={COLORS.text} />
               <View style={styles.headerCenter}>
                 <Text style={styles.headerEmoji}>{saving.emoji}</Text>
                 <Text style={styles.headerName} numberOfLines={1}>
@@ -470,8 +472,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: COLORS.border,
   },
-  backBtn: { padding: SPACING.xs },
-  backText: { fontSize: 28, color: COLORS.text, lineHeight: 32 },
   headerCenter: {
     flex: 1,
     flexDirection: 'row',

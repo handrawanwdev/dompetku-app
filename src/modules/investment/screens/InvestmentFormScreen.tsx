@@ -6,9 +6,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
-  SafeAreaView,
   TextInput,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRealm } from '@realm/react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RouteProp } from '@react-navigation/native';
@@ -17,17 +17,20 @@ import Realm from 'realm';
 import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
 import { Card } from '../../../components/common/Card';
 import { Button } from '../../../components/common/Button';
+import { BackButton } from '../../../components/common/BackButton';
 import { InvestmentModel } from '../../../models/InvestmentModel';
 import { today } from '../../../utils/date';
 import { InvestmentStackParamList } from './InvestmentListScreen';
 
 const INVESTMENT_TYPES = [
   { value: 'stock', label: 'Saham', emoji: '📊' },
-  { value: 'crypto', label: 'Kripto', emoji: '🪙' },
+  { value: 'mutual_fund', label: 'Reksa Dana', emoji: '💼' },
+  { value: 'deposito', label: 'Deposito Berjangka', emoji: '🏦' },
+  { value: 'bond', label: 'Obligasi / SBN', emoji: '🏛️' },
   { value: 'gold', label: 'Emas', emoji: '🥇' },
-  { value: 'mutual_fund', label: 'Reksa Dana', emoji: '📈' },
-  { value: 'bond', label: 'Obligasi', emoji: '📜' },
   { value: 'property', label: 'Properti', emoji: '🏘️' },
+  { value: 'p2p', label: 'P2P Lending', emoji: '🤝' },
+  { value: 'crypto', label: 'Kripto', emoji: '🪙' },
 ];
 
 type NavProp = NativeStackNavigationProp<InvestmentStackParamList, 'InvestmentForm'>;
@@ -83,12 +86,10 @@ export function InvestmentFormScreen({ navigation, route }: Props) {
   };
 
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView style={styles.safe} edges={['top']}>
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Text style={styles.back}>‹ Kembali</Text>
-          </TouchableOpacity>
+          <BackButton onPress={() => navigation.goBack()} color={COLORS.text} />
           <Text style={styles.title}>{editId ? 'Edit Investasi' : 'Tambah Investasi'}</Text>
         </View>
 
@@ -148,8 +149,7 @@ const fieldStyles = StyleSheet.create({
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: COLORS.background },
   content: { padding: SPACING.lg, paddingBottom: SPACING.xxxl },
-  header: { marginBottom: SPACING.xl },
-  back: { fontSize: FONTS.md, color: COLORS.primary, fontWeight: '500', marginBottom: SPACING.sm },
+  header: { flexDirection: 'row', alignItems: 'center', gap: SPACING.sm, marginBottom: SPACING.xl, marginLeft: -SPACING.sm },
   title: { fontSize: FONTS.xxl, fontWeight: '700', color: COLORS.text },
   label: { fontSize: FONTS.sm, color: COLORS.textSecondary, marginBottom: SPACING.sm, fontWeight: '500' },
   typeChip: { alignItems: 'center', paddingVertical: SPACING.md, paddingHorizontal: SPACING.lg, marginRight: SPACING.sm, backgroundColor: COLORS.surface, borderRadius: RADIUS.lg, borderWidth: 1, borderColor: COLORS.border },

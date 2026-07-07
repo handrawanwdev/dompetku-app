@@ -10,6 +10,11 @@ export class InvestmentModel extends Realm.Object<InvestmentModel> {
   currentPrice!: number;
   buyDate!: string;
   note!: string;
+  /** Whether this position has been sold (realized) */
+  sold!: boolean;
+  /** Total lump-sum sell proceeds, when sold */
+  sellPrice!: number;
+  sellDate!: string;
   createdAt!: Date;
 
   static schema: ObjectSchema = {
@@ -24,6 +29,9 @@ export class InvestmentModel extends Realm.Object<InvestmentModel> {
       currentPrice: 'double',
       buyDate: 'string',
       note: { type: 'string', default: '' },
+      sold: { type: 'bool', default: false },
+      sellPrice: { type: 'double', default: 0 },
+      sellDate: { type: 'string', default: '' },
       createdAt: { type: 'date', default: () => new Date() },
     },
   };

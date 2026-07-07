@@ -5,20 +5,20 @@ import {
   FlatList,
   TouchableOpacity,
   StyleSheet,
-  SafeAreaView,
   StatusBar,
   Modal,
   KeyboardAvoidingView,
   Platform,
   ListRenderItemInfo,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRealm, useQuery } from '@realm/react';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Realm from 'realm';
 
 import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
-import { Card, Text, Button, Input, AmountDisplay, ProgressBar, EmptyState } from '../../../components/common';
+import { Card, Text, Button, Input, AmountDisplay, ProgressBar, EmptyState, BackButton } from '../../../components/common';
 import { DebtModel } from '../../../models/DebtModel';
 import { DebtPaymentModel } from '../../../models/DebtPaymentModel';
 import { formatCurrency } from '../../../utils/currency';
@@ -207,28 +207,26 @@ export function DebtDetailScreen() {
 
   if (!debt) {
     return (
-      <SafeAreaView style={styles.safe}>
+      <SafeAreaView style={styles.safe} edges={['top']}>
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-            <Text style={styles.backIcon}>←</Text>
-          </TouchableOpacity>
+          <BackButton onPress={() => navigation.goBack()} />
           <Text style={styles.headerTitle}>Detail Hutang</Text>
           <View style={styles.headerRight} />
         </View>
-        <EmptyState emoji="🔍" title="Data tidak ditemukan" />
+        <View style={styles.scroll}>
+          <EmptyState emoji="🔍" title="Data tidak ditemukan" />
+        </View>
       </SafeAreaView>
     );
   }
 
   return (
-    <SafeAreaView style={styles.safe}>
-      <StatusBar barStyle="light-content" backgroundColor={COLORS.background} />
+    <SafeAreaView style={styles.safe} edges={['top']}>
+      <StatusBar barStyle="light-content" backgroundColor={COLORS.topbar} />
 
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-          <Text style={styles.backIcon}>←</Text>
-        </TouchableOpacity>
+        <BackButton onPress={() => navigation.goBack()} />
         <Text style={styles.headerTitle} numberOfLines={1}>
           {debt.name}
         </Text>
@@ -241,6 +239,7 @@ export function DebtDetailScreen() {
       </View>
 
       <ScrollView
+        style={styles.scroll}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
       >
@@ -354,32 +353,21 @@ export function DebtDetailScreen() {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: COLORS.topbar,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: COLORS.topbar,
     paddingHorizontal: SPACING.lg,
-    paddingVertical: SPACING.md,
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.border,
-  },
-  backBtn: {
-    width: 36,
-    height: 36,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  backIcon: {
-    fontSize: FONTS.xl,
-    color: COLORS.text,
+    paddingVertical: SPACING.lg,
   },
   headerTitle: {
     flex: 1,
     textAlign: 'center',
     fontSize: FONTS.lg,
     fontWeight: '600',
-    color: COLORS.text,
+    color: '#ffffff',
     marginHorizontal: SPACING.sm,
   },
   editBtn: {
@@ -396,6 +384,7 @@ const styles = StyleSheet.create({
   headerRight: {
     width: 36,
   },
+  scroll: { flex: 1, backgroundColor: COLORS.background },
   scrollContent: {
     padding: SPACING.xl,
     paddingBottom: SPACING.xxxl,

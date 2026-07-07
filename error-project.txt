@@ -1,0 +1,56 @@
+> Task :app:expoDebugOverrideMaxSdkConflicts
+---------- Expo Max Sdk Override Plugin ----------
+>>> No 'android:maxSdkVersion' conflicts found
+--------------------------------------------------
+
+> Task :app:compileDebugJavaWithJavac FAILED
+/home/handrawan/Project/Dompetku/android/app/build/generated/autolinking/src/main/java/com/facebook/react/ReactNativeApplicationEntryPoint.java:30: error: cannot find symbol
+    if (com.dompetku.BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
+                    ^
+  symbol:   class BuildConfig
+  location: package com.dompetku
+/home/handrawan/Project/Dompetku/android/app/build/generated/autolinking/src/main/java/com/facebook/react/ReactNativeApplicationEntryPoint.java:34: error: cannot find symbol
+    if (com.dompetku.BuildConfig.IS_EDGE_TO_EDGE_ENABLED) {
+                    ^
+  symbol:   class BuildConfig
+  location: package com.dompetku
+2 errors
+
+[Incubating] Problems report is available at: file:///home/handrawan/Project/Dompetku/android/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:compileDebugJavaWithJavac'.
+> Compilation failed; see the compiler output below.
+  /home/handrawan/Project/Dompetku/android/app/build/generated/autolinking/src/main/java/com/facebook/react/ReactNativeApplicationEntryPoint.java:30: error: cannot find symbol
+      if (com.dompetku.BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
+                      ^
+    symbol:   class BuildConfig
+    location: package com.dompetku
+  2 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.13/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 5s
+534 actionable tasks: 38 executed, 13 from cache, 483 up-to-date
+Error: /home/handrawan/Project/Dompetku/android/gradlew app:assembleDebug -x lint -x test --configure-on-demand --build-cache -PreactNativeDevServerPort=8081 -PreactNativeArchitectures=x86_64exited with non-zero code: 1
+Error: /home/handrawan/Project/Dompetku/android/gradlew app:assembleDebug -x lint -x test --configure-on-demand --build-cache -PreactNativeDevServerPort=8081 -PreactNativeArchitectures=x86_64exited with non-zero code: 1
+    at ChildProcess.completionListener (/home/handrawan/Project/Dompetku/node_modules/@expo/spawn-async/build/spawnAsync.js:113:23)
+    at Object.onceWrapper (node:events:631:12)
+    at ChildProcess.emit (node:events:509:20)
+    at ChildProcess._handle.onexit (node:internal/child_process:294:12)
+    ...
+    at spawnAsync (/home/handrawan/Project/Dompetku/node_modules/@expo/spawn-async/build/spawnAsync.js:9:23)
+    at spawnGradleAsync (/home/handrawan/Project/Dompetku/node_modules/expo/node_modules/@expo/cli/build/src/start/platforms/android/gradle.js:107:48)
+    at assembleAsync (/home/handrawan/Project/Dompetku/node_modules/expo/node_modules/@expo/cli/build/src/start/platforms/android/gradle.js:82:18)
+    at runAndroidAsync (/home/handrawan/Project/Dompetku/node_modules/expo/node_modules/@expo/cli/build/src/run/android/runAndroidAsync.js:85:41)
+handrawan@dev:~/Project/Dompetku$ 

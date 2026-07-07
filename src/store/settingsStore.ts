@@ -12,6 +12,7 @@ const DEFAULT_SETTINGS: AppSettings = {
   debtRatioLimit: 30,
   workingDays: 22,
   currency: 'IDR',
+  hariLibur: [0],
 };
 
 export const useSettingsStore = create<SettingsState>((set, get) => ({

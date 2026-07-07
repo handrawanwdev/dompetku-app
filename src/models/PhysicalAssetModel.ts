@@ -11,6 +11,9 @@ export class PhysicalAssetModel extends Realm.Object<PhysicalAssetModel> {
   usefulLife!: number;
   residualValue!: number;
   note!: string;
+  sold!: boolean;
+  sellPrice!: number;
+  sellDate!: string;
   createdAt!: Date;
 
   static schema: ObjectSchema = {
@@ -25,6 +28,9 @@ export class PhysicalAssetModel extends Realm.Object<PhysicalAssetModel> {
       usefulLife: { type: 'int', default: 5 },
       residualValue: { type: 'double', default: 0 },
       note: { type: 'string', default: '' },
+      sold: { type: 'bool', default: false },
+      sellPrice: { type: 'double', default: 0 },
+      sellDate: { type: 'string', default: '' },
       createdAt: { type: 'date', default: () => new Date() },
     },
   };

@@ -6,11 +6,11 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
-  SafeAreaView,
   TextInput,
   Modal,
   FlatList,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRealm, useQuery } from '@realm/react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RouteProp } from '@react-navigation/native';
@@ -19,6 +19,7 @@ import Realm from 'realm';
 import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
 import { Card } from '../../../components/common/Card';
 import { Button } from '../../../components/common/Button';
+import { BackButton } from '../../../components/common/BackButton';
 import { GoalModel } from '../../../models/GoalModel';
 import { SavingModel } from '../../../models/SavingModel';
 import { formatCurrency } from '../../../utils/currency';
@@ -46,6 +47,7 @@ export function GoalFormScreen({ navigation, route }: Props) {
   const [target, setTarget] = useState(existing?.target?.toString() ?? '');
   const [deadline, setDeadline] = useState(existing?.deadline ?? '');
   const [savingId, setSavingId] = useState(existing?.savingId ?? '');
+  const [manualAmount, setManualAmount] = useState(existing?.manualAmount?.toString() ?? '0');
   const [showSavingPicker, setShowSavingPicker] = useState(false);
 
   const selectedSaving = savings.find(s => s._id.toHexString() === savingId);
@@ -55,6 +57,7 @@ export function GoalFormScreen({ navigation, route }: Props) {
     const targetAmount = parseFloat(target.replace(/[^0-9.]/g, ''));
     if (!targetAmount) { Alert.alert('Error', 'Target amount harus diisi'); return; }
     if (!deadline) { Alert.alert('Error', 'Deadline harus diisi'); return; }
+    const manualAmt = parseFloat(manualAmount.replace(/[^0-9.]/g, '')) || 0;
 
     realm.write(() => {
       if (existing) {
@@ -63,8 +66,9 @@ export function GoalFormScreen({ navigation, route }: Props) {
         existing.target = targetAmount;
         existing.deadline = deadline;
         existing.savingId = savingId;
+        existing.manualAmount = manualAmt;
       } else {
-        realm.create(GoalModel, { emoji, name, target: targetAmount, deadline, savingId });
+        realm.create(GoalModel, { emoji, name, target: targetAmount, deadline, savingId, manualAmount: manualAmt });
       }
     });
     navigation.goBack();
@@ -79,12 +83,10 @@ export function GoalFormScreen({ navigation, route }: Props) {
   };
 
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView style={styles.safe} edges={['top']}>
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Text style={styles.back}>‹ Kembali</Text>
-          </TouchableOpacity>
+          <BackButton onPress={() => navigation.goBack()} color={COLORS.text} />
           <Text style={styles.title}>{editId ? 'Edit Goal' : 'Buat Goal'}</Text>
         </View>
 
@@ -143,6 +145,23 @@ export function GoalFormScreen({ navigation, route }: Props) {
               <Text style={{ fontSize: FONTS.xs, color: COLORS.danger, marginTop: 4 }}>✕ Hapus link tabungan</Text>
             </TouchableOpacity>
           )}
+
+          {!savingId && (
+            <>
+              <Text style={[styles.fieldLabel, { marginTop: SPACING.md }]}>Sudah Terkumpul (Rp)</Text>
+              <TextInput
+                style={styles.input}
+                value={manualAmount}
+                onChangeText={setManualAmount}
+                keyboardType="numeric"
+                placeholder="0"
+                placeholderTextColor={COLORS.textMuted}
+              />
+              <Text style={{ fontSize: FONTS.xs, color: COLORS.textMuted, marginTop: -SPACING.sm, marginBottom: SPACING.sm }}>
+                Goal tanpa link tabungan — progress dicatat manual
+              </Text>
+            </>
+          )}
         </Card>
 
         <Button title={editId ? 'Simpan Perubahan' : 'Buat Goal'} onPress={handleSave} fullWidth style={{ marginTop: SPACING.xl }} />
@@ -185,8 +204,7 @@ export function GoalFormScreen({ navigation, route }: Props) {
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: COLORS.background },
   content: { padding: SPACING.lg, paddingBottom: SPACING.xxxl },
-  header: { marginBottom: SPACING.xl },
-  back: { fontSize: FONTS.md, color: COLORS.primary, fontWeight: '500', marginBottom: SPACING.sm },
+  header: { flexDirection: 'row', alignItems: 'center', gap: SPACING.sm, marginBottom: SPACING.xl, marginLeft: -SPACING.sm },
   title: { fontSize: FONTS.xxl, fontWeight: '700', color: COLORS.text },
   label: { fontSize: FONTS.sm, color: COLORS.textSecondary, marginBottom: SPACING.sm, fontWeight: '500' },
   emojiGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: SPACING.sm },

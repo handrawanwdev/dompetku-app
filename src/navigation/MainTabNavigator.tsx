@@ -4,18 +4,17 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { COLORS, FONTS } from '../theme';
 
 import { DashboardScreen } from '../modules/dashboard/DashboardScreen';
-import { IncomeNavigator } from '../modules/income/IncomeNavigator';
-import { ExpenseNavigator } from '../modules/expense/ExpenseNavigator';
+import { TransactionNavigator } from '../modules/transaction/TransactionNavigator';
 import { DebtNavigator } from '../modules/debt/DebtNavigator';
 import { AssetsTabNavigator } from './AssetsTabNavigator';
 import { SettingsNavigator } from '../modules/settings/SettingsNavigator';
 
 const Tab = createBottomTabNavigator();
 
-function TabIcon({ emoji, label, focused }: { emoji: string; label?: string; focused: boolean }) {
+function TabIcon({ emoji, focused }: { emoji: string; focused: boolean }) {
   return (
     <View style={{ alignItems: 'center' }}>
-      <Text style={{ fontSize: 20, opacity: focused ? 1 : 0.55 }}>{emoji}</Text>
+      <Text style={{ fontSize: 19, opacity: focused ? 1 : 0.5 }}>{emoji}</Text>
     </View>
   );
 }
@@ -26,39 +25,36 @@ export function MainTabNavigator() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: '#111827',
-          borderTopColor: '#1F2937',
+          backgroundColor: COLORS.surface,
+          borderTopColor: COLORS.border,
           borderTopWidth: 1,
-          height: 64,
-          paddingBottom: 8,
-          paddingTop: 6,
+          height: 60,
+          paddingBottom: 6,
+          paddingTop: 4,
+          elevation: 8,
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: -2 },
+          shadowOpacity: 0.08,
+          shadowRadius: 8,
         },
         tabBarActiveTintColor: COLORS.primary,
         tabBarInactiveTintColor: COLORS.textMuted,
-        tabBarLabelStyle: { fontSize: FONTS.xs, fontWeight: '500' },
+        tabBarLabelStyle: { fontSize: FONTS.xs, fontWeight: '600', marginTop: 1 },
       }}
     >
       <Tab.Screen
         name="Dashboard"
         component={DashboardScreen}
         options={{
-          title: 'Beranda',
-          tabBarIcon: ({ focused }) => <TabIcon emoji="🏠" focused={focused} />,
+          title: 'Dashboard',
+          tabBarIcon: ({ focused }) => <TabIcon emoji="📊" focused={focused} />,
         }}
       />
       <Tab.Screen
-        name="Income"
-        component={IncomeNavigator}
+        name="Transaction"
+        component={TransactionNavigator}
         options={{
-          title: 'Pemasukan',
-          tabBarIcon: ({ focused }) => <TabIcon emoji="💰" focused={focused} />,
-        }}
-      />
-      <Tab.Screen
-        name="Expense"
-        component={ExpenseNavigator}
-        options={{
-          title: 'Pengeluaran',
+          title: 'Transaksi',
           tabBarIcon: ({ focused }) => <TabIcon emoji="💸" focused={focused} />,
         }}
       />
@@ -67,7 +63,7 @@ export function MainTabNavigator() {
         component={DebtNavigator}
         options={{
           title: 'Hutang',
-          tabBarIcon: ({ focused }) => <TabIcon emoji="📋" focused={focused} />,
+          tabBarIcon: ({ focused }) => <TabIcon emoji="💳" focused={focused} />,
         }}
       />
       <Tab.Screen
@@ -75,7 +71,7 @@ export function MainTabNavigator() {
         component={AssetsTabNavigator}
         options={{
           title: 'Aset',
-          tabBarIcon: ({ focused }) => <TabIcon emoji="💎" focused={focused} />,
+          tabBarIcon: ({ focused }) => <TabIcon emoji="🏦" focused={focused} />,
         }}
       />
       <Tab.Screen

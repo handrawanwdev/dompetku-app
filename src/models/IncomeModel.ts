@@ -9,6 +9,10 @@ export class IncomeModel extends Realm.Object<IncomeModel> {
   allocationDebt!: number;
   allocationSavings!: number;
   allocationCash!: number;
+  /** DebtModel._id (hex) that received allocationDebt, if any */
+  allocationDebtId!: string;
+  /** SavingModel._id (hex) that received allocationSavings, if any */
+  allocationSavingId!: string;
   createdAt!: Date;
 
   static schema: ObjectSchema = {
@@ -23,6 +27,8 @@ export class IncomeModel extends Realm.Object<IncomeModel> {
       allocationDebt: { type: 'double', default: 0 },
       allocationSavings: { type: 'double', default: 0 },
       allocationCash: { type: 'double', default: 0 },
+      allocationDebtId: { type: 'string', default: '' },
+      allocationSavingId: { type: 'string', default: '' },
       createdAt: { type: 'date', default: () => new Date() },
     },
   };

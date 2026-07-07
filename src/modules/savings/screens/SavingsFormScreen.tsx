@@ -5,9 +5,10 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
-  SafeAreaView,
   Alert,
+  StatusBar,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import Realm from 'realm';
 import { useRealm } from '@realm/react';
@@ -17,6 +18,7 @@ import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
 import { parseCurrency } from '../../../utils/currency';
 import { Input } from '../../../components/common/Input';
 import { Button } from '../../../components/common/Button';
+import { BackButton } from '../../../components/common/BackButton';
 
 import type { SavingsStackParamList } from './SavingsListScreen';
 
@@ -115,11 +117,10 @@ export function SavingsFormScreen({ navigation, route }: Props) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
+      <StatusBar barStyle="light-content" backgroundColor={COLORS.topbar} />
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-          <Text style={styles.backText}>‹</Text>
-        </TouchableOpacity>
+        <BackButton onPress={() => navigation.goBack()} />
         <Text style={styles.headerTitle}>
           {isEdit ? 'Edit Tabungan' : 'Tambah Tabungan'}
         </Text>
@@ -191,29 +192,20 @@ export function SavingsFormScreen({ navigation, route }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: COLORS.topbar,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: COLORS.topbar,
     paddingHorizontal: SPACING.lg,
-    paddingVertical: SPACING.md,
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.border,
-  },
-  backBtn: {
-    padding: SPACING.xs,
-  },
-  backText: {
-    fontSize: 28,
-    color: COLORS.text,
-    lineHeight: 32,
+    paddingVertical: SPACING.lg,
   },
   headerTitle: {
     flex: 1,
-    fontSize: FONTS.xl,
+    fontSize: FONTS.lg,
     fontWeight: '600',
-    color: COLORS.text,
+    color: '#ffffff',
     textAlign: 'center',
   },
   headerSpacer: {
@@ -221,6 +213,7 @@ const styles = StyleSheet.create({
   },
   scroll: {
     flex: 1,
+    backgroundColor: COLORS.background,
   },
   content: {
     padding: SPACING.lg,

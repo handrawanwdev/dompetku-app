@@ -6,6 +6,8 @@ export class ExpenseModel extends Realm.Object<ExpenseModel> {
   category!: string;
   amount!: number;
   source!: string;
+  /** SavingModel._id (hex) that funded this expense, when source === 'savings' */
+  savingId!: string;
   note!: string;
   createdAt!: Date;
 
@@ -18,6 +20,7 @@ export class ExpenseModel extends Realm.Object<ExpenseModel> {
       category: 'string',
       amount: 'double',
       source: { type: 'string', default: 'cash' },
+      savingId: { type: 'string', default: '' },
       note: { type: 'string', default: '' },
       createdAt: { type: 'date', default: () => new Date() },
     },

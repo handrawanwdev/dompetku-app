@@ -12,6 +12,8 @@ export class DebtModel extends Realm.Object<DebtModel> {
   startDate!: string;
   note!: string;
   isActive!: boolean;
+  /** Extra rupiah paid ad-hoc (e.g. allocated from income) on top of scheduled installments */
+  extraPaid!: number;
   createdAt!: Date;
 
   static schema: ObjectSchema = {
@@ -28,6 +30,7 @@ export class DebtModel extends Realm.Object<DebtModel> {
       startDate: 'string',
       note: { type: 'string', default: '' },
       isActive: { type: 'bool', default: true },
+      extraPaid: { type: 'double', default: 0 },
       createdAt: { type: 'date', default: () => new Date() },
     },
   };

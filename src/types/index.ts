@@ -31,6 +31,10 @@ export interface Income {
   allocationDebt: number;
   allocationSavings: number;
   allocationCash: number;
+  /** Debt.id that received allocationDebt, if any */
+  allocationDebtId?: string;
+  /** Saving.id that received allocationSavings, if any */
+  allocationSavingId?: string;
   createdAt: string;
 }
 
@@ -40,6 +44,8 @@ export interface Expense {
   category: string;
   amount: number;
   source: ExpenseSource;
+  /** Saving.id that funded this expense, when source === 'savings' */
+  savingId?: string;
   note?: string;
   createdAt: string;
 }
@@ -55,6 +61,8 @@ export interface Debt {
   dueDate: number;
   startDate: string;
   note?: string;
+  /** Extra rupiah paid ad-hoc (e.g. allocated from income) on top of scheduled installments */
+  extraPaid?: number;
   createdAt: string;
 }
 
@@ -138,6 +146,8 @@ export interface AppSettings {
   workingDays: number;
   /** Currency code (default 'IDR') */
   currency: string;
+  /** Weekday indices (0=Minggu..6=Sabtu) excluded from working-day pacing calcs (default [0]) */
+  hariLibur: number[];
 }
 
 export interface DashboardSummary {

@@ -3,35 +3,52 @@ import { Platform } from 'react-native';
 // ─── Colors ──────────────────────────────────────────────────────────────────
 
 export const COLORS = {
-  // Brand
-  primary: '#4F46E5',
-  secondary: '#06B6D4',
+  // Brand — matched to index.html accent (#1d9e75)
+  primary: '#1d9e75',
+  secondary: '#0891b2',
 
   // Finance categories
-  income: '#10B981',
-  expense: '#EF4444',
-  debt: '#F59E0B',
-  savings: '#3B82F6',
-  investment: '#8B5CF6',
-  asset: '#EC4899',
+  income: '#1d9e75',
+  expense: '#e24b4a',
+  debt: '#ef9f27',
+  savings: '#185fa5',
+  investment: '#6d28d9',
+  asset: '#0891b2',
 
-  // Background layers
-  background: '#0F172A',
-  surface: '#1E293B',
-  card: '#243447',
+  // Background layers — light mode matching index.html
+  background: '#f0f2f5',
+  surface: '#ffffff',
+  card: '#ffffff',
 
-  // Text
-  text: '#F1F5F9',
-  textSecondary: '#94A3B8',
-  textMuted: '#64748B',
+  // Text — dark navy like index.html --text/#1a2b45
+  text: '#1a2b45',
+  textSecondary: '#6b7280',
+  textMuted: '#9ca3af',
 
   // UI
-  border: '#334155',
+  border: '#e5e7eb',
+
+  // Topbar / header — dark navy like index.html --dark
+  topbar: '#1a2b45',
+
+  // Input background — warm like index.html --input
+  inputBg: '#fffbeb',
+
+  // Subtle section bg
+  subtleBg: '#f5f5f3',
+
+  // Light tints for text on dark backgrounds
+  incomeLight: '#6ee7b7',
+  expenseLight: '#fca5a5',
+
+  // Card backgrounds for semantic states
+  successBg: '#f0fdf4',
+  successBorder: '#d1fae5',
 
   // Semantic
-  success: '#10B981',
-  danger: '#EF4444',
-  warning: '#F59E0B',
+  success: '#1d9e75',
+  danger: '#e24b4a',
+  warning: '#ef9f27',
 } as const;
 
 export type ColorKey = keyof typeof COLORS;

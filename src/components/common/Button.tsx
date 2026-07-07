@@ -39,6 +39,13 @@ export function Button({
     ghost: 'transparent',
   };
 
+  const borderColors = {
+    primary: COLORS.primary,
+    secondary: COLORS.border,
+    danger: COLORS.danger,
+    ghost: COLORS.primary,
+  };
+
   const textColors = {
     primary: '#FFFFFF',
     secondary: COLORS.text,
@@ -61,8 +68,7 @@ export function Button({
       style={[
         styles.base,
         paddings[size],
-        { backgroundColor: bgColors[variant] },
-        variant === 'ghost' && styles.ghost,
+        { backgroundColor: bgColors[variant], borderColor: borderColors[variant] },
         fullWidth && styles.fullWidth,
         (disabled || loading) && styles.disabled,
         style,
@@ -86,10 +92,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-  },
-  ghost: {
-    borderWidth: 1,
-    borderColor: COLORS.primary,
+    borderWidth: 1.5,
   },
   fullWidth: {
     width: '100%',

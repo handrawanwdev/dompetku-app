@@ -6,9 +6,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
-  SafeAreaView,
   TextInput,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRealm } from '@realm/react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RouteProp } from '@react-navigation/native';
@@ -17,6 +17,7 @@ import Realm from 'realm';
 import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
 import { Card } from '../../../components/common/Card';
 import { Button } from '../../../components/common/Button';
+import { BackButton } from '../../../components/common/BackButton';
 import { PhysicalAssetModel } from '../../../models/PhysicalAssetModel';
 import { today } from '../../../utils/date';
 import { AssetsStackParamList } from './PhysicalAssetListScreen';
@@ -85,12 +86,10 @@ export function PhysicalAssetFormScreen({ navigation, route }: Props) {
   };
 
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView style={styles.safe} edges={['top']}>
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Text style={styles.back}>‹ Kembali</Text>
-          </TouchableOpacity>
+          <BackButton onPress={() => navigation.goBack()} color={COLORS.text} />
           <Text style={styles.title}>{editId ? 'Edit Aset' : 'Tambah Aset'}</Text>
         </View>
 
@@ -150,8 +149,7 @@ const fs = StyleSheet.create({
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: COLORS.background },
   content: { padding: SPACING.lg, paddingBottom: SPACING.xxxl },
-  header: { marginBottom: SPACING.xl },
-  back: { fontSize: FONTS.md, color: COLORS.primary, fontWeight: '500', marginBottom: SPACING.sm },
+  header: { flexDirection: 'row', alignItems: 'center', gap: SPACING.sm, marginBottom: SPACING.xl, marginLeft: -SPACING.sm },
   title: { fontSize: FONTS.xxl, fontWeight: '700', color: COLORS.text },
   label: { fontSize: FONTS.sm, color: COLORS.textSecondary, marginBottom: SPACING.sm, fontWeight: '500' },
   categoryGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: SPACING.sm },

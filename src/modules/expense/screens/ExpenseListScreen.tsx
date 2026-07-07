@@ -4,11 +4,11 @@ import {
   FlatList,
   TouchableOpacity,
   StyleSheet,
-  SafeAreaView,
   StatusBar,
   ListRenderItemInfo,
   TextStyle,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useQuery } from '@realm/react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
@@ -139,8 +139,8 @@ export function ExpenseListScreen() {
   const currentMonthLabel = monthOptions.find((m) => m.yearMonth === selectedYearMonth)?.label;
 
   return (
-    <SafeAreaView style={styles.safe}>
-      <StatusBar barStyle="light-content" backgroundColor={COLORS.background} />
+    <SafeAreaView style={styles.safe} edges={['top']}>
+      <StatusBar barStyle="light-content" backgroundColor={COLORS.topbar} />
 
       {/* Header */}
       <View style={styles.header}>
@@ -215,24 +215,25 @@ export function ExpenseListScreen() {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: COLORS.topbar,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: SPACING.xl,
+    backgroundColor: COLORS.topbar,
+    paddingHorizontal: SPACING.lg,
     paddingTop: SPACING.lg,
-    paddingBottom: SPACING.md,
+    paddingBottom: SPACING.lg,
   },
   headerTitle: {
-    fontSize: FONTS.xxl,
+    fontSize: FONTS.xl,
     fontWeight: '700',
-    color: COLORS.text,
+    color: '#ffffff',
   },
   headerSubtitle: {
     fontSize: FONTS.sm,
-    color: COLORS.textSecondary,
+    color: 'rgba(255,255,255,0.6)',
     marginTop: 2,
   },
   headerAmountBadge: {
@@ -240,14 +241,14 @@ const styles = StyleSheet.create({
   },
   headerAmountLabel: {
     fontSize: FONTS.xs,
-    color: COLORS.textMuted,
+    color: 'rgba(255,255,255,0.6)',
     textTransform: 'uppercase',
     letterSpacing: 0.5,
   },
   headerAmount: {
     fontSize: FONTS.lg,
     fontWeight: '700',
-    color: COLORS.expense,
+    color: COLORS.expenseLight,
   },
   summaryWrapper: {
     paddingHorizontal: SPACING.xl,

@@ -2,14 +2,13 @@ import React, { useEffect, useMemo } from 'react';
 import {
   View,
   ScrollView,
-  TouchableOpacity,
   StyleSheet,
-  SafeAreaView,
   StatusBar,
   Alert,
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRealm, useQuery } from '@realm/react';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -19,7 +18,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Realm from 'realm';
 
 import { COLORS, FONTS, SPACING } from '../../../theme';
-import { Text, Button, Input } from '../../../components/common';
+import { Text, Button, Input, BackButton } from '../../../components/common';
 import { DebtModel } from '../../../models/DebtModel';
 import { today } from '../../../utils/date';
 import type { DebtStackParamList } from './DebtListScreen';
@@ -161,14 +160,12 @@ export function DebtFormScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.safe}>
-      <StatusBar barStyle="light-content" backgroundColor={COLORS.background} />
+    <SafeAreaView style={styles.safe} edges={['top']}>
+      <StatusBar barStyle="light-content" backgroundColor={COLORS.topbar} />
 
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-          <Text style={styles.backIcon}>←</Text>
-        </TouchableOpacity>
+        <BackButton onPress={() => navigation.goBack()} />
         <Text style={styles.headerTitle}>{isEdit ? 'Edit Hutang' : 'Tambah Hutang'}</Text>
         <View style={styles.headerRight} />
       </View>
@@ -178,6 +175,7 @@ export function DebtFormScreen() {
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
         <ScrollView
+          style={styles.scroll}
           contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
@@ -347,36 +345,26 @@ export function DebtFormScreen() {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: COLORS.topbar,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: COLORS.topbar,
     paddingHorizontal: SPACING.lg,
-    paddingVertical: SPACING.md,
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.border,
-  },
-  backBtn: {
-    width: 36,
-    height: 36,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  backIcon: {
-    fontSize: FONTS.xl,
-    color: COLORS.text,
+    paddingVertical: SPACING.lg,
   },
   headerTitle: {
     flex: 1,
     textAlign: 'center',
     fontSize: FONTS.lg,
     fontWeight: '600',
-    color: COLORS.text,
+    color: '#ffffff',
   },
   headerRight: {
     width: 36,
   },
+  scroll: { flex: 1, backgroundColor: COLORS.background },
   scrollContent: {
     padding: SPACING.xl,
     paddingBottom: SPACING.xxxl,

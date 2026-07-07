@@ -14,6 +14,8 @@ import { Input } from '../../../components/common/Input';
 import { Button } from '../../../components/common/Button';
 import { useSettingsStore } from '../../../store/settingsStore';
 
+const DAY_LABELS = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
+
 export function ParametersScreen() {
   const { settings, updateSettings } = useSettingsStore();
   const [debtRatioLimit, setDebtRatioLimit] = useState(settings.debtRatioLimit.toString());
@@ -23,6 +25,14 @@ export function ParametersScreen() {
     setDebtRatioLimit(settings.debtRatioLimit.toString());
     setWorkingDays(settings.workingDays.toString());
   }, [settings]);
+
+  const toggleHariLibur = (day: number) => {
+    const current = settings.hariLibur ?? [0];
+    const next = current.includes(day)
+      ? current.filter((d) => d !== day)
+      : [...current, day].sort();
+    updateSettings({ hariLibur: next });
+  };
 
   const handleSave = () => {
     const ratio = parseFloat(debtRatioLimit);
@@ -74,6 +84,27 @@ export function ParametersScreen() {
           </Text>
         </Card>
 
+        <Card padding={SPACING.lg} style={{ marginTop: SPACING.lg }}>
+          <Text style={styles.label}>Hari Libur Mingguan</Text>
+          <Text style={styles.dayHint}>
+            Pilih hari yang tidak dihitung sebagai hari kerja. Target harian cicilan akan menyesuaikan.
+          </Text>
+          <View style={styles.dayRow}>
+            {DAY_LABELS.map((label, idx) => {
+              const active = (settings.hariLibur ?? [0]).includes(idx);
+              return (
+                <TouchableOpacity
+                  key={idx}
+                  style={[styles.dayChip, active && styles.dayChipActive]}
+                  onPress={() => toggleHariLibur(idx)}
+                >
+                  <Text style={[styles.dayChipText, active && styles.dayChipTextActive]}>{label}</Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        </Card>
+
         <Button
           title="Simpan Parameter"
           onPress={handleSave}
@@ -91,4 +122,21 @@ const styles = StyleSheet.create({
   content: { padding: SPACING.lg, paddingBottom: SPACING.xxxl },
   header: { fontSize: FONTS.xxl, fontWeight: '700', color: COLORS.text, marginBottom: SPACING.xl },
   hint: { fontSize: FONTS.xs, color: COLORS.textMuted, marginTop: -SPACING.sm, marginBottom: SPACING.sm },
+  label: { fontSize: FONTS.sm, fontWeight: '600', color: COLORS.text, marginBottom: SPACING.xs },
+  dayHint: { fontSize: FONTS.xs, color: COLORS.textMuted, marginBottom: SPACING.md },
+  dayRow: { flexDirection: 'row', flexWrap: 'wrap', gap: SPACING.sm },
+  dayChip: {
+    paddingHorizontal: SPACING.md,
+    paddingVertical: SPACING.sm,
+    borderRadius: RADIUS.md,
+    borderWidth: 1.5,
+    borderColor: COLORS.border,
+    backgroundColor: COLORS.surface,
+  },
+  dayChipActive: {
+    borderColor: COLORS.primary,
+    backgroundColor: COLORS.primary + '18',
+  },
+  dayChipText: { fontSize: FONTS.sm, fontWeight: '600', color: COLORS.textSecondary },
+  dayChipTextActive: { color: COLORS.primary },
 });
