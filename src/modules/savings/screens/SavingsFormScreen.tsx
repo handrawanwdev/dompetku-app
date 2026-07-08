@@ -7,6 +7,8 @@ import {
   StyleSheet,
   Alert,
   StatusBar,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -17,6 +19,7 @@ import { SavingModel } from '../../../models';
 import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
 import { parseCurrency } from '../../../utils/currency';
 import { Input } from '../../../components/common/Input';
+import { CurrencyInput } from '../../../components/common/CurrencyInput';
 import { Button } from '../../../components/common/Button';
 import { BackButton } from '../../../components/common/BackButton';
 
@@ -118,16 +121,20 @@ export function SavingsFormScreen({ navigation, route }: Props) {
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
-      <StatusBar barStyle="light-content" backgroundColor={COLORS.topbar} />
+      <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
       <View style={styles.header}>
         <BackButton onPress={() => navigation.goBack()} />
-        <Text style={styles.headerTitle}>
-          {isEdit ? 'Edit Tabungan' : 'Tambah Tabungan'}
-        </Text>
-        <View style={styles.headerSpacer} />
       </View>
 
-      <ScrollView style={styles.scroll} contentContainerStyle={styles.content}>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={styles.content}
+        keyboardShouldPersistTaps="handled"
+      >
         {/* Emoji Picker */}
         <Text style={styles.label}>Pilih Emoji</Text>
         <View style={styles.emojiRow}>
@@ -158,13 +165,10 @@ export function SavingsFormScreen({ navigation, route }: Props) {
           placeholder="Contoh: Dana Darurat"
         />
 
-        <Input
+        <CurrencyInput
           label="Target Tabungan"
           value={targetInput}
           onChangeText={setTargetInput}
-          placeholder="0"
-          keyboardType="numeric"
-          prefix="Rp"
         />
 
         <Button
@@ -185,6 +189,7 @@ export function SavingsFormScreen({ navigation, route }: Props) {
           />
         )}
       </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
@@ -192,24 +197,14 @@ export function SavingsFormScreen({ navigation, route }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.topbar,
+    backgroundColor: COLORS.background,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: COLORS.topbar,
+    backgroundColor: COLORS.background,
     paddingHorizontal: SPACING.lg,
     paddingVertical: SPACING.lg,
-  },
-  headerTitle: {
-    flex: 1,
-    fontSize: FONTS.lg,
-    fontWeight: '600',
-    color: '#ffffff',
-    textAlign: 'center',
-  },
-  headerSpacer: {
-    width: 32,
   },
   scroll: {
     flex: 1,

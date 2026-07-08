@@ -22,6 +22,7 @@ import { Card } from '../../../components/common/Card';
 import { Button } from '../../../components/common/Button';
 import { ProgressBar } from '../../../components/common/ProgressBar';
 import { EmptyState } from '../../../components/common/EmptyState';
+import { CurrencyInput } from '../../../components/common/CurrencyInput';
 import { GoalModel } from '../../../models/GoalModel';
 import { SavingModel } from '../../../models/SavingModel';
 import { formatCurrency, formatCompact, parseCurrency } from '../../../utils/currency';
@@ -77,10 +78,9 @@ export function GoalsListScreen() {
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
-      <StatusBar barStyle="light-content" backgroundColor={COLORS.background} />
+      <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
 
       <View style={styles.header}>
-        <Text style={styles.title}>Financial Goals</Text>
         <Text style={styles.count}>{goals.length} goal</Text>
       </View>
 
@@ -171,7 +171,7 @@ export function GoalsListScreen() {
       <Modal visible={!!setorTarget} transparent animationType="slide" onRequestClose={closeSetorModal}>
         <KeyboardAvoidingView
           style={styles.modalOverlay}
-          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
           <TouchableOpacity style={styles.modalBackdrop} onPress={closeSetorModal} activeOpacity={1} />
           <View style={styles.modalSheet}>
@@ -179,15 +179,10 @@ export function GoalsListScreen() {
             {setorTarget && (
               <>
                 <Text style={styles.modalGoalName}>{setorTarget.emoji} {setorTarget.name}</Text>
-                <Text style={styles.fieldLabel}>Nominal Setoran (Rp)</Text>
-                <TextInput
-                  style={styles.input}
+                <Text style={styles.fieldLabel}>Nominal Setoran</Text>
+                <CurrencyInput
                   value={setorInput}
                   onChangeText={setSetorInput}
-                  keyboardType="numeric"
-                  placeholder="0"
-                  placeholderTextColor={COLORS.textMuted}
-                  autoFocus
                 />
                 <View style={styles.modalActions}>
                   <Button title="Batal" onPress={closeSetorModal} variant="secondary" style={styles.modalBtnHalf} />
@@ -204,8 +199,7 @@ export function GoalsListScreen() {
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: COLORS.background },
-  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: SPACING.lg, paddingBottom: SPACING.md },
-  title: { fontSize: FONTS.xxl, fontWeight: '700', color: COLORS.text },
+  header: { flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', padding: SPACING.lg, paddingBottom: SPACING.md },
   count: { fontSize: FONTS.sm, color: COLORS.textSecondary },
   listContent: { padding: SPACING.lg, paddingBottom: 100, flexGrow: 1 },
   goalCard: { marginBottom: SPACING.sm },

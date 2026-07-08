@@ -230,14 +230,11 @@ export function DashboardScreen() {
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
-      <StatusBar barStyle="light-content" backgroundColor={COLORS.topbar} />
+      <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
 
       {/* Topbar */}
       <View style={styles.topbar}>
-        <View>
-          <Text style={styles.topbarTitle}>💰 Dompetku</Text>
-          <Text style={styles.topbarSub}>{monthLabel}</Text>
-        </View>
+        <Text style={styles.topbarSub}>{monthLabel}</Text>
         <Text style={styles.topbarDate}>{formatDate(now.toDate(), 'DD MMM YYYY')}</Text>
       </View>
 
@@ -640,18 +637,17 @@ function ProyeksiItem({ label, value, sub, color }: { label: string; value: stri
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: COLORS.topbar },
+  safe: { flex: 1, backgroundColor: COLORS.background },
   topbar: {
-    backgroundColor: COLORS.topbar,
+    backgroundColor: COLORS.background,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: SPACING.lg,
     paddingVertical: SPACING.md,
   },
-  topbarTitle: { fontSize: FONTS.lg, fontWeight: '700', color: '#ffffff' },
-  topbarSub: { fontSize: FONTS.xs, color: 'rgba(255,255,255,0.5)', marginTop: 1 },
-  topbarDate: { fontSize: FONTS.xs, color: 'rgba(255,255,255,0.6)' },
+  topbarSub: { fontSize: FONTS.md, fontWeight: '700', color: COLORS.text, marginTop: 1 },
+  topbarDate: { fontSize: FONTS.xs, color: COLORS.textMuted },
 
   scroll: { flex: 1, backgroundColor: COLORS.background },
   content: { padding: SPACING.md, paddingBottom: SPACING.xxxl },

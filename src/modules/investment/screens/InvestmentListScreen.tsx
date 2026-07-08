@@ -21,6 +21,7 @@ import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
 import { Card } from '../../../components/common/Card';
 import { Button } from '../../../components/common/Button';
 import { EmptyState } from '../../../components/common/EmptyState';
+import { CurrencyInput } from '../../../components/common/CurrencyInput';
 import { InvestmentModel } from '../../../models/InvestmentModel';
 import { SavingModel } from '../../../models/SavingModel';
 import { formatCurrency, formatCompact, parseCurrency } from '../../../utils/currency';
@@ -123,12 +124,12 @@ export function InvestmentListScreen() {
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
-      <StatusBar barStyle="light-content" backgroundColor={COLORS.topbar} />
+      <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
 
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.title}>Investasi</Text>
-        <Text style={[styles.totalValue, { color: '#c4b5fd' }]}>
+        <Text style={styles.totalLabel}>Total Investasi</Text>
+        <Text style={[styles.totalValue, { color: COLORS.investment }]}>
           {formatCompact(summary.totalCurrent)}
         </Text>
       </View>
@@ -240,7 +241,7 @@ export function InvestmentListScreen() {
       <Modal visible={!!sellTarget} transparent animationType="slide" onRequestClose={closeSellModal}>
         <KeyboardAvoidingView
           style={styles.modalOverlay}
-          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
           <TouchableOpacity style={styles.modalBackdrop} onPress={closeSellModal} activeOpacity={1} />
           <View style={styles.modalSheet}>
@@ -253,14 +254,11 @@ export function InvestmentListScreen() {
                   <Text style={styles.modalAssetSub}>Modal beli: {formatCurrency(costBasis)} · {formatDate(sellTarget.buyDate)}</Text>
                 </View>
 
-                <Text style={styles.fieldLabel}>Harga Jual (Rp)</Text>
-                <TextInput
-                  style={styles.input}
+                <Text style={styles.fieldLabel}>Harga Jual</Text>
+                <CurrencyInput
                   value={sellPriceInput}
                   onChangeText={setSellPriceInput}
-                  keyboardType="numeric"
                   placeholder={costBasis.toLocaleString('id-ID')}
-                  placeholderTextColor={COLORS.textMuted}
                 />
 
                 {sellPrice > 0 && (
@@ -329,10 +327,10 @@ function SummaryCol({ label, value, color }: { label: string; value: string; col
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: COLORS.topbar },
+  safe: { flex: 1, backgroundColor: COLORS.background },
   body: { flex: 1, backgroundColor: COLORS.background },
-  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: COLORS.topbar, paddingHorizontal: SPACING.lg, paddingVertical: SPACING.lg },
-  title: { fontSize: FONTS.xl, fontWeight: '700', color: '#ffffff' },
+  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: COLORS.background, paddingHorizontal: SPACING.lg, paddingVertical: SPACING.lg },
+  totalLabel: { fontSize: FONTS.sm, fontWeight: '600', color: COLORS.textSecondary },
   totalValue: { fontSize: FONTS.xl, fontWeight: '800' },
   summaryCard: { marginHorizontal: SPACING.lg, marginBottom: SPACING.md },
   summaryRow: { flexDirection: 'row' },

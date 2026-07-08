@@ -32,7 +32,7 @@ export function SavingsListScreen({ navigation }: Props) {
 
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
-      <StatusBar barStyle="light-content" backgroundColor={COLORS.topbar} />
+      <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
       <FlatList
         style={styles.body}
         data={[...savings]}
@@ -43,7 +43,6 @@ export function SavingsListScreen({ navigation }: Props) {
         ]}
         ListHeaderComponent={
           <View style={styles.header}>
-            <Text style={styles.title}>Tabungan</Text>
             <View style={styles.summaryCard}>
               <Text style={styles.summaryLabel}>Total Tabungan</Text>
               <Text style={styles.summaryAmount}>
@@ -123,41 +122,35 @@ export function SavingsListScreen({ navigation }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.topbar,
+    backgroundColor: COLORS.background,
   },
   body: {
     flex: 1,
     backgroundColor: COLORS.background,
   },
   header: {
-    backgroundColor: COLORS.topbar,
+    backgroundColor: COLORS.background,
     marginHorizontal: -SPACING.lg,
     paddingHorizontal: SPACING.lg,
     paddingTop: SPACING.lg,
     paddingBottom: SPACING.lg,
   },
-  title: {
-    fontSize: FONTS.xl,
-    fontWeight: "700",
-    color: "#ffffff",
-    marginBottom: SPACING.md,
-  },
   summaryCard: {
-    backgroundColor: "rgba(255,255,255,0.12)",
+    backgroundColor: COLORS.card,
     borderRadius: RADIUS.lg,
     padding: SPACING.lg,
     borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.15)",
+    borderColor: COLORS.border,
   },
   summaryLabel: {
     fontSize: FONTS.sm,
-    color: "rgba(255,255,255,0.7)",
+    color: COLORS.textSecondary,
     marginBottom: SPACING.xs,
   },
   summaryAmount: {
     fontSize: FONTS.xxl,
     fontWeight: "700",
-    color: "#93c5fd",
+    color: COLORS.savings,
   },
   list: {
     paddingHorizontal: SPACING.lg,

@@ -9,6 +9,8 @@ import {
   TextInput,
   Modal,
   FlatList,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRealm, useQuery } from '@realm/react';
@@ -20,6 +22,8 @@ import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
 import { Card } from '../../../components/common/Card';
 import { Button } from '../../../components/common/Button';
 import { BackButton } from '../../../components/common/BackButton';
+import { DateInput } from '../../../components/common/DateInput';
+import { CurrencyInput } from '../../../components/common/CurrencyInput';
 import { GoalModel } from '../../../models/GoalModel';
 import { SavingModel } from '../../../models/SavingModel';
 import { formatCurrency } from '../../../utils/currency';
@@ -84,10 +88,10 @@ export function GoalFormScreen({ navigation, route }: Props) {
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
-      <ScrollView contentContainerStyle={styles.content}>
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
         <View style={styles.header}>
           <BackButton onPress={() => navigation.goBack()} color={COLORS.text} />
-          <Text style={styles.title}>{editId ? 'Edit Goal' : 'Buat Goal'}</Text>
         </View>
 
         {/* Emoji Picker */}
@@ -114,24 +118,9 @@ export function GoalFormScreen({ navigation, route }: Props) {
             placeholderTextColor={COLORS.textMuted}
           />
 
-          <Text style={styles.fieldLabel}>Target Amount (Rp)</Text>
-          <TextInput
-            style={styles.input}
-            value={target}
-            onChangeText={setTarget}
-            keyboardType="numeric"
-            placeholder="500000000"
-            placeholderTextColor={COLORS.textMuted}
-          />
+          <CurrencyInput label="Target Amount" value={target} onChangeText={setTarget} placeholder="500.000.000" />
 
-          <Text style={styles.fieldLabel}>Deadline</Text>
-          <TextInput
-            style={styles.input}
-            value={deadline}
-            onChangeText={setDeadline}
-            placeholder="YYYY-MM-DD"
-            placeholderTextColor={COLORS.textMuted}
-          />
+          <DateInput label="Deadline" value={deadline} onChange={setDeadline} />
 
           <Text style={styles.fieldLabel}>Linked Tabungan (opsional)</Text>
           <TouchableOpacity style={styles.pickerBtn} onPress={() => setShowSavingPicker(true)}>
@@ -148,14 +137,10 @@ export function GoalFormScreen({ navigation, route }: Props) {
 
           {!savingId && (
             <>
-              <Text style={[styles.fieldLabel, { marginTop: SPACING.md }]}>Sudah Terkumpul (Rp)</Text>
-              <TextInput
-                style={styles.input}
+              <CurrencyInput
+                label="Sudah Terkumpul"
                 value={manualAmount}
                 onChangeText={setManualAmount}
-                keyboardType="numeric"
-                placeholder="0"
-                placeholderTextColor={COLORS.textMuted}
               />
               <Text style={{ fontSize: FONTS.xs, color: COLORS.textMuted, marginTop: -SPACING.sm, marginBottom: SPACING.sm }}>
                 Goal tanpa link tabungan — progress dicatat manual
@@ -167,6 +152,7 @@ export function GoalFormScreen({ navigation, route }: Props) {
         <Button title={editId ? 'Simpan Perubahan' : 'Buat Goal'} onPress={handleSave} fullWidth style={{ marginTop: SPACING.xl }} />
         {editId && <Button title="Hapus Goal" onPress={handleDelete} variant="danger" fullWidth style={{ marginTop: SPACING.sm }} />}
       </ScrollView>
+      </KeyboardAvoidingView>
 
       {/* Saving Picker Modal */}
       <Modal visible={showSavingPicker} transparent animationType="slide">
@@ -205,7 +191,6 @@ const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: COLORS.background },
   content: { padding: SPACING.lg, paddingBottom: SPACING.xxxl },
   header: { flexDirection: 'row', alignItems: 'center', gap: SPACING.sm, marginBottom: SPACING.xl, marginLeft: -SPACING.sm },
-  title: { fontSize: FONTS.xxl, fontWeight: '700', color: COLORS.text },
   label: { fontSize: FONTS.sm, color: COLORS.textSecondary, marginBottom: SPACING.sm, fontWeight: '500' },
   emojiGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: SPACING.sm },
   emojiOpt: { padding: SPACING.sm, borderRadius: RADIUS.md, borderWidth: 1, borderColor: 'transparent' },

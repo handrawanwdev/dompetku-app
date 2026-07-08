@@ -16,9 +16,10 @@ export function SettingsNavigator() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: COLORS.topbar },
-        headerTintColor: "#ffffff",
-        headerTitleStyle: { fontWeight: "600", color: "#ffffff" },
+        headerStyle: { backgroundColor: COLORS.background },
+        headerShadowVisible: false,
+        headerTintColor: COLORS.text,
+        headerTitle: "",
         headerBackTitle: "Kembali",
       }}
     >
@@ -27,21 +28,9 @@ export function SettingsNavigator() {
         component={SettingsMainScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
-        name="ParametersScreen"
-        component={ParametersScreen}
-        options={{ title: "Parameter" }}
-      />
-      <Stack.Screen
-        name="CategoriesScreen"
-        component={CategoriesScreen}
-        options={{ title: "Kategori" }}
-      />
-      <Stack.Screen
-        name="ReportScreen"
-        component={ReportScreen}
-        options={{ title: "Laporan" }}
-      />
+      <Stack.Screen name="ParametersScreen" component={ParametersScreen} />
+      <Stack.Screen name="CategoriesScreen" component={CategoriesScreen} />
+      <Stack.Screen name="ReportScreen" component={ReportScreen} />
       <Stack.Screen
         name="GoalsNavScreen"
         component={GoalsNavigator}

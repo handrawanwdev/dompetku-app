@@ -18,7 +18,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Realm from 'realm';
 
 import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
-import { Card, Text, Button, Input, AmountDisplay, ProgressBar, EmptyState, BackButton } from '../../../components/common';
+import { Card, Text, Button, Input, DateInput, CurrencyInput, AmountDisplay, ProgressBar, EmptyState, BackButton } from '../../../components/common';
 import { DebtModel } from '../../../models/DebtModel';
 import { DebtPaymentModel } from '../../../models/DebtPaymentModel';
 import { formatCurrency } from '../../../utils/currency';
@@ -89,18 +89,15 @@ function PaymentModal({ visible, defaultAmount, onClose, onConfirm }: PaymentMod
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
       <KeyboardAvoidingView
         style={styles.modalOverlay}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <TouchableOpacity style={styles.modalBackdrop} onPress={onClose} activeOpacity={1} />
         <View style={styles.modalSheet}>
           <View style={styles.modalHandle} />
           <Text style={styles.modalTitle}>Bayar Cicilan</Text>
 
-          <Input
+          <CurrencyInput
             label="Nominal Pembayaran"
-            prefix="Rp"
-            placeholder="0"
-            keyboardType="numeric"
             value={amount}
             onChangeText={(v) => {
               setAmount(v);
@@ -109,11 +106,10 @@ function PaymentModal({ visible, defaultAmount, onClose, onConfirm }: PaymentMod
             error={error}
           />
 
-          <Input
+          <DateInput
             label="Tanggal Pembayaran"
-            placeholder="YYYY-MM-DD"
             value={date}
-            onChangeText={setDate}
+            onChange={setDate}
           />
 
           <Input
@@ -210,8 +206,6 @@ export function DebtDetailScreen() {
       <SafeAreaView style={styles.safe} edges={['top']}>
         <View style={styles.header}>
           <BackButton onPress={() => navigation.goBack()} />
-          <Text style={styles.headerTitle}>Detail Hutang</Text>
-          <View style={styles.headerRight} />
         </View>
         <View style={styles.scroll}>
           <EmptyState emoji="🔍" title="Data tidak ditemukan" />
@@ -222,14 +216,11 @@ export function DebtDetailScreen() {
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
-      <StatusBar barStyle="light-content" backgroundColor={COLORS.topbar} />
+      <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
 
       {/* Header */}
       <View style={styles.header}>
         <BackButton onPress={() => navigation.goBack()} />
-        <Text style={styles.headerTitle} numberOfLines={1}>
-          {debt.name}
-        </Text>
         <TouchableOpacity
           onPress={() => navigation.navigate('DebtForm', { id })}
           style={styles.editBtn}
@@ -353,22 +344,15 @@ export function DebtDetailScreen() {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: COLORS.topbar,
+    backgroundColor: COLORS.background,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: COLORS.topbar,
+    justifyContent: 'space-between',
+    backgroundColor: COLORS.background,
     paddingHorizontal: SPACING.lg,
     paddingVertical: SPACING.lg,
-  },
-  headerTitle: {
-    flex: 1,
-    textAlign: 'center',
-    fontSize: FONTS.lg,
-    fontWeight: '600',
-    color: '#ffffff',
-    marginHorizontal: SPACING.sm,
   },
   editBtn: {
     width: 36,
@@ -380,9 +364,6 @@ const styles = StyleSheet.create({
     fontSize: FONTS.sm,
     color: COLORS.primary,
     fontWeight: '600',
-  },
-  headerRight: {
-    width: 36,
   },
   scroll: { flex: 1, backgroundColor: COLORS.background },
   scrollContent: {

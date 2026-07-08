@@ -25,6 +25,8 @@ import { ProgressBar } from '../../../components/common/ProgressBar';
 import { Button } from '../../../components/common/Button';
 import { EmptyState } from '../../../components/common/EmptyState';
 import { BackButton } from '../../../components/common/BackButton';
+import { DateInput } from '../../../components/common/DateInput';
+import { CurrencyInput } from '../../../components/common/CurrencyInput';
 
 import type { SavingsStackParamList } from './SavingsListScreen';
 
@@ -196,12 +198,6 @@ export function SavingsDetailScreen({ navigation, route }: Props) {
             {/* Header */}
             <View style={styles.header}>
               <BackButton onPress={() => navigation.goBack()} color={COLORS.text} />
-              <View style={styles.headerCenter}>
-                <Text style={styles.headerEmoji}>{saving.emoji}</Text>
-                <Text style={styles.headerName} numberOfLines={1}>
-                  {saving.name}
-                </Text>
-              </View>
               <TouchableOpacity
                 style={styles.editBtn}
                 onPress={() => navigation.navigate('SavingsForm', { id })}
@@ -392,35 +388,10 @@ export function SavingsDetailScreen({ navigation, route }: Props) {
             )}
 
             {/* Amount */}
-            <View style={styles.inputGroup}>
-              <Text style={styles.inputLabel}>Jumlah</Text>
-              <View style={styles.inputRow}>
-                <Text style={styles.inputPrefix}>Rp</Text>
-                <TextInput
-                  style={styles.textInput}
-                  value={amount}
-                  onChangeText={setAmount}
-                  placeholder="0"
-                  placeholderTextColor={COLORS.textMuted}
-                  keyboardType="numeric"
-                  autoFocus={modalType !== 'transfer'}
-                />
-              </View>
-            </View>
+            <CurrencyInput label="Jumlah" value={amount} onChangeText={setAmount} />
 
             {/* Date */}
-            <View style={styles.inputGroup}>
-              <Text style={styles.inputLabel}>Tanggal</Text>
-              <View style={styles.inputRow}>
-                <TextInput
-                  style={[styles.textInput, styles.textInputFull]}
-                  value={date}
-                  onChangeText={setDate}
-                  placeholder="YYYY-MM-DD"
-                  placeholderTextColor={COLORS.textMuted}
-                />
-              </View>
-            </View>
+            <DateInput label="Tanggal" value={date} onChange={setDate} />
 
             {/* Note */}
             <View style={styles.inputGroup}>
@@ -467,19 +438,12 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
     paddingHorizontal: SPACING.lg,
     paddingVertical: SPACING.md,
     borderBottomWidth: 1,
     borderBottomColor: COLORS.border,
   },
-  headerCenter: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  headerEmoji: { fontSize: 22, marginRight: SPACING.sm },
-  headerName: { fontSize: FONTS.xl, fontWeight: '600', color: COLORS.text },
   editBtn: { paddingHorizontal: SPACING.sm, paddingVertical: SPACING.xs },
   editText: { fontSize: FONTS.md, color: COLORS.primary, fontWeight: '500' },
   // Summary

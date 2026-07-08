@@ -1,14 +1,15 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { FONTS } from '../../theme';
+import { TouchableOpacity, StyleSheet } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
+import { COLORS } from '../../theme';
 
 interface BackButtonProps {
   onPress: () => void;
   color?: string;
 }
 
-/** Canonical back-chevron button: 44×44 tap target regardless of visual icon size. */
-export function BackButton({ onPress, color = '#ffffff' }: BackButtonProps) {
+/** Canonical back button — same "arrow_back" glyph as the native-stack header (e.g. Laporan). */
+export function BackButton({ onPress, color = COLORS.text }: BackButtonProps) {
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -17,7 +18,7 @@ export function BackButton({ onPress, color = '#ffffff' }: BackButtonProps) {
       accessibilityRole="button"
       accessibilityLabel="Kembali"
     >
-      <Text style={[styles.icon, { color }]}>←</Text>
+      <MaterialIcons name="arrow-back" size={24} color={color} />
     </TouchableOpacity>
   );
 }
@@ -28,9 +29,5 @@ const styles = StyleSheet.create({
     height: 44,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  icon: {
-    fontSize: FONTS.xl,
-    fontWeight: '600',
   },
 });

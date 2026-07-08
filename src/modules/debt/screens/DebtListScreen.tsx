@@ -166,15 +166,7 @@ export function DebtListScreen() {
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
-      <StatusBar barStyle="light-content" backgroundColor={COLORS.topbar} />
-
-      {/* Header */}
-      <View style={styles.header}>
-        <View>
-          <Text style={styles.headerTitle}>Hutang</Text>
-          <Text style={styles.headerSubtitle}>Kelola cicilan hutangmu</Text>
-        </View>
-      </View>
+      <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
 
       {/* Body (light bg, no gaps exposing the dark root behind it) */}
       <View style={styles.body}>
@@ -285,30 +277,15 @@ export function DebtListScreen() {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: COLORS.topbar,
+    backgroundColor: COLORS.background,
   },
   body: {
     flex: 1,
     backgroundColor: COLORS.background,
   },
-  header: {
-    backgroundColor: COLORS.topbar,
-    paddingHorizontal: SPACING.lg,
-    paddingTop: SPACING.lg,
-    paddingBottom: SPACING.lg,
-  },
-  headerTitle: {
-    fontSize: FONTS.xl,
-    fontWeight: '700',
-    color: '#ffffff',
-  },
-  headerSubtitle: {
-    fontSize: FONTS.sm,
-    color: 'rgba(255,255,255,0.6)',
-    marginTop: 2,
-  },
   summaryWrapper: {
     paddingHorizontal: SPACING.xl,
+    paddingTop: SPACING.lg,
     marginBottom: SPACING.md,
   },
   summaryCard: {

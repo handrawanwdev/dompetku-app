@@ -304,14 +304,10 @@ export function CashflowScreen() {
 
   return (
     <SafeAreaView style={styles.safe} edges={["top"]}>
-      <StatusBar barStyle="light-content" backgroundColor={COLORS.topbar} />
+      <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
 
       {/* Header */}
       <View style={styles.header}>
-        <View>
-          <Text style={styles.headerTitle}>Transaksi</Text>
-          <Text style={styles.headerSubtitle}>Pemasukan & Pengeluaran</Text>
-        </View>
         <View style={styles.headerBadge}>
           <Text style={styles.headerBadgeLabel}>Bulan Ini</Text>
           <Text
@@ -320,8 +316,8 @@ export function CashflowScreen() {
               {
                 color:
                   incomeTotal - expenseTotal >= 0
-                    ? COLORS.incomeLight
-                    : COLORS.expenseLight,
+                    ? COLORS.income
+                    : COLORS.expense,
               },
             ]}
           >
@@ -342,14 +338,14 @@ export function CashflowScreen() {
             style={[
               styles.tabLabel,
               activeTab === "income" && {
-                color: COLORS.incomeLight,
+                color: COLORS.income,
                 fontWeight: "700",
               },
             ]}
           >
             💵 Pemasukan
           </Text>
-          <Text style={[styles.tabAmount, { color: COLORS.incomeLight }]}>
+          <Text style={[styles.tabAmount, { color: COLORS.income }]}>
             {formatCurrency(incomeTotal)}
           </Text>
         </TouchableOpacity>
@@ -363,14 +359,14 @@ export function CashflowScreen() {
             style={[
               styles.tabLabel,
               activeTab === "expense" && {
-                color: COLORS.expenseLight,
+                color: COLORS.expense,
                 fontWeight: "700",
               },
             ]}
           >
             🛒 Pengeluaran
           </Text>
-          <Text style={[styles.tabAmount, { color: COLORS.expenseLight }]}>
+          <Text style={[styles.tabAmount, { color: COLORS.expense }]}>
             {formatCurrency(expenseTotal)}
           </Text>
         </TouchableOpacity>
@@ -469,28 +465,22 @@ export function CashflowScreen() {
 // ─── Styles ───────────────────────────────────────────────────────────────────
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: COLORS.topbar },
+  safe: { flex: 1, backgroundColor: COLORS.background },
   body: { flex: 1, backgroundColor: COLORS.background },
 
   header: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "flex-end",
     alignItems: "center",
-    backgroundColor: COLORS.topbar,
+    backgroundColor: COLORS.background,
     paddingHorizontal: SPACING.lg,
     paddingTop: SPACING.md,
     paddingBottom: SPACING.sm,
   },
-  headerTitle: { fontSize: FONTS.xl, fontWeight: "700", color: "#ffffff" },
-  headerSubtitle: {
-    fontSize: FONTS.sm,
-    color: "rgba(255,255,255,0.6)",
-    marginTop: 2,
-  },
   headerBadge: { alignItems: "flex-end" },
   headerBadgeLabel: {
     fontSize: FONTS.xs,
-    color: "rgba(255,255,255,0.6)",
+    color: COLORS.textMuted,
     textTransform: "uppercase",
     letterSpacing: 0.5,
   },
@@ -498,7 +488,7 @@ const styles = StyleSheet.create({
 
   tabBar: {
     flexDirection: "row",
-    backgroundColor: COLORS.topbar,
+    backgroundColor: COLORS.background,
     paddingHorizontal: SPACING.lg,
     paddingBottom: SPACING.xs,
   },
@@ -509,7 +499,7 @@ const styles = StyleSheet.create({
   },
   tabLabel: {
     fontSize: FONTS.sm,
-    color: "rgba(255,255,255,0.5)",
+    color: COLORS.textSecondary,
     fontWeight: "600",
   },
   tabAmount: { fontSize: FONTS.xs, marginTop: 2 },

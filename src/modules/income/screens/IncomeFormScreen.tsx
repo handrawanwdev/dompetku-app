@@ -20,7 +20,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Realm from 'realm';
 
 import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
-import { Card, Text, Button, Input, BackButton } from '../../../components/common';
+import { Card, Text, Button, Input, DateInput, CurrencyInput, BackButton } from '../../../components/common';
 import { IncomeModel } from '../../../models/IncomeModel';
 import { DebtModel } from '../../../models/DebtModel';
 import { SavingModel } from '../../../models/SavingModel';
@@ -206,18 +206,16 @@ export function IncomeFormScreen() {
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
-      <StatusBar barStyle="light-content" backgroundColor={COLORS.topbar} />
+      <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
 
       {/* Header */}
       <View style={styles.header}>
         <BackButton onPress={() => navigation.goBack()} />
-        <Text style={styles.headerTitle}>{isEdit ? 'Edit Pemasukan' : 'Tambah Pemasukan'}</Text>
-        <View style={styles.headerRight} />
       </View>
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <ScrollView
           style={styles.scroll}
@@ -230,11 +228,8 @@ export function IncomeFormScreen() {
             control={control}
             name="amount"
             render={({ field: { onChange, value } }) => (
-              <Input
+              <CurrencyInput
                 label="Nominal"
-                prefix="Rp"
-                placeholder="0"
-                keyboardType="numeric"
                 value={value}
                 onChangeText={onChange}
                 error={errors.amount?.message}
@@ -277,11 +272,10 @@ export function IncomeFormScreen() {
             control={control}
             name="date"
             render={({ field: { onChange, value } }) => (
-              <Input
+              <DateInput
                 label="Tanggal"
-                placeholder="YYYY-MM-DD"
                 value={value}
-                onChangeText={onChange}
+                onChange={onChange}
                 error={errors.date?.message}
               />
             )}
@@ -319,12 +313,9 @@ export function IncomeFormScreen() {
               <Text style={styles.pickerArrow}>›</Text>
             </TouchableOpacity>
             {!!debtId && (
-              <Input
-                placeholder="0"
-                keyboardType="numeric"
+              <CurrencyInput
                 value={debtAllocInput}
                 onChangeText={setDebtAllocInput}
-                prefix="Rp"
               />
             )}
 
@@ -336,12 +327,9 @@ export function IncomeFormScreen() {
               <Text style={styles.pickerArrow}>›</Text>
             </TouchableOpacity>
             {!!savingId && (
-              <Input
-                placeholder="0"
-                keyboardType="numeric"
+              <CurrencyInput
                 value={savingAllocInput}
                 onChangeText={setSavingAllocInput}
-                prefix="Rp"
               />
             )}
 
@@ -441,24 +429,14 @@ export function IncomeFormScreen() {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: COLORS.topbar,
+    backgroundColor: COLORS.background,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: COLORS.topbar,
+    backgroundColor: COLORS.background,
     paddingHorizontal: SPACING.lg,
     paddingVertical: SPACING.lg,
-  },
-  headerTitle: {
-    flex: 1,
-    textAlign: 'center',
-    fontSize: FONTS.lg,
-    fontWeight: '600',
-    color: '#ffffff',
-  },
-  headerRight: {
-    width: 36,
   },
   scroll: { flex: 1, backgroundColor: COLORS.background },
   scrollContent: {

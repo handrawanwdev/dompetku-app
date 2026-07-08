@@ -1,5 +1,3 @@
-Berikut PRD upgrade **Financial Freedom Level System — Dompetku** yang bisa langsung dipakai untuk pengembangan.
-
 ```markdown
 # PRD — Financial Freedom Level System Upgrade
 
@@ -705,59 +703,9 @@ created_at
 
 ```
 
-
 ---
 
-# 17. API Requirement
-
-
-## Get Financial Score
-
-
-GET
-
-```
-
-/api/financial-score
-
-````
-
-
-Response:
-
-
-```json
-{
- "score":68,
- "level":"SECURE",
- "next_level":"FLEXIBLE",
- "progress":72
-}
-````
-
----
-
-## Get Financial Roadmap
-
-GET
-
-```
-/api/financial-roadmap
-```
-
-Response:
-
-```json
-{
-  "current": "SECURE",
-  "completed": ["Emergency Fund", "Positive Cashflow"],
-  "remaining": ["Investment"]
-}
-```
-
----
-
-# 18. MVP Scope
+# 17. MVP Scope
 
 ## Phase 1
 
@@ -793,7 +741,7 @@ Advanced:
 
 ---
 
-# 19. Success Metrics
+# 18. Success Metrics
 
 ## User Engagement
 
@@ -811,7 +759,7 @@ Target:
 
 ---
 
-# 20. Definition of Done
+# 19. Definition of Done
 
 Feature selesai jika:
 
@@ -823,16 +771,5 @@ Feature selesai jika:
 ✅ Achievement berjalan otomatis
 
 ---
-
-```
-
-PRD ini sudah mengikuti struktur Dompetku yang sekarang (Dashboard, Transaksi, Hutang, Aset, Goals) sehingga implementasinya bisa langsung menempel tanpa perlu rewrite besar. :contentReference[oaicite:0]{index=0}
-
-Saran nama file:
-```
-
-prd-financial-freedom-level-system.md
-
-```
 
 ```

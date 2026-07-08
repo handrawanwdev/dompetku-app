@@ -18,7 +18,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Realm from 'realm';
 
 import { COLORS, FONTS, SPACING } from '../../../theme';
-import { Text, Button, Input, BackButton } from '../../../components/common';
+import { Text, Button, Input, DateInput, CurrencyInput, BackButton } from '../../../components/common';
 import { DebtModel } from '../../../models/DebtModel';
 import { today } from '../../../utils/date';
 import type { DebtStackParamList } from './DebtListScreen';
@@ -161,18 +161,16 @@ export function DebtFormScreen() {
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
-      <StatusBar barStyle="light-content" backgroundColor={COLORS.topbar} />
+      <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
 
       {/* Header */}
       <View style={styles.header}>
         <BackButton onPress={() => navigation.goBack()} />
-        <Text style={styles.headerTitle}>{isEdit ? 'Edit Hutang' : 'Tambah Hutang'}</Text>
-        <View style={styles.headerRight} />
       </View>
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <ScrollView
           style={styles.scroll}
@@ -215,11 +213,8 @@ export function DebtFormScreen() {
             control={control}
             name="totalAmount"
             render={({ field: { onChange, value } }) => (
-              <Input
+              <CurrencyInput
                 label="Total Hutang"
-                prefix="Rp"
-                placeholder="0"
-                keyboardType="numeric"
                 value={value}
                 onChangeText={onChange}
                 error={errors.totalAmount?.message}
@@ -232,11 +227,8 @@ export function DebtFormScreen() {
             control={control}
             name="monthlyInstallment"
             render={({ field: { onChange, value } }) => (
-              <Input
+              <CurrencyInput
                 label="Cicilan Per Bulan"
-                prefix="Rp"
-                placeholder="0"
-                keyboardType="numeric"
                 value={value}
                 onChangeText={onChange}
                 error={errors.monthlyInstallment?.message}
@@ -288,11 +280,10 @@ export function DebtFormScreen() {
             control={control}
             name="startDate"
             render={({ field: { onChange, value } }) => (
-              <Input
+              <DateInput
                 label="Tanggal Mulai"
-                placeholder="YYYY-MM-DD"
                 value={value}
-                onChangeText={onChange}
+                onChange={onChange}
                 error={errors.startDate?.message}
               />
             )}
@@ -345,24 +336,14 @@ export function DebtFormScreen() {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: COLORS.topbar,
+    backgroundColor: COLORS.background,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: COLORS.topbar,
+    backgroundColor: COLORS.background,
     paddingHorizontal: SPACING.lg,
     paddingVertical: SPACING.lg,
-  },
-  headerTitle: {
-    flex: 1,
-    textAlign: 'center',
-    fontSize: FONTS.lg,
-    fontWeight: '600',
-    color: '#ffffff',
-  },
-  headerRight: {
-    width: 36,
   },
   scroll: { flex: 1, backgroundColor: COLORS.background },
   scrollContent: {

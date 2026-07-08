@@ -22,6 +22,7 @@ import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
 import { Card } from '../../../components/common/Card';
 import { Button } from '../../../components/common/Button';
 import { EmptyState } from '../../../components/common/EmptyState';
+import { CurrencyInput } from '../../../components/common/CurrencyInput';
 import { PhysicalAssetModel } from '../../../models/PhysicalAssetModel';
 import { SavingModel } from '../../../models/SavingModel';
 import { formatCurrency, formatCompact, parseCurrency } from '../../../utils/currency';
@@ -120,11 +121,11 @@ export function PhysicalAssetListScreen() {
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
-      <StatusBar barStyle="light-content" backgroundColor={COLORS.background} />
+      <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
 
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.title}>Aset Fisik</Text>
+        <Text style={styles.totalLabel}>Nilai Aset Fisik</Text>
         <Text style={[styles.totalValue, { color: COLORS.asset }]}>
           {formatCompact(totalCurrentValue)}
         </Text>
@@ -222,7 +223,7 @@ export function PhysicalAssetListScreen() {
       <Modal visible={!!sellTarget} transparent animationType="slide" onRequestClose={closeSellModal}>
         <KeyboardAvoidingView
           style={styles.modalOverlay}
-          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
           <TouchableOpacity style={styles.modalBackdrop} onPress={closeSellModal} activeOpacity={1} />
           <View style={styles.modalSheet}>
@@ -235,14 +236,11 @@ export function PhysicalAssetListScreen() {
                   <Text style={styles.modalAssetSub}>Harga beli: {formatCurrency(sellTarget.purchasePrice)} · {formatDate(sellTarget.purchaseDate)}</Text>
                 </View>
 
-                <Text style={styles.fieldLabel}>Harga Jual (Rp)</Text>
-                <TextInput
-                  style={styles.input}
+                <Text style={styles.fieldLabel}>Harga Jual</Text>
+                <CurrencyInput
                   value={sellPriceInput}
                   onChangeText={setSellPriceInput}
-                  keyboardType="numeric"
                   placeholder={sellTarget.purchasePrice.toLocaleString('id-ID')}
-                  placeholderTextColor={COLORS.textMuted}
                 />
 
                 {sellPrice > 0 && (
@@ -313,7 +311,7 @@ function DetailItem({ label, value, color }: { label: string; value: string; col
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: COLORS.background },
   header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: SPACING.lg, paddingBottom: SPACING.md },
-  title: { fontSize: FONTS.xxl, fontWeight: '700', color: COLORS.text },
+  totalLabel: { fontSize: FONTS.sm, fontWeight: '600', color: COLORS.textSecondary },
   totalValue: { fontSize: FONTS.xl, fontWeight: '800' },
   summaryCard: { marginHorizontal: SPACING.lg, marginBottom: SPACING.md },
   summaryRow: { flexDirection: 'row', marginBottom: SPACING.sm },

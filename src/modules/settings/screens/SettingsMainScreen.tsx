@@ -180,13 +180,10 @@ export function SettingsMainScreen({ navigation }: Props) {
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
-      <StatusBar barStyle="light-content" backgroundColor={COLORS.topbar} />
-      <View style={styles.topbar}>
-        <Text style={styles.topbarTitle}>⚙️ Pengaturan</Text>
-      </View>
+      <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
       <ScrollView style={styles.scroll} contentContainerStyle={styles.content}>
 
-        <Text style={styles.sectionTitle}>Preferensi</Text>
+        <Text style={[styles.sectionTitle, { marginTop: 0 }]}>Preferensi</Text>
         <Card padding={0}>
           <MenuItem emoji="⚙️" label="Parameter" onPress={() => navigation.navigate('ParametersScreen')} />
           <View style={styles.separator} />
@@ -220,9 +217,7 @@ export function SettingsMainScreen({ navigation }: Props) {
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: COLORS.topbar },
-  topbar: { backgroundColor: COLORS.topbar, paddingHorizontal: SPACING.lg, paddingVertical: SPACING.lg },
-  topbarTitle: { fontSize: FONTS.xl, fontWeight: '700', color: '#ffffff' },
+  safe: { flex: 1, backgroundColor: COLORS.background },
   scroll: { flex: 1, backgroundColor: COLORS.background },
   content: { padding: SPACING.lg, paddingBottom: SPACING.xxxl },
   header: { fontSize: FONTS.xxl, fontWeight: '700', color: COLORS.text, marginBottom: SPACING.xl, display: 'none' },

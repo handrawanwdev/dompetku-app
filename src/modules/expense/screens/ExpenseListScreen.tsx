@@ -140,16 +140,12 @@ export function ExpenseListScreen() {
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
-      <StatusBar barStyle="light-content" backgroundColor={COLORS.topbar} />
+      <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
 
       {/* Header */}
       <View style={styles.header}>
-        <View>
-          <Text style={styles.headerTitle}>Pengeluaran</Text>
-          <Text style={styles.headerSubtitle}>Kelola pengeluaranmu</Text>
-        </View>
         <View style={styles.headerAmountBadge}>
-          <Text style={styles.headerAmountLabel}>Total</Text>
+          <Text style={styles.headerAmountLabel}>Total Pengeluaran</Text>
           <Text style={styles.headerAmount}>- {formatCurrency(totalAmount)}</Text>
         </View>
       </View>
@@ -215,40 +211,30 @@ export function ExpenseListScreen() {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: COLORS.topbar,
+    backgroundColor: COLORS.background,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: COLORS.topbar,
+    backgroundColor: COLORS.background,
     paddingHorizontal: SPACING.lg,
     paddingTop: SPACING.lg,
     paddingBottom: SPACING.lg,
   },
-  headerTitle: {
-    fontSize: FONTS.xl,
-    fontWeight: '700',
-    color: '#ffffff',
-  },
-  headerSubtitle: {
-    fontSize: FONTS.sm,
-    color: 'rgba(255,255,255,0.6)',
-    marginTop: 2,
-  },
   headerAmountBadge: {
-    alignItems: 'flex-end',
+    alignItems: 'flex-start',
   },
   headerAmountLabel: {
     fontSize: FONTS.xs,
-    color: 'rgba(255,255,255,0.6)',
+    color: COLORS.textMuted,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
   },
   headerAmount: {
     fontSize: FONTS.lg,
     fontWeight: '700',
-    color: COLORS.expenseLight,
+    color: COLORS.expense,
   },
   summaryWrapper: {
     paddingHorizontal: SPACING.xl,

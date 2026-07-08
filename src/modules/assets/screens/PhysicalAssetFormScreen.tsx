@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   Alert,
   TextInput,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRealm } from '@realm/react';
@@ -18,6 +20,8 @@ import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
 import { Card } from '../../../components/common/Card';
 import { Button } from '../../../components/common/Button';
 import { BackButton } from '../../../components/common/BackButton';
+import { DateInput } from '../../../components/common/DateInput';
+import { CurrencyInput } from '../../../components/common/CurrencyInput';
 import { PhysicalAssetModel } from '../../../models/PhysicalAssetModel';
 import { today } from '../../../utils/date';
 import { AssetsStackParamList } from './PhysicalAssetListScreen';
@@ -87,10 +91,10 @@ export function PhysicalAssetFormScreen({ navigation, route }: Props) {
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
-      <ScrollView contentContainerStyle={styles.content}>
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
         <View style={styles.header}>
           <BackButton onPress={() => navigation.goBack()} color={COLORS.text} />
-          <Text style={styles.title}>{editId ? 'Edit Aset' : 'Tambah Aset'}</Text>
         </View>
 
         {/* Category */}
@@ -110,16 +114,17 @@ export function PhysicalAssetFormScreen({ navigation, route }: Props) {
 
         <Card padding={SPACING.lg} style={{ marginTop: SPACING.md }}>
           <Field label="Nama Aset" value={name} onChange={setName} placeholder="Misal: MacBook Pro M3" />
-          <Field label="Harga Beli (Rp)" value={purchasePrice} onChange={setPurchasePrice} keyboardType="numeric" placeholder="0" />
-          <Field label="Tanggal Beli" value={purchaseDate} onChange={setPurchaseDate} placeholder="YYYY-MM-DD" />
+          <CurrencyInput label="Harga Beli" value={purchasePrice} onChangeText={setPurchasePrice} />
+          <DateInput label="Tanggal Beli" value={purchaseDate} onChange={setPurchaseDate} />
           <Field label="Masa Manfaat (tahun)" value={usefulLife} onChange={setUsefulLife} keyboardType="numeric" placeholder="5" />
-          <Field label="Nilai Sisa (Rp)" value={residualValue} onChange={setResidualValue} keyboardType="numeric" placeholder="0" />
+          <CurrencyInput label="Nilai Sisa" value={residualValue} onChangeText={setResidualValue} />
           <Field label="Catatan (opsional)" value={note} onChange={setNote} placeholder="..." multiline />
         </Card>
 
         <Button title={editId ? 'Simpan Perubahan' : 'Tambah Aset'} onPress={handleSave} fullWidth style={{ marginTop: SPACING.xl }} />
         {editId && <Button title="Hapus Aset" onPress={handleDelete} variant="danger" fullWidth style={{ marginTop: SPACING.sm }} />}
       </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
@@ -150,7 +155,6 @@ const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: COLORS.background },
   content: { padding: SPACING.lg, paddingBottom: SPACING.xxxl },
   header: { flexDirection: 'row', alignItems: 'center', gap: SPACING.sm, marginBottom: SPACING.xl, marginLeft: -SPACING.sm },
-  title: { fontSize: FONTS.xxl, fontWeight: '700', color: COLORS.text },
   label: { fontSize: FONTS.sm, color: COLORS.textSecondary, marginBottom: SPACING.sm, fontWeight: '500' },
   categoryGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: SPACING.sm },
   catChip: { alignItems: 'center', paddingVertical: SPACING.md, paddingHorizontal: SPACING.lg, backgroundColor: COLORS.surface, borderRadius: RADIUS.lg, borderWidth: 1, borderColor: COLORS.border, width: '30%' },
