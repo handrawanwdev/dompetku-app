@@ -9,6 +9,8 @@ export { PhysicalAssetModel } from './PhysicalAssetModel';
 export { GoalModel } from './GoalModel';
 export { CategoryModel } from './CategoryModel';
 export { FinancialScoreModel } from './FinancialScoreModel';
+export { PassiveIncomeModel } from './PassiveIncomeModel';
+export { FinancialMilestoneModel } from './FinancialMilestoneModel';
 
 import { IncomeModel } from './IncomeModel';
 import { ExpenseModel } from './ExpenseModel';
@@ -21,6 +23,8 @@ import { PhysicalAssetModel } from './PhysicalAssetModel';
 import { GoalModel } from './GoalModel';
 import { CategoryModel } from './CategoryModel';
 import { FinancialScoreModel } from './FinancialScoreModel';
+import { PassiveIncomeModel } from './PassiveIncomeModel';
+import { FinancialMilestoneModel } from './FinancialMilestoneModel';
 
 export const ALL_MODELS = [
   IncomeModel,
@@ -34,4 +38,6 @@ export const ALL_MODELS = [
   GoalModel,
   CategoryModel,
   FinancialScoreModel,
+  PassiveIncomeModel,
+  FinancialMilestoneModel,
 ];

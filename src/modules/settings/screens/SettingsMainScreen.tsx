@@ -28,6 +28,8 @@ import { InvestmentModel } from '../../../models/InvestmentModel';
 import { PhysicalAssetModel } from '../../../models/PhysicalAssetModel';
 import { GoalModel } from '../../../models/GoalModel';
 import { CategoryModel } from '../../../models/CategoryModel';
+import { PassiveIncomeModel } from '../../../models/PassiveIncomeModel';
+import { FinancialMilestoneModel } from '../../../models/FinancialMilestoneModel';
 
 export type SettingsStackParamList = {
   SettingsMain: undefined;
@@ -35,6 +37,9 @@ export type SettingsStackParamList = {
   CategoriesScreen: undefined;
   ReportScreen: undefined;
   GoalsNavScreen: undefined;
+  PassiveIncomeNavScreen: undefined;
+  FireCalculatorScreen: undefined;
+  AchievementsScreen: undefined;
 };
 
 type NavProp = NativeStackNavigationProp<SettingsStackParamList>;
@@ -55,6 +60,8 @@ export function SettingsMainScreen({ navigation }: Props) {
   const physicalAssets = useQuery(PhysicalAssetModel);
   const goals = useQuery(GoalModel);
   const categories = useQuery(CategoryModel);
+  const passiveIncomes = useQuery(PassiveIncomeModel);
+  const milestones = useQuery(FinancialMilestoneModel);
 
   const handleExport = async () => {
     try {
@@ -71,6 +78,8 @@ export function SettingsMainScreen({ navigation }: Props) {
         physicalAssets: physicalAssets.map(a => ({ ...a, _id: a._id.toHexString() })),
         goals: goals.map(g => ({ ...g, _id: g._id.toHexString() })),
         categories: categories.map(c => ({ ...c, _id: c._id.toHexString() })),
+        passiveIncomes: passiveIncomes.map(p => ({ ...p, _id: p._id.toHexString() })),
+        milestones: milestones.map(m => ({ ...m, _id: m._id.toHexString() })),
       };
 
       const filename = `dompetku_backup_${new Date().toISOString().split('T')[0]}.json`;
@@ -140,6 +149,12 @@ export function SettingsMainScreen({ navigation }: Props) {
                 data.categories?.forEach((item: any) => {
                   realm.create(CategoryModel, { ...item, _id: new Realm.BSON.ObjectId(item._id), createdAt: new Date(item.createdAt) });
                 });
+                data.passiveIncomes?.forEach((item: any) => {
+                  realm.create(PassiveIncomeModel, { ...item, _id: new Realm.BSON.ObjectId(item._id), createdAt: new Date(item.createdAt) });
+                });
+                data.milestones?.forEach((item: any) => {
+                  realm.create(FinancialMilestoneModel, { ...item, _id: new Realm.BSON.ObjectId(item._id), achievedAt: new Date(item.achievedAt) });
+                });
               });
 
               Alert.alert('Sukses', 'Data berhasil diimport');
@@ -190,6 +205,15 @@ export function SettingsMainScreen({ navigation }: Props) {
           <MenuItem emoji="🏷️" label="Kategori" onPress={() => navigation.navigate('CategoriesScreen')} />
           <View style={styles.separator} />
           <MenuItem emoji="🎯" label="Financial Goals" onPress={() => navigation.navigate('GoalsNavScreen')} />
+        </Card>
+
+        <Text style={styles.sectionTitle}>Financial Freedom</Text>
+        <Card padding={0}>
+          <MenuItem emoji="🔥" label="FIRE Calculator" onPress={() => navigation.navigate('FireCalculatorScreen')} />
+          <View style={styles.separator} />
+          <MenuItem emoji="💎" label="Passive Income" onPress={() => navigation.navigate('PassiveIncomeNavScreen')} />
+          <View style={styles.separator} />
+          <MenuItem emoji="🏆" label="Achievements" onPress={() => navigation.navigate('AchievementsScreen')} />
         </Card>
 
         <Text style={styles.sectionTitle}>Laporan</Text>

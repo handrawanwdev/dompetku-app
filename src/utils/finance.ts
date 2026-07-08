@@ -451,3 +451,108 @@ export function getKewajibanBulanIni(
     targetPerHariSisa,
   };
 }
+
+// ─── FIRE Calculator (PRD §12) ─────────────────────────────────────────────────
+
+export interface FireInfo {
+  fireNumber: number;
+  currentAmount: number;
+  progressPct: number;
+  remaining: number;
+}
+
+/** FIRE Number = annual expense × 25 (4% safe withdrawal rate). */
+export function calcFireProgress(monthlyExpense: number, currentAmount: number): FireInfo {
+  const fireNumber = monthlyExpense * 12 * 25;
+  const progressPct = fireNumber > 0 ? Math.min((currentAmount / fireNumber) * 100, 100) : 0;
+  const remaining = Math.max(fireNumber - currentAmount, 0);
+  return { fireNumber, currentAmount, progressPct, remaining };
+}
+
+// ─── Passive Income Tracker (PRD §13) ──────────────────────────────────────────
+
+export const PASSIVE_INCOME_CATEGORIES = [
+  { value: 'dividen', label: 'Dividen', emoji: '📊' },
+  { value: 'properti', label: 'Properti', emoji: '🏠' },
+  { value: 'bisnis', label: 'Bisnis', emoji: '💼' },
+  { value: 'royalti', label: 'Royalti', emoji: '📚' },
+  { value: 'yield', label: 'Yield', emoji: '🌾' },
+] as const;
+
+export const PASSIVE_INCOME_FREQUENCIES = [
+  { value: 'monthly', label: 'Bulanan' },
+  { value: 'yearly', label: 'Tahunan' },
+] as const;
+
+/** Normalizes any entry to a monthly-equivalent amount. */
+export function toMonthlyAmount(amount: number, frequency: string): number {
+  return frequency === 'yearly' ? amount / 12 : amount;
+}
+
+export interface PassiveIncomeInfo {
+  monthlyTotal: number;
+  freedomTarget: number;
+  progressPct: number;
+  remaining: number;
+}
+
+/** Freedom target reached when passive income covers monthly expense (PRD §13). */
+export function getPassiveIncomeStatus(
+  entries: Array<{ amount: number; frequency: string }>,
+  monthlyExpense: number,
+): PassiveIncomeInfo {
+  const monthlyTotal = entries.reduce((s, e) => s + toMonthlyAmount(e.amount, e.frequency), 0);
+  const progressPct = monthlyExpense > 0 ? Math.min((monthlyTotal / monthlyExpense) * 100, 100) : 0;
+  const remaining = Math.max(monthlyExpense - monthlyTotal, 0);
+  return { monthlyTotal, freedomTarget: monthlyExpense, progressPct, remaining };
+}
+
+// ─── Financial Recommendation Engine, sub-score driven (PRD §15) ─────────────
+
+/** Rule-based tips derived from each Financial Freedom sub-score, distinct from the cashflow/debt-event cards above. */
+export function generateScoreRecommendations(scores: {
+  cashflowScore: number;
+  emergencyScore: number;
+  debtScore: number;
+  investmentScore: number;
+  passiveScore: number;
+}): FinancialSuggestionCard[] {
+  const items: FinancialSuggestionCard[] = [];
+
+  if (scores.cashflowScore < 60) {
+    items.push({
+      icon: '⚠️', bg: '#fef3c7',
+      text: 'Saving rate rendah. Kurangi pengeluaran konsumtif, target tambah saving Rp500.000/bulan.',
+      tag: 'Cashflow', tagColor: '#92400e',
+    });
+  }
+  if (scores.emergencyScore < 75) {
+    items.push({
+      icon: '🛡️', bg: '#fee2e2',
+      text: 'Dana darurat belum aman. Kejar minimal 3× pengeluaran bulanan sebelum fokus ke investasi.',
+      tag: 'Emergency Fund', tagColor: '#e24b4a',
+    });
+  }
+  if (scores.debtScore < 70) {
+    items.push({
+      icon: '📋', bg: '#fee2e2',
+      text: 'Rasio cicilan hutang cukup tinggi. Prioritaskan pelunasan sebelum menambah kewajiban baru.',
+      tag: 'Debt Health', tagColor: '#e24b4a',
+    });
+  }
+  if (scores.investmentScore < 70) {
+    items.push({
+      icon: '📈', bg: '#ede9fe',
+      text: 'Alokasi investasi masih kecil dibanding pendapatan tahunan. Mulai investasi rutin bulanan.',
+      tag: 'Investment', tagColor: '#6d28d9',
+    });
+  }
+  if (scores.passiveScore < 60) {
+    items.push({
+      icon: '💎', bg: '#dbeafe',
+      text: 'Passive income masih jauh dari menutup pengeluaran. Pertimbangkan dividen, properti sewa, atau yield instrument.',
+      tag: 'Passive Income', tagColor: '#185fa5',
+    });
+  }
+  return items;
+}

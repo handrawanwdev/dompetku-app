@@ -25,6 +25,7 @@ import { SavingModel } from '../../models/SavingModel';
 import { InvestmentModel } from '../../models/InvestmentModel';
 import { PhysicalAssetModel } from '../../models/PhysicalAssetModel';
 import { GoalModel } from '../../models/GoalModel';
+import { PassiveIncomeModel } from '../../models/PassiveIncomeModel';
 import { formatCurrency, formatCompact } from '../../utils/currency';
 import { formatDate, startOfMonth, endOfMonth } from '../../utils/date';
 import {
@@ -35,9 +36,11 @@ import {
   getTrailing30d,
   getFinancialProjection,
   generateFinancialSuggestions,
+  generateScoreRecommendations,
   buildNetWorthSeries,
   calcNetWorthGrowthPct,
   getEmergencyFundStatus,
+  toMonthlyAmount,
 } from '../../utils/finance';
 import { FinancialScoreModel } from '../../models/FinancialScoreModel';
 import { useSettingsStore } from '../../store/settingsStore';
@@ -45,7 +48,9 @@ import { useCashflowChart } from '../../hooks/useCashflowChart';
 import { GroupedBarChart } from '../../components/charts/GroupedBarChart';
 import { refreshDebtReminders, refreshDailyReminders } from '../../services/NotificationService';
 import { saveFinancialScoreSnapshot } from '../../services/FinancialScoreService';
+import { checkAndUnlockAchievements } from '../../services/AchievementService';
 import { computeFinancialScore, getLevel, getNextLevel, scoreNeededForNext } from '../../utils/financialScore';
+import { buildFinancialAdvisorReport } from '../../ai/FinancialAdvisorService';
 
 export function DashboardScreen() {
   const { settings, updateSettings } = useSettingsStore();
@@ -55,11 +60,14 @@ export function DashboardScreen() {
   const incomes = useQuery(IncomeModel);
   const expenses = useQuery(ExpenseModel);
   const debts = useQuery(DebtModel).filtered('isActive == true');
+  const allDebts = useQuery(DebtModel);
   const debtPayments = useQuery(DebtPaymentModel);
   const savings = useQuery(SavingModel);
   const investments = useQuery(InvestmentModel).filtered('sold == false');
+  const allInvestments = useQuery(InvestmentModel);
   const physicalAssets = useQuery(PhysicalAssetModel).filtered('sold == false');
   const goals = useQuery(GoalModel);
+  const passiveIncomes = useQuery(PassiveIncomeModel);
 
   useEffect(() => {
     refreshDebtReminders(debts.map((d) => ({
@@ -171,14 +179,19 @@ export function DashboardScreen() {
     };
   }, [incomes, expenses, debts, savings, investments, physicalAssets, monthStart, monthEnd, prevMonthStart, prevMonthEnd]);
 
+  const monthlyPassiveIncome = useMemo(
+    () => passiveIncomes.reduce((s, p) => s + toMonthlyAmount(p.amount, p.frequency), 0),
+    [passiveIncomes],
+  );
+
   const scoreInput = useMemo(() => ({
     monthlyIncome: summary.monthlyIncome,
     monthlyExpense: summary.monthlyExpense,
     emergencyFund: summary.totalSavings,
     monthlyDebtInstallment: summary.monthlyInstallment,
     totalInvestedValue: summary.totalInvestment,
-    passiveIncome: 0,
-  }), [summary]);
+    passiveIncome: monthlyPassiveIncome,
+  }), [summary, monthlyPassiveIncome]);
 
   const financialScore = useMemo(() => computeFinancialScore(scoreInput), [scoreInput]);
   const financialLevel = useMemo(() => getLevel(financialScore.score), [financialScore.score]);
@@ -198,6 +211,15 @@ export function DashboardScreen() {
     saveFinancialScoreSnapshot(realm, scoreInput, summary.netWorth);
   }, [realm, scoreInput, summary.netWorth]);
 
+  useEffect(() => {
+    checkAndUnlockAchievements(realm, {
+      hasSavingWithBalance: savings.some((s) => s.balance > 0),
+      hasPaidOffDebt: allDebts.some((d) => !d.isActive),
+      hasInvestment: allInvestments.length > 0,
+      score: financialScore.score,
+    });
+  }, [realm, savings, allDebts, allInvestments, financialScore.score]);
+
   const scoreHistory = useQuery(FinancialScoreModel);
   const netWorthSeries = useMemo(
     () => buildNetWorthSeries(scoreHistory.map((s) => ({ netWorth: s.netWorth, createdAt: s.createdAt }))),
@@ -216,6 +238,15 @@ export function DashboardScreen() {
       : null,
     [emergencyFundSaving, summary.monthlyExpense],
   );
+
+  const [showAiDetail, setShowAiDetail] = useState(false);
+  const aiReport = useMemo(() => buildFinancialAdvisorReport(
+    scoreInput,
+    emergencyFundInfo
+      ? { current: emergencyFundInfo.current, target: emergencyFundInfo.target }
+      : { current: summary.totalSavings, target: summary.monthlyExpense * 3 },
+    Math.max(summary.cashflow, 0),
+  ), [scoreInput, emergencyFundInfo, summary.totalSavings, summary.monthlyExpense, summary.cashflow]);
 
   const topExpenseCategories = useMemo(() => {
     const monthExpenses = expenses.filtered('date >= $0 AND date <= $1', monthStart, monthEnd);
@@ -271,14 +302,17 @@ export function DashboardScreen() {
     trailingExpense30d: trailing30d.expense,
   }), [summary, maxRemainingMonth, trailing30d]);
 
-  // Rekomendasi (multi-card)
-  const suggestions = useMemo(() => generateFinancialSuggestions({
-    cashNow: summary.cash,
-    debtRatioPct: summary.debtRatio,
-    debtRatioLimit: settings.debtRatioLimit,
-    urgentDebtNames: urgentReminders.map((r) => r.debt.name),
-    almostPaidOffDebts: debts.filter((d) => d.remainingMonth > 0 && d.remainingMonth <= 2).map((d) => ({ name: d.name, remainingMonth: d.remainingMonth })),
-  }), [summary, settings, urgentReminders, debts]);
+  // Rekomendasi (multi-card): event-driven cards + sub-score driven tips (PRD §15)
+  const suggestions = useMemo(() => [
+    ...generateFinancialSuggestions({
+      cashNow: summary.cash,
+      debtRatioPct: summary.debtRatio,
+      debtRatioLimit: settings.debtRatioLimit,
+      urgentDebtNames: urgentReminders.map((r) => r.debt.name),
+      almostPaidOffDebts: debts.filter((d) => d.remainingMonth > 0 && d.remainingMonth <= 2).map((d) => ({ name: d.name, remainingMonth: d.remainingMonth })),
+    }),
+    ...generateScoreRecommendations(financialScore),
+  ], [summary, settings, urgentReminders, debts, financialScore]);
 
   const monthLabel = now.format('MMMM YYYY');
 
@@ -319,6 +353,31 @@ export function DashboardScreen() {
               <Text style={styles.freedomNext}>Level tertinggi tercapai 🎉</Text>
             )}
             <Text style={styles.freedomTapHint}>Tap untuk detail progress ›</Text>
+          </Card>
+        </TouchableOpacity>
+
+        {/* AI Financial Card (PRD §12) */}
+        <TouchableOpacity activeOpacity={0.8} onPress={() => setShowAiDetail(true)}>
+          <Card style={styles.aiCard} padding={SPACING.xl}>
+            <View style={styles.aiCardHeader}>
+              <Text style={styles.aiCardTitle}>🤖 Dompetku AI</Text>
+              <View style={[styles.aiHealthBadge, { backgroundColor: healthColor(aiReport.healthLabel) + '22' }]}>
+                <Text style={[styles.aiHealthBadgeText, { color: healthColor(aiReport.healthLabel) }]}>
+                  {aiReport.healthLabel}
+                </Text>
+              </View>
+            </View>
+
+            <Text style={styles.aiCardRowLabel}>Insight</Text>
+            <Text style={styles.aiCardRowText}>{aiReport.insightText}</Text>
+
+            <Text style={styles.aiCardRowLabel}>Attention</Text>
+            <Text style={styles.aiCardRowText}>{aiReport.attentionText}</Text>
+
+            <Text style={styles.aiCardRowLabel}>Next Action</Text>
+            <Text style={styles.aiCardRowText}>{aiReport.nextActionText}</Text>
+
+            <Text style={styles.freedomTapHint}>Tap untuk detail selengkapnya ›</Text>
           </Card>
         </TouchableOpacity>
 
@@ -802,8 +861,88 @@ export function DashboardScreen() {
           </View>
         </View>
       </Modal>
+
+      {/* AI Financial Assistant Detail Modal */}
+      <Modal visible={showAiDetail} transparent animationType="slide" onRequestClose={() => setShowAiDetail(false)}>
+        <View style={styles.levelModalOverlay}>
+          <View style={styles.aiModalSheet}>
+            <Text style={styles.levelModalTitle}>🤖 Dompetku AI — Analisa Lengkap</Text>
+            <Text style={styles.levelModalSubtitle}>
+              Financial Health: {aiReport.healthLabel} · Score {aiReport.profile.score}/100
+            </Text>
+
+            <ScrollView showsVerticalScrollIndicator={false}>
+              {/* Score Explanation (PRD §10) */}
+              <Text style={styles.aiSectionTitle}>Kenapa Score Kamu Segini?</Text>
+              {aiReport.scoreExplanation.positives.map((c) => (
+                <View key={c.label} style={styles.checklistRow}>
+                  <Text style={[styles.checklistIcon, { color: COLORS.income }]}>✓</Text>
+                  <Text style={styles.checklistLabel}>{c.label} <Text style={{ color: COLORS.income, fontWeight: '700' }}>+{c.points}</Text></Text>
+                </View>
+              ))}
+              {aiReport.scoreExplanation.negatives.map((c) => (
+                <View key={c.label} style={styles.checklistRow}>
+                  <Text style={[styles.checklistIcon, { color: COLORS.warning }]}>⚠</Text>
+                  <Text style={styles.checklistLabel}>{c.label} <Text style={{ color: COLORS.textMuted }}>({c.points} poin)</Text></Text>
+                </View>
+              ))}
+
+              {/* Insights (PRD §9) */}
+              <Text style={styles.aiSectionTitle}>Insight</Text>
+              {aiReport.insights.map((insight) => (
+                <View key={insight.category} style={styles.aiInsightCard}>
+                  <Text style={styles.aiInsightTitle}>{insight.icon} {insight.title}</Text>
+                  <Text style={styles.aiInsightDesc}>{insight.description}</Text>
+                </View>
+              ))}
+
+              {/* Recommendations (PRD §11) */}
+              {aiReport.recommendations.length > 0 && (
+                <>
+                  <Text style={styles.aiSectionTitle}>Action Plan</Text>
+                  {aiReport.recommendations.map((plan) => (
+                    <View key={plan.category} style={styles.aiInsightCard}>
+                      <Text style={styles.aiInsightTitle}>{plan.problem}</Text>
+                      {plan.steps.map((step) => (
+                        <Text key={step.order} style={styles.aiInsightDesc}>
+                          {step.order}. {step.action}{step.target ? ` — Target: ${step.target}` : ''}
+                        </Text>
+                      ))}
+                    </View>
+                  ))}
+                </>
+              )}
+
+              {/* Smart Financial Suggestion (PRD §13) */}
+              {aiReport.smartSuggestion && (
+                <>
+                  <Text style={styles.aiSectionTitle}>Simulasi: {aiReport.smartSuggestion.label}</Text>
+                  <View style={styles.aiInsightCard}>
+                    <Text style={styles.aiInsightDesc}>
+                      Dengan pace sekarang ({formatCompact(aiReport.smartSuggestion.currentMonthlyAmount)}/bulan) → target tercapai {aiReport.smartSuggestion.currentMonths} bulan lagi.
+                    </Text>
+                    <Text style={styles.aiInsightDesc}>
+                      Kalau naikkan ke {formatCompact(aiReport.smartSuggestion.fasterMonthlyAmount)}/bulan → target tercapai {aiReport.smartSuggestion.fasterMonths} bulan lagi.
+                    </Text>
+                  </View>
+                </>
+              )}
+            </ScrollView>
+
+            <TouchableOpacity style={styles.levelModalClose} onPress={() => setShowAiDetail(false)}>
+              <Text style={styles.levelModalCloseText}>Tutup</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
+}
+
+function healthColor(label: string): string {
+  if (label === 'EXCELLENT' || label === 'GOOD') return COLORS.income;
+  if (label === 'FAIR') return COLORS.warning;
+  return COLORS.expense;
 }
 
 function SummaryItem({ label, value, color, emoji, negative }: {
@@ -1101,4 +1240,24 @@ const styles = StyleSheet.create({
   suggestionItemText: { fontSize: FONTS.sm, color: COLORS.text, lineHeight: 19 },
   suggestionTag: { alignSelf: 'flex-start', paddingHorizontal: SPACING.sm, paddingVertical: 2, borderRadius: RADIUS.round, marginTop: 3 },
   suggestionTagText: { fontSize: FONTS.xs, fontWeight: '700' },
+
+  aiCard: { marginBottom: SPACING.sm, borderColor: COLORS.border },
+  aiCardHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: SPACING.md },
+  aiCardTitle: { fontSize: FONTS.lg, fontWeight: '700', color: COLORS.text },
+  aiHealthBadge: { paddingHorizontal: SPACING.sm, paddingVertical: 4, borderRadius: RADIUS.round },
+  aiHealthBadgeText: { fontSize: FONTS.xs, fontWeight: '800', letterSpacing: 0.5 },
+  aiCardRowLabel: { fontSize: FONTS.xs, color: COLORS.textMuted, fontWeight: '700', textTransform: 'uppercase', letterSpacing: 0.4, marginTop: SPACING.sm },
+  aiCardRowText: { fontSize: FONTS.sm, color: COLORS.text, marginTop: 2, lineHeight: 19 },
+
+  aiModalSheet: {
+    backgroundColor: COLORS.surface,
+    borderTopLeftRadius: RADIUS.xl,
+    borderTopRightRadius: RADIUS.xl,
+    padding: SPACING.xl,
+    maxHeight: '85%',
+  },
+  aiSectionTitle: { fontSize: FONTS.md, fontWeight: '700', color: COLORS.text, marginTop: SPACING.lg, marginBottom: SPACING.xs },
+  aiInsightCard: { backgroundColor: COLORS.subtleBg, borderRadius: RADIUS.md, padding: SPACING.md, marginBottom: SPACING.sm },
+  aiInsightTitle: { fontSize: FONTS.sm, fontWeight: '700', color: COLORS.text, marginBottom: 4 },
+  aiInsightDesc: { fontSize: FONTS.sm, color: COLORS.textSecondary, lineHeight: 19, marginTop: 2 },
 });
