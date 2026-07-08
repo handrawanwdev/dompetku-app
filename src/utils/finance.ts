@@ -297,6 +297,104 @@ function formatCurrencyShort(n: number): string {
   return 'Rp ' + Math.round(n).toLocaleString('id-ID');
 }
 
+// ─── Net Worth monthly series (from FinancialScore daily snapshots) ──────────
+
+export interface NetWorthPoint {
+  label: string;
+  netWorth: number;
+}
+
+/** Takes the last snapshot of each month, oldest first, capped to the last `months` entries. */
+export function buildNetWorthSeries(
+  snapshots: Array<{ netWorth: number; createdAt: Date }>,
+  months = 6,
+): NetWorthPoint[] {
+  const byMonth = new Map<string, { netWorth: number; createdAt: Date }>();
+  for (const s of snapshots) {
+    const key = dayjs(s.createdAt).format('YYYY-MM');
+    const existing = byMonth.get(key);
+    if (!existing || s.createdAt > existing.createdAt) {
+      byMonth.set(key, s);
+    }
+  }
+  return Array.from(byMonth.entries())
+    .sort(([a], [b]) => a.localeCompare(b))
+    .slice(-months)
+    .map(([key, v]) => ({ label: dayjs(key + '-01').format('MMM YYYY'), netWorth: v.netWorth }));
+}
+
+export function calcNetWorthGrowthPct(series: NetWorthPoint[]): number {
+  if (series.length < 2) return 0;
+  const first = series[0].netWorth;
+  const last = series[series.length - 1].netWorth;
+  if (first === 0) return last === 0 ? 0 : 100;
+  return ((last - first) / Math.abs(first)) * 100;
+}
+
+// ─── Emergency Fund status (PRD §10) ──────────────────────────────────────────
+
+export type EmergencyFundStatus = 'DANGER' | 'WARNING' | 'SAFE';
+
+export interface EmergencyFundInfo {
+  current: number;
+  target: number;
+  coverageMonths: number;
+  /** True when monthlyExpense is 0 — coverageMonths is a placeholder, not a real month count. */
+  coverageUnlimited: boolean;
+  status: EmergencyFundStatus;
+  statusColor: string;
+  statusBg: string;
+}
+
+export function getEmergencyFundStatus(current: number, target: number, monthlyExpense: number): EmergencyFundInfo {
+  const coverageUnlimited = monthlyExpense <= 0 && current > 0;
+  const coverageMonths = monthlyExpense > 0 ? current / monthlyExpense : (current > 0 ? 99 : 0);
+  let status: EmergencyFundStatus = 'DANGER';
+  if (coverageMonths >= 3) status = 'SAFE';
+  else if (coverageMonths >= 1) status = 'WARNING';
+
+  const colors: Record<EmergencyFundStatus, { statusColor: string; statusBg: string }> = {
+    DANGER: { statusColor: '#991b1b', statusBg: '#fee2e2' },
+    WARNING: { statusColor: '#92400e', statusBg: '#fef3c7' },
+    SAFE: { statusColor: '#065f46', statusBg: '#d1fae5' },
+  };
+
+  return { current, target, coverageMonths, coverageUnlimited, status, ...colors[status] };
+}
+
+// ─── Debt Freedom progress (PRD §11) ──────────────────────────────────────────
+
+export interface DebtFreedomInfo {
+  totalDebt: number;
+  totalPaid: number;
+  progressPct: number;
+  estimatedFreedomLabel: string;
+}
+
+/** Uses every debt ever recorded (active + paid off) so payoff progress doesn't jump when a debt is fully settled. */
+export function getDebtFreedomStatus(
+  debts: Array<{ totalAmount: number; monthlyInstallment: number; remainingMonth: number }>,
+  now: Date = new Date(),
+): DebtFreedomInfo {
+  let totalDebt = 0;
+  let totalPaid = 0;
+  let maxRemainingMonth = 0;
+
+  for (const d of debts) {
+    const remaining = d.monthlyInstallment * d.remainingMonth;
+    totalDebt += d.totalAmount;
+    totalPaid += Math.max(0, d.totalAmount - remaining);
+    if (d.remainingMonth > maxRemainingMonth) maxRemainingMonth = d.remainingMonth;
+  }
+
+  const progressPct = totalDebt > 0 ? Math.min((totalPaid / totalDebt) * 100, 100) : 0;
+  const estimatedFreedomLabel = maxRemainingMonth > 0
+    ? dayjs(now).add(maxRemainingMonth, 'month').format('MMMM YYYY')
+    : 'Sudah bebas 🎉';
+
+  return { totalDebt, totalPaid, progressPct, estimatedFreedomLabel };
+}
+
 // ─── Kewajiban pembayaran (this month / next month + daily target) ───────────
 
 export interface KewajibanInfo {

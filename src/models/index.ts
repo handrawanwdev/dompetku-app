@@ -8,6 +8,7 @@ export { InvestmentModel } from './InvestmentModel';
 export { PhysicalAssetModel } from './PhysicalAssetModel';
 export { GoalModel } from './GoalModel';
 export { CategoryModel } from './CategoryModel';
+export { FinancialScoreModel } from './FinancialScoreModel';
 
 import { IncomeModel } from './IncomeModel';
 import { ExpenseModel } from './ExpenseModel';
@@ -19,6 +20,7 @@ import { InvestmentModel } from './InvestmentModel';
 import { PhysicalAssetModel } from './PhysicalAssetModel';
 import { GoalModel } from './GoalModel';
 import { CategoryModel } from './CategoryModel';
+import { FinancialScoreModel } from './FinancialScoreModel';
 
 export const ALL_MODELS = [
   IncomeModel,
@@ -31,4 +33,5 @@ export const ALL_MODELS = [
   PhysicalAssetModel,
   GoalModel,
   CategoryModel,
+  FinancialScoreModel,
 ];

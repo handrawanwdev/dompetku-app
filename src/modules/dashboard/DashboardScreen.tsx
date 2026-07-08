@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   View,
   Text,
@@ -6,9 +6,10 @@ import {
   StyleSheet,
   TouchableOpacity,
   StatusBar,
+  Modal,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useQuery } from '@realm/react';
+import { useQuery, useRealm } from '@realm/react';
 import { useNavigation } from '@react-navigation/native';
 import dayjs from 'dayjs';
 
@@ -34,15 +35,22 @@ import {
   getTrailing30d,
   getFinancialProjection,
   generateFinancialSuggestions,
+  buildNetWorthSeries,
+  calcNetWorthGrowthPct,
+  getEmergencyFundStatus,
 } from '../../utils/finance';
+import { FinancialScoreModel } from '../../models/FinancialScoreModel';
 import { useSettingsStore } from '../../store/settingsStore';
 import { useCashflowChart } from '../../hooks/useCashflowChart';
 import { GroupedBarChart } from '../../components/charts/GroupedBarChart';
 import { refreshDebtReminders, refreshDailyReminders } from '../../services/NotificationService';
+import { saveFinancialScoreSnapshot } from '../../services/FinancialScoreService';
+import { computeFinancialScore, getLevel, getNextLevel, scoreNeededForNext } from '../../utils/financialScore';
 
 export function DashboardScreen() {
-  const { settings } = useSettingsStore();
+  const { settings, updateSettings } = useSettingsStore();
   const navigation = useNavigation();
+  const realm = useRealm();
 
   const incomes = useQuery(IncomeModel);
   const expenses = useQuery(ExpenseModel);
@@ -163,6 +171,52 @@ export function DashboardScreen() {
     };
   }, [incomes, expenses, debts, savings, investments, physicalAssets, monthStart, monthEnd, prevMonthStart, prevMonthEnd]);
 
+  const scoreInput = useMemo(() => ({
+    monthlyIncome: summary.monthlyIncome,
+    monthlyExpense: summary.monthlyExpense,
+    emergencyFund: summary.totalSavings,
+    monthlyDebtInstallment: summary.monthlyInstallment,
+    totalInvestedValue: summary.totalInvestment,
+    passiveIncome: 0,
+  }), [summary]);
+
+  const financialScore = useMemo(() => computeFinancialScore(scoreInput), [scoreInput]);
+  const financialLevel = useMemo(() => getLevel(financialScore.score), [financialScore.score]);
+  const nextFinancialLevel = useMemo(() => getNextLevel(financialScore.score), [financialScore.score]);
+  const scoreGap = useMemo(() => scoreNeededForNext(financialScore.score), [financialScore.score]);
+  const [showLevelDetail, setShowLevelDetail] = useState(false);
+
+  const levelChecklist = useMemo(() => [
+    { label: 'Cashflow positif', done: financialScore.cashflowScore >= 60 },
+    { label: 'Emergency Fund 3+ bulan', done: financialScore.emergencyScore >= 75 },
+    { label: 'Rasio hutang sehat (<35%)', done: financialScore.debtScore >= 70 },
+    { label: 'Investasi rutin', done: financialScore.investmentScore >= 70 },
+    { label: 'Ada passive income', done: financialScore.passiveScore >= 60 },
+  ], [financialScore]);
+
+  useEffect(() => {
+    saveFinancialScoreSnapshot(realm, scoreInput, summary.netWorth);
+  }, [realm, scoreInput, summary.netWorth]);
+
+  const scoreHistory = useQuery(FinancialScoreModel);
+  const netWorthSeries = useMemo(
+    () => buildNetWorthSeries(scoreHistory.map((s) => ({ netWorth: s.netWorth, createdAt: s.createdAt }))),
+    [scoreHistory],
+  );
+  const netWorthGrowthPct = useMemo(() => calcNetWorthGrowthPct(netWorthSeries), [netWorthSeries]);
+
+  const [showEmergencyPicker, setShowEmergencyPicker] = useState(false);
+  const emergencyFundSaving = useMemo(
+    () => savings.find((s) => s._id.toHexString() === settings.emergencyFundSavingId),
+    [savings, settings.emergencyFundSavingId],
+  );
+  const emergencyFundInfo = useMemo(
+    () => emergencyFundSaving
+      ? getEmergencyFundStatus(emergencyFundSaving.balance, emergencyFundSaving.target, summary.monthlyExpense)
+      : null,
+    [emergencyFundSaving, summary.monthlyExpense],
+  );
+
   const topExpenseCategories = useMemo(() => {
     const monthExpenses = expenses.filtered('date >= $0 AND date <= $1', monthStart, monthEnd);
     const catMap: Record<string, number> = {};
@@ -243,6 +297,31 @@ export function DashboardScreen() {
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
+        {/* Financial Freedom Card */}
+        <TouchableOpacity activeOpacity={0.8} onPress={() => setShowLevelDetail(true)}>
+          <Card style={styles.freedomCard} padding={SPACING.xl}>
+            <Text style={styles.freedomLabel}>💎 Financial Freedom</Text>
+            <View style={styles.freedomLevelRow}>
+              <Text style={styles.freedomLevelText}>
+                {financialLevel.icon} Level {financialLevel.level} — {financialLevel.name}
+              </Text>
+            </View>
+            <View style={styles.freedomScoreRow}>
+              <Text style={styles.freedomScore}>{financialScore.score}</Text>
+              <Text style={styles.freedomScoreMax}>/100</Text>
+            </View>
+            <ProgressBar progress={financialScore.score} color={COLORS.primary} height={10} style={{ marginTop: SPACING.sm }} />
+            {nextFinancialLevel ? (
+              <Text style={styles.freedomNext}>
+                Next: {nextFinancialLevel.icon} {nextFinancialLevel.name} — butuh +{scoreGap} skor
+              </Text>
+            ) : (
+              <Text style={styles.freedomNext}>Level tertinggi tercapai 🎉</Text>
+            )}
+            <Text style={styles.freedomTapHint}>Tap untuk detail progress ›</Text>
+          </Card>
+        </TouchableOpacity>
+
         {/* Net Worth + Cashflow Card */}
         <Card style={styles.netWorthCard} padding={SPACING.xl}>
           <Text style={styles.netWorthLabel}>NET WORTH</Text>
@@ -295,6 +374,72 @@ export function DashboardScreen() {
                 {summary.expenseRatio.toFixed(0)}% income terpakai
               </Text>
             </View>
+          )}
+        </Card>
+
+        {/* Net Worth Tracker */}
+        <Card style={styles.netWorthTrackerCard} padding={SPACING.lg}>
+          <Text style={styles.sectionTitle}>📈 Net Worth Growth</Text>
+          {netWorthSeries.length >= 2 ? (
+            <>
+              <GroupedBarChart
+                data={netWorthSeries.map((p) => ({
+                  label: p.label,
+                  income: Math.max(p.netWorth, 0),
+                  expense: Math.max(-p.netWorth, 0),
+                }))}
+                height={160}
+                incomeColor={COLORS.investment}
+                expenseColor={COLORS.expense}
+              />
+              <Text style={[styles.netWorthGrowthText, { color: netWorthGrowthPct >= 0 ? COLORS.income : COLORS.expense }]}>
+                {netWorthGrowthPct >= 0 ? '▲' : '▼'} {Math.abs(netWorthGrowthPct).toFixed(0)}% sejak {netWorthSeries[0].label}
+              </Text>
+            </>
+          ) : (
+            <Text style={styles.netWorthTrackerEmpty}>
+              Riwayat net worth akan terkumpul seiring waktu pemakaian aplikasi.
+            </Text>
+          )}
+        </Card>
+
+        {/* Emergency Fund */}
+        <Card style={styles.netWorthTrackerCard} padding={SPACING.lg}>
+          <Text style={styles.sectionTitle}>🛡 Emergency Fund</Text>
+          {emergencyFundInfo && emergencyFundSaving ? (
+            <TouchableOpacity onPress={() => setShowEmergencyPicker(true)} activeOpacity={0.8}>
+              <View style={styles.efRow}>
+                <View>
+                  <Text style={styles.efLabel}>Target</Text>
+                  <Text style={styles.efValue}>{formatCompact(emergencyFundInfo.target)}</Text>
+                </View>
+                <View>
+                  <Text style={styles.efLabel}>Current</Text>
+                  <Text style={styles.efValue}>{formatCompact(emergencyFundInfo.current)}</Text>
+                </View>
+                <View>
+                  <Text style={styles.efLabel}>Coverage</Text>
+                  <Text style={styles.efValue}>
+                    {emergencyFundInfo.coverageUnlimited ? 'Aman' : `${emergencyFundInfo.coverageMonths.toFixed(1)} bln`}
+                  </Text>
+                </View>
+              </View>
+              <ProgressBar
+                progress={emergencyFundInfo.target > 0 ? (emergencyFundInfo.current / emergencyFundInfo.target) * 100 : 0}
+                color={emergencyFundInfo.statusColor}
+                height={8}
+                style={{ marginTop: SPACING.md }}
+              />
+              <View style={[styles.efStatusBadge, { backgroundColor: emergencyFundInfo.statusBg }]}>
+                <Text style={[styles.efStatusText, { color: emergencyFundInfo.statusColor }]}>
+                  {emergencyFundInfo.status}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity style={styles.efEmptyBtn} onPress={() => setShowEmergencyPicker(true)}>
+              <Text style={styles.efEmptyBtnText}>Pilih pos tabungan sebagai dana darurat ›</Text>
+            </TouchableOpacity>
           )}
         </Card>
 
@@ -597,6 +742,66 @@ export function DashboardScreen() {
           ))}
         </Card>
       </ScrollView>
+
+      {/* Level Progression Modal */}
+      <Modal visible={showLevelDetail} transparent animationType="slide" onRequestClose={() => setShowLevelDetail(false)}>
+        <View style={styles.levelModalOverlay}>
+          <View style={styles.levelModalSheet}>
+            <Text style={styles.levelModalTitle}>
+              {financialLevel.icon} Level {financialLevel.level} — {financialLevel.name}
+            </Text>
+            <Text style={styles.levelModalSubtitle}>Progress menuju Financial Freedom</Text>
+
+            {levelChecklist.map((item) => (
+              <View key={item.label} style={styles.checklistRow}>
+                <Text style={[styles.checklistIcon, { color: item.done ? COLORS.income : COLORS.textMuted }]}>
+                  {item.done ? '✓' : '○'}
+                </Text>
+                <Text style={[styles.checklistLabel, item.done && { color: COLORS.text, fontWeight: '600' }]}>
+                  {item.label}
+                </Text>
+              </View>
+            ))}
+
+            <TouchableOpacity style={styles.levelModalClose} onPress={() => setShowLevelDetail(false)}>
+              <Text style={styles.levelModalCloseText}>Tutup</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Emergency Fund Saving Picker */}
+      <Modal visible={showEmergencyPicker} transparent animationType="slide" onRequestClose={() => setShowEmergencyPicker(false)}>
+        <View style={styles.levelModalOverlay}>
+          <View style={styles.levelModalSheet}>
+            <Text style={styles.levelModalTitle}>Pilih Pos Dana Darurat</Text>
+            <Text style={styles.levelModalSubtitle}>Pos tabungan mana yang jadi dana darurat kamu?</Text>
+            {savings.length === 0 ? (
+              <Text style={styles.efEmptyBtnText}>Belum ada pos tabungan. Buat dulu di menu Aset.</Text>
+            ) : (
+              savings.map((s) => (
+                <TouchableOpacity
+                  key={s._id.toHexString()}
+                  style={[
+                    styles.efPickerItem,
+                    settings.emergencyFundSavingId === s._id.toHexString() && styles.efPickerItemActive,
+                  ]}
+                  onPress={() => {
+                    updateSettings({ emergencyFundSavingId: s._id.toHexString() });
+                    setShowEmergencyPicker(false);
+                  }}
+                >
+                  <Text style={styles.efPickerItemText}>{s.emoji} {s.name}</Text>
+                  <Text style={styles.efPickerItemBalance}>{formatCurrency(s.balance)}</Text>
+                </TouchableOpacity>
+              ))
+            )}
+            <TouchableOpacity style={styles.levelModalClose} onPress={() => setShowEmergencyPicker(false)}>
+              <Text style={styles.levelModalCloseText}>Tutup</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -651,6 +856,37 @@ const styles = StyleSheet.create({
 
   scroll: { flex: 1, backgroundColor: COLORS.background },
   content: { padding: SPACING.md, paddingBottom: SPACING.xxxl },
+
+  freedomCard: { marginBottom: SPACING.sm, borderColor: COLORS.border },
+  freedomLabel: { fontSize: FONTS.sm, fontWeight: '700', color: COLORS.text, marginBottom: SPACING.sm },
+  freedomLevelRow: { marginBottom: SPACING.xs },
+  freedomLevelText: { fontSize: FONTS.md, fontWeight: '600', color: COLORS.primary },
+  freedomScoreRow: { flexDirection: 'row', alignItems: 'flex-end' },
+  freedomScore: { fontSize: FONTS.xxxl, fontWeight: '700', color: COLORS.text },
+  freedomScoreMax: { fontSize: FONTS.md, color: COLORS.textMuted, marginLeft: 2, marginBottom: 4 },
+  freedomNext: { fontSize: FONTS.xs, color: COLORS.textSecondary, marginTop: SPACING.sm },
+  freedomTapHint: { fontSize: FONTS.xs, color: COLORS.textMuted, marginTop: SPACING.md, textAlign: 'right' },
+
+  levelModalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' },
+  levelModalSheet: {
+    backgroundColor: COLORS.surface,
+    borderTopLeftRadius: RADIUS.xl,
+    borderTopRightRadius: RADIUS.xl,
+    padding: SPACING.xl,
+  },
+  levelModalTitle: { fontSize: FONTS.xl, fontWeight: '700', color: COLORS.text },
+  levelModalSubtitle: { fontSize: FONTS.sm, color: COLORS.textSecondary, marginTop: SPACING.xs, marginBottom: SPACING.lg },
+  checklistRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: SPACING.sm },
+  checklistIcon: { fontSize: FONTS.lg, fontWeight: '700', width: 28 },
+  checklistLabel: { fontSize: FONTS.md, color: COLORS.textSecondary },
+  levelModalClose: {
+    marginTop: SPACING.lg,
+    paddingVertical: SPACING.md,
+    alignItems: 'center',
+    backgroundColor: COLORS.subtleBg,
+    borderRadius: RADIUS.md,
+  },
+  levelModalCloseText: { fontSize: FONTS.md, fontWeight: '600', color: COLORS.text },
 
   netWorthCard: { marginBottom: SPACING.sm, borderColor: COLORS.border },
   netWorthLabel: {
@@ -715,6 +951,31 @@ const styles = StyleSheet.create({
   },
   quickBtnIcon: { fontSize: 16 },
   quickBtnText: { fontSize: FONTS.sm, fontWeight: '700', color: '#ffffff' },
+
+  netWorthTrackerCard: { marginBottom: SPACING.sm },
+  netWorthGrowthText: { fontSize: FONTS.sm, fontWeight: '700', textAlign: 'center', marginTop: SPACING.sm },
+  netWorthTrackerEmpty: { fontSize: FONTS.sm, color: COLORS.textSecondary, textAlign: 'center', paddingVertical: SPACING.lg },
+
+  efRow: { flexDirection: 'row', justifyContent: 'space-between' },
+  efLabel: { fontSize: FONTS.xs, color: COLORS.textMuted, marginBottom: 2 },
+  efValue: { fontSize: FONTS.md, fontWeight: '700', color: COLORS.text },
+  efStatusBadge: { alignSelf: 'flex-start', paddingHorizontal: SPACING.md, paddingVertical: 4, borderRadius: RADIUS.round, marginTop: SPACING.md },
+  efStatusText: { fontSize: FONTS.xs, fontWeight: '700' },
+  efEmptyBtn: { paddingVertical: SPACING.md, alignItems: 'center' },
+  efEmptyBtnText: { fontSize: FONTS.sm, color: COLORS.primary, fontWeight: '600' },
+  efPickerItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: SPACING.md,
+    borderRadius: RADIUS.md,
+    marginBottom: SPACING.sm,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+  },
+  efPickerItemActive: { borderColor: COLORS.primary, backgroundColor: COLORS.primary + '11' },
+  efPickerItemText: { fontSize: FONTS.md, color: COLORS.text },
+  efPickerItemBalance: { fontSize: FONTS.sm, color: COLORS.textSecondary },
 
   sectionTitle: {
     fontSize: FONTS.xs,

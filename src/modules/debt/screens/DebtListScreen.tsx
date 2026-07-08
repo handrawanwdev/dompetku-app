@@ -20,7 +20,7 @@ import { IncomeModel } from '../../../models/IncomeModel';
 import { ExpenseModel } from '../../../models/ExpenseModel';
 import { formatCurrency, formatCompact } from '../../../utils/currency';
 import { startOfMonth } from '../../../utils/date';
-import { getReminderStatus, getKewajibanBulanIni, type ReminderStatus } from '../../../utils/finance';
+import { getReminderStatus, getKewajibanBulanIni, getDebtFreedomStatus, type ReminderStatus } from '../../../utils/finance';
 import { useSettingsStore } from '../../../store/settingsStore';
 
 // ─── Navigation Types ─────────────────────────────────────────────────────────
@@ -102,6 +102,7 @@ export function DebtListScreen() {
   const navigation = useNavigation<NavProp>();
   const { settings } = useSettingsStore();
   const allDebts = useQuery(DebtModel).filtered('isActive == true').sorted('createdAt', true);
+  const allDebtsEver = useQuery(DebtModel);
   const debtPayments = useQuery(DebtPaymentModel);
   const incomes = useQuery(IncomeModel);
   const expenses = useQuery(ExpenseModel);
@@ -151,6 +152,13 @@ export function DebtListScreen() {
     [debtInputs, cashNow, settings.hariLibur],
   );
 
+  const debtFreedom = useMemo(
+    () => getDebtFreedomStatus(allDebtsEver.map((d) => ({
+      totalAmount: d.totalAmount, monthlyInstallment: d.monthlyInstallment, remainingMonth: d.remainingMonth,
+    }))),
+    [allDebtsEver],
+  );
+
   const renderItem = useCallback(
     ({ item }: ListRenderItemInfo<DebtModel>) => (
       <DebtItem
@@ -191,6 +199,33 @@ export function DebtListScreen() {
           </View>
         </Card>
       </View>
+
+      {/* Debt Freedom Progress */}
+      {debtFreedom.totalDebt > 0 && (
+        <View style={styles.summaryWrapper}>
+          <Card style={styles.debtFreedomCard} padding={SPACING.lg}>
+            <Text style={styles.kewajibanTitle}>💳 Debt Freedom</Text>
+            <View style={styles.debtFreedomRow}>
+              <View>
+                <Text style={styles.summaryLabel}>Total Debt</Text>
+                <Text style={styles.debtFreedomValue}>{formatCompact(debtFreedom.totalDebt)}</Text>
+              </View>
+              <View>
+                <Text style={styles.summaryLabel}>Paid</Text>
+                <Text style={[styles.debtFreedomValue, { color: COLORS.income }]}>{formatCompact(debtFreedom.totalPaid)}</Text>
+              </View>
+              <View>
+                <Text style={styles.summaryLabel}>Progress</Text>
+                <Text style={styles.debtFreedomValue}>{debtFreedom.progressPct.toFixed(0)}%</Text>
+              </View>
+            </View>
+            <ProgressBar progress={debtFreedom.progressPct} color={COLORS.income} height={8} style={{ marginTop: SPACING.md }} />
+            <Text style={styles.debtFreedomEstimate}>
+              Estimated Freedom: <Text style={{ fontWeight: '700', color: COLORS.text }}>{debtFreedom.estimatedFreedomLabel}</Text>
+            </Text>
+          </Card>
+        </View>
+      )}
 
       {/* List */}
       <FlatList
@@ -416,6 +451,24 @@ const styles = StyleSheet.create({
   kewajibanCard: {
     padding: SPACING.lg,
     marginBottom: SPACING.md,
+  },
+  debtFreedomCard: {
+    marginBottom: SPACING.md,
+  },
+  debtFreedomRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  debtFreedomValue: {
+    fontSize: FONTS.lg,
+    fontWeight: '700',
+    color: COLORS.text,
+    marginTop: 2,
+  },
+  debtFreedomEstimate: {
+    fontSize: FONTS.sm,
+    color: COLORS.textSecondary,
+    marginTop: SPACING.md,
   },
   kewajibanTitle: {
     fontSize: FONTS.md,

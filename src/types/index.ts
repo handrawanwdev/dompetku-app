@@ -148,6 +148,8 @@ export interface AppSettings {
   currency: string;
   /** Weekday indices (0=Minggu..6=Sabtu) excluded from working-day pacing calcs (default [0]) */
   hariLibur: number[];
+  /** SavingModel._id (hex) designated as the "dana darurat" pos for the Emergency Fund module */
+  emergencyFundSavingId?: string;
 }
 
 export interface DashboardSummary {
