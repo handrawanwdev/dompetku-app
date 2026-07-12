@@ -96,7 +96,7 @@ export function PassiveIncomeListScreen() {
         }
       />
 
-      <FAB color={COLORS.primary} onPress={() => navigation.navigate('PassiveIncomeForm', {})} />
+      <FAB color={COLORS.savings} onPress={() => navigation.navigate('PassiveIncomeForm', {})} />
     </SafeAreaView>
   );
 }
