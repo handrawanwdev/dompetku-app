@@ -9,6 +9,7 @@ import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
 import { Card } from '../../../components/common/Card';
 import { ProgressBar } from '../../../components/common/ProgressBar';
 import { EmptyState } from '../../../components/common/EmptyState';
+import { FAB } from '../../../components/common/FAB';
 import { PassiveIncomeModel } from '../../../models/PassiveIncomeModel';
 import { ExpenseModel } from '../../../models/ExpenseModel';
 import { formatCurrency, formatCompact } from '../../../utils/currency';
@@ -93,13 +94,7 @@ export function PassiveIncomeListScreen() {
         }
       />
 
-      <TouchableOpacity
-        style={styles.fab}
-        onPress={() => navigation.navigate('PassiveIncomeForm', {})}
-        activeOpacity={0.85}
-      >
-        <Text style={styles.fabIcon}>+</Text>
-      </TouchableOpacity>
+      <FAB color={COLORS.primary} onPress={() => navigation.navigate('PassiveIncomeForm', {})} />
     </SafeAreaView>
   );
 }
@@ -123,6 +118,4 @@ const styles = StyleSheet.create({
   itemFreq: { fontSize: FONTS.xs, color: COLORS.textMuted, marginTop: 2 },
   itemAmount: { fontSize: FONTS.sm, fontWeight: '700', color: COLORS.text },
   itemMonthly: { fontSize: FONTS.xs, color: COLORS.textMuted, marginTop: 2 },
-  fab: { position: 'absolute', bottom: SPACING.xxl, right: SPACING.xl, width: 56, height: 56, borderRadius: RADIUS.round, backgroundColor: COLORS.primary, alignItems: 'center', justifyContent: 'center', elevation: 8, shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 8 },
-  fabIcon: { fontSize: 28, color: '#fff', lineHeight: 32, fontWeight: '400' },
 });

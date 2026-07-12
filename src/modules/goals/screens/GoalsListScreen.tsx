@@ -23,6 +23,7 @@ import { Button } from '../../../components/common/Button';
 import { ProgressBar } from '../../../components/common/ProgressBar';
 import { EmptyState } from '../../../components/common/EmptyState';
 import { CurrencyInput } from '../../../components/common/CurrencyInput';
+import { FAB } from '../../../components/common/FAB';
 import { GoalModel } from '../../../models/GoalModel';
 import { SavingModel } from '../../../models/SavingModel';
 import { formatCurrency, formatCompact, parseCurrency } from '../../../utils/currency';
@@ -159,13 +160,7 @@ export function GoalsListScreen() {
         }
       />
 
-      <TouchableOpacity
-        style={styles.fab}
-        onPress={() => navigation.navigate('GoalForm', {})}
-        activeOpacity={0.85}
-      >
-        <Text style={styles.fabIcon}>+</Text>
-      </TouchableOpacity>
+      <FAB color={COLORS.primary} onPress={() => navigation.navigate('GoalForm', {})} />
 
       {/* Setor Modal (manual/unlinked goals) */}
       <Modal visible={!!setorTarget} transparent animationType="slide" onRequestClose={closeSetorModal}>
@@ -216,8 +211,6 @@ const styles = StyleSheet.create({
   deadlineRow: { flexDirection: 'row', alignItems: 'center', gap: SPACING.xs, borderTopWidth: 1, borderTopColor: COLORS.border, paddingTop: SPACING.sm },
   deadlineLabel: { fontSize: FONTS.xs, color: COLORS.textMuted },
   deadlineDate: { fontSize: FONTS.sm, color: COLORS.warning, fontWeight: '600' },
-  fab: { position: 'absolute', bottom: SPACING.xxl, right: SPACING.xl, width: 56, height: 56, borderRadius: RADIUS.round, backgroundColor: COLORS.primary, alignItems: 'center', justifyContent: 'center', elevation: 8, shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 8 },
-  fabIcon: { fontSize: 28, color: '#fff', lineHeight: 32, fontWeight: '400' },
 
   setorBtn: {
     marginTop: SPACING.sm,

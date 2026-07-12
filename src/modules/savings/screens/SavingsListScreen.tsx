@@ -17,6 +17,7 @@ import { formatCurrency } from "../../../utils/currency";
 import { calcGoalProgress } from "../../../utils/finance";
 import { ProgressBar } from "../../../components/common/ProgressBar";
 import { EmptyState } from "../../../components/common/EmptyState";
+import { FAB } from "../../../components/common/FAB";
 
 export type SavingsStackParamList = {
   SavingsList: undefined;
@@ -108,13 +109,7 @@ export function SavingsListScreen({ navigation }: Props) {
         }}
       />
 
-      <TouchableOpacity
-        style={styles.fab}
-        onPress={() => navigation.navigate("SavingsForm", {})}
-        activeOpacity={0.8}
-      >
-        <Text style={styles.fabText}>+</Text>
-      </TouchableOpacity>
+      <FAB color={COLORS.savings} onPress={() => navigation.navigate("SavingsForm", {})} />
     </SafeAreaView>
   );
 }
@@ -213,27 +208,5 @@ const styles = StyleSheet.create({
     fontSize: FONTS.sm,
     color: COLORS.textSecondary,
     marginLeft: SPACING.xs,
-  },
-  fab: {
-    position: "absolute",
-    bottom: SPACING.xxl,
-    right: SPACING.xxl,
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: COLORS.primary,
-    alignItems: "center",
-    justifyContent: "center",
-    elevation: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-  },
-  fabText: {
-    fontSize: 28,
-    fontWeight: "400",
-    color: "#FFFFFF",
-    lineHeight: 32,
   },
 });

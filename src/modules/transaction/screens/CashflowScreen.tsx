@@ -21,6 +21,7 @@ import {
   Text,
   EmptyState,
   AmountDisplay,
+  FAB,
 } from "../../../components/common";
 import { IncomeModel } from "../../../models/IncomeModel";
 import { ExpenseModel } from "../../../models/ExpenseModel";
@@ -250,6 +251,7 @@ function CategoryFilter({
   return (
     <ScrollView
       horizontal
+      style={styles.categoryScroll}
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.categoryRow}
     >
@@ -576,17 +578,14 @@ export function CashflowScreen() {
       </View>
 
       {/* FAB */}
-      <TouchableOpacity
-        style={[styles.fab, { backgroundColor: accentColor }]}
+      <FAB
+        color={accentColor}
         onPress={() =>
           activeTab === "income"
             ? navigation.navigate("IncomeForm", {})
             : navigation.navigate("ExpenseForm", {})
         }
-        activeOpacity={0.85}
-      >
-        <Text style={styles.fabIcon}>+</Text>
-      </TouchableOpacity>
+      />
     </SafeAreaView>
   );
 }
@@ -599,14 +598,14 @@ const styles = StyleSheet.create({
 
   header: {
     flexDirection: "row",
-    justifyContent: "flex-end",
+    justifyContent: "flex-start",
     alignItems: "center",
     backgroundColor: COLORS.background,
     paddingHorizontal: SPACING.lg,
     paddingTop: SPACING.md,
     paddingBottom: SPACING.sm,
   },
-  headerBadge: { alignItems: "flex-end" },
+  headerBadge: { alignItems: "flex-start" },
   headerBadgeLabel: {
     fontSize: FONTS.xs,
     color: COLORS.textMuted,
@@ -686,6 +685,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: SPACING.lg,
     marginBottom: SPACING.xs,
   },
+  categoryScroll: { flexGrow: 0, flexShrink: 0 },
   categoryRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -753,26 +753,4 @@ const styles = StyleSheet.create({
   itemDate: { fontSize: FONTS.sm, color: COLORS.textSecondary, marginTop: 2 },
   itemNote: { fontSize: FONTS.xs, color: COLORS.textMuted, marginTop: 2 },
   itemAmount: { fontSize: FONTS.md, fontWeight: "700", marginLeft: SPACING.sm },
-
-  fab: {
-    position: "absolute",
-    bottom: SPACING.xxl,
-    right: SPACING.xl,
-    width: 56,
-    height: 56,
-    borderRadius: RADIUS.round,
-    alignItems: "center",
-    justifyContent: "center",
-    elevation: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-  },
-  fabIcon: {
-    fontSize: 28,
-    color: "#FFFFFF",
-    lineHeight: 32,
-    fontWeight: "400",
-  },
 });

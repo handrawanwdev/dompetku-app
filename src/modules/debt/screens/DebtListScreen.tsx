@@ -13,7 +13,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 
 import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
-import { Card, Text, EmptyState, AmountDisplay, ProgressBar } from '../../../components/common';
+import { Card, Text, EmptyState, AmountDisplay, ProgressBar, FAB } from '../../../components/common';
 import { DebtModel } from '../../../models/DebtModel';
 import { DebtPaymentModel } from '../../../models/DebtPaymentModel';
 import { IncomeModel } from '../../../models/IncomeModel';
@@ -296,13 +296,7 @@ export function DebtListScreen() {
       </View>
 
       {/* FAB */}
-      <TouchableOpacity
-        style={styles.fab}
-        onPress={() => navigation.navigate('DebtForm', {})}
-        activeOpacity={0.85}
-      >
-        <Text style={styles.fabIcon}>+</Text>
-      </TouchableOpacity>
+      <FAB color={COLORS.debt} onPress={() => navigation.navigate('DebtForm', {})} />
     </SafeAreaView>
   );
 }
@@ -425,29 +419,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: COLORS.text,
   },
-  fab: {
-    position: 'absolute',
-    bottom: SPACING.xxl,
-    right: SPACING.xl,
-    width: 56,
-    height: 56,
-    borderRadius: RADIUS.round,
-    backgroundColor: COLORS.debt,
-    alignItems: 'center',
-    justifyContent: 'center',
-    elevation: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-  },
-  fabIcon: {
-    fontSize: 28,
-    color: '#FFFFFF',
-    lineHeight: 32,
-    fontWeight: '400',
-  },
-
   kewajibanCard: {
     padding: SPACING.lg,
     marginBottom: SPACING.md,

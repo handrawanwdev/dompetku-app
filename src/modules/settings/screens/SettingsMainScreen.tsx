@@ -41,6 +41,7 @@ export type SettingsStackParamList = {
   FireCalculatorScreen: undefined;
   AchievementsScreen: undefined;
   DiagnosisScreen: undefined;
+  DevToolsScreen: undefined;
 };
 
 type NavProp = NativeStackNavigationProp<SettingsStackParamList>;
@@ -235,6 +236,15 @@ export function SettingsMainScreen({ navigation }: Props) {
         <Card padding={0}>
           <MenuItem emoji="🩺" label="Diagnosis & Laporan Error" onPress={() => navigation.navigate('DiagnosisScreen')} />
         </Card>
+
+        {__DEV__ && (
+          <>
+            <Text style={styles.sectionTitle}>Developer</Text>
+            <Card padding={0}>
+              <MenuItem emoji="🛠️" label="DevTools" onPress={() => navigation.navigate('DevToolsScreen')} />
+            </Card>
+          </>
+        )}
 
         <Text style={styles.sectionTitle}>Info</Text>
         <Card padding={SPACING.lg}>

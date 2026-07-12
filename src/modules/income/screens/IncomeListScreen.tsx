@@ -14,7 +14,7 @@ import { useNavigation } from '@react-navigation/native';
 import dayjs from 'dayjs';
 
 import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
-import { Card, Text, EmptyState, AmountDisplay } from '../../../components/common';
+import { Card, Text, EmptyState, AmountDisplay, FAB } from '../../../components/common';
 import { IncomeModel } from '../../../models/IncomeModel';
 import { formatCurrency } from '../../../utils/currency';
 import { formatDate } from '../../../utils/date';
@@ -173,13 +173,7 @@ export function IncomeListScreen() {
       />
 
       {/* FAB */}
-      <TouchableOpacity
-        style={styles.fab}
-        onPress={() => navigation.navigate('IncomeForm', {})}
-        activeOpacity={0.85}
-      >
-        <Text style={styles.fabIcon}>+</Text>
-      </TouchableOpacity>
+      <FAB color={COLORS.income} onPress={() => navigation.navigate('IncomeForm', {})} />
     </SafeAreaView>
   );
 }
@@ -312,27 +306,5 @@ const styles = StyleSheet.create({
     color: COLORS.income,
     fontWeight: '700',
     marginLeft: SPACING.sm,
-  },
-  fab: {
-    position: 'absolute',
-    bottom: SPACING.xxl,
-    right: SPACING.xl,
-    width: 56,
-    height: 56,
-    borderRadius: RADIUS.round,
-    backgroundColor: COLORS.income,
-    alignItems: 'center',
-    justifyContent: 'center',
-    elevation: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-  },
-  fabIcon: {
-    fontSize: 28,
-    color: '#FFFFFF',
-    lineHeight: 32,
-    fontWeight: '400',
   },
 });

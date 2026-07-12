@@ -8,3 +8,4 @@ export { CurrencyInput } from './CurrencyInput';
 export { EmptyState } from './EmptyState';
 export { AmountDisplay } from './AmountDisplay';
 export { ProgressBar } from './ProgressBar';
+export { FAB } from './FAB';

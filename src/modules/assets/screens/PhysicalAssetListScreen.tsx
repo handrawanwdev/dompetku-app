@@ -23,6 +23,7 @@ import { Card } from '../../../components/common/Card';
 import { Button } from '../../../components/common/Button';
 import { EmptyState } from '../../../components/common/EmptyState';
 import { CurrencyInput } from '../../../components/common/CurrencyInput';
+import { FAB } from '../../../components/common/FAB';
 import { PhysicalAssetModel } from '../../../models/PhysicalAssetModel';
 import { SavingModel } from '../../../models/SavingModel';
 import { formatCurrency, formatCompact, parseCurrency } from '../../../utils/currency';
@@ -215,9 +216,7 @@ export function PhysicalAssetListScreen() {
         }
       />
 
-      <TouchableOpacity style={styles.fab} onPress={() => navigation.navigate('PhysicalAssetForm', {})} activeOpacity={0.85}>
-        <Text style={styles.fabIcon}>+</Text>
-      </TouchableOpacity>
+      <FAB color={COLORS.asset} onPress={() => navigation.navigate('PhysicalAssetForm', {})} />
 
       {/* Sell Modal */}
       <Modal visible={!!sellTarget} transparent animationType="slide" onRequestClose={closeSellModal}>
@@ -338,8 +337,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   sellBtnText: { fontSize: FONTS.sm, fontWeight: '700', color: COLORS.asset },
-  fab: { position: 'absolute', bottom: SPACING.xxl, right: SPACING.xl, width: 56, height: 56, borderRadius: RADIUS.round, backgroundColor: COLORS.asset, alignItems: 'center', justifyContent: 'center', elevation: 8, shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 8 },
-  fabIcon: { fontSize: 28, color: '#fff', lineHeight: 32, fontWeight: '400' },
 
   soldSection: { marginTop: SPACING.lg },
   soldTitle: {
