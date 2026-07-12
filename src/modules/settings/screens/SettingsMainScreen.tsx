@@ -40,6 +40,7 @@ export type SettingsStackParamList = {
   PassiveIncomeNavScreen: undefined;
   FireCalculatorScreen: undefined;
   AchievementsScreen: undefined;
+  DiagnosisScreen: undefined;
 };
 
 type NavProp = NativeStackNavigationProp<SettingsStackParamList>;
@@ -228,6 +229,11 @@ export function SettingsMainScreen({ navigation }: Props) {
           <MenuItem emoji="📥" label="Import JSON" onPress={handleImport} />
           <View style={styles.separator} />
           <MenuItem emoji="🗑️" label="Reset Semua Data" onPress={handleReset} danger />
+        </Card>
+
+        <Text style={styles.sectionTitle}>Bantuan</Text>
+        <Card padding={0}>
+          <MenuItem emoji="🩺" label="Diagnosis & Laporan Error" onPress={() => navigation.navigate('DiagnosisScreen')} />
         </Card>
 
         <Text style={styles.sectionTitle}>Info</Text>

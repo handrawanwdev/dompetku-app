@@ -11,6 +11,7 @@ import { GoalsNavigator } from "../goals/GoalsNavigator";
 import { PassiveIncomeNavigator } from "../passiveIncome/PassiveIncomeNavigator";
 import { FireCalculatorScreen } from "./screens/FireCalculatorScreen";
 import { AchievementsScreen } from "./screens/AchievementsScreen";
+import { DiagnosisScreen } from "./screens/DiagnosisScreen";
 import { COLORS } from "../../theme";
 
 const Stack = createNativeStackNavigator<SettingsStackParamList>();
@@ -54,6 +55,7 @@ export function SettingsNavigator() {
         component={AchievementsScreen}
         options={{ headerShown: false }}
       />
+      <Stack.Screen name="DiagnosisScreen" component={DiagnosisScreen} />
     </Stack.Navigator>
   );
 }

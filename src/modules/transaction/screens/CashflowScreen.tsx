@@ -2,6 +2,7 @@ import React, { useState, useMemo, useCallback } from "react";
 import {
   View,
   FlatList,
+  ScrollView,
   TouchableOpacity,
   StyleSheet,
   StatusBar,
@@ -226,6 +227,83 @@ function MonthFilter({
   );
 }
 
+// ─── Category Filter ──────────────────────────────────────────────────────────
+
+const ALL_CATEGORY = "all";
+
+interface CategoryOption {
+  label: string;
+  emoji: string;
+}
+
+function CategoryFilter({
+  categories,
+  selected,
+  activeColor,
+  onSelect,
+}: {
+  categories: CategoryOption[];
+  selected: string;
+  activeColor: string;
+  onSelect: (name: string) => void;
+}) {
+  return (
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={styles.categoryRow}
+    >
+      <TouchableOpacity
+        onPress={() => onSelect(ALL_CATEGORY)}
+        style={[
+          styles.categoryChip,
+          selected === ALL_CATEGORY && {
+            backgroundColor: activeColor + "1A",
+            borderColor: activeColor,
+          },
+        ]}
+        activeOpacity={0.7}
+      >
+        <Text
+          style={[
+            styles.categoryChipText,
+            selected === ALL_CATEGORY && { color: activeColor, fontWeight: "700" },
+          ]}
+        >
+          Semua
+        </Text>
+      </TouchableOpacity>
+      {categories.map((cat) => {
+        const isActive = cat.label === selected;
+        return (
+          <TouchableOpacity
+            key={cat.label}
+            onPress={() => onSelect(cat.label)}
+            style={[
+              styles.categoryChip,
+              isActive && {
+                backgroundColor: activeColor + "1A",
+                borderColor: activeColor,
+              },
+            ]}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.categoryChipEmoji}>{cat.emoji}</Text>
+            <Text
+              style={[
+                styles.categoryChipText,
+                isActive && { color: activeColor, fontWeight: "700" },
+              ]}
+            >
+              {cat.label}
+            </Text>
+          </TouchableOpacity>
+        );
+      })}
+    </ScrollView>
+  );
+}
+
 // ─── Screen ───────────────────────────────────────────────────────────────────
 
 export function CashflowScreen() {
@@ -234,23 +312,44 @@ export function CashflowScreen() {
   const monthOptions = useMemo(() => buildMonthOptions(), []);
   const [incomeMonth, setIncomeMonth] = useState(monthOptions[0].yearMonth);
   const [expenseMonth, setExpenseMonth] = useState(monthOptions[0].yearMonth);
+  const [incomeCategory, setIncomeCategory] = useState(ALL_CATEGORY);
+  const [expenseCategory, setExpenseCategory] = useState(ALL_CATEGORY);
 
   const allIncomes = useQuery(IncomeModel);
   const allExpenses = useQuery(ExpenseModel);
 
+  const incomeCategories = useMemo(
+    () => Object.entries(INCOME_EMOJIS).map(([label, emoji]) => ({ label, emoji })),
+    [],
+  );
+  const expenseCategories = useMemo(
+    () => Object.entries(EXPENSE_EMOJIS).map(([label, emoji]) => ({ label, emoji })),
+    [],
+  );
+
   const filteredIncomes = useMemo(
     () =>
-      allIncomes
-        .filtered("date BEGINSWITH $0", incomeMonth)
-        .sorted("date", true),
-    [allIncomes, incomeMonth],
+      (incomeCategory === ALL_CATEGORY
+        ? allIncomes.filtered("date BEGINSWITH $0", incomeMonth)
+        : allIncomes.filtered(
+            "date BEGINSWITH $0 AND category == $1",
+            incomeMonth,
+            incomeCategory,
+          )
+      ).sorted("date", true),
+    [allIncomes, incomeMonth, incomeCategory],
   );
   const filteredExpenses = useMemo(
     () =>
-      allExpenses
-        .filtered("date BEGINSWITH $0", expenseMonth)
-        .sorted("date", true),
-    [allExpenses, expenseMonth],
+      (expenseCategory === ALL_CATEGORY
+        ? allExpenses.filtered("date BEGINSWITH $0", expenseMonth)
+        : allExpenses.filtered(
+            "date BEGINSWITH $0 AND category == $1",
+            expenseMonth,
+            expenseCategory,
+          )
+      ).sorted("date", true),
+    [allExpenses, expenseMonth, expenseCategory],
   );
 
   const incomeTotal = useMemo(
@@ -330,7 +429,13 @@ export function CashflowScreen() {
       {/* Tab Switcher */}
       <View style={styles.tabBar}>
         <TouchableOpacity
-          style={styles.tabItem}
+          style={[
+            styles.tabItem,
+            activeTab === "income" && {
+              backgroundColor: COLORS.income + "15",
+              borderBottomColor: COLORS.income,
+            },
+          ]}
           onPress={() => setActiveTab("income")}
           activeOpacity={0.8}
         >
@@ -351,7 +456,13 @@ export function CashflowScreen() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={styles.tabItem}
+          style={[
+            styles.tabItem,
+            activeTab === "expense" && {
+              backgroundColor: COLORS.expense + "15",
+              borderBottomColor: COLORS.expense,
+            },
+          ]}
           onPress={() => setActiveTab("expense")}
           activeOpacity={0.8}
         >
@@ -409,6 +520,24 @@ export function CashflowScreen() {
             selected={expenseMonth}
             activeColor={COLORS.expense}
             onSelect={setExpenseMonth}
+          />
+        )}
+
+        {/* Category Filter */}
+        <Text style={styles.categoryLabel}>Kategori</Text>
+        {activeTab === "income" ? (
+          <CategoryFilter
+            categories={incomeCategories}
+            selected={incomeCategory}
+            activeColor={COLORS.income}
+            onSelect={setIncomeCategory}
+          />
+        ) : (
+          <CategoryFilter
+            categories={expenseCategories}
+            selected={expenseCategory}
+            activeColor={COLORS.expense}
+            onSelect={setExpenseCategory}
           />
         )}
 
@@ -491,11 +620,16 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background,
     paddingHorizontal: SPACING.lg,
     paddingBottom: SPACING.xs,
+    gap: SPACING.xs,
   },
   tabItem: {
     flex: 1,
     alignItems: "center",
     paddingVertical: SPACING.sm,
+    borderTopLeftRadius: RADIUS.md,
+    borderTopRightRadius: RADIUS.md,
+    borderBottomWidth: 3,
+    borderBottomColor: "transparent",
   },
   tabLabel: {
     fontSize: FONTS.sm,
@@ -530,19 +664,54 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background,
   },
   filterChip: {
-    paddingVertical: SPACING.xs,
-    paddingHorizontal: SPACING.md,
+    paddingVertical: 5,
+    paddingHorizontal: SPACING.sm,
     borderRadius: RADIUS.round,
     backgroundColor: COLORS.surface,
     borderWidth: 1,
     borderColor: COLORS.border,
   },
   filterChipText: {
-    fontSize: FONTS.sm,
+    fontSize: FONTS.xs,
     color: COLORS.textSecondary,
     fontWeight: "500",
   },
   filterChipTextActive: { color: "#FFFFFF" },
+
+  categoryLabel: {
+    fontSize: FONTS.xs,
+    color: COLORS.textMuted,
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
+    paddingHorizontal: SPACING.lg,
+    marginBottom: SPACING.xs,
+  },
+  categoryRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingLeft: SPACING.lg,
+    paddingRight: 0,
+    gap: 6,
+    marginBottom: SPACING.md,
+  },
+  categoryChip: {
+    flexDirection: "row",
+    alignSelf: "flex-start",
+    alignItems: "center",
+    gap: 3,
+    paddingVertical: 4,
+    paddingHorizontal: SPACING.sm,
+    borderRadius: RADIUS.round,
+    backgroundColor: "transparent",
+    borderWidth: 1,
+    borderColor: COLORS.border,
+  },
+  categoryChipEmoji: { fontSize: 11 },
+  categoryChipText: {
+    fontSize: 11,
+    color: COLORS.textSecondary,
+    fontWeight: "500",
+  },
 
   listContent: {
     paddingHorizontal: SPACING.lg,

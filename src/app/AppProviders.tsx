@@ -10,6 +10,10 @@ import { realmConfig } from '../database/realm';
 import { MainTabNavigator } from '../navigation/MainTabNavigator';
 import { useSettingsStore } from '../store/settingsStore';
 import { requestNotificationPermissions } from '../services/NotificationService';
+import { installGlobalErrorHandlers } from '../services/ErrorLogService';
+import { ErrorBoundary } from '../components/common/ErrorBoundary';
+
+installGlobalErrorHandlers();
 
 function AppInner() {
   const loadSettings = useSettingsStore(s => s.loadSettings);
@@ -30,9 +34,11 @@ export function AppProviders() {
   return (
     <GestureHandlerRootView style={styles.root}>
       <SafeAreaProvider>
-        <RealmProvider {...realmConfig} fallback={() => null}>
-          <AppInner />
-        </RealmProvider>
+        <ErrorBoundary>
+          <RealmProvider {...realmConfig} fallback={() => null}>
+            <AppInner />
+          </RealmProvider>
+        </ErrorBoundary>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );
