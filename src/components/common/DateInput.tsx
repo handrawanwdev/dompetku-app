@@ -1,5 +1,5 @@
-import React, { useMemo, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Modal, ScrollView } from 'react-native';
 import dayjs from 'dayjs';
 import { COLORS, FONTS, RADIUS, SPACING } from '../../theme';
 
@@ -11,6 +11,12 @@ interface DateInputProps {
 }
 
 const WEEKDAYS = ['M', 'S', 'S', 'R', 'K', 'J', 'S'];
+const MONTH_NAMES = [
+  'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+  'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember',
+];
+const YEAR_RANGE = { past: 80, future: 15 };
+const YEAR_CHIP_WIDTH = 68;
 
 function buildCalendarDays(monthCursor: dayjs.Dayjs) {
   const startOfMonth = monthCursor.startOf('month');
@@ -26,19 +32,49 @@ function buildCalendarDays(monthCursor: dayjs.Dayjs) {
 
 export function DateInput({ label, value, onChange, error }: DateInputProps) {
   const [visible, setVisible] = useState(false);
+  const [mode, setMode] = useState<'day' | 'monthYear'>('day');
   const selected = value ? dayjs(value) : dayjs();
   const [cursor, setCursor] = useState(selected.startOf('month'));
 
   const days = useMemo(() => buildCalendarDays(cursor), [cursor]);
+  const years = useMemo(() => {
+    const nowYear = dayjs().year();
+    const list: number[] = [];
+    for (let y = nowYear - YEAR_RANGE.past; y <= nowYear + YEAR_RANGE.future; y++) {
+      list.push(y);
+    }
+    return list;
+  }, []);
+  const yearScrollRef = useRef<ScrollView>(null);
+
+  useEffect(() => {
+    if (mode !== 'monthYear') return;
+    const idx = years.indexOf(cursor.year());
+    if (idx < 0) return;
+    yearScrollRef.current?.scrollTo({
+      x: Math.max(0, idx * YEAR_CHIP_WIDTH - YEAR_CHIP_WIDTH * 2),
+      animated: false,
+    });
+  }, [mode]);
 
   const open = () => {
     setCursor((value ? dayjs(value) : dayjs()).startOf('month'));
+    setMode('day');
     setVisible(true);
   };
 
   const pick = (d: dayjs.Dayjs) => {
     onChange(d.format('YYYY-MM-DD'));
     setVisible(false);
+  };
+
+  const pickYear = (y: number) => {
+    setCursor(cursor.year(y));
+  };
+
+  const pickMonth = (m: number) => {
+    setCursor(cursor.month(m));
+    setMode('day');
   };
 
   return (
@@ -56,47 +92,107 @@ export function DateInput({ label, value, onChange, error }: DateInputProps) {
         <TouchableOpacity style={styles.overlay} activeOpacity={1} onPress={() => setVisible(false)}>
           <TouchableOpacity activeOpacity={1} style={styles.calendarCard} onPress={() => {}}>
             <View style={styles.calendarHeader}>
-              <TouchableOpacity onPress={() => setCursor(cursor.subtract(1, 'month'))} style={styles.navBtn}>
+              <TouchableOpacity
+                onPress={() =>
+                  setCursor(cursor.subtract(1, mode === 'day' ? 'month' : 'year'))
+                }
+                style={styles.navBtn}
+              >
                 <Text style={styles.navBtnText}>‹</Text>
               </TouchableOpacity>
-              <Text style={styles.monthLabel}>{cursor.format('MMMM YYYY')}</Text>
-              <TouchableOpacity onPress={() => setCursor(cursor.add(1, 'month'))} style={styles.navBtn}>
+              <TouchableOpacity onPress={() => setMode(mode === 'day' ? 'monthYear' : 'day')}>
+                <Text style={styles.monthLabel}>
+                  {cursor.format('MMMM YYYY')} {mode === 'day' ? '▾' : '▴'}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() =>
+                  setCursor(cursor.add(1, mode === 'day' ? 'month' : 'year'))
+                }
+                style={styles.navBtn}
+              >
                 <Text style={styles.navBtnText}>›</Text>
               </TouchableOpacity>
             </View>
 
-            <View style={styles.weekRow}>
-              {WEEKDAYS.map((w, i) => (
-                <Text key={i} style={styles.weekLabel}>{w}</Text>
-              ))}
-            </View>
+            {mode === 'monthYear' ? (
+              <>
+                <ScrollView
+                  ref={yearScrollRef}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  style={styles.yearScroll}
+                  contentContainerStyle={styles.yearScrollContent}
+                >
+                  {years.map((y) => {
+                    const isActive = y === cursor.year();
+                    return (
+                      <TouchableOpacity
+                        key={y}
+                        style={[styles.yearChip, isActive && styles.yearChipActive]}
+                        onPress={() => pickYear(y)}
+                      >
+                        <Text style={[styles.yearChipText, isActive && styles.yearChipTextActive]}>
+                          {y}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </ScrollView>
 
-            <View style={styles.grid}>
-              {days.map((d, i) => {
-                if (!d) return <View key={i} style={styles.dayCell} />;
-                const isSelected = d.format('YYYY-MM-DD') === selected.format('YYYY-MM-DD');
-                const isToday = d.format('YYYY-MM-DD') === dayjs().format('YYYY-MM-DD');
-                return (
-                  <TouchableOpacity
-                    key={i}
-                    style={[styles.dayCell, isSelected && styles.dayCellSelected]}
-                    onPress={() => pick(d)}
-                  >
-                    <Text style={[
-                      styles.dayText,
-                      isToday && !isSelected && styles.dayTextToday,
-                      isSelected && styles.dayTextSelected,
-                    ]}>
-                      {d.date()}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
+                <View style={styles.monthGrid}>
+                  {MONTH_NAMES.map((m, i) => {
+                    const isActive = i === cursor.month();
+                    return (
+                      <TouchableOpacity
+                        key={m}
+                        style={[styles.monthCell, isActive && styles.monthCellActive]}
+                        onPress={() => pickMonth(i)}
+                      >
+                        <Text style={[styles.monthCellText, isActive && styles.monthCellTextActive]}>
+                          {m.slice(0, 3)}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+              </>
+            ) : (
+              <>
+                <View style={styles.weekRow}>
+                  {WEEKDAYS.map((w, i) => (
+                    <Text key={i} style={styles.weekLabel}>{w}</Text>
+                  ))}
+                </View>
 
-            <TouchableOpacity style={styles.todayBtn} onPress={() => pick(dayjs())}>
-              <Text style={styles.todayBtnText}>Hari ini</Text>
-            </TouchableOpacity>
+                <View style={styles.grid}>
+                  {days.map((d, i) => {
+                    if (!d) return <View key={i} style={styles.dayCell} />;
+                    const isSelected = d.format('YYYY-MM-DD') === selected.format('YYYY-MM-DD');
+                    const isToday = d.format('YYYY-MM-DD') === dayjs().format('YYYY-MM-DD');
+                    return (
+                      <TouchableOpacity
+                        key={i}
+                        style={[styles.dayCell, isSelected && styles.dayCellSelected]}
+                        onPress={() => pick(d)}
+                      >
+                        <Text style={[
+                          styles.dayText,
+                          isToday && !isSelected && styles.dayTextToday,
+                          isSelected && styles.dayTextSelected,
+                        ]}>
+                          {d.date()}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+
+                <TouchableOpacity style={styles.todayBtn} onPress={() => pick(dayjs())}>
+                  <Text style={styles.todayBtnText}>Hari ini</Text>
+                </TouchableOpacity>
+              </>
+            )}
           </TouchableOpacity>
         </TouchableOpacity>
       </Modal>
@@ -192,4 +288,29 @@ const styles = StyleSheet.create({
   },
   todayBtn: { marginTop: SPACING.md, alignItems: 'center', paddingVertical: SPACING.sm },
   todayBtnText: { color: COLORS.primary, fontWeight: '600', fontSize: FONTS.sm },
+
+  yearScroll: { marginBottom: SPACING.md, flexGrow: 0, flexShrink: 0 },
+  yearScrollContent: { gap: SPACING.xs, paddingHorizontal: 2 },
+  yearChip: {
+    width: YEAR_CHIP_WIDTH - 8,
+    paddingVertical: SPACING.sm,
+    borderRadius: RADIUS.md,
+    alignItems: 'center',
+    backgroundColor: COLORS.subtleBg,
+  },
+  yearChipActive: { backgroundColor: COLORS.primary },
+  yearChipText: { fontSize: FONTS.sm, fontWeight: '600', color: COLORS.text },
+  yearChipTextActive: { color: '#ffffff' },
+
+  monthGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: SPACING.xs },
+  monthCell: {
+    width: `${100 / 3 - 2}%`,
+    paddingVertical: SPACING.md,
+    borderRadius: RADIUS.md,
+    alignItems: 'center',
+    backgroundColor: COLORS.subtleBg,
+  },
+  monthCellActive: { backgroundColor: COLORS.primary },
+  monthCellText: { fontSize: FONTS.sm, fontWeight: '600', color: COLORS.text },
+  monthCellTextActive: { color: '#ffffff' },
 });

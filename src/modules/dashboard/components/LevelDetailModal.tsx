@@ -26,6 +26,11 @@ export function LevelDetailModal({ visible, onClose, level, checklist }: Props) 
           </Text>
           <Text style={styles.subtitle}>Progress menuju Financial Freedom</Text>
 
+          <View style={styles.descriptionBox}>
+            <Text style={styles.descriptionText}>{level.description}</Text>
+          </View>
+
+          <Text style={styles.checklistTitle}>Checklist Menuju Level Berikutnya</Text>
           {checklist.map((item) => (
             <View key={item.label} style={styles.row}>
               <Text
@@ -64,6 +69,21 @@ const styles = StyleSheet.create({
     color: COLORS.textSecondary,
     marginTop: SPACING.xs,
     marginBottom: SPACING.lg,
+  },
+  descriptionBox: {
+    backgroundColor: COLORS.subtleBg,
+    borderRadius: RADIUS.md,
+    padding: SPACING.md,
+    marginBottom: SPACING.lg,
+  },
+  descriptionText: { fontSize: FONTS.sm, color: COLORS.text, lineHeight: 20 },
+  checklistTitle: {
+    fontSize: FONTS.xs,
+    fontWeight: "700",
+    color: COLORS.textMuted,
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
+    marginBottom: SPACING.xs,
   },
   row: { flexDirection: "row", alignItems: "center", paddingVertical: SPACING.sm },
   icon: { fontSize: FONTS.lg, fontWeight: "700", width: 28 },

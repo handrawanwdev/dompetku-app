@@ -11,6 +11,7 @@ import { GoalsNavigator } from "../goals/GoalsNavigator";
 import { PassiveIncomeNavigator } from "../passiveIncome/PassiveIncomeNavigator";
 import { FireCalculatorScreen } from "./screens/FireCalculatorScreen";
 import { AchievementsScreen } from "./screens/AchievementsScreen";
+import { LevelGuideScreen } from "./screens/LevelGuideScreen";
 import { DiagnosisScreen } from "./screens/DiagnosisScreen";
 import { DevToolsScreen } from "./screens/DevToolsScreen";
 import { COLORS } from "../../theme";
@@ -54,6 +55,11 @@ export function SettingsNavigator() {
       <Stack.Screen
         name="AchievementsScreen"
         component={AchievementsScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="LevelGuideScreen"
+        component={LevelGuideScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen name="DiagnosisScreen" component={DiagnosisScreen} />

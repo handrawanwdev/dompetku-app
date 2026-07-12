@@ -44,7 +44,7 @@ interface MonthOption {
 
 function buildMonthOptions(): MonthOption[] {
   const monthStart = dayjs().startOf("month");
-  return [0, 1, 2, 3].map((offset) => {
+  return [0, 1, 2].map((offset) => {
     const d = monthStart.subtract(offset, "month");
     return { label: d.format("MMM YYYY"), yearMonth: d.format("YYYY-MM") };
   });
@@ -269,7 +269,10 @@ function CategoryFilter({
         <Text
           style={[
             styles.categoryChipText,
-            selected === ALL_CATEGORY && { color: activeColor, fontWeight: "700" },
+            selected === ALL_CATEGORY && {
+              color: activeColor,
+              fontWeight: "700",
+            },
           ]}
         >
           Semua
@@ -321,11 +324,16 @@ export function CashflowScreen() {
   const allExpenses = useQuery(ExpenseModel);
 
   const incomeCategories = useMemo(
-    () => Object.entries(INCOME_EMOJIS).map(([label, emoji]) => ({ label, emoji })),
+    () =>
+      Object.entries(INCOME_EMOJIS).map(([label, emoji]) => ({ label, emoji })),
     [],
   );
   const expenseCategories = useMemo(
-    () => Object.entries(EXPENSE_EMOJIS).map(([label, emoji]) => ({ label, emoji })),
+    () =>
+      Object.entries(EXPENSE_EMOJIS).map(([label, emoji]) => ({
+        label,
+        emoji,
+      })),
     [],
   );
 

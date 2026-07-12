@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback } from "react";
 import {
   View,
   FlatList,
@@ -7,18 +7,24 @@ import {
   StatusBar,
   ListRenderItemInfo,
   TextStyle,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useQuery } from '@realm/react';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useNavigation } from '@react-navigation/native';
-import dayjs from 'dayjs';
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useQuery } from "@realm/react";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
+import dayjs from "dayjs";
 
-import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
-import { Card, Text, EmptyState, AmountDisplay, FAB } from '../../../components/common';
-import { ExpenseModel } from '../../../models/ExpenseModel';
-import { formatCurrency } from '../../../utils/currency';
-import { formatDate } from '../../../utils/date';
+import { COLORS, FONTS, SPACING, RADIUS } from "../../../theme";
+import {
+  Card,
+  Text,
+  EmptyState,
+  AmountDisplay,
+  FAB,
+} from "../../../components/common";
+import { ExpenseModel } from "../../../models/ExpenseModel";
+import { formatCurrency } from "../../../utils/currency";
+import { formatDate } from "../../../utils/date";
 
 // ─── Navigation Types ─────────────────────────────────────────────────────────
 
@@ -38,27 +44,27 @@ interface MonthOption {
 
 function buildMonthOptions(): MonthOption[] {
   return [0, 1, 2].map((offset) => {
-    const d = dayjs().subtract(offset, 'month');
-    return { label: d.format('MMM YY'), yearMonth: d.format('YYYY-MM') };
+    const d = dayjs().subtract(offset, "month");
+    return { label: d.format("MMM YY"), yearMonth: d.format("YYYY-MM") };
   });
 }
 
 const CATEGORY_EMOJIS: Record<string, string> = {
-  'Makan & Minum': '🍜',
-  Transportasi: '🚗',
-  Belanja: '🛍️',
-  Tagihan: '📄',
-  Kesehatan: '🏥',
-  Hiburan: '🎬',
-  Pendidikan: '📚',
-  Rumah: '🏠',
-  Komunikasi: '📱',
-  Lainnya: '💸',
+  "Makan & Minum": "🍜",
+  Transportasi: "🚗",
+  Belanja: "🛍️",
+  Tagihan: "📄",
+  Kesehatan: "🏥",
+  Hiburan: "🎬",
+  Pendidikan: "📚",
+  Rumah: "🏠",
+  Komunikasi: "📱",
+  Lainnya: "💸",
 };
 
 const SOURCE_LABELS: Record<string, string> = {
-  cash: 'Kas',
-  savings: 'Tabungan',
+  cash: "Kas",
+  savings: "Tabungan",
 };
 
 const SOURCE_COLORS: Record<string, string> = {
@@ -74,12 +80,16 @@ interface ExpenseItemProps {
 }
 
 function ExpenseItem({ item, onPress }: ExpenseItemProps) {
-  const emoji = CATEGORY_EMOJIS[item.category] ?? '💸';
+  const emoji = CATEGORY_EMOJIS[item.category] ?? "💸";
   const sourceBg = SOURCE_COLORS[item.source] ?? COLORS.textMuted;
   const sourceLabel = SOURCE_LABELS[item.source] ?? item.source;
 
   return (
-    <TouchableOpacity onPress={onPress} activeOpacity={0.7} style={styles.itemContainer}>
+    <TouchableOpacity
+      onPress={onPress}
+      activeOpacity={0.7}
+      style={styles.itemContainer}
+    >
       <View style={styles.itemLeft}>
         <View style={styles.emojiContainer}>
           <Text style={styles.emoji}>{emoji}</Text>
@@ -87,8 +97,16 @@ function ExpenseItem({ item, onPress }: ExpenseItemProps) {
         <View style={styles.itemInfo}>
           <View style={styles.itemTopRow}>
             <Text style={styles.itemCategory}>{item.category}</Text>
-            <View style={[styles.sourceBadge, { backgroundColor: sourceBg + '22' }]}>
-              <Text style={[styles.sourceBadgeText, { color: sourceBg }] as TextStyle[]}>{sourceLabel}</Text>
+            <View
+              style={[styles.sourceBadge, { backgroundColor: sourceBg + "22" }]}
+            >
+              <Text
+                style={
+                  [styles.sourceBadgeText, { color: sourceBg }] as TextStyle[]
+                }
+              >
+                {sourceLabel}
+              </Text>
             </View>
           </View>
           <Text style={styles.itemDate}>{formatDate(item.date)}</Text>
@@ -109,14 +127,16 @@ function ExpenseItem({ item, onPress }: ExpenseItemProps) {
 export function ExpenseListScreen() {
   const navigation = useNavigation<NavProp>();
   const monthOptions = useMemo(() => buildMonthOptions(), []);
-  const [selectedYearMonth, setSelectedYearMonth] = useState<string>(monthOptions[0].yearMonth);
+  const [selectedYearMonth, setSelectedYearMonth] = useState<string>(
+    monthOptions[0].yearMonth,
+  );
 
   const allExpenses = useQuery(ExpenseModel);
 
   const filteredExpenses = useMemo(() => {
     return allExpenses
-      .filtered('date BEGINSWITH $0', selectedYearMonth)
-      .sorted('date', true);
+      .filtered("date BEGINSWITH $0", selectedYearMonth)
+      .sorted("date", true);
   }, [allExpenses, selectedYearMonth]);
 
   const totalAmount = useMemo(
@@ -128,25 +148,34 @@ export function ExpenseListScreen() {
     ({ item }: ListRenderItemInfo<ExpenseModel>) => (
       <ExpenseItem
         item={item}
-        onPress={() => navigation.navigate('ExpenseForm', { id: item._id.toHexString() })}
+        onPress={() =>
+          navigation.navigate("ExpenseForm", { id: item._id.toHexString() })
+        }
       />
     ),
     [navigation],
   );
 
-  const keyExtractor = useCallback((item: ExpenseModel) => item._id.toHexString(), []);
+  const keyExtractor = useCallback(
+    (item: ExpenseModel) => item._id.toHexString(),
+    [],
+  );
 
-  const currentMonthLabel = monthOptions.find((m) => m.yearMonth === selectedYearMonth)?.label;
+  const currentMonthLabel = monthOptions.find(
+    (m) => m.yearMonth === selectedYearMonth,
+  )?.label;
 
   return (
-    <SafeAreaView style={styles.safe} edges={['top']}>
+    <SafeAreaView style={styles.safe} edges={["top"]}>
       <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
 
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerAmountBadge}>
           <Text style={styles.headerAmountLabel}>Total Pengeluaran</Text>
-          <Text style={styles.headerAmount}>- {formatCurrency(totalAmount)}</Text>
+          <Text style={styles.headerAmount}>
+            - {formatCurrency(totalAmount)}
+          </Text>
         </View>
       </View>
 
@@ -154,8 +183,14 @@ export function ExpenseListScreen() {
       <View style={styles.summaryWrapper}>
         <Card style={styles.summaryCard}>
           <Text style={styles.summaryLabel}>Total {currentMonthLabel}</Text>
-          <AmountDisplay amount={totalAmount} size="xl" style={{ color: COLORS.expense }} />
-          <Text style={styles.summaryCount}>{filteredExpenses.length} transaksi</Text>
+          <AmountDisplay
+            amount={totalAmount}
+            size="xl"
+            style={{ color: COLORS.expense }}
+          />
+          <Text style={styles.summaryCount}>
+            {filteredExpenses.length} transaksi
+          </Text>
         </Card>
       </View>
 
@@ -170,7 +205,12 @@ export function ExpenseListScreen() {
               style={[styles.filterChip, isActive && styles.filterChipActive]}
               activeOpacity={0.7}
             >
-              <Text style={[styles.filterChipText, isActive ? styles.filterChipTextActive : null]}>
+              <Text
+                style={[
+                  styles.filterChipText,
+                  isActive ? styles.filterChipTextActive : null,
+                ]}
+              >
                 {opt.label}
               </Text>
             </TouchableOpacity>
@@ -195,7 +235,10 @@ export function ExpenseListScreen() {
       />
 
       {/* FAB */}
-      <FAB color={COLORS.expense} onPress={() => navigation.navigate('ExpenseForm', {})} />
+      <FAB
+        color={COLORS.expense}
+        onPress={() => navigation.navigate("ExpenseForm", {})}
+      />
     </SafeAreaView>
   );
 }
@@ -208,26 +251,26 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     backgroundColor: COLORS.background,
     paddingHorizontal: SPACING.lg,
     paddingTop: SPACING.lg,
     paddingBottom: SPACING.lg,
   },
   headerAmountBadge: {
-    alignItems: 'flex-start',
+    alignItems: "flex-start",
   },
   headerAmountLabel: {
     fontSize: FONTS.xs,
     color: COLORS.textMuted,
-    textTransform: 'uppercase',
+    textTransform: "uppercase",
     letterSpacing: 0.5,
   },
   headerAmount: {
     fontSize: FONTS.lg,
-    fontWeight: '700',
+    fontWeight: "700",
     color: COLORS.expense,
   },
   summaryWrapper: {
@@ -248,7 +291,7 @@ const styles = StyleSheet.create({
     marginTop: SPACING.xs,
   },
   filterRow: {
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingHorizontal: SPACING.xl,
     gap: SPACING.sm,
     marginBottom: SPACING.md,
@@ -268,10 +311,10 @@ const styles = StyleSheet.create({
   filterChipText: {
     fontSize: FONTS.sm,
     color: COLORS.textSecondary,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   filterChipTextActive: {
-    color: '#FFFFFF',
+    color: "#FFFFFF",
   },
   listContent: {
     paddingHorizontal: SPACING.xl,
@@ -279,9 +322,9 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   itemContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     backgroundColor: COLORS.card,
     borderRadius: RADIUS.lg,
     padding: SPACING.md,
@@ -290,8 +333,8 @@ const styles = StyleSheet.create({
     borderColor: COLORS.border,
   },
   itemLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     flex: 1,
   },
   emojiContainer: {
@@ -299,8 +342,8 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: RADIUS.md,
     backgroundColor: COLORS.surface,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     marginRight: SPACING.md,
   },
   emoji: {
@@ -310,13 +353,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   itemTopRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: SPACING.sm,
   },
   itemCategory: {
     fontSize: FONTS.md,
-    fontWeight: '600',
+    fontWeight: "600",
     color: COLORS.text,
   },
   sourceBadge: {
@@ -326,7 +369,7 @@ const styles = StyleSheet.create({
   },
   sourceBadgeText: {
     fontSize: FONTS.xs,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   itemDate: {
     fontSize: FONTS.sm,
@@ -340,7 +383,7 @@ const styles = StyleSheet.create({
   },
   itemAmount: {
     fontSize: FONTS.md,
-    fontWeight: '700',
+    fontWeight: "700",
     color: COLORS.expense,
     marginLeft: SPACING.sm,
   },

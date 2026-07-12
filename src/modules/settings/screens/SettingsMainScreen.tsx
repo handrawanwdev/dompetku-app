@@ -40,6 +40,7 @@ export type SettingsStackParamList = {
   PassiveIncomeNavScreen: undefined;
   FireCalculatorScreen: undefined;
   AchievementsScreen: undefined;
+  LevelGuideScreen: undefined;
   DiagnosisScreen: undefined;
   DevToolsScreen: undefined;
 };
@@ -216,6 +217,8 @@ export function SettingsMainScreen({ navigation }: Props) {
           <MenuItem emoji="💎" label="Passive Income" onPress={() => navigation.navigate('PassiveIncomeNavScreen')} />
           <View style={styles.separator} />
           <MenuItem emoji="🏆" label="Achievements" onPress={() => navigation.navigate('AchievementsScreen')} />
+          <View style={styles.separator} />
+          <MenuItem emoji="📖" label="Panduan Level" onPress={() => navigation.navigate('LevelGuideScreen')} />
         </Card>
 
         <Text style={styles.sectionTitle}>Laporan</Text>

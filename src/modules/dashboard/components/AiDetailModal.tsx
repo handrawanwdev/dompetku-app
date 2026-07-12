@@ -1,5 +1,11 @@
 import React from "react";
-import { Modal, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  Modal,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Text } from "../../../components/common";
 import { COLORS, FONTS, RADIUS, SPACING } from "../../../theme";
 import { formatCompact } from "../../../utils/currency";
@@ -13,19 +19,29 @@ interface Props {
 
 export function AiDetailModal({ visible, onClose, report }: Props) {
   return (
-    <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
+    <Modal
+      visible={visible}
+      transparent
+      animationType="slide"
+      onRequestClose={onClose}
+    >
       <View style={styles.overlay}>
         <View style={styles.sheet}>
-          <Text style={styles.title}>🤖 Dompetku AI — Analisa Lengkap</Text>
+          <Text style={styles.title}>
+            ✨ Asisten Finansial — Analisa Lengkap
+          </Text>
           <Text style={styles.subtitle}>
-            Financial Health: {report.healthLabel} · Score {report.profile.score}/100
+            Financial Health: {report.healthLabel} · Score{" "}
+            {report.profile.score}/100
           </Text>
 
           <ScrollView showsVerticalScrollIndicator={false}>
             <Text style={styles.sectionTitle}>Kenapa Score Kamu Segini?</Text>
             {report.scoreExplanation.positives.map((c) => (
               <View key={c.label} style={styles.checklistRow}>
-                <Text style={[styles.checklistIcon, { color: COLORS.income }]}>✓</Text>
+                <Text style={[styles.checklistIcon, { color: COLORS.income }]}>
+                  ✓
+                </Text>
                 <Text style={styles.checklistLabel}>
                   {c.label}{" "}
                   <Text style={{ color: COLORS.income, fontWeight: "700" }}>
@@ -36,10 +52,14 @@ export function AiDetailModal({ visible, onClose, report }: Props) {
             ))}
             {report.scoreExplanation.negatives.map((c) => (
               <View key={c.label} style={styles.checklistRow}>
-                <Text style={[styles.checklistIcon, { color: COLORS.warning }]}>⚠</Text>
+                <Text style={[styles.checklistIcon, { color: COLORS.warning }]}>
+                  ⚠
+                </Text>
                 <Text style={styles.checklistLabel}>
                   {c.label}{" "}
-                  <Text style={{ color: COLORS.textMuted }}>({c.points} poin)</Text>
+                  <Text style={{ color: COLORS.textMuted }}>
+                    ({c.points} poin)
+                  </Text>
                 </Text>
               </View>
             ))}
@@ -78,14 +98,16 @@ export function AiDetailModal({ visible, onClose, report }: Props) {
                 </Text>
                 <View style={styles.insightCard}>
                   <Text style={styles.insightDesc}>
-                    Dengan pace sekarang (
-                    {formatCompact(report.smartSuggestion.currentMonthlyAmount)}/bulan) →
-                    target tercapai {report.smartSuggestion.currentMonths} bulan lagi.
+                    Dengan kamu sekarang (
+                    {formatCompact(report.smartSuggestion.currentMonthlyAmount)}
+                    /bulan) → target tercapai{" "}
+                    {report.smartSuggestion.currentMonths} bulan lagi.
                   </Text>
                   <Text style={styles.insightDesc}>
                     Kalau naikkan ke{" "}
-                    {formatCompact(report.smartSuggestion.fasterMonthlyAmount)}/bulan →
-                    target tercapai {report.smartSuggestion.fasterMonths} bulan lagi.
+                    {formatCompact(report.smartSuggestion.fasterMonthlyAmount)}
+                    /bulan → target tercapai{" "}
+                    {report.smartSuggestion.fasterMonths} bulan lagi.
                   </Text>
                 </View>
               </>
@@ -102,7 +124,11 @@ export function AiDetailModal({ visible, onClose, report }: Props) {
 }
 
 const styles = StyleSheet.create({
-  overlay: { flex: 1, backgroundColor: "rgba(0,0,0,0.5)", justifyContent: "flex-end" },
+  overlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "flex-end",
+  },
   sheet: {
     backgroundColor: COLORS.surface,
     borderTopLeftRadius: RADIUS.xl,
@@ -124,7 +150,11 @@ const styles = StyleSheet.create({
     marginTop: SPACING.lg,
     marginBottom: SPACING.xs,
   },
-  checklistRow: { flexDirection: "row", alignItems: "center", paddingVertical: SPACING.sm },
+  checklistRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: SPACING.sm,
+  },
   checklistIcon: { fontSize: FONTS.lg, fontWeight: "700", width: 28 },
   checklistLabel: { fontSize: FONTS.md, color: COLORS.textSecondary },
   insightCard: {
@@ -133,8 +163,18 @@ const styles = StyleSheet.create({
     padding: SPACING.md,
     marginBottom: SPACING.sm,
   },
-  insightTitle: { fontSize: FONTS.sm, fontWeight: "700", color: COLORS.text, marginBottom: 4 },
-  insightDesc: { fontSize: FONTS.sm, color: COLORS.textSecondary, lineHeight: 19, marginTop: 2 },
+  insightTitle: {
+    fontSize: FONTS.sm,
+    fontWeight: "700",
+    color: COLORS.text,
+    marginBottom: 4,
+  },
+  insightDesc: {
+    fontSize: FONTS.sm,
+    color: COLORS.textSecondary,
+    lineHeight: 19,
+    marginTop: 2,
+  },
   close: {
     marginTop: SPACING.lg,
     paddingVertical: SPACING.md,

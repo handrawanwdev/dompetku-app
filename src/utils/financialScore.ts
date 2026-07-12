@@ -83,20 +83,102 @@ export interface FinancialLevel {
   icon: string;
   min: number;
   max: number;
+  /** Plain-language explanation of what this level means, shown in the level detail modal. */
+  description: string;
 }
 
 // PRD §4 — ranges are inclusive of min, exclusive of max (level 9 caps at 100 inclusive).
 export const FINANCIAL_LEVELS: FinancialLevel[] = [
-  { level: 0, name: 'Financial Chaos', icon: '🌪️', min: 0, max: 10 },
-  { level: 1, name: 'Awareness', icon: '👁️', min: 10, max: 20 },
-  { level: 2, name: 'Survivor', icon: '🛟', min: 20, max: 30 },
-  { level: 3, name: 'Stable', icon: '⚖️', min: 30, max: 45 },
-  { level: 4, name: 'Secure', icon: '🛡️', min: 45, max: 60 },
-  { level: 5, name: 'Flexible', icon: '🤸', min: 60, max: 75 },
-  { level: 6, name: 'Financial Independent', icon: '🦅', min: 75, max: 85 },
-  { level: 7, name: 'Financial Freedom', icon: '🕊️', min: 85, max: 95 },
-  { level: 8, name: 'Wealth Builder', icon: '🏗️', min: 95, max: 99 },
-  { level: 9, name: 'Legacy', icon: '👑', min: 99, max: 101 },
+  {
+    level: 0,
+    name: 'Financial Chaos',
+    icon: '🌪️',
+    min: 0,
+    max: 10,
+    description:
+      'Keuangan belum tertata — pengeluaran sering lebih besar dari pemasukan, belum ada tabungan sama sekali.',
+  },
+  {
+    level: 1,
+    name: 'Awareness',
+    icon: '👁️',
+    min: 10,
+    max: 20,
+    description:
+      'Mulai sadar dan mencatat arus keuangan sendiri, tapi belum punya strategi atau target yang jelas.',
+  },
+  {
+    level: 2,
+    name: 'Survivor',
+    icon: '🛟',
+    min: 20,
+    max: 30,
+    description:
+      'Bisa bertahan tiap bulan, tapi masih pas-pasan dan rentan kalau ada kebutuhan mendadak.',
+  },
+  {
+    level: 3,
+    name: 'Stable',
+    icon: '⚖️',
+    min: 30,
+    max: 45,
+    description:
+      'Arus kas mulai stabil dan positif tiap bulan, mulai terbentuk kebiasaan menabung.',
+  },
+  {
+    level: 4,
+    name: 'Secure',
+    icon: '🛡️',
+    min: 45,
+    max: 60,
+    description:
+      'Dana darurat mulai terbentuk dan hutang terkendali — kalau ada kejutan finansial, gak langsung goyah.',
+  },
+  {
+    level: 5,
+    name: 'Flexible',
+    icon: '🤸',
+    min: 60,
+    max: 75,
+    description:
+      'Keuangan cukup lega buat mulai investasi rutin dan mengejar tujuan finansial jangka panjang.',
+  },
+  {
+    level: 6,
+    name: 'Financial Independent',
+    icon: '🦅',
+    min: 75,
+    max: 85,
+    description:
+      'Aset dan passive income mulai signifikan — hidup gak lagi 100% bergantung ke gaji bulanan.',
+  },
+  {
+    level: 7,
+    name: 'Financial Freedom',
+    icon: '🕊️',
+    min: 85,
+    max: 95,
+    description:
+      'Passive income sudah cukup menutup kebutuhan hidup bulanan. Kerja jadi pilihan, bukan keharusan buat bertahan.',
+  },
+  {
+    level: 8,
+    name: 'Wealth Builder',
+    icon: '🏗️',
+    min: 95,
+    max: 99,
+    description:
+      'Fokus bergeser dari "cukup" ke melipatgandakan kekayaan lewat aset produktif dan investasi lanjutan.',
+  },
+  {
+    level: 9,
+    name: 'Legacy',
+    icon: '👑',
+    min: 99,
+    max: 101,
+    description:
+      'Kekayaan sudah cukup untuk diwariskan atau memberi dampak jangka panjang ke luar diri sendiri.',
+  },
 ];
 
 export function getLevel(score: number): FinancialLevel {

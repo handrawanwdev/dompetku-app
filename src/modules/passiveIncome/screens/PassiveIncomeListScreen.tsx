@@ -10,6 +10,7 @@ import { Card } from '../../../components/common/Card';
 import { ProgressBar } from '../../../components/common/ProgressBar';
 import { EmptyState } from '../../../components/common/EmptyState';
 import { FAB } from '../../../components/common/FAB';
+import { BackButton } from '../../../components/common/BackButton';
 import { PassiveIncomeModel } from '../../../models/PassiveIncomeModel';
 import { ExpenseModel } from '../../../models/ExpenseModel';
 import { formatCurrency, formatCompact } from '../../../utils/currency';
@@ -43,6 +44,7 @@ export function PassiveIncomeListScreen() {
       <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
 
       <View style={styles.header}>
+        <BackButton onPress={() => navigation.goBack()} color={COLORS.text} />
         <Text style={styles.count}>{entries.length} sumber</Text>
       </View>
 
@@ -101,7 +103,7 @@ export function PassiveIncomeListScreen() {
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: COLORS.background },
-  header: { flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', padding: SPACING.lg, paddingBottom: 0 },
+  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: SPACING.lg, paddingBottom: 0 },
   count: { fontSize: FONTS.sm, color: COLORS.textSecondary },
   progressCard: { marginHorizontal: SPACING.lg, marginTop: SPACING.md },
   progressLabel: { fontSize: FONTS.sm, color: COLORS.textMuted, fontWeight: '600' },

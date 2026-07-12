@@ -25,8 +25,9 @@ import { CurrencyInput } from '../../../components/common/CurrencyInput';
 import { FAB } from '../../../components/common/FAB';
 import { InvestmentModel } from '../../../models/InvestmentModel';
 import { SavingModel } from '../../../models/SavingModel';
+import { PassiveIncomeModel } from '../../../models/PassiveIncomeModel';
 import { formatCurrency, formatCompact, parseCurrency } from '../../../utils/currency';
-import { calcROI, calcProfitLoss } from '../../../utils/finance';
+import { calcROI, calcProfitLoss, PASSIVE_INCOME_FREQUENCIES } from '../../../utils/finance';
 import { formatDate, today } from '../../../utils/date';
 import { routeSaleProceeds } from '../../../services/AllocationService';
 
@@ -73,6 +74,10 @@ export function InvestmentListScreen() {
   const [sellPriceInput, setSellPriceInput] = useState('');
   const [destination, setDestination] = useState<'cash' | 'savings'>('cash');
   const [savingId, setSavingId] = useState('');
+
+  const [dividendTarget, setDividendTarget] = useState<InvestmentModel | null>(null);
+  const [dividendAmountInput, setDividendAmountInput] = useState('');
+  const [dividendFrequency, setDividendFrequency] = useState<'monthly' | 'yearly'>('monthly');
 
   const summary = useMemo(() => {
     const totalInvested = activeInvestments.reduce((s, i) => s + i.buyPrice * i.quantity, 0);
@@ -121,6 +126,34 @@ export function InvestmentListScreen() {
       sellTarget.sellDate = date;
     });
     closeSellModal();
+  };
+
+  const openDividendModal = (investment: InvestmentModel) => {
+    setDividendTarget(investment);
+    setDividendAmountInput('');
+    setDividendFrequency('monthly');
+  };
+
+  const closeDividendModal = () => setDividendTarget(null);
+
+  const dividendAmount = parseCurrency(dividendAmountInput);
+
+  const confirmDividend = () => {
+    if (!dividendTarget) return;
+    if (!dividendAmount || dividendAmount <= 0) {
+      Alert.alert('Validasi', 'Isi nominal dividen');
+      return;
+    }
+    realm.write(() => {
+      realm.create(PassiveIncomeModel, {
+        category: 'dividen',
+        amount: dividendAmount,
+        frequency: dividendFrequency,
+        note: `Dividen ${dividendTarget.name}`,
+      });
+    });
+    closeDividendModal();
+    Alert.alert('Tersimpan', 'Dividen dicatat sebagai passive income');
   };
 
   return (
@@ -199,9 +232,14 @@ export function InvestmentListScreen() {
                   </Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.sellBtn} onPress={() => openSellModal(item)}>
-                <Text style={styles.sellBtnText}>💸 Jual</Text>
-              </TouchableOpacity>
+              <View style={styles.actionRow}>
+                <TouchableOpacity style={[styles.sellBtn, styles.actionBtnHalf, styles.dividendBtn]} onPress={() => openDividendModal(item)}>
+                  <Text style={styles.dividendBtnText}>💰 Dividen</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.sellBtn, styles.actionBtnHalf]} onPress={() => openSellModal(item)}>
+                  <Text style={styles.sellBtnText}>💸 Jual</Text>
+                </TouchableOpacity>
+              </View>
             </Card>
           );
         }}
@@ -308,6 +346,56 @@ export function InvestmentListScreen() {
           </View>
         </KeyboardAvoidingView>
       </Modal>
+
+      {/* Dividend Modal */}
+      <Modal visible={!!dividendTarget} transparent animationType="slide" onRequestClose={closeDividendModal}>
+        <KeyboardAvoidingView
+          style={styles.modalOverlay}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        >
+          <TouchableOpacity style={styles.modalBackdrop} onPress={closeDividendModal} activeOpacity={1} />
+          <View style={styles.modalSheet}>
+            <Text style={styles.modalTitle}>💰 Catat Dividen</Text>
+            {dividendTarget && (
+              <>
+                <View style={styles.modalAssetBox}>
+                  <Text style={styles.modalAssetLabel}>Aset</Text>
+                  <Text style={styles.modalAssetName}>{dividendTarget.name}</Text>
+                </View>
+
+                <Text style={styles.fieldLabel}>Nominal Dividen</Text>
+                <CurrencyInput
+                  value={dividendAmountInput}
+                  onChangeText={setDividendAmountInput}
+                  placeholder="500.000"
+                />
+
+                <Text style={styles.fieldLabel}>Frekuensi</Text>
+                <View style={styles.destRow}>
+                  {PASSIVE_INCOME_FREQUENCIES.map((f) => (
+                    <TouchableOpacity
+                      key={f.value}
+                      style={[styles.destOption, dividendFrequency === f.value && styles.destOptionActive]}
+                      onPress={() => setDividendFrequency(f.value)}
+                    >
+                      <Text style={[styles.destText, dividendFrequency === f.value && styles.destTextActive]}>{f.label}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+
+                <Text style={styles.dividendHint}>
+                  Dicatat sebagai sumber passive income "Dividen {dividendTarget.name}" — bisa diedit di menu Passive Income.
+                </Text>
+
+                <View style={styles.modalActions}>
+                  <Button title="Batal" onPress={closeDividendModal} variant="secondary" style={styles.modalBtnHalf} />
+                  <Button title="Simpan" onPress={confirmDividend} style={styles.modalBtnHalf} />
+                </View>
+              </>
+            )}
+          </View>
+        </KeyboardAvoidingView>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -344,8 +432,9 @@ const styles = StyleSheet.create({
   plRow: { flexDirection: 'row', justifyContent: 'space-between', borderTopWidth: 1, borderTopColor: COLORS.border, paddingTop: SPACING.sm, marginTop: SPACING.xs },
   plLabel: { fontSize: FONTS.sm, color: COLORS.textSecondary },
   plValue: { fontSize: FONTS.sm, fontWeight: '700' },
+  actionRow: { flexDirection: 'row', gap: SPACING.sm, marginTop: SPACING.sm },
+  actionBtnHalf: { flex: 1, marginTop: 0 },
   sellBtn: {
-    marginTop: SPACING.sm,
     paddingVertical: SPACING.sm,
     borderRadius: RADIUS.md,
     borderWidth: 1,
@@ -353,6 +442,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   sellBtnText: { fontSize: FONTS.sm, fontWeight: '700', color: COLORS.investment },
+  dividendBtn: { borderColor: COLORS.income },
+  dividendBtnText: { fontSize: FONTS.sm, fontWeight: '700', color: COLORS.income },
 
   soldSection: { marginTop: SPACING.lg },
   soldTitle: {
@@ -388,6 +479,7 @@ const styles = StyleSheet.create({
     borderColor: COLORS.border, padding: SPACING.md, color: COLORS.text, fontSize: FONTS.md,
   },
   profitBox: { borderRadius: RADIUS.md, padding: SPACING.md, marginTop: SPACING.sm },
+  dividendHint: { fontSize: FONTS.xs, color: COLORS.textMuted, marginTop: SPACING.md, lineHeight: 17 },
   profitText: { fontSize: FONTS.sm, fontWeight: '700' },
   destRow: { flexDirection: 'row', gap: SPACING.sm },
   destOption: {

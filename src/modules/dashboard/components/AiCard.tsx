@@ -21,7 +21,7 @@ export function AiCard({ report, onPress }: Props) {
     <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
       <Card style={styles.card} padding={SPACING.xl}>
         <View style={styles.header}>
-          <Text style={styles.title}>🤖 Dompetku AI</Text>
+          <Text style={styles.title}>✨ Asisten Finansial</Text>
           <View style={[styles.healthBadge, { backgroundColor: color + "22" }]}>
             <Text style={[styles.healthBadgeText, { color }]}>
               {report.healthLabel}

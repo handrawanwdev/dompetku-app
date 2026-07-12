@@ -24,6 +24,7 @@ import { ProgressBar } from '../../../components/common/ProgressBar';
 import { EmptyState } from '../../../components/common/EmptyState';
 import { CurrencyInput } from '../../../components/common/CurrencyInput';
 import { FAB } from '../../../components/common/FAB';
+import { BackButton } from '../../../components/common/BackButton';
 import { GoalModel } from '../../../models/GoalModel';
 import { SavingModel } from '../../../models/SavingModel';
 import { formatCurrency, formatCompact, parseCurrency } from '../../../utils/currency';
@@ -82,6 +83,7 @@ export function GoalsListScreen() {
       <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
 
       <View style={styles.header}>
+        <BackButton onPress={() => navigation.goBack()} color={COLORS.text} />
         <Text style={styles.count}>{goals.length} goal</Text>
       </View>
 
@@ -194,7 +196,7 @@ export function GoalsListScreen() {
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: COLORS.background },
-  header: { flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', padding: SPACING.lg, paddingBottom: SPACING.md },
+  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: SPACING.lg, paddingBottom: SPACING.md },
   count: { fontSize: FONTS.sm, color: COLORS.textSecondary },
   listContent: { padding: SPACING.lg, paddingBottom: 100, flexGrow: 1 },
   goalCard: { marginBottom: SPACING.sm },

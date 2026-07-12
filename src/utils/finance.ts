@@ -459,14 +459,38 @@ export interface FireInfo {
   currentAmount: number;
   progressPct: number;
   remaining: number;
+  annualExpense: number;
+  annualPassiveIncome: number;
+  netAnnualNeed: number;
 }
 
-/** FIRE Number = annual expense × 25 (4% safe withdrawal rate). */
-export function calcFireProgress(monthlyExpense: number, currentAmount: number): FireInfo {
-  const fireNumber = monthlyExpense * 12 * 25;
-  const progressPct = fireNumber > 0 ? Math.min((currentAmount / fireNumber) * 100, 100) : 0;
+/**
+ * FIRE Number = (annual expense − annual passive income) × 25 (4% safe withdrawal rate).
+ * Passive income already covers part of living costs, so the portfolio only needs to
+ * fund the remaining gap. `currentAmount` should be liquid/productive assets only
+ * (savings + investments − debt) — personal-use physical assets don't count.
+ */
+export function calcFireProgress(
+  monthlyExpense: number,
+  currentAmount: number,
+  monthlyPassiveIncome = 0,
+): FireInfo {
+  const annualExpense = monthlyExpense * 12;
+  const annualPassiveIncome = monthlyPassiveIncome * 12;
+  const netAnnualNeed = Math.max(0, annualExpense - annualPassiveIncome);
+  const fireNumber = netAnnualNeed * 25;
+  const progressPct =
+    fireNumber > 0 ? Math.min((currentAmount / fireNumber) * 100, 100) : annualExpense > 0 ? 100 : 0;
   const remaining = Math.max(fireNumber - currentAmount, 0);
-  return { fireNumber, currentAmount, progressPct, remaining };
+  return {
+    fireNumber,
+    currentAmount,
+    progressPct,
+    remaining,
+    annualExpense,
+    annualPassiveIncome,
+    netAnnualNeed,
+  };
 }
 
 // ─── Passive Income Tracker (PRD §13) ──────────────────────────────────────────

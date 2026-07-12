@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback } from "react";
 import {
   View,
   FlatList,
@@ -6,18 +6,24 @@ import {
   StyleSheet,
   StatusBar,
   ListRenderItemInfo,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useQuery } from '@realm/react';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useNavigation } from '@react-navigation/native';
-import dayjs from 'dayjs';
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useQuery } from "@realm/react";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
+import dayjs from "dayjs";
 
-import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
-import { Card, Text, EmptyState, AmountDisplay, FAB } from '../../../components/common';
-import { IncomeModel } from '../../../models/IncomeModel';
-import { formatCurrency } from '../../../utils/currency';
-import { formatDate } from '../../../utils/date';
+import { COLORS, FONTS, SPACING, RADIUS } from "../../../theme";
+import {
+  Card,
+  Text,
+  EmptyState,
+  AmountDisplay,
+  FAB,
+} from "../../../components/common";
+import { IncomeModel } from "../../../models/IncomeModel";
+import { formatCurrency } from "../../../utils/currency";
+import { formatDate } from "../../../utils/date";
 
 // ─── Navigation Types ─────────────────────────────────────────────────────────
 
@@ -37,10 +43,10 @@ interface MonthOption {
 
 function buildMonthOptions(): MonthOption[] {
   return [0, 1, 2].map((offset) => {
-    const d = dayjs().subtract(offset, 'month');
+    const d = dayjs().subtract(offset, "month");
     return {
-      label: d.format('MMM YY'),
-      yearMonth: d.format('YYYY-MM'),
+      label: d.format("MMM YY"),
+      yearMonth: d.format("YYYY-MM"),
     };
   });
 }
@@ -48,12 +54,12 @@ function buildMonthOptions(): MonthOption[] {
 // ─── Income Item ──────────────────────────────────────────────────────────────
 
 const CATEGORY_EMOJIS: Record<string, string> = {
-  Gaji: '💼',
-  Freelance: '💻',
-  Bonus: '🎁',
-  Investasi: '📈',
-  Bisnis: '🏪',
-  Lainnya: '💰',
+  Gaji: "💼",
+  Freelance: "💻",
+  Bonus: "🎁",
+  Investasi: "📈",
+  Bisnis: "🏪",
+  Lainnya: "💰",
 };
 
 interface IncomeItemProps {
@@ -62,9 +68,13 @@ interface IncomeItemProps {
 }
 
 function IncomeItem({ item, onPress }: IncomeItemProps) {
-  const emoji = CATEGORY_EMOJIS[item.category] ?? '💰';
+  const emoji = CATEGORY_EMOJIS[item.category] ?? "💰";
   return (
-    <TouchableOpacity onPress={onPress} activeOpacity={0.7} style={styles.itemContainer}>
+    <TouchableOpacity
+      onPress={onPress}
+      activeOpacity={0.7}
+      style={styles.itemContainer}
+    >
       <View style={styles.itemLeft}>
         <View style={styles.emojiContainer}>
           <Text style={styles.emoji}>{emoji}</Text>
@@ -89,14 +99,16 @@ function IncomeItem({ item, onPress }: IncomeItemProps) {
 export function IncomeListScreen() {
   const navigation = useNavigation<NavProp>();
   const monthOptions = useMemo(() => buildMonthOptions(), []);
-  const [selectedYearMonth, setSelectedYearMonth] = useState<string>(monthOptions[0].yearMonth);
+  const [selectedYearMonth, setSelectedYearMonth] = useState<string>(
+    monthOptions[0].yearMonth,
+  );
 
   const allIncomes = useQuery(IncomeModel);
 
   const filteredIncomes = useMemo(() => {
     return allIncomes
-      .filtered('date BEGINSWITH $0', selectedYearMonth)
-      .sorted('date', true);
+      .filtered("date BEGINSWITH $0", selectedYearMonth)
+      .sorted("date", true);
   }, [allIncomes, selectedYearMonth]);
 
   const totalAmount = useMemo(
@@ -108,16 +120,21 @@ export function IncomeListScreen() {
     ({ item }: ListRenderItemInfo<IncomeModel>) => (
       <IncomeItem
         item={item}
-        onPress={() => navigation.navigate('IncomeForm', { id: item._id.toHexString() })}
+        onPress={() =>
+          navigation.navigate("IncomeForm", { id: item._id.toHexString() })
+        }
       />
     ),
     [navigation],
   );
 
-  const keyExtractor = useCallback((item: IncomeModel) => item._id.toHexString(), []);
+  const keyExtractor = useCallback(
+    (item: IncomeModel) => item._id.toHexString(),
+    [],
+  );
 
   return (
-    <SafeAreaView style={styles.safe} edges={['top']}>
+    <SafeAreaView style={styles.safe} edges={["top"]}>
       <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
 
       {/* Header */}
@@ -131,9 +148,18 @@ export function IncomeListScreen() {
       {/* Summary Card */}
       <View style={styles.summaryWrapper}>
         <Card style={styles.summaryCard}>
-          <Text style={styles.summaryLabel}>Total {monthOptions.find(m => m.yearMonth === selectedYearMonth)?.label}</Text>
-          <AmountDisplay amount={totalAmount} size="xl" style={{ color: COLORS.income }} />
-          <Text style={styles.summaryCount}>{filteredIncomes.length} transaksi</Text>
+          <Text style={styles.summaryLabel}>
+            Total{" "}
+            {monthOptions.find((m) => m.yearMonth === selectedYearMonth)?.label}
+          </Text>
+          <AmountDisplay
+            amount={totalAmount}
+            size="xl"
+            style={{ color: COLORS.income }}
+          />
+          <Text style={styles.summaryCount}>
+            {filteredIncomes.length} transaksi
+          </Text>
         </Card>
       </View>
 
@@ -148,7 +174,12 @@ export function IncomeListScreen() {
               style={[styles.filterChip, isActive && styles.filterChipActive]}
               activeOpacity={0.7}
             >
-              <Text style={[styles.filterChipText, isActive ? styles.filterChipTextActive : null]}>
+              <Text
+                style={[
+                  styles.filterChipText,
+                  isActive ? styles.filterChipTextActive : null,
+                ]}
+              >
                 {opt.label}
               </Text>
             </TouchableOpacity>
@@ -173,7 +204,10 @@ export function IncomeListScreen() {
       />
 
       {/* FAB */}
-      <FAB color={COLORS.income} onPress={() => navigation.navigate('IncomeForm', {})} />
+      <FAB
+        color={COLORS.income}
+        onPress={() => navigation.navigate("IncomeForm", {})}
+      />
     </SafeAreaView>
   );
 }
@@ -186,26 +220,26 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     backgroundColor: COLORS.background,
     paddingHorizontal: SPACING.lg,
     paddingTop: SPACING.lg,
     paddingBottom: SPACING.lg,
   },
   headerAmountBadge: {
-    alignItems: 'flex-start',
+    alignItems: "flex-start",
   },
   headerAmountLabel: {
     fontSize: FONTS.xs,
     color: COLORS.textMuted,
-    textTransform: 'uppercase',
+    textTransform: "uppercase",
     letterSpacing: 0.5,
   },
   headerAmount: {
     fontSize: FONTS.lg,
-    fontWeight: '700',
+    fontWeight: "700",
     color: COLORS.income,
   },
   summaryWrapper: {
@@ -226,7 +260,7 @@ const styles = StyleSheet.create({
     marginTop: SPACING.xs,
   },
   filterRow: {
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingHorizontal: SPACING.xl,
     gap: SPACING.sm,
     marginBottom: SPACING.md,
@@ -246,10 +280,10 @@ const styles = StyleSheet.create({
   filterChipText: {
     fontSize: FONTS.sm,
     color: COLORS.textSecondary,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   filterChipTextActive: {
-    color: '#FFFFFF',
+    color: "#FFFFFF",
   },
   listContent: {
     paddingHorizontal: SPACING.xl,
@@ -257,9 +291,9 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   itemContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     backgroundColor: COLORS.card,
     borderRadius: RADIUS.lg,
     padding: SPACING.md,
@@ -268,8 +302,8 @@ const styles = StyleSheet.create({
     borderColor: COLORS.border,
   },
   itemLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     flex: 1,
   },
   emojiContainer: {
@@ -277,8 +311,8 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: RADIUS.md,
     backgroundColor: COLORS.surface,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     marginRight: SPACING.md,
   },
   emoji: {
@@ -289,7 +323,7 @@ const styles = StyleSheet.create({
   },
   itemCategory: {
     fontSize: FONTS.md,
-    fontWeight: '600',
+    fontWeight: "600",
     color: COLORS.text,
   },
   itemDate: {
@@ -304,7 +338,7 @@ const styles = StyleSheet.create({
   },
   itemAmount: {
     color: COLORS.income,
-    fontWeight: '700',
+    fontWeight: "700",
     marginLeft: SPACING.sm,
   },
 });
