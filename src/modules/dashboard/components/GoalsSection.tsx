@@ -23,7 +23,7 @@ export function GoalsSection({ goals, savings }: Props) {
       <SectionTitle>🎯 Financial Goals</SectionTitle>
       {goals.slice(0, 3).map((goal) => {
         const linked = savings.find((s) => s._id.toHexString() === goal.savingId);
-        const balance = goal.savingId ? (linked?.balance ?? 0) : goal.manualAmount;
+        const balance = linked?.balance ?? 0;
         const progress = calcGoalProgress(balance, goal.target);
         return (
           <Card

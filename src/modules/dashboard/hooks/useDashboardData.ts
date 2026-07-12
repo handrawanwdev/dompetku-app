@@ -34,6 +34,8 @@ import {
 } from "../../../services/NotificationService";
 import { saveFinancialScoreSnapshot } from "../../../services/FinancialScoreService";
 import { checkAndUnlockAchievements } from "../../../services/AchievementService";
+import { getKasBebasBalance } from "../../../services/AllocationService";
+import { runPassiveIncomeSchedule } from "../../../services/PassiveIncomeScheduler";
 import {
   computeFinancialScore,
   getLevel,
@@ -58,6 +60,11 @@ export function useDashboardData() {
   const physicalAssets = useQuery(PhysicalAssetModel).filtered("sold == false");
   const goals = useQuery(GoalModel);
   const passiveIncomes = useQuery(PassiveIncomeModel);
+
+  useEffect(() => {
+    realm.write(() => runPassiveIncomeSchedule(realm));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [realm]);
 
   useEffect(() => {
     refreshDebtReminders(
@@ -112,11 +119,7 @@ export function useDashboardData() {
       .filtered("date >= $0 AND date <= $1", prevMonthStart, prevMonthEnd)
       .reduce((s, e) => s + e.amount, 0);
 
-    const totalCashIncome = incomes.reduce((s, i) => s + i.allocationCash, 0);
-    const totalCashExpense = expenses
-      .filtered('source == "cash"')
-      .reduce((s, e) => s + e.amount, 0);
-    const cash = totalCashIncome - totalCashExpense;
+    const cash = getKasBebasBalance(realm);
 
     const totalSavings = savings.reduce((s, sv) => s + sv.balance, 0);
 

@@ -5,10 +5,9 @@ export class GoalModel extends Realm.Object<GoalModel> {
   name!: string;
   target!: number;
   deadline!: string;
+  /** SavingModel._id (hex) — every goal must be linked to a saving pos */
   savingId!: string;
   emoji!: string;
-  /** Manual progress amount, used when savingId is empty (unlinked goal) */
-  manualAmount!: number;
   createdAt!: Date;
 
   static schema: ObjectSchema = {
@@ -21,7 +20,6 @@ export class GoalModel extends Realm.Object<GoalModel> {
       deadline: 'string',
       savingId: 'string',
       emoji: { type: 'string', default: '🎯' },
-      manualAmount: { type: 'double', default: 0 },
       createdAt: { type: 'date', default: () => new Date() },
     },
   };

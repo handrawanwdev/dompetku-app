@@ -8,6 +8,10 @@ export class PassiveIncomeModel extends Realm.Object<PassiveIncomeModel> {
   /** 'monthly' | 'yearly' */
   frequency!: string;
   note!: string;
+  /** true = recurring stream, auto-generates Income on schedule (1st of month / 1 Jan). false = one-off realized event (e.g. dividend), already credited to cash at creation. */
+  recurring!: boolean;
+  /** Last period this entry auto-generated an Income for ('YYYY-MM' monthly, 'YYYY' yearly). Prevents double-generation. */
+  lastGeneratedPeriod!: string;
   createdAt!: Date;
 
   static schema: ObjectSchema = {
@@ -19,6 +23,8 @@ export class PassiveIncomeModel extends Realm.Object<PassiveIncomeModel> {
       amount: 'double',
       frequency: { type: 'string', default: 'monthly' },
       note: { type: 'string', default: '' },
+      recurring: { type: 'bool', default: true },
+      lastGeneratedPeriod: { type: 'string', default: '' },
       createdAt: { type: 'date', default: () => new Date() },
     },
   };

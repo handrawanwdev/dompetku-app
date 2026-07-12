@@ -51,7 +51,6 @@ export function GoalFormScreen({ navigation, route }: Props) {
   const [target, setTarget] = useState(existing?.target?.toString() ?? '');
   const [deadline, setDeadline] = useState(existing?.deadline ?? '');
   const [savingId, setSavingId] = useState(existing?.savingId ?? '');
-  const [manualAmount, setManualAmount] = useState(existing?.manualAmount?.toString() ?? '0');
   const [showSavingPicker, setShowSavingPicker] = useState(false);
 
   const selectedSaving = savings.find(s => s._id.toHexString() === savingId);
@@ -61,7 +60,7 @@ export function GoalFormScreen({ navigation, route }: Props) {
     const targetAmount = parseFloat(target.replace(/[^0-9.]/g, ''));
     if (!targetAmount) { Alert.alert('Error', 'Target amount harus diisi'); return; }
     if (!deadline) { Alert.alert('Error', 'Deadline harus diisi'); return; }
-    const manualAmt = parseFloat(manualAmount.replace(/[^0-9.]/g, '')) || 0;
+    if (!savingId) { Alert.alert('Error', 'Pilih tabungan untuk goal ini'); return; }
 
     realm.write(() => {
       if (existing) {
@@ -70,9 +69,8 @@ export function GoalFormScreen({ navigation, route }: Props) {
         existing.target = targetAmount;
         existing.deadline = deadline;
         existing.savingId = savingId;
-        existing.manualAmount = manualAmt;
       } else {
-        realm.create(GoalModel, { emoji, name, target: targetAmount, deadline, savingId, manualAmount: manualAmt });
+        realm.create(GoalModel, { emoji, name, target: targetAmount, deadline, savingId });
       }
     });
     navigation.goBack();
@@ -122,31 +120,16 @@ export function GoalFormScreen({ navigation, route }: Props) {
 
           <DateInput label="Deadline" value={deadline} onChange={setDeadline} />
 
-          <Text style={styles.fieldLabel}>Linked Tabungan (opsional)</Text>
+          <Text style={styles.fieldLabel}>Tabungan (wajib)</Text>
           <TouchableOpacity style={styles.pickerBtn} onPress={() => setShowSavingPicker(true)}>
             <Text style={selectedSaving ? styles.pickerValue : styles.pickerPlaceholder}>
               {selectedSaving ? `${selectedSaving.emoji} ${selectedSaving.name}` : 'Pilih tabungan...'}
             </Text>
             <Text style={styles.pickerArrow}>›</Text>
           </TouchableOpacity>
-          {savingId && (
-            <TouchableOpacity onPress={() => setSavingId('')}>
-              <Text style={{ fontSize: FONTS.xs, color: COLORS.danger, marginTop: 4 }}>✕ Hapus link tabungan</Text>
-            </TouchableOpacity>
-          )}
-
-          {!savingId && (
-            <>
-              <CurrencyInput
-                label="Sudah Terkumpul"
-                value={manualAmount}
-                onChangeText={setManualAmount}
-              />
-              <Text style={{ fontSize: FONTS.xs, color: COLORS.textMuted, marginTop: -SPACING.sm, marginBottom: SPACING.sm }}>
-                Goal tanpa link tabungan — progress dicatat manual
-              </Text>
-            </>
-          )}
+          <Text style={{ fontSize: FONTS.xs, color: COLORS.textMuted, marginTop: -SPACING.sm, marginBottom: SPACING.sm }}>
+            Progress goal mengikuti saldo tabungan yang di-link
+          </Text>
         </Card>
 
         <Button title={editId ? 'Simpan Perubahan' : 'Buat Goal'} onPress={handleSave} fullWidth style={{ marginTop: SPACING.xl }} />

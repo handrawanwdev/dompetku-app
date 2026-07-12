@@ -86,6 +86,7 @@ export function seedDummyData(realm: Realm): SeedSummary {
     [
       { name: 'Dana Darurat', target: 20_000_000, balance: 6_500_000, emoji: '🚨' },
       { name: 'Liburan', target: 10_000_000, balance: 2_000_000, emoji: '✈️' },
+      { name: 'Beli Motor', target: 25_000_000, balance: 5_000_000, emoji: '🏍️' },
     ].forEach(s => {
       const saving = realm.create(SavingModel, { ...s });
       savings.push(saving);
@@ -189,13 +190,13 @@ export function seedDummyData(realm: Realm): SeedSummary {
     });
     summary.physicalAssets += 1;
 
+    const motorSaving = savings.find(s => s.name === 'Beli Motor')!;
     realm.create(GoalModel, {
       name: 'Beli Motor',
       target: 25_000_000,
       deadline: dateDaysAgo(-180),
-      savingId: '',
+      savingId: motorSaving._id.toHexString(),
       emoji: '🏍️',
-      manualAmount: 5_000_000,
     });
     summary.goals += 1;
 

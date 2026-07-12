@@ -17,6 +17,7 @@ import Realm from 'realm';
 import { useRealm, useQuery, useObject } from '@realm/react';
 
 import { SavingModel, SavingHistoryModel } from '../../../models';
+import { depositToSavingFromCash, withdrawFromSavingToCash } from '../../../services/AllocationService';
 import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
 import { formatCurrency, parseCurrency } from '../../../utils/currency';
 import { formatDate, today } from '../../../utils/date';
@@ -105,10 +106,6 @@ export function SavingsDetailScreen({ navigation, route }: Props) {
       Alert.alert('Validasi', 'Tanggal harus diisi');
       return;
     }
-    if (modalType === 'withdraw' && amt > saving.balance) {
-      Alert.alert('Validasi', 'Saldo tidak mencukupi');
-      return;
-    }
     if (modalType === 'transfer') {
       if (!targetSavingId) {
         Alert.alert('Validasi', 'Pilih tabungan tujuan terlebih dahulu');
@@ -120,31 +117,23 @@ export function SavingsDetailScreen({ navigation, route }: Props) {
       }
     }
 
+    if (modalType === 'deposit' || modalType === 'withdraw') {
+      const result = realm.write(() =>
+        modalType === 'deposit'
+          ? depositToSavingFromCash(realm, { savingId: id, amount: amt, date, note: note.trim() })
+          : withdrawFromSavingToCash(realm, { savingId: id, amount: amt, date, note: note.trim() }),
+      );
+      if (!result.ok) {
+        Alert.alert('Validasi', result.error);
+        return;
+      }
+      closeModal();
+      return;
+    }
+
     try {
       realm.write(() => {
-        if (modalType === 'deposit') {
-          saving.balance += amt;
-          realm.create(SavingHistoryModel, {
-            _id: new Realm.BSON.ObjectId(),
-            savingId: id,
-            type: 'deposit',
-            amount: amt,
-            date,
-            note: note.trim(),
-            createdAt: new Date(),
-          });
-        } else if (modalType === 'withdraw') {
-          saving.balance -= amt;
-          realm.create(SavingHistoryModel, {
-            _id: new Realm.BSON.ObjectId(),
-            savingId: id,
-            type: 'withdraw',
-            amount: amt,
-            date,
-            note: note.trim(),
-            createdAt: new Date(),
-          });
-        } else if (modalType === 'transfer' && targetSavingId) {
+        if (modalType === 'transfer' && targetSavingId) {
           const target = realm.objectForPrimaryKey(
             SavingModel,
             new Realm.BSON.ObjectId(targetSavingId),

@@ -22,6 +22,8 @@ import { formatCurrency, formatCompact } from '../../../utils/currency';
 import { startOfMonth } from '../../../utils/date';
 import { getReminderStatus, getKewajibanBulanIni, getDebtFreedomStatus, type ReminderStatus } from '../../../utils/finance';
 import { useSettingsStore } from '../../../store/settingsStore';
+import { getKasBebasBalance } from '../../../services/AllocationService';
+import { useRealm } from '@realm/react';
 
 // ─── Navigation Types ─────────────────────────────────────────────────────────
 
@@ -100,6 +102,7 @@ function DebtItem({ item, reminder, onPress }: DebtItemProps) {
 
 export function DebtListScreen() {
   const navigation = useNavigation<NavProp>();
+  const realm = useRealm();
   const { settings } = useSettingsStore();
   const allDebts = useQuery(DebtModel).filtered('isActive == true').sorted('createdAt', true);
   const allDebtsEver = useQuery(DebtModel);
@@ -141,11 +144,7 @@ export function DebtListScreen() {
     return map;
   }, [debtInputs]);
 
-  const cashNow = useMemo(() => {
-    const cashIncome = incomes.reduce((s, i) => s + i.allocationCash, 0);
-    const cashExpense = expenses.filtered('source == "cash"').reduce((s, e) => s + e.amount, 0);
-    return cashIncome - cashExpense;
-  }, [incomes, expenses]);
+  const cashNow = useMemo(() => getKasBebasBalance(realm), [realm, incomes, expenses]);
 
   const kewajiban = useMemo(
     () => getKewajibanBulanIni(debtInputs, cashNow, settings.hariLibur ?? [0]),

@@ -3,8 +3,16 @@ import { DebtModel } from '../models/DebtModel';
 import { SavingModel } from '../models/SavingModel';
 import { SavingHistoryModel } from '../models/SavingHistoryModel';
 import { IncomeModel } from '../models/IncomeModel';
+import { ExpenseModel } from '../models/ExpenseModel';
 import { today } from '../utils/date';
 import { formatCurrency } from '../utils/currency';
+
+/** Kas Bebas — derived from all Income.allocationCash minus all cash-sourced Expense. */
+export function getKasBebasBalance(realm: Realm): number {
+  const totalCashIncome = realm.objects(IncomeModel).sum('allocationCash') ?? 0;
+  const totalCashExpense = realm.objects(ExpenseModel).filtered('source == "cash"').sum('amount') ?? 0;
+  return totalCashIncome - totalCashExpense;
+}
 
 /**
  * Mutates DebtModel.extraPaid / SavingModel.balance in real time when income
@@ -130,6 +138,88 @@ export function reverseExpenseFunding(realm: Realm, params: {
       createdAt: new Date(),
     });
   }
+}
+
+export type SavingCashMoveResult = { ok: true } | { ok: false; error: string };
+
+/**
+ * Setor tabungan wajib dari Kas Bebas: deducts cash (via a synthetic 'Setor
+ * Tabungan' Expense) and credits the savings pos. Must run inside realm.write().
+ */
+export function depositToSavingFromCash(realm: Realm, params: {
+  savingId: string;
+  amount: number;
+  date: string;
+  note?: string;
+}): SavingCashMoveResult {
+  const { savingId, amount, date, note } = params;
+  const saving = realm.objectForPrimaryKey(SavingModel, new Realm.BSON.ObjectId(savingId));
+  if (!saving) return { ok: false, error: 'Pos tabungan tidak ditemukan' };
+
+  const available = getKasBebasBalance(realm);
+  if (amount > available) return { ok: false, error: 'Kas Bebas tidak mencukupi' };
+
+  saving.balance += amount;
+  realm.create(SavingHistoryModel, {
+    _id: new Realm.BSON.ObjectId(),
+    savingId,
+    type: 'deposit',
+    amount,
+    date,
+    note: note ?? '',
+    createdAt: new Date(),
+  });
+  realm.create(ExpenseModel, {
+    _id: new Realm.BSON.ObjectId(),
+    category: 'Setor Tabungan',
+    source: 'cash',
+    amount,
+    date,
+    note: `Setor ke ${saving.name}${note ? ': ' + note : ''}`,
+    createdAt: new Date(),
+  });
+  return { ok: true };
+}
+
+/**
+ * Tarik tabungan wajib balik ke Kas Bebas: debits the savings pos and credits
+ * cash (via a synthetic 'Tarik Tabungan' Income). Must run inside realm.write().
+ */
+export function withdrawFromSavingToCash(realm: Realm, params: {
+  savingId: string;
+  amount: number;
+  date: string;
+  note?: string;
+}): SavingCashMoveResult {
+  const { savingId, amount, date, note } = params;
+  const saving = realm.objectForPrimaryKey(SavingModel, new Realm.BSON.ObjectId(savingId));
+  if (!saving) return { ok: false, error: 'Pos tabungan tidak ditemukan' };
+  if (amount > saving.balance) return { ok: false, error: 'Saldo tabungan tidak mencukupi' };
+
+  saving.balance -= amount;
+  realm.create(SavingHistoryModel, {
+    _id: new Realm.BSON.ObjectId(),
+    savingId,
+    type: 'withdraw',
+    amount,
+    date,
+    note: note ?? '',
+    createdAt: new Date(),
+  });
+  realm.create(IncomeModel, {
+    _id: new Realm.BSON.ObjectId(),
+    category: 'Tarik Tabungan',
+    amount,
+    date,
+    note: `Tarik dari ${saving.name}${note ? ': ' + note : ''}`,
+    allocationDebt: 0,
+    allocationSavings: 0,
+    allocationCash: amount,
+    allocationDebtId: '',
+    allocationSavingId: '',
+    createdAt: new Date(),
+  });
+  return { ok: true };
 }
 
 export type SaleProceedsResult = { ok: true } | { ok: false; error: string };

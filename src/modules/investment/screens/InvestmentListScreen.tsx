@@ -26,6 +26,7 @@ import { FAB } from '../../../components/common/FAB';
 import { InvestmentModel } from '../../../models/InvestmentModel';
 import { SavingModel } from '../../../models/SavingModel';
 import { PassiveIncomeModel } from '../../../models/PassiveIncomeModel';
+import { IncomeModel } from '../../../models/IncomeModel';
 import { formatCurrency, formatCompact, parseCurrency } from '../../../utils/currency';
 import { calcROI, calcProfitLoss, PASSIVE_INCOME_FREQUENCIES } from '../../../utils/finance';
 import { formatDate, today } from '../../../utils/date';
@@ -150,10 +151,20 @@ export function InvestmentListScreen() {
         amount: dividendAmount,
         frequency: dividendFrequency,
         note: `Dividen ${dividendTarget.name}`,
+        recurring: false,
+      });
+      realm.create(IncomeModel, {
+        category: 'Dividen',
+        amount: dividendAmount,
+        allocationCash: dividendAmount,
+        allocationDebt: 0,
+        allocationSavings: 0,
+        date: today(),
+        note: `Dividen ${dividendTarget.name}`,
       });
     });
     closeDividendModal();
-    Alert.alert('Tersimpan', 'Dividen dicatat sebagai passive income');
+    Alert.alert('Tersimpan', 'Dividen masuk Kas Bebas & dicatat sebagai passive income');
   };
 
   return (

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -6,28 +6,21 @@ import {
   TouchableOpacity,
   StyleSheet,
   StatusBar,
-  Modal,
-  TextInput,
-  Alert,
-  KeyboardAvoidingView,
-  Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useQuery, useRealm } from '@realm/react';
+import { useQuery } from '@realm/react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 
 import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
 import { Card } from '../../../components/common/Card';
-import { Button } from '../../../components/common/Button';
 import { ProgressBar } from '../../../components/common/ProgressBar';
 import { EmptyState } from '../../../components/common/EmptyState';
-import { CurrencyInput } from '../../../components/common/CurrencyInput';
 import { FAB } from '../../../components/common/FAB';
 import { BackButton } from '../../../components/common/BackButton';
 import { GoalModel } from '../../../models/GoalModel';
 import { SavingModel } from '../../../models/SavingModel';
-import { formatCurrency, formatCompact, parseCurrency } from '../../../utils/currency';
+import { formatCurrency } from '../../../utils/currency';
 import { formatDate } from '../../../utils/date';
 import { calcGoalProgress } from '../../../utils/finance';
 
@@ -38,12 +31,8 @@ export type GoalsStackParamList = {
 
 export function GoalsListScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<GoalsStackParamList>>();
-  const realm = useRealm();
   const goals = useQuery(GoalModel);
   const savings = useQuery(SavingModel);
-
-  const [setorTarget, setSetorTarget] = useState<GoalModel | null>(null);
-  const [setorInput, setSetorInput] = useState('');
 
   const getSavingBalance = (savingId: string): number => {
     const saving = savings.find(s => s._id.toHexString() === savingId);
@@ -55,27 +44,13 @@ export function GoalsListScreen() {
     return saving?.name ?? '-';
   };
 
-  const getProgressAmount = (goal: GoalModel): number =>
-    goal.savingId ? getSavingBalance(goal.savingId) : goal.manualAmount;
+  const getProgressAmount = (goal: GoalModel): number => getSavingBalance(goal.savingId);
 
-  const openSetorModal = (goal: GoalModel) => {
-    setSetorTarget(goal);
-    setSetorInput('');
-  };
-
-  const closeSetorModal = () => setSetorTarget(null);
-
-  const confirmSetor = () => {
-    if (!setorTarget) return;
-    const amt = parseCurrency(setorInput);
-    if (!amt || amt <= 0) {
-      Alert.alert('Validasi', 'Isi nominal setoran');
-      return;
-    }
-    realm.write(() => {
-      setorTarget.manualAmount = (setorTarget.manualAmount ?? 0) + amt;
+  const goToSaving = (savingId: string) => {
+    (navigation as any).navigate('Assets', {
+      screen: 'SavingsTab',
+      params: { screen: 'SavingsDetail', params: { id: savingId } },
     });
-    closeSetorModal();
   };
 
   return (
@@ -97,7 +72,6 @@ export function GoalsListScreen() {
           const progress = calcGoalProgress(balance, item.target);
           const remaining = Math.max(item.target - balance, 0);
           const isAchieved = balance >= item.target;
-          const isLinked = !!item.savingId;
           return (
             <Card style={styles.goalCard} padding={SPACING.lg}>
               <TouchableOpacity onPress={() => navigation.navigate('GoalForm', { id: item._id.toHexString() })} activeOpacity={0.7}>
@@ -105,9 +79,7 @@ export function GoalsListScreen() {
                   <Text style={styles.goalEmoji}>{item.emoji}</Text>
                   <View style={{ flex: 1 }}>
                     <Text style={styles.goalName}>{item.name}</Text>
-                    <Text style={styles.goalSaving}>
-                      {isLinked ? `📦 ${getSavingName(item.savingId)}` : '✏️ Manual'}
-                    </Text>
+                    <Text style={styles.goalSaving}>📦 {getSavingName(item.savingId)}</Text>
                   </View>
                   {isAchieved ? (
                     <View style={styles.achievedBadge}>
@@ -145,11 +117,9 @@ export function GoalsListScreen() {
                 </View>
               </TouchableOpacity>
 
-              {!isLinked && (
-                <TouchableOpacity style={styles.setorBtn} onPress={() => openSetorModal(item)}>
-                  <Text style={styles.setorBtnText}>+ Setor</Text>
-                </TouchableOpacity>
-              )}
+              <TouchableOpacity style={styles.setorBtn} onPress={() => goToSaving(item.savingId)}>
+                <Text style={styles.setorBtnText}>Setor via Tabungan</Text>
+              </TouchableOpacity>
             </Card>
           );
         }}
@@ -163,33 +133,6 @@ export function GoalsListScreen() {
       />
 
       <FAB color={COLORS.primary} onPress={() => navigation.navigate('GoalForm', {})} />
-
-      {/* Setor Modal (manual/unlinked goals) */}
-      <Modal visible={!!setorTarget} transparent animationType="slide" onRequestClose={closeSetorModal}>
-        <KeyboardAvoidingView
-          style={styles.modalOverlay}
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        >
-          <TouchableOpacity style={styles.modalBackdrop} onPress={closeSetorModal} activeOpacity={1} />
-          <View style={styles.modalSheet}>
-            <Text style={styles.modalTitle}>+ Setor Goal</Text>
-            {setorTarget && (
-              <>
-                <Text style={styles.modalGoalName}>{setorTarget.emoji} {setorTarget.name}</Text>
-                <Text style={styles.fieldLabel}>Nominal Setoran</Text>
-                <CurrencyInput
-                  value={setorInput}
-                  onChangeText={setSetorInput}
-                />
-                <View style={styles.modalActions}>
-                  <Button title="Batal" onPress={closeSetorModal} variant="secondary" style={styles.modalBtnHalf} />
-                  <Button title="Setor" onPress={confirmSetor} style={styles.modalBtnHalf} />
-                </View>
-              </>
-            )}
-          </View>
-        </KeyboardAvoidingView>
-      </Modal>
     </SafeAreaView>
   );
 }
@@ -223,23 +166,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   setorBtnText: { fontSize: FONTS.sm, fontWeight: '700', color: COLORS.primary },
-
-  modalOverlay: { flex: 1, justifyContent: 'flex-end' },
-  modalBackdrop: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.6)' },
-  modalSheet: {
-    backgroundColor: COLORS.surface,
-    borderTopLeftRadius: RADIUS.xl,
-    borderTopRightRadius: RADIUS.xl,
-    padding: SPACING.xl,
-    paddingBottom: SPACING.xxxl,
-  },
-  modalTitle: { fontSize: FONTS.xl, fontWeight: '700', color: COLORS.text, marginBottom: SPACING.md },
-  modalGoalName: { fontSize: FONTS.md, fontWeight: '600', color: COLORS.text, marginBottom: SPACING.md },
-  fieldLabel: { fontSize: FONTS.sm, color: COLORS.textSecondary, marginBottom: SPACING.xs, fontWeight: '500' },
-  input: {
-    backgroundColor: COLORS.inputBg, borderRadius: RADIUS.md, borderWidth: 1.5,
-    borderColor: COLORS.border, padding: SPACING.md, color: COLORS.text, fontSize: FONTS.md,
-  },
-  modalActions: { flexDirection: 'row', gap: SPACING.md, marginTop: SPACING.lg },
-  modalBtnHalf: { flex: 1 },
 });
