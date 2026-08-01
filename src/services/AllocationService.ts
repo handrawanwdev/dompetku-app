@@ -140,6 +140,55 @@ export function reverseExpenseFunding(realm: Realm, params: {
   }
 }
 
+export type DebtPaymentFundingResult = { ok: true } | { ok: false; error: string };
+
+/**
+ * Deducts Kas Bebas (via a synthetic 'Bayar Cicilan' Expense) or a savings pos
+ * balance when a debt installment is paid. Must run inside realm.write().
+ */
+export function applyDebtPaymentFunding(realm: Realm, params: {
+  source: string;
+  savingId?: string;
+  amount: number;
+  lender: string;
+  date: string;
+}): DebtPaymentFundingResult {
+  const { source, savingId, amount, lender, date } = params;
+
+  if (source === 'savings') {
+    if (!savingId) return { ok: false, error: 'Pilih pos tabungan sumber dana' };
+    const saving = realm.objectForPrimaryKey(SavingModel, new Realm.BSON.ObjectId(savingId));
+    if (!saving) return { ok: false, error: 'Pos tabungan tidak ditemukan' };
+    if (saving.balance < amount) return { ok: false, error: 'Saldo tabungan tidak mencukupi' };
+
+    saving.balance -= amount;
+    realm.create(SavingHistoryModel, {
+      _id: new Realm.BSON.ObjectId(),
+      savingId,
+      type: 'withdraw',
+      amount,
+      date,
+      note: `Bayar cicilan: ${lender}`,
+      createdAt: new Date(),
+    });
+    return { ok: true };
+  }
+
+  const available = getKasBebasBalance(realm);
+  if (amount > available) return { ok: false, error: 'Kas Bebas tidak mencukupi' };
+
+  realm.create(ExpenseModel, {
+    _id: new Realm.BSON.ObjectId(),
+    category: 'Bayar Cicilan',
+    source: 'cash',
+    amount,
+    date,
+    note: `Cicilan ${lender}`,
+    createdAt: new Date(),
+  });
+  return { ok: true };
+}
+
 export type SavingCashMoveResult = { ok: true } | { ok: false; error: string };
 
 /**
@@ -217,6 +266,52 @@ export function withdrawFromSavingToCash(realm: Realm, params: {
     allocationCash: amount,
     allocationDebtId: '',
     allocationSavingId: '',
+    createdAt: new Date(),
+  });
+  return { ok: true };
+}
+
+export type SavingTransferResult = { ok: true } | { ok: false; error: string };
+
+/**
+ * Moves balance directly between two savings pos (no Kas Bebas involved).
+ * Must run inside realm.write().
+ */
+export function transferBetweenSavings(realm: Realm, params: {
+  fromSavingId: string;
+  toSavingId: string;
+  amount: number;
+  date: string;
+  note?: string;
+}): SavingTransferResult {
+  const { fromSavingId, toSavingId, amount, date, note } = params;
+  if (fromSavingId === toSavingId) return { ok: false, error: 'Tabungan asal dan tujuan tidak boleh sama' };
+
+  const from = realm.objectForPrimaryKey(SavingModel, new Realm.BSON.ObjectId(fromSavingId));
+  if (!from) return { ok: false, error: 'Tabungan asal tidak ditemukan' };
+  const to = realm.objectForPrimaryKey(SavingModel, new Realm.BSON.ObjectId(toSavingId));
+  if (!to) return { ok: false, error: 'Tabungan tujuan tidak ditemukan' };
+  if (amount > from.balance) return { ok: false, error: 'Saldo tabungan tidak mencukupi untuk transfer' };
+
+  from.balance -= amount;
+  realm.create(SavingHistoryModel, {
+    _id: new Realm.BSON.ObjectId(),
+    savingId: fromSavingId,
+    type: 'transfer',
+    amount,
+    date,
+    note: `→ ${to.name}${note ? ': ' + note : ''}`,
+    createdAt: new Date(),
+  });
+
+  to.balance += amount;
+  realm.create(SavingHistoryModel, {
+    _id: new Realm.BSON.ObjectId(),
+    savingId: toSavingId,
+    type: 'transfer',
+    amount,
+    date,
+    note: `← ${from.name}${note ? ': ' + note : ''}`,
     createdAt: new Date(),
   });
   return { ok: true };

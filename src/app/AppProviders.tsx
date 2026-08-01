@@ -10,6 +10,7 @@ import { realmConfig } from '../database/realm';
 import { MainTabNavigator } from '../navigation/MainTabNavigator';
 import { useSettingsStore } from '../store/settingsStore';
 import { requestNotificationPermissions } from '../services/NotificationService';
+import { registerDebtReminderBackgroundTask } from '../services/DebtReminderBackgroundTask';
 import { installGlobalErrorHandlers } from '../services/ErrorLogService';
 import { ErrorBoundary } from '../components/common/ErrorBoundary';
 
@@ -21,6 +22,7 @@ function AppInner() {
   useEffect(() => {
     loadSettings();
     requestNotificationPermissions();
+    registerDebtReminderBackgroundTask();
   }, []);
 
   return (

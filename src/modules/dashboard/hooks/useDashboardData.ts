@@ -9,20 +9,14 @@ import { DebtPaymentModel } from "../../../models/DebtPaymentModel";
 import { SavingModel } from "../../../models/SavingModel";
 import { InvestmentModel } from "../../../models/InvestmentModel";
 import { PhysicalAssetModel } from "../../../models/PhysicalAssetModel";
-import { GoalModel } from "../../../models/GoalModel";
 import { PassiveIncomeModel } from "../../../models/PassiveIncomeModel";
-import { FinancialScoreModel } from "../../../models/FinancialScoreModel";
 import { startOfMonth, endOfMonth } from "../../../utils/date";
 import {
   calcDepreciation,
   getReminderStatus,
   getDebtRoadmap,
-  getTrailing30d,
-  getFinancialProjection,
   generateFinancialSuggestions,
   generateScoreRecommendations,
-  buildNetWorthSeries,
-  calcNetWorthGrowthPct,
   getEmergencyFundStatus,
   toMonthlyAmount,
 } from "../../../utils/finance";
@@ -58,7 +52,6 @@ export function useDashboardData() {
   const investments = useQuery(InvestmentModel).filtered("sold == false");
   const allInvestments = useQuery(InvestmentModel);
   const physicalAssets = useQuery(PhysicalAssetModel).filtered("sold == false");
-  const goals = useQuery(GoalModel);
   const passiveIncomes = useQuery(PassiveIncomeModel);
 
   useEffect(() => {
@@ -86,7 +79,7 @@ export function useDashboardData() {
     refreshDailyReminders(recordedToday);
   }, [incomes, expenses]);
 
-  const cashflow7d = useCashflowChart("7d");
+  const cashflow30d = useCashflowChart("30d");
   const cashflow12m = useCashflowChart("12m");
 
   const now = dayjs();
@@ -270,22 +263,6 @@ export function useDashboardData() {
     });
   }, [realm, savings, allDebts, allInvestments, financialScore.score]);
 
-  const scoreHistory = useQuery(FinancialScoreModel);
-  const netWorthSeries = useMemo(
-    () =>
-      buildNetWorthSeries(
-        scoreHistory.map((s) => ({
-          netWorth: s.netWorth,
-          createdAt: s.createdAt,
-        })),
-      ),
-    [scoreHistory],
-  );
-  const netWorthGrowthPct = useMemo(
-    () => calcNetWorthGrowthPct(netWorthSeries),
-    [netWorthSeries],
-  );
-
   const emergencyFundSaving = useMemo(
     () =>
       savings.find(
@@ -328,21 +305,6 @@ export function useDashboardData() {
       summary.cashflow,
     ],
   );
-
-  const topExpenseCategories = useMemo(() => {
-    const monthExpenses = expenses.filtered(
-      "date >= $0 AND date <= $1",
-      monthStart,
-      monthEnd,
-    );
-    const catMap: Record<string, number> = {};
-    for (const e of monthExpenses) {
-      catMap[e.category] = (catMap[e.category] ?? 0) + e.amount;
-    }
-    return Object.entries(catMap)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 4);
-  }, [expenses, monthStart, monthEnd]);
 
   // Neraca (itemized balance sheet)
   const neraca = useMemo(() => {
@@ -416,31 +378,6 @@ export function useDashboardData() {
     [debts],
   );
 
-  // Proyeksi finansial
-  const trailing30d = useMemo(
-    () =>
-      getTrailing30d(
-        incomes as unknown as { date: string; amount: number }[],
-        expenses as unknown as { date: string; amount: number }[],
-      ),
-    [incomes, expenses],
-  );
-  const maxRemainingMonth = useMemo(
-    () => (debts.length ? Math.max(...debts.map((d) => d.remainingMonth)) : 0),
-    [debts],
-  );
-  const projection = useMemo(
-    () =>
-      getFinancialProjection({
-        cashNow: summary.cash,
-        totalSavings: summary.totalSavings,
-        maxRemainingMonth,
-        monthlyInstallmentTotal: summary.monthlyInstallment,
-        trailingExpense30d: trailing30d.expense,
-      }),
-    [summary, maxRemainingMonth, trailing30d],
-  );
-
   // Rekomendasi (multi-card): event-driven cards + sub-score driven tips (PRD §15)
   const suggestions = useMemo(
     () => [
@@ -462,7 +399,7 @@ export function useDashboardData() {
 
   // ─── Modal / picker UI state ────────────────────────────────────────────────
   const [showLevelDetail, setShowLevelDetail] = useState(false);
-  const [showEmergencyPicker, setShowEmergencyPicker] = useState(false);
+  const [showReminders, setShowReminders] = useState(false);
   const [showAiDetail, setShowAiDetail] = useState(false);
 
   return {
@@ -478,18 +415,8 @@ export function useDashboardData() {
     scoreGap,
     levelChecklist,
 
-    netWorthSeries,
-    netWorthGrowthPct,
-
-    savings,
-    goals,
-
-    emergencyFundSaving,
-    emergencyFundInfo,
-
     aiReport,
 
-    topExpenseCategories,
     neraca,
 
     urgentReminders,
@@ -497,16 +424,15 @@ export function useDashboardData() {
     paidReminders,
 
     roadmap,
-    projection,
     suggestions,
 
-    cashflow7d,
+    cashflow30d,
     cashflow12m,
 
     showLevelDetail,
     setShowLevelDetail,
-    showEmergencyPicker,
-    setShowEmergencyPicker,
+    showReminders,
+    setShowReminders,
     showAiDetail,
     setShowAiDetail,
   };

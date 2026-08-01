@@ -7,6 +7,7 @@ import {
   StyleSheet,
   StatusBar,
   Modal,
+  Alert,
   KeyboardAvoidingView,
   Platform,
   ListRenderItemInfo,
@@ -21,9 +22,18 @@ import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
 import { Card, Text, Button, Input, DateInput, CurrencyInput, AmountDisplay, ProgressBar, EmptyState, BackButton } from '../../../components/common';
 import { DebtModel } from '../../../models/DebtModel';
 import { DebtPaymentModel } from '../../../models/DebtPaymentModel';
+import { SavingModel } from '../../../models/SavingModel';
+import { getKasBebasBalance, applyDebtPaymentFunding } from '../../../services/AllocationService';
 import { formatCurrency } from '../../../utils/currency';
 import { formatDate, today, isOverdue } from '../../../utils/date';
 import type { DebtStackParamList } from './DebtListScreen';
+
+// ─── Constants ────────────────────────────────────────────────────────────────
+
+const FUNDING_SOURCES = [
+  { value: 'cash', label: 'Kas Bebas', color: COLORS.warning },
+  { value: 'savings', label: 'Tabungan', color: COLORS.savings },
+];
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -62,36 +72,72 @@ function PaymentItem({ item }: PaymentItemProps) {
 interface PaymentModalProps {
   visible: boolean;
   defaultAmount: number;
+  savings: Realm.Results<SavingModel>;
+  kasBebasBalance: number;
   onClose: () => void;
-  onConfirm: (amount: number, date: string, note: string) => void;
+  onConfirm: (amount: number, date: string, note: string, source: string, savingId: string) => void;
 }
 
-function PaymentModal({ visible, defaultAmount, onClose, onConfirm }: PaymentModalProps) {
+function PaymentModal({ visible, defaultAmount, savings, kasBebasBalance, onClose, onConfirm }: PaymentModalProps) {
   const [amount, setAmount] = useState(defaultAmount.toString());
   const [date, setDate] = useState(today());
   const [note, setNote] = useState('');
-  const [error, setError] = useState('');
+  const [source, setSource] = useState('cash');
+  const [savingId, setSavingId] = useState('');
+  const [showSavingPicker, setShowSavingPicker] = useState(false);
+  const [amountError, setAmountError] = useState('');
+  const [sourceError, setSourceError] = useState('');
+
+  const selectedSaving = savings.find((s) => s._id.toHexString() === savingId);
+
+  const resetFields = () => {
+    setAmount(defaultAmount.toString());
+    setDate(today());
+    setNote('');
+    setSource('cash');
+    setSavingId('');
+    setAmountError('');
+    setSourceError('');
+  };
+
+  const handleClose = () => {
+    resetFields();
+    onClose();
+  };
 
   const handleConfirm = () => {
     const parsed = parseFloat(amount.replace(/[^0-9.]/g, ''));
     if (!parsed || parsed <= 0) {
-      setError('Nominal harus lebih dari 0');
+      setAmountError('Nominal harus lebih dari 0');
       return;
     }
-    setError('');
-    onConfirm(parsed, date, note);
-    setAmount(defaultAmount.toString());
-    setDate(today());
-    setNote('');
+    setAmountError('');
+    if (source === 'cash' && parsed > kasBebasBalance) {
+      setSourceError('Kas Bebas tidak mencukupi');
+      return;
+    }
+    if (source === 'savings') {
+      if (!savingId) {
+        setSourceError('Pilih pos tabungan sumber dana');
+        return;
+      }
+      if (!selectedSaving || selectedSaving.balance < parsed) {
+        setSourceError('Saldo tabungan tidak mencukupi');
+        return;
+      }
+    }
+    setSourceError('');
+    onConfirm(parsed, date, note, source, savingId);
+    resetFields();
   };
 
   return (
-    <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
+    <Modal visible={visible} transparent animationType="slide" onRequestClose={handleClose}>
       <KeyboardAvoidingView
         style={styles.modalOverlay}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <TouchableOpacity style={styles.modalBackdrop} onPress={onClose} activeOpacity={1} />
+        <TouchableOpacity style={styles.modalBackdrop} onPress={handleClose} activeOpacity={1} />
         <View style={styles.modalSheet}>
           <View style={styles.modalHandle} />
           <Text style={styles.modalTitle}>Bayar Cicilan</Text>
@@ -101,10 +147,55 @@ function PaymentModal({ visible, defaultAmount, onClose, onConfirm }: PaymentMod
             value={amount}
             onChangeText={(v) => {
               setAmount(v);
-              setError('');
+              setAmountError('');
             }}
-            error={error}
+            error={amountError}
           />
+
+          <View style={styles.fieldGroup}>
+            <Text style={styles.fieldLabel}>Sumber Dana</Text>
+            <View style={styles.sourceRow}>
+              {FUNDING_SOURCES.map((src) => {
+                const isSelected = source === src.value;
+                return (
+                  <TouchableOpacity
+                    key={src.value}
+                    onPress={() => {
+                      setSource(src.value);
+                      setSourceError('');
+                    }}
+                    style={[
+                      styles.sourceOption,
+                      isSelected && { borderColor: src.color, backgroundColor: src.color + '22' },
+                    ]}
+                    activeOpacity={0.7}
+                  >
+                    <View
+                      style={[
+                        styles.radioCircle,
+                        isSelected && { borderColor: src.color, backgroundColor: src.color },
+                      ]}
+                    />
+                    <Text style={[styles.sourceLabel, isSelected ? { color: src.color } : null]}>
+                      {src.label}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+            {source === 'cash' && (
+              <Text style={styles.sourceHint}>Saldo Kas Bebas: {formatCurrency(kasBebasBalance)}</Text>
+            )}
+            {source === 'savings' && (
+              <TouchableOpacity style={styles.pickerBtn} onPress={() => setShowSavingPicker(true)}>
+                <Text style={selectedSaving ? styles.pickerValue : styles.pickerPlaceholder}>
+                  {selectedSaving ? `${selectedSaving.emoji} ${selectedSaving.name} — ${formatCurrency(selectedSaving.balance)}` : 'Pilih pos tabungan...'}
+                </Text>
+                <Text style={styles.pickerArrow}>›</Text>
+              </TouchableOpacity>
+            )}
+            {sourceError ? <Text style={styles.errorText}>{sourceError}</Text> : null}
+          </View>
 
           <DateInput
             label="Tanggal Pembayaran"
@@ -122,7 +213,7 @@ function PaymentModal({ visible, defaultAmount, onClose, onConfirm }: PaymentMod
           <View style={styles.modalActions}>
             <Button
               title="Batal"
-              onPress={onClose}
+              onPress={handleClose}
               variant="secondary"
               style={styles.modalBtnHalf}
             />
@@ -134,6 +225,34 @@ function PaymentModal({ visible, defaultAmount, onClose, onConfirm }: PaymentMod
           </View>
         </View>
       </KeyboardAvoidingView>
+
+      {/* Saving Picker Modal */}
+      <Modal visible={showSavingPicker} transparent animationType="slide">
+        <View style={styles.pickerOverlay}>
+          <View style={styles.pickerModal}>
+            <Text style={styles.modalTitle}>Pilih Pos Tabungan</Text>
+            {savings.length === 0 ? (
+              <Text style={styles.emptyPickerText}>Belum ada tabungan. Buat tabungan terlebih dahulu.</Text>
+            ) : (
+              savings.map((s) => (
+                <TouchableOpacity
+                  key={s._id.toHexString()}
+                  style={[styles.pickerItem, s._id.toHexString() === savingId && styles.pickerItemActive]}
+                  onPress={() => {
+                    setSavingId(s._id.toHexString());
+                    setSourceError('');
+                    setShowSavingPicker(false);
+                  }}
+                >
+                  <Text style={styles.pickerItemText}>{s.emoji} {s.name}</Text>
+                  <Text style={styles.pickerItemBalance}>{formatCurrency(s.balance)}</Text>
+                </TouchableOpacity>
+              ))
+            )}
+            <Button title="Tutup" onPress={() => setShowSavingPicker(false)} variant="ghost" style={{ marginTop: SPACING.lg }} />
+          </View>
+        </View>
+      </Modal>
     </Modal>
   );
 }
@@ -171,25 +290,43 @@ export function DebtDetailScreen() {
 
   const overdue = debt ? isOverdue(debt.dueDate) && debt.remainingMonth > 0 : false;
 
+  const savings = useQuery(SavingModel);
+  const kasBebasBalance = getKasBebasBalance(realm);
+
   const handlePayment = useCallback(
-    (amount: number, date: string, note: string) => {
+    (amount: number, date: string, note: string, source: string, savingId: string) => {
       if (!debt) return;
-      realm.write(() => {
-        realm.create(DebtPaymentModel, {
-          _id: new Realm.BSON.ObjectId(),
-          debtId: id,
-          amount,
-          date,
-          note,
-          createdAt: new Date(),
+      try {
+        realm.write(() => {
+          const funding = applyDebtPaymentFunding(realm, {
+            source,
+            savingId,
+            amount,
+            lender: debt.lender,
+            date,
+          });
+          if (!funding.ok) throw new Error(funding.error);
+
+          realm.create(DebtPaymentModel, {
+            _id: new Realm.BSON.ObjectId(),
+            debtId: id,
+            amount,
+            date,
+            note,
+            source,
+            savingId: source === 'savings' ? savingId : '',
+            createdAt: new Date(),
+          });
+          const newRemaining = Math.max(0, debt.remainingMonth - 1);
+          debt.remainingMonth = newRemaining;
+          if (newRemaining === 0) {
+            debt.isActive = false;
+          }
         });
-        const newRemaining = Math.max(0, debt.remainingMonth - 1);
-        debt.remainingMonth = newRemaining;
-        if (newRemaining === 0) {
-          debt.isActive = false;
-        }
-      });
-      setPayModalVisible(false);
+        setPayModalVisible(false);
+      } catch (e) {
+        Alert.alert('Validasi', e instanceof Error ? e.message : 'Gagal memproses pembayaran');
+      }
     },
     [debt, id, realm],
   );
@@ -332,6 +469,8 @@ export function DebtDetailScreen() {
       <PaymentModal
         visible={payModalVisible}
         defaultAmount={debt.monthlyInstallment}
+        savings={savings}
+        kasBebasBalance={kasBebasBalance}
         onClose={() => setPayModalVisible(false)}
         onConfirm={handlePayment}
       />
@@ -583,5 +722,91 @@ const styles = StyleSheet.create({
   },
   modalBtnHalf: {
     flex: 1,
+  },
+  fieldGroup: {
+    marginBottom: SPACING.md,
+  },
+  fieldLabel: {
+    fontSize: FONTS.sm,
+    color: COLORS.textSecondary,
+    marginBottom: SPACING.sm,
+    fontWeight: '500',
+  },
+  sourceRow: {
+    flexDirection: 'row',
+    gap: SPACING.md,
+  },
+  sourceOption: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: SPACING.sm,
+    padding: SPACING.md,
+    borderRadius: RADIUS.md,
+    backgroundColor: COLORS.surface,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+  },
+  radioCircle: {
+    width: 18,
+    height: 18,
+    borderRadius: RADIUS.round,
+    borderWidth: 2,
+    borderColor: COLORS.border,
+  },
+  sourceLabel: {
+    fontSize: FONTS.md,
+    fontWeight: '500',
+    color: COLORS.textSecondary,
+  },
+  sourceHint: {
+    fontSize: FONTS.xs,
+    color: COLORS.textMuted,
+    marginTop: SPACING.sm,
+  },
+  errorText: {
+    fontSize: FONTS.sm,
+    color: COLORS.danger,
+    marginTop: SPACING.xs,
+  },
+  pickerBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: COLORS.inputBg,
+    borderRadius: RADIUS.md,
+    borderWidth: 1.5,
+    borderColor: COLORS.border,
+    padding: SPACING.md,
+    marginTop: SPACING.sm,
+  },
+  pickerValue: { flex: 1, fontSize: FONTS.md, color: COLORS.text },
+  pickerPlaceholder: { flex: 1, fontSize: FONTS.md, color: COLORS.textMuted },
+  pickerArrow: { fontSize: FONTS.lg, color: COLORS.textMuted },
+  pickerOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.7)', justifyContent: 'flex-end' },
+  pickerModal: {
+    backgroundColor: COLORS.surface,
+    borderTopLeftRadius: RADIUS.xl,
+    borderTopRightRadius: RADIUS.xl,
+    padding: SPACING.xl,
+    maxHeight: '70%',
+  },
+  pickerItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: SPACING.md,
+    borderRadius: RADIUS.md,
+    marginBottom: SPACING.sm,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+  },
+  pickerItemActive: { borderColor: COLORS.primary, backgroundColor: COLORS.primary + '11' },
+  pickerItemText: { fontSize: FONTS.md, color: COLORS.text },
+  pickerItemBalance: { fontSize: FONTS.sm, color: COLORS.textSecondary },
+  emptyPickerText: {
+    fontSize: FONTS.sm,
+    color: COLORS.textSecondary,
+    textAlign: 'center',
+    padding: SPACING.xl,
   },
 });

@@ -7,40 +7,35 @@ import { Text } from "../../components/common";
 import { formatDate } from "../../utils/date";
 import { useDashboardData } from "./hooks/useDashboardData";
 import {
-  SectionTitle,
   FreedomCard,
-  HealthBadges,
   AiCard,
   NetWorthCard,
-  NetWorthTrackerCard,
-  EmergencyFundCard,
-  QuickActions,
-  SummaryGrid,
-  TopExpensesCard,
   DebtRatioCard,
-  GoalsSection,
-  RemindersSection,
+  RemindersBell,
+  RemindersModal,
   NeracaCard,
-  Cashflow7dCard,
+  Cashflow30dCard,
   Cashflow12mCard,
   RoadmapCard,
-  ProjectionGrid,
   SuggestionsCard,
   LevelDetailModal,
-  EmergencyPickerModal,
   AiDetailModal,
 } from "./components";
 
 export function DashboardScreen() {
   const d = useDashboardData();
+  const reminderCount = d.urgentReminders.length + d.normalReminders.length;
 
   return (
     <SafeAreaView style={styles.safe} edges={["top"]}>
       <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
 
       <View style={styles.topbar}>
-        <Text style={styles.topbarSub}>{d.monthLabel}</Text>
-        <Text style={styles.topbarDate}>{formatDate(d.now.toDate(), "DD MMM YYYY")}</Text>
+        <View>
+          <Text style={styles.topbarSub}>{d.monthLabel}</Text>
+          <Text style={styles.topbarDate}>{formatDate(d.now.toDate(), "DD MMM YYYY")}</Text>
+        </View>
+        <RemindersBell count={reminderCount} onPress={() => d.setShowReminders(true)} />
       </View>
 
       <ScrollView
@@ -56,33 +51,9 @@ export function DashboardScreen() {
           onPress={() => d.setShowLevelDetail(true)}
         />
 
-        <HealthBadges
-          savingsRatePct={d.summary.savingsRate}
-          cashflow={d.summary.cashflow}
-          totalSavings={d.summary.totalSavings}
-        />
-
         <AiCard report={d.aiReport} onPress={() => d.setShowAiDetail(true)} />
 
         <NetWorthCard summary={d.summary} />
-
-        <NetWorthTrackerCard series={d.netWorthSeries} growthPct={d.netWorthGrowthPct} />
-
-        <EmergencyFundCard
-          saving={d.emergencyFundSaving}
-          info={d.emergencyFundInfo}
-          onPress={() => d.setShowEmergencyPicker(true)}
-        />
-
-        <SectionTitle>⚡ Aksi Cepat</SectionTitle>
-        <QuickActions />
-
-        <SummaryGrid summary={d.summary} />
-
-        <TopExpensesCard
-          categories={d.topExpenseCategories}
-          monthlyExpense={d.summary.monthlyExpense}
-        />
 
         <DebtRatioCard
           totalDebt={d.summary.totalDebt}
@@ -91,13 +62,12 @@ export function DashboardScreen() {
           monthlyInstallment={d.summary.monthlyInstallment}
         />
 
-        <GoalsSection goals={d.goals} savings={d.savings} />
+        <RoadmapCard items={d.roadmap} />
 
-        <RemindersSection
-          urgent={d.urgentReminders}
-          normal={d.normalReminders}
-          paid={d.paidReminders}
-        />
+        <SuggestionsCard items={d.suggestions} />
+
+        <Cashflow30dCard data={d.cashflow30d} />
+        <Cashflow12mCard data={d.cashflow12m} />
 
         <NeracaCard
           totalIncomeAllTime={d.neraca.totalIncomeAllTime}
@@ -109,15 +79,6 @@ export function DashboardScreen() {
           totalDebt={d.summary.totalDebt}
           kekayaanBersih={d.neraca.kekayaanBersih}
         />
-
-        <Cashflow7dCard data={d.cashflow7d} />
-        <Cashflow12mCard data={d.cashflow12m} />
-
-        <RoadmapCard items={d.roadmap} />
-
-        <ProjectionGrid projection={d.projection} />
-
-        <SuggestionsCard items={d.suggestions} />
       </ScrollView>
 
       <LevelDetailModal
@@ -127,15 +88,12 @@ export function DashboardScreen() {
         checklist={d.levelChecklist}
       />
 
-      <EmergencyPickerModal
-        visible={d.showEmergencyPicker}
-        onClose={() => d.setShowEmergencyPicker(false)}
-        savings={d.savings}
-        selectedId={d.settings.emergencyFundSavingId}
-        onSelect={(id) => {
-          d.updateSettings({ emergencyFundSavingId: id });
-          d.setShowEmergencyPicker(false);
-        }}
+      <RemindersModal
+        visible={d.showReminders}
+        onClose={() => d.setShowReminders(false)}
+        urgent={d.urgentReminders}
+        normal={d.normalReminders}
+        paid={d.paidReminders}
       />
 
       <AiDetailModal

@@ -17,7 +17,7 @@ import Realm from 'realm';
 import { useRealm, useQuery, useObject } from '@realm/react';
 
 import { SavingModel, SavingHistoryModel } from '../../../models';
-import { depositToSavingFromCash, withdrawFromSavingToCash } from '../../../services/AllocationService';
+import { depositToSavingFromCash, withdrawFromSavingToCash, transferBetweenSavings } from '../../../services/AllocationService';
 import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
 import { formatCurrency, parseCurrency } from '../../../utils/currency';
 import { formatDate, today } from '../../../utils/date';
@@ -33,6 +33,7 @@ import type { SavingsStackParamList } from './SavingsListScreen';
 
 type Props = NativeStackScreenProps<SavingsStackParamList, 'SavingsDetail'>;
 type ModalType = 'deposit' | 'withdraw' | 'transfer' | null;
+type MoveType = 'cash' | 'saving';
 
 const TYPE_LABEL: Record<string, string> = {
   deposit: 'Setor',
@@ -63,6 +64,7 @@ export function SavingsDetailScreen({ navigation, route }: Props) {
   const [amount, setAmount] = useState('');
   const [date, setDate] = useState(today());
   const [note, setNote] = useState('');
+  const [moveType, setMoveType] = useState<MoveType>('cash');
   const [targetSavingId, setTargetSavingId] = useState<string | null>(null);
   const [showSavingPicker, setShowSavingPicker] = useState(false);
 
@@ -87,6 +89,13 @@ export function SavingsDetailScreen({ navigation, route }: Props) {
     setAmount('');
     setDate(today());
     setNote('');
+    setMoveType('cash');
+    setTargetSavingId(null);
+    setShowSavingPicker(false);
+  };
+
+  const selectMoveType = (type: MoveType) => {
+    setMoveType(type);
     setTargetSavingId(null);
     setShowSavingPicker(false);
   };
@@ -106,67 +115,36 @@ export function SavingsDetailScreen({ navigation, route }: Props) {
       Alert.alert('Validasi', 'Tanggal harus diisi');
       return;
     }
-    if (modalType === 'transfer') {
-      if (!targetSavingId) {
-        Alert.alert('Validasi', 'Pilih tabungan tujuan terlebih dahulu');
-        return;
-      }
-      if (amt > saving.balance) {
-        Alert.alert('Validasi', 'Saldo tidak mencukupi untuk transfer');
-        return;
-      }
-    }
 
-    if (modalType === 'deposit' || modalType === 'withdraw') {
-      const result = realm.write(() =>
-        modalType === 'deposit'
-          ? depositToSavingFromCash(realm, { savingId: id, amount: amt, date, note: note.trim() })
-          : withdrawFromSavingToCash(realm, { savingId: id, amount: amt, date, note: note.trim() }),
-      );
-      if (!result.ok) {
-        Alert.alert('Validasi', result.error);
-        return;
-      }
-      closeModal();
+    const needsTargetSaving =
+      modalType === 'transfer' ||
+      ((modalType === 'deposit' || modalType === 'withdraw') && moveType === 'saving');
+    if (needsTargetSaving && !targetSavingId) {
+      Alert.alert('Validasi', 'Pilih tabungan terlebih dahulu');
       return;
     }
 
-    try {
-      realm.write(() => {
-        if (modalType === 'transfer' && targetSavingId) {
-          const target = realm.objectForPrimaryKey(
-            SavingModel,
-            new Realm.BSON.ObjectId(targetSavingId),
-          );
-          if (!target) return;
+    let result: { ok: true } | { ok: false; error: string } | null = null;
 
-          saving.balance -= amt;
-          realm.create(SavingHistoryModel, {
-            _id: new Realm.BSON.ObjectId(),
-            savingId: id,
-            type: 'transfer',
-            amount: amt,
-            date,
-            note: `→ ${target.name}${note ? ': ' + note : ''}`,
-            createdAt: new Date(),
-          });
+    realm.write(() => {
+      if (modalType === 'deposit') {
+        result = moveType === 'saving' && targetSavingId
+          ? transferBetweenSavings(realm, { fromSavingId: targetSavingId, toSavingId: id, amount: amt, date, note: note.trim() })
+          : depositToSavingFromCash(realm, { savingId: id, amount: amt, date, note: note.trim() });
+      } else if (modalType === 'withdraw') {
+        result = moveType === 'saving' && targetSavingId
+          ? transferBetweenSavings(realm, { fromSavingId: id, toSavingId: targetSavingId, amount: amt, date, note: note.trim() })
+          : withdrawFromSavingToCash(realm, { savingId: id, amount: amt, date, note: note.trim() });
+      } else if (modalType === 'transfer' && targetSavingId) {
+        result = transferBetweenSavings(realm, { fromSavingId: id, toSavingId: targetSavingId, amount: amt, date, note: note.trim() });
+      }
+    });
 
-          target.balance += amt;
-          realm.create(SavingHistoryModel, {
-            _id: new Realm.BSON.ObjectId(),
-            savingId: targetSavingId,
-            type: 'transfer',
-            amount: amt,
-            date,
-            note: `← ${saving.name}${note ? ': ' + note : ''}`,
-            createdAt: new Date(),
-          });
-        }
-      });
-      closeModal();
-    } catch {
-      Alert.alert('Error', 'Gagal menyimpan transaksi');
+    if (result && !(result as { ok: boolean }).ok) {
+      Alert.alert('Validasi', (result as { ok: false; error: string }).error);
+      return;
     }
+    closeModal();
   };
 
   const modalTitle =
@@ -326,10 +304,42 @@ export function SavingsDetailScreen({ navigation, route }: Props) {
             <View style={styles.modalHandle} />
             <Text style={styles.modalTitle}>{modalTitle}</Text>
 
-            {/* Target Saving Picker — Transfer only */}
-            {modalType === 'transfer' && (
+            {/* Source/Destination toggle — Deposit & Withdraw only */}
+            {(modalType === 'deposit' || modalType === 'withdraw') && (
               <View style={styles.inputGroup}>
-                <Text style={styles.inputLabel}>Tabungan Tujuan</Text>
+                <Text style={styles.inputLabel}>
+                  {modalType === 'deposit' ? 'Sumber Dana' : 'Tujuan Dana'}
+                </Text>
+                <View style={styles.moveTypeRow}>
+                  <TouchableOpacity
+                    style={[styles.moveTypeBtn, moveType === 'cash' && styles.moveTypeBtnActive]}
+                    onPress={() => selectMoveType('cash')}
+                    activeOpacity={0.8}
+                  >
+                    <Text style={[styles.moveTypeText, moveType === 'cash' && styles.moveTypeTextActive]}>
+                      Kas Bebas
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[styles.moveTypeBtn, moveType === 'saving' && styles.moveTypeBtnActive]}
+                    onPress={() => selectMoveType('saving')}
+                    activeOpacity={0.8}
+                  >
+                    <Text style={[styles.moveTypeText, moveType === 'saving' && styles.moveTypeTextActive]}>
+                      Tabungan Lain
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )}
+
+            {/* Target Saving Picker — Transfer, or Deposit/Withdraw when source/dest is another saving */}
+            {(modalType === 'transfer' ||
+              ((modalType === 'deposit' || modalType === 'withdraw') && moveType === 'saving')) && (
+              <View style={styles.inputGroup}>
+                <Text style={styles.inputLabel}>
+                  {modalType === 'deposit' ? 'Tabungan Sumber' : 'Tabungan Tujuan'}
+                </Text>
                 <TouchableOpacity
                   style={styles.pickerBtn}
                   onPress={() => setShowSavingPicker(!showSavingPicker)}
@@ -540,6 +550,25 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.lg,
   },
   inputGroup: { marginBottom: SPACING.md },
+  moveTypeRow: {
+    flexDirection: 'row',
+    gap: SPACING.sm,
+  },
+  moveTypeBtn: {
+    flex: 1,
+    alignItems: 'center',
+    paddingVertical: SPACING.sm,
+    borderRadius: RADIUS.md,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    backgroundColor: COLORS.card,
+  },
+  moveTypeBtnActive: {
+    borderColor: COLORS.primary,
+    backgroundColor: COLORS.primary + '18',
+  },
+  moveTypeText: { fontSize: FONTS.sm, fontWeight: '500', color: COLORS.textSecondary },
+  moveTypeTextActive: { color: COLORS.primary, fontWeight: '600' },
   inputLabel: {
     fontSize: FONTS.sm,
     color: COLORS.textSecondary,

@@ -6,6 +6,9 @@ export class DebtPaymentModel extends Realm.Object<DebtPaymentModel> {
   amount!: number;
   date!: string;
   note!: string;
+  source!: string;
+  /** SavingModel._id (hex) that funded this payment, when source === 'savings' */
+  savingId!: string;
   createdAt!: Date;
 
   static schema: ObjectSchema = {
@@ -17,6 +20,8 @@ export class DebtPaymentModel extends Realm.Object<DebtPaymentModel> {
       amount: 'double',
       date: 'string',
       note: { type: 'string', default: '' },
+      source: { type: 'string', default: 'cash' },
+      savingId: { type: 'string', default: '' },
       createdAt: { type: 'date', default: () => new Date() },
     },
   };

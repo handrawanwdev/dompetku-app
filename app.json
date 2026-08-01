@@ -45,7 +45,8 @@
           "resizeMode": "contain",
           "backgroundColor": "#FFFFFF"
         }
-      ]
+      ],
+      "expo-background-task"
     ],
     "extra": {
       "eas": {

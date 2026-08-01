@@ -3,8 +3,19 @@ import { ALL_MODELS } from '../models';
 
 export const realmConfig: Realm.Configuration = {
   schema: ALL_MODELS,
-  schemaVersion: 8,
+  schemaVersion: 9,
   onMigration: (oldRealm, newRealm) => {
+    if (oldRealm.schemaVersion < 9) {
+      // New string properties aren't reliably backfilled onto pre-existing
+      // rows by Realm migrations — existing DebtPayment rows predate the
+      // cash/savings funding source, so backfill explicitly.
+      const newDebtPayments = newRealm.objects('DebtPayment') as unknown as Array<{ source: string; savingId: string }>;
+      for (const p of newDebtPayments) {
+        if (!p.source) p.source = 'cash';
+        if (p.savingId === undefined || p.savingId === null) p.savingId = '';
+      }
+    }
+
     if (oldRealm.schemaVersion < 8) {
       const oldGoals = oldRealm.objects('Goal');
       const newGoals = newRealm.objects('Goal');
