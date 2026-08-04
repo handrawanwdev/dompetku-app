@@ -295,11 +295,11 @@ export function SavingsDetailScreen({ navigation, route }: Props) {
         animationType="slide"
         onRequestClose={closeModal}
       >
-        <KeyboardAvoidingView
-          style={styles.modalOverlay}
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        >
-          <TouchableOpacity style={styles.modalBackdrop} onPress={closeModal} />
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalBackdrop} />
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          >
           <View style={styles.modalSheet}>
             <View style={styles.modalHandle} />
             <Text style={styles.modalTitle}>{modalTitle}</Text>
@@ -416,7 +416,8 @@ export function SavingsDetailScreen({ navigation, route }: Props) {
               <Button title="Simpan" onPress={handleConfirm} style={styles.modalBtn} />
             </View>
           </View>
-        </KeyboardAvoidingView>
+          </KeyboardAvoidingView>
+        </View>
       </Modal>
     </SafeAreaView>
   );

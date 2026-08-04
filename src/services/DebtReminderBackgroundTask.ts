@@ -37,7 +37,9 @@ TaskManager.defineTask(TASK_NAME, async () => {
           monthlyInstallment: d.monthlyInstallment,
           remainingMonth: d.remainingMonth,
           dueDate: d.dueDate,
+          dueDateFull: d.dueDateFull,
           paidThisMonth,
+          debtType: d.debtType,
         },
       );
       if (!status?.urgent) continue;

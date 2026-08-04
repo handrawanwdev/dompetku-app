@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -58,13 +58,17 @@ export function InvestmentFormScreen({ navigation, route }: Props) {
   const [buyDate, setBuyDate] = useState(existing?.buyDate ?? today());
   const [note, setNote] = useState(existing?.note ?? '');
 
+  const savingRef = useRef(false);
+
   const handleSave = () => {
+    if (savingRef.current) return;
     if (!name.trim()) { Alert.alert('Error', 'Nama investasi wajib diisi'); return; }
     const bp = parseFloat(buyPrice.replace(/[^0-9.]/g, ''));
     const qty = parseFloat(quantity.replace(/[^0-9.]/g, ''));
     const cp = parseFloat(currentPrice.replace(/[^0-9.]/g, ''));
     if (!bp || !qty || !cp) { Alert.alert('Error', 'Isi semua data harga dengan benar'); return; }
 
+    savingRef.current = true;
     realm.write(() => {
       if (existing) {
         existing.type = type;

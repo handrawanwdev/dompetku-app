@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -55,13 +55,17 @@ export function GoalFormScreen({ navigation, route }: Props) {
 
   const selectedSaving = savings.find(s => s._id.toHexString() === savingId);
 
+  const savingRef = useRef(false);
+
   const handleSave = () => {
+    if (savingRef.current) return;
     if (!name.trim()) { Alert.alert('Error', 'Nama goal wajib diisi'); return; }
     const targetAmount = parseFloat(target.replace(/[^0-9.]/g, ''));
     if (!targetAmount) { Alert.alert('Error', 'Target amount harus diisi'); return; }
     if (!deadline) { Alert.alert('Error', 'Deadline harus diisi'); return; }
     if (!savingId) { Alert.alert('Error', 'Pilih tabungan untuk goal ini'); return; }
 
+    savingRef.current = true;
     realm.write(() => {
       if (existing) {
         existing.emoji = emoji;

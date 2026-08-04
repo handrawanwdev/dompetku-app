@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -50,7 +50,10 @@ export function SavingsFormScreen({ navigation, route }: Props) {
     }
   }, [id]);
 
+  const savingRef = useRef(false);
+
   const handleSave = () => {
+    if (savingRef.current) return;
     if (!name.trim()) {
       Alert.alert('Validasi', 'Nama tabungan harus diisi');
       return;
@@ -61,6 +64,7 @@ export function SavingsFormScreen({ navigation, route }: Props) {
       return;
     }
 
+    savingRef.current = true;
     setLoading(true);
     try {
       if (isEdit && id) {
@@ -86,6 +90,7 @@ export function SavingsFormScreen({ navigation, route }: Props) {
       }
       navigation.goBack();
     } catch {
+      savingRef.current = false;
       Alert.alert('Error', 'Gagal menyimpan tabungan');
     } finally {
       setLoading(false);

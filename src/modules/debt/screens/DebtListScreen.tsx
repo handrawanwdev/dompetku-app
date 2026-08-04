@@ -37,17 +37,31 @@ type NavProp = NativeStackNavigationProp<DebtStackParamList>;
 
 // ─── Debt Item ────────────────────────────────────────────────────────────────
 
+const DEBT_TYPE_BADGE: Record<string, string> = {
+  tanpa_tenor: '🤝 Tanpa tenor',
+  berjangka: '📆 Berjangka',
+  revolving: '🔁 Revolving',
+  tagihan_rutin: '🔁 Tagihan rutin',
+};
+
 interface DebtItemProps {
   item: DebtModel;
+  remaining: number;
   reminder: ReminderStatus | null;
   onPress: () => void;
 }
 
-function DebtItem({ item, reminder, onPress }: DebtItemProps) {
-  const remaining = item.monthlyInstallment * item.remainingMonth;
-  const totalPaid = item.totalAmount - remaining;
-  const progress = item.totalAmount > 0 ? Math.min((totalPaid / item.totalAmount) * 100, 100) : 0;
+function DebtItem({ item, remaining, reminder, onPress }: DebtItemProps) {
   const urgent = reminder?.urgent ?? false;
+  const isCicilan = item.debtType === 'cicilan';
+  const isRevolving = item.debtType === 'revolving';
+
+  const progress = isCicilan
+    ? (item.totalAmount > 0 ? Math.min(((item.totalAmount - remaining) / item.totalAmount) * 100, 100) : 0)
+    : isRevolving
+      ? (item.totalAmount > 0 ? Math.min((item.currentBalance / item.totalAmount) * 100, 100) : 0)
+      : 0;
+  const showProgress = isCicilan || isRevolving;
 
   return (
     <TouchableOpacity onPress={onPress} activeOpacity={0.7} style={styles.itemContainer}>
@@ -65,30 +79,82 @@ function DebtItem({ item, reminder, onPress }: DebtItemProps) {
         )}
       </View>
 
-      <ProgressBar
-        progress={progress}
-        color={urgent ? COLORS.danger : COLORS.debt}
-        height={6}
-        style={styles.progressBar}
-      />
+      {showProgress ? (
+        <ProgressBar
+          progress={progress}
+          color={urgent ? COLORS.danger : COLORS.debt}
+          height={6}
+          style={styles.progressBar}
+        />
+      ) : DEBT_TYPE_BADGE[item.debtType] ? (
+        <Text style={styles.noTenorBadge}>{DEBT_TYPE_BADGE[item.debtType]}</Text>
+      ) : null}
 
       <View style={styles.itemFooter}>
-        <View style={styles.itemStat}>
-          <Text style={styles.itemStatLabel}>Cicilan/Bulan</Text>
-          <Text style={styles.itemStatValue}>{formatCurrency(item.monthlyInstallment)}</Text>
-        </View>
-        <View style={styles.itemStat}>
-          <Text style={styles.itemStatLabel}>Sisa Bulan</Text>
-          <Text style={styles.itemStatValue}>{item.remainingMonth} bln</Text>
-        </View>
-        <View style={styles.itemStat}>
-          <Text style={styles.itemStatLabel}>Tanggal Bayar</Text>
-          <Text style={styles.itemStatValue}>Tgl {item.dueDate}</Text>
-        </View>
-        <View style={styles.itemStat}>
-          <Text style={styles.itemStatLabel}>Sisa</Text>
-          <AmountDisplay amount={remaining} size="sm" style={{ color: COLORS.debt }} />
-        </View>
+        {item.debtType === 'revolving' ? (
+          <>
+            <View style={styles.itemStat}>
+              <Text style={styles.itemStatLabel}>Limit</Text>
+              <AmountDisplay amount={item.totalAmount} size="sm" style={{ color: COLORS.text }} />
+            </View>
+            <View style={styles.itemStat}>
+              <Text style={styles.itemStatLabel}>Terpakai</Text>
+              <AmountDisplay amount={item.currentBalance} size="sm" style={{ color: COLORS.debt }} />
+            </View>
+            <View style={styles.itemStat}>
+              <Text style={styles.itemStatLabel}>Tgl Tagihan</Text>
+              <Text style={styles.itemStatValue}>Tgl {item.dueDate}</Text>
+            </View>
+          </>
+        ) : item.debtType === 'tagihan_rutin' ? (
+          <>
+            {item.monthlyInstallment > 0 && (
+              <View style={styles.itemStat}>
+                <Text style={styles.itemStatLabel}>Estimasi/Bulan</Text>
+                <Text style={styles.itemStatValue}>{formatCurrency(item.monthlyInstallment)}</Text>
+              </View>
+            )}
+            <View style={styles.itemStat}>
+              <Text style={styles.itemStatLabel}>Tgl Tagihan</Text>
+              <Text style={styles.itemStatValue}>Tgl {item.dueDate}</Text>
+            </View>
+          </>
+        ) : item.debtType === 'berjangka' ? (
+          <>
+            <View style={styles.itemStat}>
+              <Text style={styles.itemStatLabel}>Jatuh Tempo</Text>
+              <Text style={styles.itemStatValue}>{item.dueDateFull}</Text>
+            </View>
+            <View style={styles.itemStat}>
+              <Text style={styles.itemStatLabel}>Sisa</Text>
+              <AmountDisplay amount={remaining} size="sm" style={{ color: COLORS.debt }} />
+            </View>
+          </>
+        ) : item.debtType === 'tanpa_tenor' ? (
+          <View style={styles.itemStat}>
+            <Text style={styles.itemStatLabel}>Sisa Hutang</Text>
+            <AmountDisplay amount={remaining} size="sm" style={{ color: COLORS.debt }} />
+          </View>
+        ) : (
+          <>
+            <View style={styles.itemStat}>
+              <Text style={styles.itemStatLabel}>Cicilan/Bulan</Text>
+              <Text style={styles.itemStatValue}>{formatCurrency(item.monthlyInstallment)}</Text>
+            </View>
+            <View style={styles.itemStat}>
+              <Text style={styles.itemStatLabel}>Sisa Bulan</Text>
+              <Text style={styles.itemStatValue}>{item.remainingMonth} bln</Text>
+            </View>
+            <View style={styles.itemStat}>
+              <Text style={styles.itemStatLabel}>Tanggal Bayar</Text>
+              <Text style={styles.itemStatValue}>Tgl {item.dueDate}</Text>
+            </View>
+            <View style={styles.itemStat}>
+              <Text style={styles.itemStatLabel}>Sisa</Text>
+              <AmountDisplay amount={remaining} size="sm" style={{ color: COLORS.debt }} />
+            </View>
+          </>
+        )}
       </View>
 
       {item.extraPaid > 0 && (
@@ -111,27 +177,47 @@ export function DebtListScreen() {
   const expenses = useQuery(ExpenseModel);
   const monthStart = startOfMonth();
 
+  const totalPaidByDebt = useMemo(() => {
+    const map = new Map<string, number>();
+    for (const p of debtPayments) {
+      map.set(p.debtId, (map.get(p.debtId) ?? 0) + p.amount);
+    }
+    return map;
+  }, [debtPayments]);
+
+  const remainingFor = useCallback((d: DebtModel) => {
+    if (d.debtType === 'cicilan') return d.monthlyInstallment * d.remainingMonth;
+    if (d.debtType === 'revolving') return d.currentBalance;
+    if (d.debtType === 'tanpa_tenor' || d.debtType === 'berjangka') {
+      const paid = totalPaidByDebt.get(d._id.toHexString()) ?? 0;
+      return Math.max(0, d.totalAmount - paid);
+    }
+    return 0; // tagihan_rutin — no fixed total
+  }, [totalPaidByDebt]);
+
   const summary = useMemo(() => {
     let totalRemaining = 0;
     let totalMonthly = 0;
     for (const d of allDebts) {
-      totalRemaining += d.monthlyInstallment * d.remainingMonth;
+      totalRemaining += remainingFor(d);
       totalMonthly += d.monthlyInstallment;
     }
     return { totalRemaining, totalMonthly, count: allDebts.length };
-  }, [allDebts]);
+  }, [allDebts, remainingFor]);
 
   const debtInputs = useMemo(() => allDebts.map((d) => {
-    const paidThisMonth = debtPayments
-      .filtered('debtId == $0 AND date >= $1', d._id.toHexString(), monthStart)
-      .length > 0;
+    const paidThisMonth = d.debtType === 'berjangka' || d.debtType === 'tanpa_tenor'
+      ? false
+      : debtPayments.filtered('debtId == $0 AND date >= $1', d._id.toHexString(), monthStart).length > 0;
     return {
       id: d._id.toHexString(),
       name: d.name,
       monthlyInstallment: d.monthlyInstallment,
       remainingMonth: d.remainingMonth,
       dueDate: d.dueDate,
+      dueDateFull: d.dueDateFull,
       paidThisMonth,
+      debtType: d.debtType,
     };
   }), [allDebts, debtPayments, monthStart]);
 
@@ -152,7 +238,7 @@ export function DebtListScreen() {
   );
 
   const debtFreedom = useMemo(
-    () => getDebtFreedomStatus(allDebtsEver.map((d) => ({
+    () => getDebtFreedomStatus(allDebtsEver.filter((d) => d.debtType === 'cicilan').map((d) => ({
       totalAmount: d.totalAmount, monthlyInstallment: d.monthlyInstallment, remainingMonth: d.remainingMonth,
     }))),
     [allDebtsEver],
@@ -162,11 +248,12 @@ export function DebtListScreen() {
     ({ item }: ListRenderItemInfo<DebtModel>) => (
       <DebtItem
         item={item}
+        remaining={remainingFor(item)}
         reminder={reminderMap.get(item._id.toHexString()) ?? null}
         onPress={() => navigation.navigate('DebtDetail', { id: item._id.toHexString() })}
       />
     ),
-    [navigation, reminderMap],
+    [navigation, reminderMap, remainingFor],
   );
 
   const keyExtractor = useCallback((item: DebtModel) => item._id.toHexString(), []);
@@ -390,6 +477,12 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   progressBar: {
+    marginBottom: SPACING.md,
+  },
+  noTenorBadge: {
+    fontSize: FONTS.xs,
+    color: COLORS.debt,
+    fontWeight: '600',
     marginBottom: SPACING.md,
   },
   itemFooter: {

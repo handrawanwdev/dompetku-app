@@ -90,8 +90,8 @@
     "semantic_hash": ""
   },
   "src/app/AppProviders.tsx": {
-    "mtime": 1785867260.338141,
-    "ast_hash": "8cb6c6f1d33e37d133029fb964776ac3",
+    "mtime": 1785539707.706305,
+    "ast_hash": "da8b49a4694191d8da01377e88854550",
     "semantic_hash": ""
   },
   "src/components/charts/DonutChart.tsx": {
@@ -180,8 +180,8 @@
     "semantic_hash": ""
   },
   "src/database/realm.ts": {
-    "mtime": 1785865190.6158342,
-    "ast_hash": "e5396fc9e3527f3cd599c087c5f5a2f7",
+    "mtime": 1785538003.749587,
+    "ast_hash": "33da29da5b29c6f7d9722b9f56b461d3",
     "semantic_hash": ""
   },
   "src/hooks/useCashflowChart.ts": {
@@ -195,8 +195,8 @@
     "semantic_hash": ""
   },
   "src/models/DebtModel.ts": {
-    "mtime": 1785865160.2759824,
-    "ast_hash": "e87ea9c8b2cc2201f27b126829b4acca",
+    "mtime": 1783443826.8664083,
+    "ast_hash": "f32036443d6259721f97619f9ddab9d0",
     "semantic_hash": ""
   },
   "src/models/DebtPaymentModel.ts": {
@@ -275,8 +275,8 @@
     "semantic_hash": ""
   },
   "src/modules/dashboard/DashboardScreen.tsx": {
-    "mtime": 1785868131.4014156,
-    "ast_hash": "5c30c45b3c527b54bcd84ab8d1c49241",
+    "mtime": 1785539631.0202894,
+    "ast_hash": "cff293c82b9959db393ce910924a4e4f",
     "semantic_hash": ""
   },
   "src/modules/dashboard/components/AiCard.tsx": {
@@ -390,13 +390,13 @@
     "semantic_hash": ""
   },
   "src/modules/dashboard/components/index.ts": {
-    "mtime": 1785868106.0604272,
-    "ast_hash": "efd9e1e5191fd71e61793bc409abcf25",
+    "mtime": 1785539571.8113825,
+    "ast_hash": "5a77687118d9caaa327efa187db85435",
     "semantic_hash": ""
   },
   "src/modules/dashboard/hooks/useDashboardData.ts": {
-    "mtime": 1785865781.3828585,
-    "ast_hash": "1dce5b283de4176122320ec063bf6e7c",
+    "mtime": 1785539506.3184438,
+    "ast_hash": "a54a3f5110429259c2c2cce49bfb025c",
     "semantic_hash": ""
   },
   "src/modules/debt/DebtNavigator.tsx": {
@@ -405,18 +405,18 @@
     "semantic_hash": ""
   },
   "src/modules/debt/screens/DebtDetailScreen.tsx": {
-    "mtime": 1785866126.3013403,
-    "ast_hash": "2baf78e18031b83e33f5a396fce24810",
+    "mtime": 1785538003.7498682,
+    "ast_hash": "05c4eab804a7de0ed60f587cdbd8b7fa",
     "semantic_hash": ""
   },
   "src/modules/debt/screens/DebtFormScreen.tsx": {
-    "mtime": 1785865500.1894445,
-    "ast_hash": "ad4629f5efedc7d1a29d48eb2a485019",
+    "mtime": 1785858853.619545,
+    "ast_hash": "972467515cab2c70cb2e529fe47bc4aa",
     "semantic_hash": ""
   },
   "src/modules/debt/screens/DebtListScreen.tsx": {
-    "mtime": 1785865612.0232172,
-    "ast_hash": "46debf0def85608d4d8f3d51ff40c49a",
+    "mtime": 1783856440.636636,
+    "ast_hash": "20d4ea7c897eccdb9574030da5e17ba5",
     "semantic_hash": ""
   },
   "src/modules/expense/ExpenseNavigator.tsx": {
@@ -455,8 +455,8 @@
     "semantic_hash": ""
   },
   "src/modules/income/screens/IncomeFormScreen.tsx": {
-    "mtime": 1785863679.8849368,
-    "ast_hash": "fe834d20829e95030dd8133c85d003ef",
+    "mtime": 1785859444.270598,
+    "ast_hash": "23ab4ad261cb88b48392e2967e0a57ba",
     "semantic_hash": ""
   },
   "src/modules/income/screens/IncomeListScreen.tsx": {
@@ -595,8 +595,8 @@
     "semantic_hash": ""
   },
   "src/services/AllocationService.ts": {
-    "mtime": 1785863744.2057276,
-    "ast_hash": "1c52c4b905053a18fa2133b2fd3ab6b0",
+    "mtime": 1785859593.4101577,
+    "ast_hash": "525d9a45dc0adbeabaee9b6c13bfdab6",
     "semantic_hash": ""
   },
   "src/services/BackupService.ts": {
@@ -605,8 +605,8 @@
     "semantic_hash": ""
   },
   "src/services/DevSeeder.ts": {
-    "mtime": 1785866764.120225,
-    "ast_hash": "fc96195ef0d0f7c746278a8b3b1fba5f",
+    "mtime": 1783856440.637432,
+    "ast_hash": "244e05affbf7f668acf7d245cacb7ad5",
     "semantic_hash": ""
   },
   "src/services/ErrorLogService.ts": {
@@ -620,8 +620,8 @@
     "semantic_hash": ""
   },
   "src/services/NotificationService.ts": {
-    "mtime": 1785865343.318808,
-    "ast_hash": "453fe81f5afa5d087713746c9e947649",
+    "mtime": 1783463590.3240469,
+    "ast_hash": "c9684a3324a59f517527aea5f5816fdf",
     "semantic_hash": ""
   },
   "src/services/PassiveIncomeScheduler.ts": {
@@ -665,8 +665,8 @@
     "semantic_hash": ""
   },
   "src/utils/finance.ts": {
-    "mtime": 1785865279.8466463,
-    "ast_hash": "514879fbf613dd76aee22672b61fd807",
+    "mtime": 1783847861.6891947,
+    "ast_hash": "ea056012febcb1fd5116c5d0d8887df3",
     "semantic_hash": ""
   },
   "src/utils/financialScore.ts": {
@@ -780,8 +780,8 @@
     "semantic_hash": ""
   },
   "src/modules/dashboard/components/RemindersBell.tsx": {
-    "mtime": 1785866836.9004586,
-    "ast_hash": "eb3daa945d08d52cec0752e15f7238dd",
+    "mtime": 1785539581.1878388,
+    "ast_hash": "879491f67663f9c3bf9fa608efa99d4c",
     "semantic_hash": ""
   },
   "src/modules/dashboard/components/RemindersModal.tsx": {
@@ -790,28 +790,8 @@
     "semantic_hash": ""
   },
   "src/services/DebtReminderBackgroundTask.ts": {
-    "mtime": 1785865358.7986434,
-    "ast_hash": "1db700d8093cdd182e0b6b77312a3735",
-    "semantic_hash": ""
-  },
-  "src/data/motivationQuotes.ts": {
-    "mtime": 1785867996.9538596,
-    "ast_hash": "6b70722a9f8c838b35c50567c9e01be7",
-    "semantic_hash": ""
-  },
-  "src/services/MotivationBackgroundTask.ts": {
-    "mtime": 1785868388.7468185,
-    "ast_hash": "02f9d6c7c054f36ce96fde93bd0009a9",
-    "semantic_hash": ""
-  },
-  "src/utils/motivation.ts": {
-    "mtime": 1785868329.251706,
-    "ast_hash": "cbb79ebc9c4397586a473445d83feb0f",
-    "semantic_hash": ""
-  },
-  "src/modules/dashboard/components/MotivationCard.tsx": {
-    "mtime": 1785868347.9789226,
-    "ast_hash": "c1bd831732025c0f07b6383d66e12d38",
+    "mtime": 1785539689.0978317,
+    "ast_hash": "08c850331f1020574b0b9d7251e81ea8",
     "semantic_hash": ""
   }
 }

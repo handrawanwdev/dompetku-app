@@ -92,18 +92,48 @@ export interface ReminderStatus {
   daysUntil: number;
 }
 
+export type DebtTypeForReminder = 'tanpa_tenor' | 'berjangka' | 'cicilan' | 'revolving' | 'tagihan_rutin';
+
 export interface DebtReminderInput {
   id: string;
   name: string;
   monthlyInstallment: number;
   remainingMonth: number;
+  /** Day of month (1–31) — used for cicilan/revolving/tagihan_rutin's recurring due date. */
   dueDate: number;
-  /** Whether a DebtPayment already exists for this debt within the current month */
+  /** YYYY-MM-DD — used for berjangka's single fixed maturity date. */
+  dueDateFull: string;
+  debtType: DebtTypeForReminder;
+  /** For cicilan/revolving/tagihan_rutin: a DebtPayment already exists this month cycle. For berjangka: the debt is fully paid off (isActive false). Unused for tanpa_tenor. */
   paidThisMonth: boolean;
 }
 
 export function getReminderStatus(debt: DebtReminderInput, now: Date = new Date()): ReminderStatus | null {
-  if (!debt.dueDate || debt.remainingMonth === 0) return null;
+  if (debt.debtType === 'tanpa_tenor') return null;
+
+  if (debt.debtType === 'berjangka') {
+    if (!debt.dueDateFull) return null;
+    if (debt.paidThisMonth) {
+      return { tier: 'lunas', label: '✅ Lunas', color: '#065f46', bg: '#d1fae5', urgent: false, daysUntil: 0 };
+    }
+    const daysUntil = dayjs(debt.dueDateFull).startOf('day').diff(dayjs(now).startOf('day'), 'day');
+    if (daysUntil < 0) {
+      return { tier: 'hari-ini', label: `🔴 Telat ${Math.abs(daysUntil)} hari!`, color: '#991b1b', bg: '#fee2e2', urgent: true, daysUntil };
+    }
+    if (daysUntil === 0) {
+      return { tier: 'hari-ini', label: '🔴 JATUH TEMPO HARI INI!', color: '#991b1b', bg: '#fee2e2', urgent: true, daysUntil };
+    }
+    if (daysUntil <= 3) {
+      return { tier: 'mendesak', label: `🟠 Jatuh tempo ${daysUntil} hari lagi`, color: '#92400e', bg: '#fef3c7', urgent: true, daysUntil };
+    }
+    if (daysUntil <= 7) {
+      return { tier: 'segera', label: `🟡 Jatuh tempo ${daysUntil} hari lagi`, color: '#92400e', bg: '#fefce8', urgent: false, daysUntil };
+    }
+    return { tier: 'aman', label: `📅 Jatuh tempo ${dayjs(debt.dueDateFull).format('D MMM YYYY')}`, color: '#1e40af', bg: '#eff6ff', urgent: false, daysUntil };
+  }
+
+  if (!debt.dueDate) return null;
+  if (debt.debtType === 'cicilan' && debt.remainingMonth === 0) return null;
 
   const today = now.getDate();
   const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
@@ -413,16 +443,27 @@ export interface KewajibanInfo {
 
 const DAY_NAMES_ID = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
 
+/** Only these debt types carry a recurring monthly obligation — tanpa_tenor and berjangka are settled on their own schedule, not every month. */
+function isMonthlyObligation(h: { debtType: DebtTypeForReminder; remainingMonth: number }): boolean {
+  if (h.debtType === 'cicilan') return h.remainingMonth > 0;
+  return h.debtType === 'revolving' || h.debtType === 'tagihan_rutin';
+}
+
+function isMonthlyObligationNextMonth(h: { debtType: DebtTypeForReminder; remainingMonth: number }): boolean {
+  if (h.debtType === 'cicilan') return h.remainingMonth > 1;
+  return h.debtType === 'revolving' || h.debtType === 'tagihan_rutin';
+}
+
 export function getKewajibanBulanIni(
-  debts: Array<{ remainingMonth: number; monthlyInstallment: number; paidThisMonth: boolean }>,
+  debts: Array<{ remainingMonth: number; monthlyInstallment: number; paidThisMonth: boolean; debtType: DebtTypeForReminder }>,
   cashNow: number,
   hariLibur: number[],
   now: Date = new Date(),
 ): KewajibanInfo {
-  const active = debts.filter((h) => h.remainingMonth > 0);
+  const active = debts.filter(isMonthlyObligation);
   const totalBulanIni = active.reduce((s, h) => s + h.monthlyInstallment, 0);
   const totalBulanDepan = debts
-    .filter((h) => h.remainingMonth > 1)
+    .filter(isMonthlyObligationNextMonth)
     .reduce((s, h) => s + h.monthlyInstallment, 0);
 
   const totalSudahBayar = active.filter((h) => h.paidThisMonth).reduce((s, h) => s + h.monthlyInstallment, 0);
@@ -450,6 +491,77 @@ export function getKewajibanBulanIni(
     targetPerHariKerja,
     targetPerHariSisa,
   };
+}
+
+// ─── Debt payment schedule (per-month, marks late months) ────────────────────
+
+export type DebtScheduleStatus = 'lunas' | 'telat' | 'jatuh-tempo-hari-ini' | 'akan-datang';
+
+export interface DebtScheduleMonth {
+  index: number;
+  monthLabel: string;
+  dueDateFull: string;
+  amount: number;
+  status: DebtScheduleStatus;
+  daysLate: number;
+}
+
+/** How many upcoming months to show for open-ended (no-tenor) debts, which have no fixed payoff month. */
+const NO_TENOR_LOOKAHEAD_MONTHS = 6;
+
+/**
+ * Builds the month-by-month installment schedule for a debt, from its first
+ * due month through the last remaining one (or, for open-ended debts with no
+ * tenor, a rolling lookahead window). The first `paymentsCount` months are
+ * marked 'lunas' (payments are consumed oldest-first, matching how
+ * handlePayment decrements remainingMonth by exactly 1 per payment for
+ * tenor-based debts). Months whose due date has passed without a payment are
+ * marked 'telat' with the number of calendar days overdue.
+ */
+export function buildDebtSchedule(params: {
+  startDate: string;
+  dueDate: number;
+  monthlyInstallment: number;
+  paymentsCount: number;
+  hasTenor: boolean;
+  remainingMonth: number;
+  now?: Date;
+}): DebtScheduleMonth[] {
+  const { startDate, dueDate, monthlyInstallment, paymentsCount, hasTenor, remainingMonth } = params;
+  const now = dayjs(params.now ?? new Date());
+  const totalMonths = paymentsCount + (hasTenor ? remainingMonth : NO_TENOR_LOOKAHEAD_MONTHS);
+  const startMonth = dayjs(startDate).startOf('month');
+
+  const schedule: DebtScheduleMonth[] = [];
+  for (let i = 0; i < totalMonths; i++) {
+    const monthCursor = startMonth.add(i, 'month');
+    const dueDay = Math.min(dueDate, monthCursor.daysInMonth());
+    const dueDateFull = monthCursor.date(dueDay);
+
+    let status: DebtScheduleStatus;
+    let daysLate = 0;
+
+    if (i < paymentsCount) {
+      status = 'lunas';
+    } else if (dueDateFull.isSame(now, 'day')) {
+      status = 'jatuh-tempo-hari-ini';
+    } else if (dueDateFull.isBefore(now, 'day')) {
+      status = 'telat';
+      daysLate = now.startOf('day').diff(dueDateFull.startOf('day'), 'day');
+    } else {
+      status = 'akan-datang';
+    }
+
+    schedule.push({
+      index: i,
+      monthLabel: monthCursor.format('MMMM YYYY'),
+      dueDateFull: dueDateFull.format('YYYY-MM-DD'),
+      amount: monthlyInstallment,
+      status,
+      daysLate,
+    });
+  }
+  return schedule;
 }
 
 // ─── FIRE Calculator (PRD §12) ─────────────────────────────────────────────────

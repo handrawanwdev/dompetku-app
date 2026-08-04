@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import {
   View,
   ScrollView,
@@ -6,7 +6,6 @@ import {
   StyleSheet,
   StatusBar,
   Alert,
-  Modal,
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
@@ -20,13 +19,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Realm from 'realm';
 
 import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
-import { Card, Text, Button, Input, DateInput, CurrencyInput, BackButton } from '../../../components/common';
+import { Text, Button, Input, DateInput, CurrencyInput, BackButton } from '../../../components/common';
 import { IncomeModel } from '../../../models/IncomeModel';
-import { DebtModel } from '../../../models/DebtModel';
-import { SavingModel } from '../../../models/SavingModel';
 import { today } from '../../../utils/date';
-import { formatCurrency, parseCurrency } from '../../../utils/currency';
-import { applyIncomeAllocation, reverseIncomeAllocation } from '../../../services/AllocationService';
 import type { CashflowStackParamList } from '../../transaction/types';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -74,9 +69,6 @@ export function IncomeFormScreen() {
     return allIncomes.find((i) => i._id.toHexString() === id) ?? null;
   }, [allIncomes, id]);
 
-  const activeDebts = useQuery(DebtModel).filtered('isActive == true');
-  const savings = useQuery(SavingModel);
-
   const {
     control,
     handleSubmit,
@@ -93,14 +85,6 @@ export function IncomeFormScreen() {
     },
   });
 
-  // Alokasi ke hutang / tabungan (nominal, bukan persen — sesuai prototipe)
-  const [debtId, setDebtId] = useState('');
-  const [debtAllocInput, setDebtAllocInput] = useState('');
-  const [savingId, setSavingId] = useState('');
-  const [savingAllocInput, setSavingAllocInput] = useState('');
-  const [showDebtPicker, setShowDebtPicker] = useState(false);
-  const [showSavingPicker, setShowSavingPicker] = useState(false);
-
   // Populate form when editing
   useEffect(() => {
     if (existingIncome) {
@@ -108,51 +92,27 @@ export function IncomeFormScreen() {
       setValue('category', existingIncome.category);
       setValue('date', existingIncome.date);
       setValue('note', existingIncome.note);
-      setDebtId(existingIncome.allocationDebtId ?? '');
-      setDebtAllocInput(existingIncome.allocationDebt > 0 ? existingIncome.allocationDebt.toString() : '');
-      setSavingId(existingIncome.allocationSavingId ?? '');
-      setSavingAllocInput(existingIncome.allocationSavings > 0 ? existingIncome.allocationSavings.toString() : '');
     }
   }, [existingIncome, setValue]);
 
-  const watchedAmount = parseCurrency(watch('amount') || '0');
-  const debtAllocAmount = parseCurrency(debtAllocInput);
-  const savingAllocAmount = parseCurrency(savingAllocInput);
-  const kasBebas = Math.max(0, watchedAmount - debtAllocAmount - savingAllocAmount);
-
-  const selectedDebt = activeDebts.find((d) => d._id.toHexString() === debtId);
-  const selectedSaving = savings.find((s) => s._id.toHexString() === savingId);
+  const savingRef = useRef(false);
 
   const onSubmit = (data: FormValues) => {
+    if (savingRef.current) return;
     const amount = parseFloat(data.amount.replace(/[^0-9.]/g, ''));
-    const debtAmt = debtId ? debtAllocAmount : 0;
-    const savingAmt = savingId ? savingAllocAmount : 0;
-    const cashAmt = Math.max(0, amount - debtAmt - savingAmt);
 
+    savingRef.current = true;
     realm.write(() => {
       if (isEdit && existingIncome) {
-        // Undo the previous allocation's effect on debt/saving before re-applying
-        reverseIncomeAllocation(realm, {
-          debtId: existingIncome.allocationDebtId,
-          debtAmount: existingIncome.allocationDebt,
-          savingId: existingIncome.allocationSavingId,
-          savingAmount: existingIncome.allocationSavings,
-        });
-
         existingIncome.amount = amount;
         existingIncome.category = data.category;
         existingIncome.date = data.date;
         existingIncome.note = data.note ?? '';
-        existingIncome.allocationDebt = debtAmt;
-        existingIncome.allocationSavings = savingAmt;
-        existingIncome.allocationCash = cashAmt;
-        existingIncome.allocationDebtId = debtId;
-        existingIncome.allocationSavingId = savingId;
-
-        applyIncomeAllocation(realm, {
-          debtId, debtAmount: debtAmt, savingId, savingAmount: savingAmt,
-          category: data.category, date: data.date,
-        });
+        existingIncome.allocationDebt = 0;
+        existingIncome.allocationSavings = 0;
+        existingIncome.allocationCash = amount;
+        existingIncome.allocationDebtId = '';
+        existingIncome.allocationSavingId = '';
       } else {
         realm.create(IncomeModel, {
           _id: new Realm.BSON.ObjectId(),
@@ -160,17 +120,12 @@ export function IncomeFormScreen() {
           category: data.category,
           date: data.date,
           note: data.note ?? '',
-          allocationDebt: debtAmt,
-          allocationSavings: savingAmt,
-          allocationCash: cashAmt,
-          allocationDebtId: debtId,
-          allocationSavingId: savingId,
+          allocationDebt: 0,
+          allocationSavings: 0,
+          allocationCash: amount,
+          allocationDebtId: '',
+          allocationSavingId: '',
           createdAt: new Date(),
-        });
-
-        applyIncomeAllocation(realm, {
-          debtId, debtAmount: debtAmt, savingId, savingAmount: savingAmt,
-          category: data.category, date: data.date,
         });
       }
     });
@@ -187,12 +142,6 @@ export function IncomeFormScreen() {
         onPress: () => {
           if (existingIncome) {
             realm.write(() => {
-              reverseIncomeAllocation(realm, {
-                debtId: existingIncome.allocationDebtId,
-                debtAmount: existingIncome.allocationDebt,
-                savingId: existingIncome.allocationSavingId,
-                savingAmount: existingIncome.allocationSavings,
-              });
               realm.delete(existingIncome);
             });
           }
@@ -298,47 +247,6 @@ export function IncomeFormScreen() {
             )}
           />
 
-          {/* Allocation */}
-          <Card style={styles.allocationCard}>
-            <Text style={styles.allocationTitle}>Alokasi Langsung (opsional)</Text>
-            <Text style={styles.allocationSubtitle}>
-              Pisahkan sebagian pemasukan ke hutang atau tabungan tertentu
-            </Text>
-
-            <Text style={styles.fieldLabel}>Ke Hutang</Text>
-            <TouchableOpacity style={styles.pickerBtn} onPress={() => setShowDebtPicker(true)}>
-              <Text style={selectedDebt ? styles.pickerValue : styles.pickerPlaceholder}>
-                {selectedDebt ? selectedDebt.name : '— Tidak —'}
-              </Text>
-              <Text style={styles.pickerArrow}>›</Text>
-            </TouchableOpacity>
-            {!!debtId && (
-              <CurrencyInput
-                value={debtAllocInput}
-                onChangeText={setDebtAllocInput}
-              />
-            )}
-
-            <Text style={styles.fieldLabel}>Ke Tabungan</Text>
-            <TouchableOpacity style={styles.pickerBtn} onPress={() => setShowSavingPicker(true)}>
-              <Text style={selectedSaving ? styles.pickerValue : styles.pickerPlaceholder}>
-                {selectedSaving ? `${selectedSaving.emoji} ${selectedSaving.name}` : '— Tidak —'}
-              </Text>
-              <Text style={styles.pickerArrow}>›</Text>
-            </TouchableOpacity>
-            {!!savingId && (
-              <CurrencyInput
-                value={savingAllocInput}
-                onChangeText={setSavingAllocInput}
-              />
-            )}
-
-            <View style={styles.cashRow}>
-              <Text style={styles.cashLabel}>Kas Bebas (otomatis)</Text>
-              <Text style={styles.cashValue}>{formatCurrency(kasBebas)}</Text>
-            </View>
-          </Card>
-
           {/* Save */}
           <Button
             title={isEdit ? 'Simpan Perubahan' : 'Simpan Pemasukan'}
@@ -360,66 +268,6 @@ export function IncomeFormScreen() {
           )}
         </ScrollView>
       </KeyboardAvoidingView>
-
-      {/* Debt Picker Modal */}
-      <Modal visible={showDebtPicker} transparent animationType="slide">
-        <View style={styles.overlay}>
-          <View style={styles.modal}>
-            <Text style={styles.modalTitle}>Pilih Hutang</Text>
-            <TouchableOpacity
-              style={styles.pickerItem}
-              onPress={() => { setDebtId(''); setDebtAllocInput(''); setShowDebtPicker(false); }}
-            >
-              <Text style={styles.pickerItemText}>— Tidak —</Text>
-            </TouchableOpacity>
-            {activeDebts.length === 0 ? (
-              <Text style={styles.emptyPickerText}>Belum ada hutang aktif.</Text>
-            ) : (
-              activeDebts.map((d) => (
-                <TouchableOpacity
-                  key={d._id.toHexString()}
-                  style={[styles.pickerItem, d._id.toHexString() === debtId && styles.pickerItemActive]}
-                  onPress={() => { setDebtId(d._id.toHexString()); setShowDebtPicker(false); }}
-                >
-                  <Text style={styles.pickerItemText}>{d.name}</Text>
-                  {d._id.toHexString() === debtId && <Text style={{ color: COLORS.primary }}>✓</Text>}
-                </TouchableOpacity>
-              ))
-            )}
-            <Button title="Tutup" onPress={() => setShowDebtPicker(false)} variant="ghost" style={{ marginTop: SPACING.lg }} />
-          </View>
-        </View>
-      </Modal>
-
-      {/* Saving Picker Modal */}
-      <Modal visible={showSavingPicker} transparent animationType="slide">
-        <View style={styles.overlay}>
-          <View style={styles.modal}>
-            <Text style={styles.modalTitle}>Pilih Tabungan</Text>
-            <TouchableOpacity
-              style={styles.pickerItem}
-              onPress={() => { setSavingId(''); setSavingAllocInput(''); setShowSavingPicker(false); }}
-            >
-              <Text style={styles.pickerItemText}>— Tidak —</Text>
-            </TouchableOpacity>
-            {savings.length === 0 ? (
-              <Text style={styles.emptyPickerText}>Belum ada tabungan.</Text>
-            ) : (
-              savings.map((s) => (
-                <TouchableOpacity
-                  key={s._id.toHexString()}
-                  style={[styles.pickerItem, s._id.toHexString() === savingId && styles.pickerItemActive]}
-                  onPress={() => { setSavingId(s._id.toHexString()); setShowSavingPicker(false); }}
-                >
-                  <Text style={styles.pickerItemText}>{s.emoji} {s.name}</Text>
-                  {s._id.toHexString() === savingId && <Text style={{ color: COLORS.primary }}>✓</Text>}
-                </TouchableOpacity>
-              ))
-            )}
-            <Button title="Tutup" onPress={() => setShowSavingPicker(false)} variant="ghost" style={{ marginTop: SPACING.lg }} />
-          </View>
-        </View>
-      </Modal>
     </SafeAreaView>
   );
 }
@@ -486,79 +334,6 @@ const styles = StyleSheet.create({
     fontSize: FONTS.sm,
     color: COLORS.danger,
     marginTop: SPACING.xs,
-  },
-  allocationCard: {
-    marginBottom: SPACING.xl,
-    padding: SPACING.lg,
-  },
-  allocationTitle: {
-    fontSize: FONTS.lg,
-    fontWeight: '600',
-    color: COLORS.text,
-    marginBottom: SPACING.xs,
-  },
-  allocationSubtitle: {
-    fontSize: FONTS.sm,
-    color: COLORS.textSecondary,
-    marginBottom: SPACING.lg,
-  },
-  pickerBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: COLORS.inputBg,
-    borderRadius: RADIUS.md,
-    borderWidth: 1.5,
-    borderColor: COLORS.border,
-    padding: SPACING.md,
-    marginBottom: SPACING.sm,
-  },
-  pickerValue: { flex: 1, fontSize: FONTS.md, color: COLORS.text },
-  pickerPlaceholder: { flex: 1, fontSize: FONTS.md, color: COLORS.textMuted },
-  pickerArrow: { fontSize: FONTS.lg, color: COLORS.textMuted },
-  overlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.7)', justifyContent: 'flex-end' },
-  modal: {
-    backgroundColor: COLORS.surface,
-    borderTopLeftRadius: RADIUS.xl,
-    borderTopRightRadius: RADIUS.xl,
-    padding: SPACING.xl,
-    maxHeight: '70%',
-  },
-  modalTitle: { fontSize: FONTS.lg, fontWeight: '700', color: COLORS.text, marginBottom: SPACING.lg },
-  pickerItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: SPACING.md,
-    borderRadius: RADIUS.md,
-    marginBottom: SPACING.sm,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-  },
-  pickerItemActive: { borderColor: COLORS.primary, backgroundColor: COLORS.primary + '11' },
-  pickerItemText: { fontSize: FONTS.md, color: COLORS.text },
-  emptyPickerText: {
-    fontSize: FONTS.sm,
-    color: COLORS.textSecondary,
-    textAlign: 'center',
-    padding: SPACING.xl,
-  },
-  cashRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingTop: SPACING.sm,
-    borderTopWidth: 1,
-    borderTopColor: COLORS.border,
-    marginTop: SPACING.xs,
-  },
-  cashLabel: {
-    fontSize: FONTS.sm,
-    color: COLORS.textSecondary,
-  },
-  cashValue: {
-    fontSize: FONTS.md,
-    fontWeight: '700',
-    color: COLORS.text,
   },
   saveBtn: {
     marginBottom: SPACING.md,

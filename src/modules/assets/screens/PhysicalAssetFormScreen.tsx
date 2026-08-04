@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -57,7 +57,10 @@ export function PhysicalAssetFormScreen({ navigation, route }: Props) {
   const [residualValue, setResidualValue] = useState(existing?.residualValue?.toString() ?? '0');
   const [note, setNote] = useState(existing?.note ?? '');
 
+  const savingRef = useRef(false);
+
   const handleSave = () => {
+    if (savingRef.current) return;
     if (!name.trim()) { Alert.alert('Error', 'Nama aset wajib diisi'); return; }
     const pp = parseFloat(purchasePrice.replace(/[^0-9.]/g, ''));
     const ul = parseInt(usefulLife);
@@ -65,6 +68,7 @@ export function PhysicalAssetFormScreen({ navigation, route }: Props) {
     if (!pp) { Alert.alert('Error', 'Harga beli harus diisi'); return; }
     if (!ul || ul < 1) { Alert.alert('Error', 'Masa manfaat minimal 1 tahun'); return; }
 
+    savingRef.current = true;
     realm.write(() => {
       if (existing) {
         existing.category = category;

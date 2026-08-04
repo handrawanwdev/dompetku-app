@@ -1,6 +1,7 @@
 export { SectionTitle } from "./SectionTitle";
 export { FreedomCard } from "./FreedomCard";
 export { AiCard } from "./AiCard";
+export { MotivationCard } from "./MotivationCard";
 export { NetWorthCard } from "./NetWorthCard";
 export { DebtRatioCard } from "./DebtRatioCard";
 export { RemindersSection } from "./RemindersSection";

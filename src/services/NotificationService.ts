@@ -42,12 +42,18 @@ async function scheduleAt(identifier: string, date: Date, title: string, body: s
   });
 }
 
+export type DebtTypeForNotification = 'tanpa_tenor' | 'berjangka' | 'cicilan' | 'revolving' | 'tagihan_rutin';
+
 export interface DebtReminderInput {
   id: string;
   name: string;
   monthlyInstallment: number;
   remainingMonth: number;
+  /** Day of month (1–31) — cicilan/revolving/tagihan_rutin's recurring due date. */
   dueDate: number;
+  /** YYYY-MM-DD — berjangka's single fixed maturity date. */
+  dueDateFull: string;
+  debtType: DebtTypeForNotification;
 }
 
 /** (Re)schedules H-7 and due-date reminders for every active debt. Call after any debt is created/edited/paid. */
@@ -56,7 +62,33 @@ export async function refreshDebtReminders(debts: DebtReminderInput[]) {
   const now = dayjs();
 
   for (const debt of debts) {
-    if (debt.remainingMonth <= 0) continue;
+    if (debt.debtType === 'tanpa_tenor') continue;
+
+    if (debt.debtType === 'berjangka') {
+      if (!debt.dueDateFull) continue;
+      const occurrence = dayjs(debt.dueDateFull).hour(DEBT_REMINDER_HOUR).minute(0).second(0);
+      const h7 = occurrence.subtract(7, 'day');
+
+      if (h7.isAfter(now)) {
+        await scheduleAt(
+          `debt-${debt.id}-h7`,
+          h7.toDate(),
+          `⏰ ${debt.name} jatuh tempo 7 hari lagi`,
+          `Hutang ${formatCurrency(debt.monthlyInstallment)} jatuh tempo ${occurrence.format('D MMM YYYY')}`,
+        );
+      }
+      if (occurrence.isAfter(now)) {
+        await scheduleAt(
+          `debt-${debt.id}-due`,
+          occurrence.toDate(),
+          `🔴 ${debt.name} jatuh tempo hari ini!`,
+          `Hutang jatuh tempo sekarang`,
+        );
+      }
+      continue;
+    }
+
+    if (debt.debtType === 'cicilan' && debt.remainingMonth <= 0) continue;
 
     for (const monthOffset of [0, 1]) {
       const occurrence = dayjs().add(monthOffset, 'month').date(debt.dueDate).hour(DEBT_REMINDER_HOUR).minute(0).second(0);

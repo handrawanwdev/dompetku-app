@@ -11,6 +11,7 @@ import { MainTabNavigator } from '../navigation/MainTabNavigator';
 import { useSettingsStore } from '../store/settingsStore';
 import { requestNotificationPermissions } from '../services/NotificationService';
 import { registerDebtReminderBackgroundTask } from '../services/DebtReminderBackgroundTask';
+import { registerMotivationBackgroundTask } from '../services/MotivationBackgroundTask';
 import { installGlobalErrorHandlers } from '../services/ErrorLogService';
 import { ErrorBoundary } from '../components/common/ErrorBoundary';
 
@@ -23,6 +24,7 @@ function AppInner() {
     loadSettings();
     requestNotificationPermissions();
     registerDebtReminderBackgroundTask();
+    registerMotivationBackgroundTask();
   }, []);
 
   return (

@@ -3,8 +3,20 @@ import { ALL_MODELS } from '../models';
 
 export const realmConfig: Realm.Configuration = {
   schema: ALL_MODELS,
-  schemaVersion: 9,
+  schemaVersion: 11,
   onMigration: (oldRealm, newRealm) => {
+    if (oldRealm.schemaVersion < 11) {
+      // New string/double properties' schema `default` isn't backfilled onto
+      // pre-existing rows by Realm migrations — existing Debt rows predate the
+      // multi-type distinction and were always the fixed-installment kind.
+      const newDebts = newRealm.objects('Debt') as unknown as Array<{ debtType: string; dueDateFull: string; currentBalance: number }>;
+      for (const d of newDebts) {
+        if (!d.debtType) d.debtType = 'cicilan';
+        if (d.dueDateFull === undefined || d.dueDateFull === null) d.dueDateFull = '';
+        if (d.currentBalance === undefined || d.currentBalance === null) d.currentBalance = 0;
+      }
+    }
+
     if (oldRealm.schemaVersion < 9) {
       // New string properties aren't reliably backfilled onto pre-existing
       // rows by Realm migrations — existing DebtPayment rows predate the

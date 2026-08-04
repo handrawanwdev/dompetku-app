@@ -67,6 +67,8 @@ export function useDashboardData() {
         monthlyInstallment: d.monthlyInstallment,
         remainingMonth: d.remainingMonth,
         dueDate: d.dueDate,
+        dueDateFull: d.dueDateFull,
+        debtType: d.debtType,
       })),
     );
   }, [debts]);
@@ -133,10 +135,17 @@ export function useDashboardData() {
       0,
     );
 
-    const totalDebt = debts.reduce(
-      (s, d) => s + d.monthlyInstallment * d.remainingMonth,
-      0,
-    );
+    const totalDebt = debts.reduce((s, d) => {
+      if (d.debtType === "cicilan") return s + d.monthlyInstallment * d.remainingMonth;
+      if (d.debtType === "revolving") return s + d.currentBalance;
+      if (d.debtType === "tanpa_tenor" || d.debtType === "berjangka") {
+        const paid = debtPayments
+          .filtered("debtId == $0", d._id.toHexString())
+          .sum("amount") ?? 0;
+        return s + Math.max(0, d.totalAmount - paid);
+      }
+      return s; // tagihan_rutin — no fixed total
+    }, 0);
 
     const monthlyInstallment = debts.reduce(
       (s, d) => s + d.monthlyInstallment,
@@ -186,6 +195,7 @@ export function useDashboardData() {
     incomes,
     expenses,
     debts,
+    debtPayments,
     savings,
     investments,
     physicalAssets,
@@ -327,18 +337,22 @@ export function useDashboardData() {
     return debts
       .map((d) => {
         const paidThisMonth =
-          debtPayments.filtered(
-            "debtId == $0 AND date >= $1",
-            d._id.toHexString(),
-            monthStart,
-          ).length > 0;
+          d.debtType === "berjangka" || d.debtType === "tanpa_tenor"
+            ? false
+            : debtPayments.filtered(
+                "debtId == $0 AND date >= $1",
+                d._id.toHexString(),
+                monthStart,
+              ).length > 0;
         const status = getReminderStatus({
           id: d._id.toHexString(),
           name: d.name,
           monthlyInstallment: d.monthlyInstallment,
           remainingMonth: d.remainingMonth,
           dueDate: d.dueDate,
+          dueDateFull: d.dueDateFull,
           paidThisMonth,
+          debtType: d.debtType,
         });
         return { debt: d, status };
       })
@@ -368,12 +382,14 @@ export function useDashboardData() {
   const roadmap = useMemo(
     () =>
       getDebtRoadmap(
-        debts.map((d) => ({
-          id: d._id.toHexString(),
-          name: d.name,
-          remainingMonth: d.remainingMonth,
-          monthlyInstallment: d.monthlyInstallment,
-        })),
+        debts
+          .filter((d) => d.debtType === "cicilan")
+          .map((d) => ({
+            id: d._id.toHexString(),
+            name: d.name,
+            remainingMonth: d.remainingMonth,
+            monthlyInstallment: d.monthlyInstallment,
+          })),
       ),
     [debts],
   );

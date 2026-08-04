@@ -1,30 +1,32 @@
-import Realm from 'realm';
-import { IncomeModel } from '../models/IncomeModel';
-import { ExpenseModel } from '../models/ExpenseModel';
-import { DebtModel } from '../models/DebtModel';
-import { DebtPaymentModel } from '../models/DebtPaymentModel';
-import { SavingModel } from '../models/SavingModel';
-import { SavingHistoryModel } from '../models/SavingHistoryModel';
-import { InvestmentModel } from '../models/InvestmentModel';
-import { PhysicalAssetModel } from '../models/PhysicalAssetModel';
-import { GoalModel } from '../models/GoalModel';
-import { CategoryModel } from '../models/CategoryModel';
-import { PassiveIncomeModel } from '../models/PassiveIncomeModel';
-import { FinancialMilestoneModel } from '../models/FinancialMilestoneModel';
+import Realm from "realm";
+import { IncomeModel } from "../models/IncomeModel";
+import { ExpenseModel } from "../models/ExpenseModel";
+import { DebtModel } from "../models/DebtModel";
+import { DebtPaymentModel } from "../models/DebtPaymentModel";
+import { SavingModel } from "../models/SavingModel";
+import { SavingHistoryModel } from "../models/SavingHistoryModel";
+import { InvestmentModel } from "../models/InvestmentModel";
+import { PhysicalAssetModel } from "../models/PhysicalAssetModel";
+import { GoalModel } from "../models/GoalModel";
+import { CategoryModel } from "../models/CategoryModel";
+import { PassiveIncomeModel } from "../models/PassiveIncomeModel";
+import { FinancialMilestoneModel } from "../models/FinancialMilestoneModel";
 
 const EXPENSE_CATEGORIES = [
-  { name: 'Makanan', emoji: '🍔' },
-  { name: 'Transportasi', emoji: '🚗' },
-  { name: 'Tagihan', emoji: '🧾' },
-  { name: 'Hiburan', emoji: '🎬' },
-  { name: 'Belanja', emoji: '🛒' },
-  { name: 'Kesehatan', emoji: '💊' },
+  { name: "Makanan", emoji: "🍔" },
+  { name: "Transportasi", emoji: "🚗" },
+  { name: "Tagihan", emoji: "🧾" },
+  { name: "Hiburan", emoji: "🎬" },
+  { name: "Belanja", emoji: "🛒" },
+  { name: "Kesehatan", emoji: "💊" },
 ];
 
 const INCOME_CATEGORIES = [
-  { name: 'Gaji', emoji: '💼' },
-  { name: 'Bonus', emoji: '🎁' },
-  { name: 'Freelance', emoji: '💻' },
+  { name: "Gaji", emoji: "💼" },
+  { name: "Bonus", emoji: "🎁" },
+  { name: "Freelance", emoji: "💻" },
+  { name: "Investasi", emoji: "📈" },
+  { name: "Lainnya", emoji: "💰" },
 ];
 
 function randInt(min: number, max: number) {
@@ -38,7 +40,7 @@ function pick<T>(arr: T[]): T {
 function dateDaysAgo(days: number): string {
   const d = new Date();
   d.setDate(d.getDate() - days);
-  return d.toISOString().split('T')[0];
+  return d.toISOString().split("T")[0];
 }
 
 export interface SeedSummary {
@@ -73,49 +75,67 @@ export function seedDummyData(realm: Realm): SeedSummary {
   };
 
   realm.write(() => {
-    EXPENSE_CATEGORIES.forEach(c => {
-      realm.create(CategoryModel, { name: c.name, type: 'expense', emoji: c.emoji });
+    EXPENSE_CATEGORIES.forEach((c) => {
+      realm.create(CategoryModel, {
+        name: c.name,
+        type: "expense",
+        emoji: c.emoji,
+      });
       summary.categories += 1;
     });
-    INCOME_CATEGORIES.forEach(c => {
-      realm.create(CategoryModel, { name: c.name, type: 'income', emoji: c.emoji });
+    INCOME_CATEGORIES.forEach((c) => {
+      realm.create(CategoryModel, {
+        name: c.name,
+        type: "income",
+        emoji: c.emoji,
+      });
       summary.categories += 1;
     });
 
     const savings: SavingModel[] = [];
     [
-      { name: 'Dana Darurat', target: 20_000_000, balance: 6_500_000, emoji: '🚨' },
-      { name: 'Liburan', target: 10_000_000, balance: 2_000_000, emoji: '✈️' },
-      { name: 'Beli Motor', target: 25_000_000, balance: 5_000_000, emoji: '🏍️' },
-    ].forEach(s => {
+      {
+        name: "Dana Darurat",
+        target: 20_000_000,
+        balance: 6_500_000,
+        emoji: "🚨",
+      },
+      { name: "Liburan", target: 10_000_000, balance: 2_000_000, emoji: "✈️" },
+      {
+        name: "Beli Motor",
+        target: 25_000_000,
+        balance: 5_000_000,
+        emoji: "🏍️",
+      },
+    ].forEach((s) => {
       const saving = realm.create(SavingModel, { ...s });
       savings.push(saving);
       summary.savings += 1;
     });
 
-    savings.forEach(saving => {
+    savings.forEach((saving) => {
       for (let i = 0; i < 3; i++) {
         const amount = randInt(200_000, 1_000_000);
         realm.create(SavingHistoryModel, {
           savingId: saving._id.toHexString(),
-          type: 'deposit',
+          type: "deposit",
           amount,
           date: dateDaysAgo(randInt(1, 60)),
-          note: 'Setoran rutin',
+          note: "Setoran rutin",
         });
         summary.savingHistory += 1;
       }
     });
 
     const debt = realm.create(DebtModel, {
-      name: 'KPR Rumah',
-      lender: 'Bank BCA',
+      name: "KPR Rumah",
+      lender: "Bank BCA",
       totalAmount: 300_000_000,
       monthlyInstallment: 3_500_000,
       remainingMonth: 96,
       dueDate: 10,
       startDate: dateDaysAgo(180),
-      note: 'Cicilan bulanan',
+      note: "Cicilan bulanan",
       isActive: true,
       extraPaid: 0,
     });
@@ -126,7 +146,7 @@ export function seedDummyData(realm: Realm): SeedSummary {
         debtId: debt._id.toHexString(),
         amount: 3_500_000,
         date: dateDaysAgo(30 * (i + 1)),
-        note: 'Pembayaran cicilan',
+        note: "Pembayaran cicilan",
       });
       summary.debtPayments += 1;
     }
@@ -137,12 +157,12 @@ export function seedDummyData(realm: Realm): SeedSummary {
         date: dateDaysAgo(randInt(1, 90)),
         category: category.name,
         amount: randInt(5_000_000, 12_000_000),
-        note: 'Data dummy',
+        note: "Data dummy",
         allocationDebt: 0,
         allocationSavings: 0,
         allocationCash: 0,
-        allocationDebtId: '',
-        allocationSavingId: '',
+        allocationDebtId: "",
+        allocationSavingId: "",
       });
       summary.incomes += 1;
     }
@@ -153,64 +173,82 @@ export function seedDummyData(realm: Realm): SeedSummary {
         date: dateDaysAgo(randInt(1, 90)),
         category: category.name,
         amount: randInt(20_000, 500_000),
-        source: 'cash',
-        savingId: '',
-        note: 'Data dummy',
+        source: "cash",
+        savingId: "",
+        note: "Data dummy",
       });
       summary.expenses += 1;
     }
 
     [
-      { type: 'stock', name: 'BBCA', buyPrice: 8_500, quantity: 100, currentPrice: 9_200 },
-      { type: 'crypto', name: 'BTC', buyPrice: 400_000_000, quantity: 0.01, currentPrice: 450_000_000 },
-      { type: 'gold', name: 'Emas Antam', buyPrice: 1_050_000, quantity: 5, currentPrice: 1_120_000 },
-    ].forEach(inv => {
+      {
+        type: "stock",
+        name: "BBCA",
+        buyPrice: 8_500,
+        quantity: 100,
+        currentPrice: 9_200,
+      },
+      {
+        type: "crypto",
+        name: "BTC",
+        buyPrice: 400_000_000,
+        quantity: 0.01,
+        currentPrice: 450_000_000,
+      },
+      {
+        type: "gold",
+        name: "Emas Antam",
+        buyPrice: 1_050_000,
+        quantity: 5,
+        currentPrice: 1_120_000,
+      },
+    ].forEach((inv) => {
       realm.create(InvestmentModel, {
         ...inv,
         buyDate: dateDaysAgo(randInt(30, 200)),
-        note: 'Data dummy',
+        note: "Data dummy",
         sold: false,
         sellPrice: 0,
-        sellDate: '',
+        sellDate: "",
       });
       summary.investments += 1;
     });
 
     realm.create(PhysicalAssetModel, {
-      name: 'Laptop Kerja',
-      category: 'laptop',
+      name: "Laptop Kerja",
+      category: "laptop",
       purchasePrice: 15_000_000,
       purchaseDate: dateDaysAgo(365),
       usefulLife: 4,
       residualValue: 2_000_000,
-      note: 'Data dummy',
+      note: "Data dummy",
       sold: false,
       sellPrice: 0,
-      sellDate: '',
+      sellDate: "",
     });
     summary.physicalAssets += 1;
 
-    const motorSaving = savings.find(s => s.name === 'Beli Motor')!;
+    const motorSaving = savings.find((s) => s.name === "Beli Motor")!;
     realm.create(GoalModel, {
-      name: 'Beli Motor',
+      name: "Beli Motor",
       target: 25_000_000,
       deadline: dateDaysAgo(-180),
       savingId: motorSaving._id.toHexString(),
-      emoji: '🏍️',
+      emoji: "🏍️",
     });
     summary.goals += 1;
 
     realm.create(PassiveIncomeModel, {
-      category: 'dividen',
+      category: "dividen",
       amount: 500_000,
-      frequency: 'monthly',
-      note: 'Data dummy',
+      frequency: "monthly",
+      note: "Data dummy",
     });
     summary.passiveIncomes += 1;
 
     realm.create(FinancialMilestoneModel, {
-      type: 'first_saving',
-      title: 'Tabungan Pertama',
+      type: "first_saving",
+      title: "Tabungan Pertama",
       achievedAt: new Date(),
     });
     summary.milestones += 1;

@@ -9,6 +9,7 @@ import { useDashboardData } from "./hooks/useDashboardData";
 import {
   FreedomCard,
   AiCard,
+  MotivationCard,
   NetWorthCard,
   DebtRatioCard,
   RemindersBell,
@@ -52,6 +53,8 @@ export function DashboardScreen() {
         />
 
         <AiCard report={d.aiReport} onPress={() => d.setShowAiDetail(true)} />
+
+        <MotivationCard score={d.financialScore} />
 
         <NetWorthCard summary={d.summary} />
 

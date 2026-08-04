@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import {
   View,
   ScrollView,
@@ -6,7 +6,6 @@ import {
   StyleSheet,
   StatusBar,
   Alert,
-  Modal,
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
@@ -20,11 +19,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Realm from 'realm';
 
 import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
-import { Card, Text, Button, Input, DateInput, CurrencyInput, BackButton } from '../../../components/common';
+import { Text, Button, Input, DateInput, CurrencyInput, BackButton } from '../../../components/common';
 import { ExpenseModel } from '../../../models/ExpenseModel';
-import { SavingModel } from '../../../models/SavingModel';
 import { today } from '../../../utils/date';
-import { applyExpenseFunding, reverseExpenseFunding } from '../../../services/AllocationService';
 import type { CashflowStackParamList } from '../../transaction/types';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -47,11 +44,6 @@ const CATEGORIES = [
   { label: 'Lainnya', emoji: '💸' },
 ];
 
-const SOURCES = [
-  { value: 'cash', label: 'Kas Bebas', color: COLORS.warning },
-  { value: 'savings', label: 'Tabungan', color: COLORS.savings },
-];
-
 // ─── Validation ───────────────────────────────────────────────────────────────
 
 const schema = z.object({
@@ -60,7 +52,6 @@ const schema = z.object({
     .min(1, 'Nominal wajib diisi')
     .refine((v) => parseFloat(v.replace(/[^0-9.]/g, '')) > 0, 'Nominal harus lebih dari 0'),
   category: z.string().min(1, 'Kategori wajib dipilih'),
-  source: z.string().min(1, 'Sumber dana wajib dipilih'),
   date: z.string().min(1, 'Tanggal wajib diisi'),
   note: z.string().optional(),
 });
@@ -82,10 +73,6 @@ export function ExpenseFormScreen() {
     return allExpenses.find((e) => e._id.toHexString() === id) ?? null;
   }, [allExpenses, id]);
 
-  const savings = useQuery(SavingModel);
-  const [savingId, setSavingId] = useState('');
-  const [showSavingPicker, setShowSavingPicker] = useState(false);
-
   const {
     control,
     handleSubmit,
@@ -97,7 +84,6 @@ export function ExpenseFormScreen() {
     defaultValues: {
       amount: '',
       category: '',
-      source: 'cash',
       date: today(),
       note: '',
     },
@@ -107,67 +93,35 @@ export function ExpenseFormScreen() {
     if (existingExpense) {
       setValue('amount', existingExpense.amount.toString());
       setValue('category', existingExpense.category);
-      setValue('source', existingExpense.source);
       setValue('date', existingExpense.date);
       setValue('note', existingExpense.note);
-      setSavingId(existingExpense.savingId ?? '');
     }
   }, [existingExpense, setValue]);
 
   const selectedCategory = watch('category');
-  const selectedSource = watch('source');
-  const selectedSaving = savings.find((s) => s._id.toHexString() === savingId);
+
+  const savingRef = useRef(false);
 
   const onSubmit = (data: FormValues) => {
+    if (savingRef.current) return;
     const amount = parseFloat(data.amount.replace(/[^0-9.]/g, ''));
 
-    if (data.source === 'savings') {
-      if (!savingId) {
-        Alert.alert('Validasi', 'Pilih pos tabungan sumber dana');
-        return;
-      }
-      const saving = savings.find((s) => s._id.toHexString() === savingId);
-      // If editing and re-funding from the same pos, its current balance already
-      // has the old amount deducted — add it back for an accurate availability check.
-      const alreadyDeducted = isEdit && existingExpense?.source === 'savings' && existingExpense.savingId === savingId
-        ? existingExpense.amount
-        : 0;
-      if (!saving || saving.balance + alreadyDeducted < amount) {
-        Alert.alert('Validasi', 'Saldo tabungan tidak mencukupi');
-        return;
-      }
-    }
-
+    savingRef.current = true;
     realm.write(() => {
       if (isEdit && existingExpense) {
-        // Refund whatever the previous save deducted before applying the new one
-        reverseExpenseFunding(realm, {
-          source: existingExpense.source,
-          savingId: existingExpense.savingId,
-          amount: existingExpense.amount,
-        });
-
-        applyExpenseFunding(realm, {
-          source: data.source, savingId, amount, category: data.category, date: data.date,
-        });
-
         existingExpense.amount = amount;
         existingExpense.category = data.category;
-        existingExpense.source = data.source;
-        existingExpense.savingId = data.source === 'savings' ? savingId : '';
+        existingExpense.source = 'cash';
+        existingExpense.savingId = '';
         existingExpense.date = data.date;
         existingExpense.note = data.note ?? '';
       } else {
-        applyExpenseFunding(realm, {
-          source: data.source, savingId, amount, category: data.category, date: data.date,
-        });
-
         realm.create(ExpenseModel, {
           _id: new Realm.BSON.ObjectId(),
           amount,
           category: data.category,
-          source: data.source,
-          savingId: data.source === 'savings' ? savingId : '',
+          source: 'cash',
+          savingId: '',
           date: data.date,
           note: data.note ?? '',
           createdAt: new Date(),
@@ -187,11 +141,6 @@ export function ExpenseFormScreen() {
         onPress: () => {
           if (existingExpense) {
             realm.write(() => {
-              reverseExpenseFunding(realm, {
-                source: existingExpense.source,
-                savingId: existingExpense.savingId,
-                amount: existingExpense.amount,
-              });
               realm.delete(existingExpense);
             });
           }
@@ -264,48 +213,6 @@ export function ExpenseFormScreen() {
             )}
           </View>
 
-          {/* Source Radio */}
-          <View style={styles.fieldGroup}>
-            <Text style={styles.fieldLabel}>Sumber Dana</Text>
-            <View style={styles.sourceRow}>
-              {SOURCES.map((src) => {
-                const isSelected = selectedSource === src.value;
-                return (
-                  <TouchableOpacity
-                    key={src.value}
-                    onPress={() => setValue('source', src.value, { shouldValidate: true })}
-                    style={[
-                      styles.sourceOption,
-                      isSelected && { borderColor: src.color, backgroundColor: src.color + '22' },
-                    ]}
-                    activeOpacity={0.7}
-                  >
-                    <View
-                      style={[
-                        styles.radioCircle,
-                        isSelected && { borderColor: src.color, backgroundColor: src.color },
-                      ]}
-                    />
-                    <Text style={[styles.sourceLabel, isSelected ? { color: src.color } : null]}>
-                      {src.label}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-            {errors.source && (
-              <Text style={styles.errorText}>{errors.source.message}</Text>
-            )}
-            {selectedSource === 'savings' && (
-              <TouchableOpacity style={styles.pickerBtn} onPress={() => setShowSavingPicker(true)}>
-                <Text style={selectedSaving ? styles.pickerValue : styles.pickerPlaceholder}>
-                  {selectedSaving ? `${selectedSaving.emoji} ${selectedSaving.name} — ${selectedSaving.balance.toLocaleString('id-ID')}` : 'Pilih pos tabungan...'}
-                </Text>
-                <Text style={styles.pickerArrow}>›</Text>
-              </TouchableOpacity>
-            )}
-          </View>
-
           {/* Date */}
           <Controller
             control={control}
@@ -360,30 +267,6 @@ export function ExpenseFormScreen() {
           )}
         </ScrollView>
       </KeyboardAvoidingView>
-
-      {/* Saving Picker Modal */}
-      <Modal visible={showSavingPicker} transparent animationType="slide">
-        <View style={styles.overlay}>
-          <View style={styles.modal}>
-            <Text style={styles.modalTitle}>Pilih Pos Tabungan</Text>
-            {savings.length === 0 ? (
-              <Text style={styles.emptyPickerText}>Belum ada tabungan. Buat tabungan terlebih dahulu.</Text>
-            ) : (
-              savings.map((s) => (
-                <TouchableOpacity
-                  key={s._id.toHexString()}
-                  style={[styles.pickerItem, s._id.toHexString() === savingId && styles.pickerItemActive]}
-                  onPress={() => { setSavingId(s._id.toHexString()); setShowSavingPicker(false); }}
-                >
-                  <Text style={styles.pickerItemText}>{s.emoji} {s.name}</Text>
-                  <Text style={styles.pickerItemBalance}>{s.balance.toLocaleString('id-ID')}</Text>
-                </TouchableOpacity>
-              ))
-            )}
-            <Button title="Tutup" onPress={() => setShowSavingPicker(false)} variant="ghost" style={{ marginTop: SPACING.lg }} />
-          </View>
-        </View>
-      </Modal>
     </SafeAreaView>
   );
 }
@@ -446,33 +329,6 @@ const styles = StyleSheet.create({
   chipLabelSelected: {
     color: '#FFFFFF',
   },
-  sourceRow: {
-    flexDirection: 'row',
-    gap: SPACING.md,
-  },
-  sourceOption: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: SPACING.sm,
-    padding: SPACING.md,
-    borderRadius: RADIUS.md,
-    backgroundColor: COLORS.surface,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-  },
-  radioCircle: {
-    width: 18,
-    height: 18,
-    borderRadius: RADIUS.round,
-    borderWidth: 2,
-    borderColor: COLORS.border,
-  },
-  sourceLabel: {
-    fontSize: FONTS.md,
-    fontWeight: '500',
-    color: COLORS.textSecondary,
-  },
   errorText: {
     fontSize: FONTS.sm,
     color: COLORS.danger,
@@ -484,46 +340,5 @@ const styles = StyleSheet.create({
   deleteBtn: {
     borderColor: COLORS.danger,
     marginBottom: SPACING.md,
-  },
-  pickerBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: COLORS.inputBg,
-    borderRadius: RADIUS.md,
-    borderWidth: 1.5,
-    borderColor: COLORS.border,
-    padding: SPACING.md,
-    marginTop: SPACING.sm,
-  },
-  pickerValue: { flex: 1, fontSize: FONTS.md, color: COLORS.text },
-  pickerPlaceholder: { flex: 1, fontSize: FONTS.md, color: COLORS.textMuted },
-  pickerArrow: { fontSize: FONTS.lg, color: COLORS.textMuted },
-  overlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.7)', justifyContent: 'flex-end' },
-  modal: {
-    backgroundColor: COLORS.surface,
-    borderTopLeftRadius: RADIUS.xl,
-    borderTopRightRadius: RADIUS.xl,
-    padding: SPACING.xl,
-    maxHeight: '70%',
-  },
-  modalTitle: { fontSize: FONTS.lg, fontWeight: '700', color: COLORS.text, marginBottom: SPACING.lg },
-  pickerItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: SPACING.md,
-    borderRadius: RADIUS.md,
-    marginBottom: SPACING.sm,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-  },
-  pickerItemActive: { borderColor: COLORS.primary, backgroundColor: COLORS.primary + '11' },
-  pickerItemText: { fontSize: FONTS.md, color: COLORS.text },
-  pickerItemBalance: { fontSize: FONTS.sm, color: COLORS.textSecondary },
-  emptyPickerText: {
-    fontSize: FONTS.sm,
-    color: COLORS.textSecondary,
-    textAlign: 'center',
-    padding: SPACING.xl,
   },
 });
