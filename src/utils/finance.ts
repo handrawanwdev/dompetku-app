@@ -136,11 +136,17 @@ export function getReminderStatus(debt: DebtReminderInput, now: Date = new Date(
   if (debt.debtType === 'cicilan' && debt.remainingMonth === 0) return null;
 
   const today = now.getDate();
-  const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-  const daysUntil = debt.dueDate >= today ? debt.dueDate - today : daysInMonth - today + debt.dueDate;
+  const daysUntil = debt.dueDate - today;
 
   if (debt.paidThisMonth) {
     return { tier: 'lunas', label: '✅ Sudah bayar bulan ini', color: '#065f46', bg: '#d1fae5', urgent: false, daysUntil };
+  }
+  if (daysUntil < 0) {
+    return {
+      tier: 'hari-ini',
+      label: `🔴 Telat ${Math.abs(daysUntil)} hari!`,
+      color: '#991b1b', bg: '#fee2e2', urgent: true, daysUntil,
+    };
   }
   if (daysUntil === 0) {
     return { tier: 'hari-ini', label: '🔴 JATUH TEMPO HARI INI!', color: '#991b1b', bg: '#fee2e2', urgent: true, daysUntil };

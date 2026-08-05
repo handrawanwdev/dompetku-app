@@ -1,7 +1,7 @@
 # Graph Report - Dompetku  (2026-08-05)
 
 ## Corpus Check
-- 154 files · ~130,612 words
+- 154 files · ~130,607 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `4b88c74e`
+- Built from commit: `4529bb32`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -70,8 +70,8 @@
 - expo-document-picker
 - expo-linear-gradient
 - expo-notifications
+- babel-preset-expo
 - expo-splash-screen
-- expo-status-bar
 - @expo/vector-icons
 - @hookform/resolvers
 - react-hook-form
@@ -325,7 +325,7 @@ Nodes (15): CATEGORIES, FormValues, NavProp, RouteType, schema, styles, CATEGORI
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `dependencies` connect `dependencies` to `DebtListScreen.tsx`, `DebtDetailScreen.tsx`, `package.json`, `expo-sharing`, `expo`, `expo-dev-client`, `expo-linear-gradient`, `expo-notifications`, `expo-splash-screen`, `expo-status-bar`, `@expo/vector-icons`, `@hookform/resolvers`, `react-hook-form`, `react-native-safe-area-context`, `react-native-screens`, `react-native-svg`, `@react-navigation/bottom-tabs`, `@react-navigation/native`, `@react-navigation/native-stack`, `@realm/react`, `zod`, `zustand`, `expo-file-system`, `expo-task-manager`, `react-native`, `victory-native`?**
+- **Why does `dependencies` connect `dependencies` to `DebtListScreen.tsx`, `DebtDetailScreen.tsx`, `package.json`, `expo-sharing`, `expo`, `expo-dev-client`, `expo-linear-gradient`, `expo-notifications`, `babel-preset-expo`, `expo-splash-screen`, `@expo/vector-icons`, `@hookform/resolvers`, `react-hook-form`, `react-native-safe-area-context`, `react-native-screens`, `react-native-svg`, `@react-navigation/bottom-tabs`, `@react-navigation/native`, `@react-navigation/native-stack`, `@realm/react`, `zod`, `zustand`, `expo-file-system`, `expo-task-manager`, `react-native`, `victory-native`?**
   _High betweenness centrality (0.123) - this node is a cross-community bridge._
 - **Why does `realm` connect `DebtListScreen.tsx` to `dependencies`, `FinancialAdvisorService.ts`, `COLORS`?**
   _High betweenness centrality (0.120) - this node is a cross-community bridge._

@@ -90,30 +90,28 @@ export async function refreshDebtReminders(debts: DebtReminderInput[]) {
 
     if (debt.debtType === 'cicilan' && debt.remainingMonth <= 0) continue;
 
-    for (const monthOffset of [0, 1]) {
-      const occurrence = dayjs().add(monthOffset, 'month').date(debt.dueDate).hour(DEBT_REMINDER_HOUR).minute(0).second(0);
-      // dayjs rolls over into the next month when dueDate exceeds the days in that month (e.g. 31 in Feb) — skip the mismatch
-      if (occurrence.date() !== debt.dueDate) continue;
+    const occurrence = dayjs().date(debt.dueDate).hour(DEBT_REMINDER_HOUR).minute(0).second(0);
+    // dayjs rolls over into the next month when dueDate exceeds the days in that month (e.g. 31 in Feb) — skip the mismatch
+    if (occurrence.date() !== debt.dueDate) continue;
 
-      const monthKey = occurrence.format('YYYY-MM');
-      const h7 = occurrence.subtract(7, 'day');
+    const monthKey = occurrence.format('YYYY-MM');
+    const h7 = occurrence.subtract(7, 'day');
 
-      if (h7.isAfter(now)) {
-        await scheduleAt(
-          `debt-${debt.id}-${monthKey}-h7`,
-          h7.toDate(),
-          `⏰ ${debt.name} jatuh tempo 7 hari lagi`,
-          `Cicilan ${formatCurrency(debt.monthlyInstallment)} jatuh tempo tanggal ${debt.dueDate} (${occurrence.format('D MMM YYYY')})`,
-        );
-      }
-      if (occurrence.isAfter(now)) {
-        await scheduleAt(
-          `debt-${debt.id}-${monthKey}-due`,
-          occurrence.toDate(),
-          `🔴 ${debt.name} jatuh tempo hari ini!`,
-          `Cicilan ${formatCurrency(debt.monthlyInstallment)} jatuh tempo sekarang`,
-        );
-      }
+    if (h7.isAfter(now)) {
+      await scheduleAt(
+        `debt-${debt.id}-${monthKey}-h7`,
+        h7.toDate(),
+        `⏰ ${debt.name} jatuh tempo 7 hari lagi`,
+        `Cicilan ${formatCurrency(debt.monthlyInstallment)} jatuh tempo tanggal ${debt.dueDate} (${occurrence.format('D MMM YYYY')})`,
+      );
+    }
+    if (occurrence.isAfter(now)) {
+      await scheduleAt(
+        `debt-${debt.id}-${monthKey}-due`,
+        occurrence.toDate(),
+        `🔴 ${debt.name} jatuh tempo hari ini!`,
+        `Cicilan ${formatCurrency(debt.monthlyInstallment)} jatuh tempo sekarang`,
+      );
     }
   }
 }

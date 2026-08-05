@@ -665,8 +665,8 @@
     "semantic_hash": ""
   },
   "src/utils/finance.ts": {
-    "mtime": 1785865279.8466463,
-    "ast_hash": "514879fbf613dd76aee22672b61fd807",
+    "mtime": 1785896787.686947,
+    "ast_hash": "266ab1a9e1837dea5a02b629292ad6c4",
     "semantic_hash": ""
   },
   "src/utils/financialScore.ts": {
@@ -800,18 +800,18 @@
     "semantic_hash": ""
   },
   "src/services/MotivationBackgroundTask.ts": {
-    "mtime": 1785867239.5761015,
-    "ast_hash": "d9525e4b23353c99dc08e2d55796cc65",
+    "mtime": 1785868388.7468185,
+    "ast_hash": "02f9d6c7c054f36ce96fde93bd0009a9",
     "semantic_hash": ""
   },
   "src/utils/motivation.ts": {
-    "mtime": 1785867191.625548,
-    "ast_hash": "5395b3cc4d196e5385113250920e67ea",
+    "mtime": 1785868329.251706,
+    "ast_hash": "cbb79ebc9c4397586a473445d83feb0f",
     "semantic_hash": ""
   },
   "src/modules/dashboard/components/MotivationCard.tsx": {
-    "mtime": 1785868089.2179272,
-    "ast_hash": "2b6ceb33941414aecc0aa8d977d0c6a7",
+    "mtime": 1785868347.9789226,
+    "ast_hash": "c1bd831732025c0f07b6383d66e12d38",
     "semantic_hash": ""
   }
 }
