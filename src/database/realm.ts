@@ -3,8 +3,21 @@ import { ALL_MODELS } from '../models';
 
 export const realmConfig: Realm.Configuration = {
   schema: ALL_MODELS,
-  schemaVersion: 11,
+  schemaVersion: 12,
   onMigration: (oldRealm, newRealm) => {
+    if (oldRealm.schemaVersion < 12) {
+      // isInternal isn't backfilled by Realm's default — flag pre-existing
+      // synthetic rows so ratio calcs exclude them retroactively.
+      const newIncomes = newRealm.objects('Income') as unknown as Array<{ category: string; isInternal: boolean }>;
+      for (const i of newIncomes) {
+        if (i.category === 'Tarik Tabungan') i.isInternal = true;
+      }
+      const newExpenses = newRealm.objects('Expense') as unknown as Array<{ category: string; isInternal: boolean }>;
+      for (const e of newExpenses) {
+        if (e.category === 'Setor Tabungan') e.isInternal = true;
+      }
+    }
+
     if (oldRealm.schemaVersion < 11) {
       // New string/double properties' schema `default` isn't backfilled onto
       // pre-existing rows by Realm migrations — existing Debt rows predate the

@@ -23,6 +23,7 @@ export type SavingsStackParamList = {
   SavingsList: undefined;
   SavingsForm: { id?: string };
   SavingsDetail: { id: string };
+  SavingsMove: { id: string; type: 'deposit' | 'withdraw' | 'transfer' };
 };
 
 type Props = NativeStackScreenProps<SavingsStackParamList, "SavingsList">;

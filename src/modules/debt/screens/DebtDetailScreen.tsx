@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import {
   View,
   ScrollView,
@@ -6,36 +6,22 @@ import {
   TouchableOpacity,
   StyleSheet,
   StatusBar,
-  Modal,
-  Alert,
-  KeyboardAvoidingView,
-  Platform,
   ListRenderItemInfo,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRealm, useQuery } from '@realm/react';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import Realm from 'realm';
 import dayjs from 'dayjs';
 
 import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
-import { Card, Text, Button, Input, DateInput, CurrencyInput, AmountDisplay, ProgressBar, EmptyState, BackButton } from '../../../components/common';
+import { Card, Text, Button, AmountDisplay, ProgressBar, EmptyState, BackButton } from '../../../components/common';
 import { DebtModel } from '../../../models/DebtModel';
 import { DebtPaymentModel } from '../../../models/DebtPaymentModel';
-import { SavingModel } from '../../../models/SavingModel';
-import { getKasBebasBalance, applyDebtPaymentFunding } from '../../../services/AllocationService';
 import { formatCurrency } from '../../../utils/currency';
-import { formatDate, today, isOverdue } from '../../../utils/date';
+import { formatDate, isOverdue } from '../../../utils/date';
 import { buildDebtSchedule, DebtScheduleMonth, DebtScheduleStatus } from '../../../utils/finance';
 import type { DebtStackParamList } from './DebtListScreen';
-
-// ─── Constants ────────────────────────────────────────────────────────────────
-
-const FUNDING_SOURCES = [
-  { value: 'cash', label: 'Kas Bebas', color: COLORS.warning },
-  { value: 'savings', label: 'Tabungan', color: COLORS.savings },
-];
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -107,222 +93,12 @@ function ScheduleItem({ month, onPress }: ScheduleItemProps) {
   );
 }
 
-// ─── Payment Modal ────────────────────────────────────────────────────────────
-
-interface PaymentModalProps {
-  visible: boolean;
-  title: string;
-  amountLabel?: string;
-  defaultAmount: number;
-  showFundingSource?: boolean;
-  savings: Realm.Results<SavingModel>;
-  kasBebasBalance: number;
-  onClose: () => void;
-  onConfirm: (amount: number, date: string, note: string, source: string, savingId: string) => void;
-}
-
-function PaymentModal({
-  visible,
-  title,
-  amountLabel = 'Nominal Pembayaran',
-  defaultAmount,
-  showFundingSource = true,
-  savings,
-  kasBebasBalance,
-  onClose,
-  onConfirm,
-}: PaymentModalProps) {
-  const [amount, setAmount] = useState(defaultAmount.toString());
-  const [date, setDate] = useState(today());
-  const [note, setNote] = useState('');
-  const [source, setSource] = useState('cash');
-  const [savingId, setSavingId] = useState('');
-  const [showSavingPicker, setShowSavingPicker] = useState(false);
-  const [amountError, setAmountError] = useState('');
-  const [sourceError, setSourceError] = useState('');
-
-  const selectedSaving = savings.find((s) => s._id.toHexString() === savingId);
-
-  const resetFields = () => {
-    setAmount(defaultAmount.toString());
-    setDate(today());
-    setNote('');
-    setSource('cash');
-    setSavingId('');
-    setAmountError('');
-    setSourceError('');
-  };
-
-  const handleClose = () => {
-    resetFields();
-    onClose();
-  };
-
-  const handleConfirm = () => {
-    const parsed = parseFloat(amount.replace(/[^0-9.]/g, ''));
-    if (!parsed || parsed <= 0) {
-      setAmountError('Nominal harus lebih dari 0');
-      return;
-    }
-    setAmountError('');
-    if (showFundingSource) {
-      if (source === 'cash' && parsed > kasBebasBalance) {
-        setSourceError('Kas Bebas tidak mencukupi');
-        return;
-      }
-      if (source === 'savings') {
-        if (!savingId) {
-          setSourceError('Pilih pos tabungan sumber dana');
-          return;
-        }
-        if (!selectedSaving || selectedSaving.balance < parsed) {
-          setSourceError('Saldo tabungan tidak mencukupi');
-          return;
-        }
-      }
-    }
-    setSourceError('');
-    onConfirm(parsed, date, note, showFundingSource ? source : '', showFundingSource ? savingId : '');
-    resetFields();
-  };
-
-  return (
-    <Modal visible={visible} transparent animationType="slide" onRequestClose={handleClose}>
-      <KeyboardAvoidingView
-        style={styles.modalOverlay}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      >
-        <View style={styles.modalBackdrop} />
-        <View style={styles.modalSheet}>
-          <View style={styles.modalHandle} />
-          <Text style={styles.modalTitle}>{title}</Text>
-
-          <CurrencyInput
-            label={amountLabel}
-            value={amount}
-            onChangeText={(v) => {
-              setAmount(v);
-              setAmountError('');
-            }}
-            error={amountError}
-          />
-
-          {showFundingSource && (
-            <View style={styles.fieldGroup}>
-              <Text style={styles.fieldLabel}>Sumber Dana</Text>
-              <View style={styles.sourceRow}>
-                {FUNDING_SOURCES.map((src) => {
-                  const isSelected = source === src.value;
-                  return (
-                    <TouchableOpacity
-                      key={src.value}
-                      onPress={() => {
-                        setSource(src.value);
-                        setSourceError('');
-                      }}
-                      style={[
-                        styles.sourceOption,
-                        isSelected && { borderColor: src.color, backgroundColor: src.color + '22' },
-                      ]}
-                      activeOpacity={0.7}
-                    >
-                      <View
-                        style={[
-                          styles.radioCircle,
-                          isSelected && { borderColor: src.color, backgroundColor: src.color },
-                        ]}
-                      />
-                      <Text style={[styles.sourceLabel, isSelected ? { color: src.color } : null]}>
-                        {src.label}
-                      </Text>
-                    </TouchableOpacity>
-                  );
-                })}
-              </View>
-              {source === 'cash' && (
-                <Text style={styles.sourceHint}>Saldo Kas Bebas: {formatCurrency(kasBebasBalance)}</Text>
-              )}
-              {source === 'savings' && (
-                <TouchableOpacity style={styles.pickerBtn} onPress={() => setShowSavingPicker(true)}>
-                  <Text style={selectedSaving ? styles.pickerValue : styles.pickerPlaceholder}>
-                    {selectedSaving ? `${selectedSaving.emoji} ${selectedSaving.name} — ${formatCurrency(selectedSaving.balance)}` : 'Pilih pos tabungan...'}
-                  </Text>
-                  <Text style={styles.pickerArrow}>›</Text>
-                </TouchableOpacity>
-              )}
-              {sourceError ? <Text style={styles.errorText}>{sourceError}</Text> : null}
-            </View>
-          )}
-
-          <DateInput
-            label="Tanggal"
-            value={date}
-            onChange={setDate}
-          />
-
-          <Input
-            label="Catatan (opsional)"
-            placeholder="Tambah catatan..."
-            value={note}
-            onChangeText={setNote}
-          />
-
-          <View style={styles.modalActions}>
-            <Button
-              title="Batal"
-              onPress={handleClose}
-              variant="secondary"
-              style={styles.modalBtnHalf}
-            />
-            <Button
-              title="Konfirmasi"
-              onPress={handleConfirm}
-              style={styles.modalBtnHalf}
-            />
-          </View>
-        </View>
-      </KeyboardAvoidingView>
-
-      {/* Saving Picker Modal */}
-      <Modal visible={showSavingPicker} transparent animationType="slide">
-        <View style={styles.pickerOverlay}>
-          <View style={styles.pickerModal}>
-            <Text style={styles.modalTitle}>Pilih Pos Tabungan</Text>
-            {savings.length === 0 ? (
-              <Text style={styles.emptyPickerText}>Belum ada tabungan. Buat tabungan terlebih dahulu.</Text>
-            ) : (
-              savings.map((s) => (
-                <TouchableOpacity
-                  key={s._id.toHexString()}
-                  style={[styles.pickerItem, s._id.toHexString() === savingId && styles.pickerItemActive]}
-                  onPress={() => {
-                    setSavingId(s._id.toHexString());
-                    setSourceError('');
-                    setShowSavingPicker(false);
-                  }}
-                >
-                  <Text style={styles.pickerItemText}>{s.emoji} {s.name}</Text>
-                  <Text style={styles.pickerItemBalance}>{formatCurrency(s.balance)}</Text>
-                </TouchableOpacity>
-              ))
-            )}
-            <Button title="Tutup" onPress={() => setShowSavingPicker(false)} variant="ghost" style={{ marginTop: SPACING.lg }} />
-          </View>
-        </View>
-      </Modal>
-    </Modal>
-  );
-}
-
 // ─── Screen ───────────────────────────────────────────────────────────────────
 
 export function DebtDetailScreen() {
   const navigation = useNavigation<NavProp>();
   const route = useRoute<RouteType>();
-  const realm = useRealm();
   const { id } = route.params;
-  const [payModalVisible, setPayModalVisible] = useState(false);
-  const [usageModalVisible, setUsageModalVisible] = useState(false);
 
   const allDebts = useQuery(DebtModel);
   const debt = useMemo(
@@ -393,63 +169,6 @@ export function DebtDetailScreen() {
     });
   }, [debt, payments.length]);
 
-  const savings = useQuery(SavingModel);
-  const kasBebasBalance = getKasBebasBalance(realm);
-
-  const handlePayment = useCallback(
-    (amount: number, date: string, note: string, source: string, savingId: string) => {
-      if (!debt) return;
-      try {
-        realm.write(() => {
-          const funding = applyDebtPaymentFunding(realm, {
-            source,
-            savingId,
-            amount,
-            lender: debt.lender,
-            date,
-          });
-          if (!funding.ok) throw new Error(funding.error);
-
-          realm.create(DebtPaymentModel, {
-            _id: new Realm.BSON.ObjectId(),
-            debtId: id,
-            amount,
-            date,
-            note,
-            source,
-            savingId: source === 'savings' ? savingId : '',
-            createdAt: new Date(),
-          });
-
-          if (debt.debtType === 'cicilan') {
-            const newRemaining = Math.max(0, debt.remainingMonth - 1);
-            debt.remainingMonth = newRemaining;
-            if (newRemaining === 0) debt.isActive = false;
-          } else if (debt.debtType === 'revolving') {
-            debt.currentBalance = Math.max(0, debt.currentBalance - amount);
-          } else if (debt.debtType === 'tanpa_tenor' || debt.debtType === 'berjangka') {
-            if (totalPaidSoFar + amount >= debt.totalAmount) debt.isActive = false;
-          }
-        });
-        setPayModalVisible(false);
-      } catch (e) {
-        Alert.alert('Validasi', e instanceof Error ? e.message : 'Gagal memproses pembayaran');
-      }
-    },
-    [debt, id, realm, totalPaidSoFar],
-  );
-
-  const handleUsage = useCallback(
-    (amount: number) => {
-      if (!debt) return;
-      realm.write(() => {
-        debt.currentBalance = Math.min(debt.totalAmount, debt.currentBalance + amount);
-      });
-      setUsageModalVisible(false);
-    },
-    [debt, realm],
-  );
-
   const renderPayment = useCallback(
     ({ item }: ListRenderItemInfo<DebtPaymentModel>) => <PaymentItem item={item} />,
     [],
@@ -469,17 +188,6 @@ export function DebtDetailScreen() {
       </SafeAreaView>
     );
   }
-
-  const payTitle = debt.debtType === 'cicilan' || debt.debtType === 'revolving' || debt.debtType === 'tagihan_rutin'
-    ? 'Bayar Tagihan'
-    : 'Bayar Hutang';
-  const payDefaultAmount = debt.debtType === 'cicilan'
-    ? debt.monthlyInstallment
-    : debt.debtType === 'revolving'
-      ? (debt.monthlyInstallment > 0 ? debt.monthlyInstallment : debt.currentBalance)
-      : debt.debtType === 'tagihan_rutin'
-        ? debt.monthlyInstallment
-        : remaining; // tanpa_tenor, berjangka
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
@@ -620,12 +328,12 @@ export function DebtDetailScreen() {
           <View style={styles.ctaRow}>
             <Button
               title="💳 Bayar Tagihan"
-              onPress={() => setPayModalVisible(true)}
+              onPress={() => navigation.navigate('DebtPayment', { debtId: id, mode: 'payment' })}
               style={styles.ctaHalf}
             />
             <Button
               title="🛒 Catat Pemakaian"
-              onPress={() => setUsageModalVisible(true)}
+              onPress={() => navigation.navigate('DebtPayment', { debtId: id, mode: 'usage' })}
               variant="secondary"
               style={styles.ctaHalf}
             />
@@ -638,7 +346,7 @@ export function DebtDetailScreen() {
                 ? `💳  Bayar Cicilan  •  ${formatCurrency(debt.monthlyInstallment)}`
                 : '💳  Bayar Hutang'
             }
-            onPress={() => setPayModalVisible(true)}
+            onPress={() => navigation.navigate('DebtPayment', { debtId: id, mode: 'payment' })}
             fullWidth
             style={styles.payBtn}
           />
@@ -655,7 +363,7 @@ export function DebtDetailScreen() {
               <ScheduleItem
                 key={month.index}
                 month={month}
-                onPress={month.status !== 'lunas' && month.index === payments.length ? () => setPayModalVisible(true) : undefined}
+                onPress={month.status !== 'lunas' && month.index === payments.length ? () => navigation.navigate('DebtPayment', { debtId: id, mode: 'payment' }) : undefined}
               />
             ))}
           </>
@@ -700,30 +408,6 @@ export function DebtDetailScreen() {
           }
         />
       </ScrollView>
-
-      <PaymentModal
-        visible={payModalVisible}
-        title={payTitle}
-        defaultAmount={payDefaultAmount}
-        savings={savings}
-        kasBebasBalance={kasBebasBalance}
-        onClose={() => setPayModalVisible(false)}
-        onConfirm={handlePayment}
-      />
-
-      {debt.debtType === 'revolving' && (
-        <PaymentModal
-          visible={usageModalVisible}
-          title="Catat Pemakaian"
-          amountLabel="Nominal Pemakaian"
-          defaultAmount={0}
-          showFundingSource={false}
-          savings={savings}
-          kasBebasBalance={kasBebasBalance}
-          onClose={() => setUsageModalVisible(false)}
-          onConfirm={(amount) => handleUsage(amount)}
-        />
-      )}
     </SafeAreaView>
   );
 }
@@ -993,131 +677,5 @@ const styles = StyleSheet.create({
   emptyPaymentsText: {
     fontSize: FONTS.sm,
     color: COLORS.textMuted,
-  },
-  // Modal styles
-  modalOverlay: {
-    flex: 1,
-    justifyContent: 'flex-end',
-  },
-  modalBackdrop: {
-    position: "absolute", top: 0, left: 0, right: 0, bottom: 0,
-    backgroundColor: 'rgba(0,0,0,0.6)',
-  },
-  modalSheet: {
-    backgroundColor: COLORS.surface,
-    borderTopLeftRadius: RADIUS.xl,
-    borderTopRightRadius: RADIUS.xl,
-    padding: SPACING.xl,
-    paddingBottom: SPACING.xxxl,
-    borderTopWidth: 1,
-    borderColor: COLORS.border,
-  },
-  modalHandle: {
-    width: 36,
-    height: 4,
-    borderRadius: RADIUS.round,
-    backgroundColor: COLORS.border,
-    alignSelf: 'center',
-    marginBottom: SPACING.lg,
-  },
-  modalTitle: {
-    fontSize: FONTS.xl,
-    fontWeight: '700',
-    color: COLORS.text,
-    marginBottom: SPACING.lg,
-  },
-  modalActions: {
-    flexDirection: 'row',
-    gap: SPACING.md,
-    marginTop: SPACING.sm,
-  },
-  modalBtnHalf: {
-    flex: 1,
-  },
-  fieldGroup: {
-    marginBottom: SPACING.md,
-  },
-  fieldLabel: {
-    fontSize: FONTS.sm,
-    color: COLORS.textSecondary,
-    marginBottom: SPACING.sm,
-    fontWeight: '500',
-  },
-  sourceRow: {
-    flexDirection: 'row',
-    gap: SPACING.md,
-  },
-  sourceOption: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: SPACING.sm,
-    padding: SPACING.md,
-    borderRadius: RADIUS.md,
-    backgroundColor: COLORS.surface,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-  },
-  radioCircle: {
-    width: 18,
-    height: 18,
-    borderRadius: RADIUS.round,
-    borderWidth: 2,
-    borderColor: COLORS.border,
-  },
-  sourceLabel: {
-    fontSize: FONTS.md,
-    fontWeight: '500',
-    color: COLORS.textSecondary,
-  },
-  sourceHint: {
-    fontSize: FONTS.xs,
-    color: COLORS.textMuted,
-    marginTop: SPACING.sm,
-  },
-  errorText: {
-    fontSize: FONTS.sm,
-    color: COLORS.danger,
-    marginTop: SPACING.xs,
-  },
-  pickerBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: COLORS.inputBg,
-    borderRadius: RADIUS.md,
-    borderWidth: 1.5,
-    borderColor: COLORS.border,
-    padding: SPACING.md,
-    marginTop: SPACING.sm,
-  },
-  pickerValue: { flex: 1, fontSize: FONTS.md, color: COLORS.text },
-  pickerPlaceholder: { flex: 1, fontSize: FONTS.md, color: COLORS.textMuted },
-  pickerArrow: { fontSize: FONTS.lg, color: COLORS.textMuted },
-  pickerOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.7)', justifyContent: 'flex-end' },
-  pickerModal: {
-    backgroundColor: COLORS.surface,
-    borderTopLeftRadius: RADIUS.xl,
-    borderTopRightRadius: RADIUS.xl,
-    padding: SPACING.xl,
-    maxHeight: '70%',
-  },
-  pickerItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: SPACING.md,
-    borderRadius: RADIUS.md,
-    marginBottom: SPACING.sm,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-  },
-  pickerItemActive: { borderColor: COLORS.primary, backgroundColor: COLORS.primary + '11' },
-  pickerItemText: { fontSize: FONTS.md, color: COLORS.text },
-  pickerItemBalance: { fontSize: FONTS.sm, color: COLORS.textSecondary },
-  emptyPickerText: {
-    fontSize: FONTS.sm,
-    color: COLORS.textSecondary,
-    textAlign: 'center',
-    padding: SPACING.xl,
   },
 });

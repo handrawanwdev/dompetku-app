@@ -31,6 +31,7 @@ export type DebtStackParamList = {
   DebtList: undefined;
   DebtForm: { id?: string };
   DebtDetail: { id: string };
+  DebtPayment: { debtId: string; mode: 'payment' | 'usage' };
 };
 
 type NavProp = NativeStackNavigationProp<DebtStackParamList>;

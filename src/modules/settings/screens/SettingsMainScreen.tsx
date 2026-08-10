@@ -35,6 +35,7 @@ export type SettingsStackParamList = {
   SettingsMain: undefined;
   ParametersScreen: undefined;
   CategoriesScreen: undefined;
+  CategoryForm: { type: 'income' | 'expense' };
   ReportScreen: undefined;
   GoalsNavScreen: undefined;
   PassiveIncomeNavScreen: undefined;

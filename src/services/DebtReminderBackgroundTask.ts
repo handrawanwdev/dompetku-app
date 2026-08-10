@@ -62,9 +62,12 @@ TaskManager.defineTask(TASK_NAME, async () => {
   } catch (error) {
     console.error('debt-payment-reminder-check failed', error);
     return BackgroundTask.BackgroundTaskResult.Failed;
-  } finally {
-    realm?.close();
   }
+  // No realm.close() here — Expo can run this task in the same JS context as
+  // the app (not always a true headless isolate), so Realm.open() may hand
+  // back the exact instance RealmProvider is using. Closing it would tear
+  // down that shared session and break every useQuery/useObject in the UI
+  // with "Cannot access realm that has been closed".
 });
 
 /** Registers the 6-hourly debt payment check. Call once at app startup. */

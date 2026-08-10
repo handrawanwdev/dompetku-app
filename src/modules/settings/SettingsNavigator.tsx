@@ -6,6 +6,7 @@ import {
 } from "./screens/SettingsMainScreen";
 import { ParametersScreen } from "./screens/ParametersScreen";
 import { CategoriesScreen } from "./screens/CategoriesScreen";
+import { CategoryFormScreen } from "./screens/CategoryFormScreen";
 import { ReportScreen } from "./screens/ReportScreen";
 import { GoalsNavigator } from "../goals/GoalsNavigator";
 import { PassiveIncomeNavigator } from "../passiveIncome/PassiveIncomeNavigator";
@@ -36,6 +37,11 @@ export function SettingsNavigator() {
       />
       <Stack.Screen name="ParametersScreen" component={ParametersScreen} />
       <Stack.Screen name="CategoriesScreen" component={CategoriesScreen} />
+      <Stack.Screen
+        name="CategoryForm"
+        component={CategoryFormScreen}
+        options={{ headerTitle: "Tambah Kategori", presentation: "modal" }}
+      />
       <Stack.Screen name="ReportScreen" component={ReportScreen} />
       <Stack.Screen
         name="GoalsNavScreen"

@@ -6,12 +6,10 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
-  Modal,
-  TextInput,
-  KeyboardAvoidingView,
-  Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
 import { useRealm, useQuery } from '@realm/react';
 import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
 import { Card } from '../../../components/common/Card';
@@ -19,16 +17,15 @@ import { Button } from '../../../components/common/Button';
 import { EmptyState } from '../../../components/common/EmptyState';
 import { CategoryModel } from '../../../models/CategoryModel';
 import { DEFAULT_INCOME_CATEGORIES, DEFAULT_EXPENSE_CATEGORIES } from '../../../constants';
+import type { SettingsStackParamList } from './SettingsMainScreen';
 
 type CategoryType = 'income' | 'expense';
 
 export function CategoriesScreen() {
+  const navigation = useNavigation<NativeStackNavigationProp<SettingsStackParamList>>();
   const realm = useRealm();
   const categories = useQuery(CategoryModel);
   const [activeTab, setActiveTab] = useState<CategoryType>('income');
-  const [showModal, setShowModal] = useState(false);
-  const [newName, setNewName] = useState('');
-  const [newEmoji, setNewEmoji] = useState('📌');
 
   const filtered = categories.filtered('type == $0', activeTab).sorted('name');
 
@@ -46,23 +43,6 @@ export function CategoriesScreen() {
         }
       });
     });
-  };
-
-  const handleAdd = () => {
-    if (!newName.trim()) {
-      Alert.alert('Error', 'Nama kategori tidak boleh kosong');
-      return;
-    }
-    realm.write(() => {
-      realm.create(CategoryModel, {
-        name: newName.trim(),
-        type: activeTab,
-        emoji: newEmoji,
-      });
-    });
-    setNewName('');
-    setNewEmoji('📌');
-    setShowModal(false);
   };
 
   const handleDelete = (item: CategoryModel) => {
@@ -136,47 +116,11 @@ export function CategoriesScreen() {
           )}
           <Button
             title="+ Tambah"
-            onPress={() => setShowModal(true)}
+            onPress={() => navigation.navigate('CategoryForm', { type: activeTab })}
             style={{ flex: 2 }}
           />
         </View>
       </View>
-
-      {/* Add Modal */}
-      <Modal visible={showModal} transparent animationType="slide" onRequestClose={() => setShowModal(false)}>
-        <KeyboardAvoidingView
-          style={styles.modalOverlay}
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        >
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Tambah Kategori</Text>
-            <View style={styles.emojiRow}>
-              {['📌', '💡', '🎯', '⭐', '🔥', '💎', '🎪', '🏆'].map(e => (
-                <TouchableOpacity
-                  key={e}
-                  onPress={() => setNewEmoji(e)}
-                  style={[styles.emojiOpt, newEmoji === e && styles.emojiOptActive]}
-                >
-                  <Text style={{ fontSize: 22 }}>{e}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-            <TextInput
-              style={styles.modalInput}
-              value={newName}
-              onChangeText={setNewName}
-              placeholder="Nama kategori..."
-              placeholderTextColor={COLORS.textMuted}
-              autoFocus
-            />
-            <View style={styles.modalActions}>
-              <Button title="Batal" onPress={() => setShowModal(false)} variant="ghost" style={{ flex: 1 }} />
-              <View style={{ width: SPACING.sm }} />
-              <Button title="Tambah" onPress={handleAdd} style={{ flex: 1 }} />
-            </View>
-          </View>
-        </KeyboardAvoidingView>
-      </Modal>
     </SafeAreaView>
   );
 }
@@ -196,12 +140,4 @@ const styles = StyleSheet.create({
   deleteBtn: { padding: SPACING.xs },
   deleteText: { fontSize: FONTS.md, color: COLORS.danger },
   footer: { flexDirection: 'row', padding: SPACING.lg, paddingTop: 0 },
-  modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.7)', justifyContent: 'flex-end' },
-  modalContent: { backgroundColor: COLORS.surface, borderTopLeftRadius: RADIUS.xl, borderTopRightRadius: RADIUS.xl, padding: SPACING.xl },
-  modalTitle: { fontSize: FONTS.lg, fontWeight: '700', color: COLORS.text, marginBottom: SPACING.lg },
-  emojiRow: { flexDirection: 'row', gap: SPACING.sm, marginBottom: SPACING.lg },
-  emojiOpt: { padding: SPACING.xs, borderRadius: RADIUS.md, borderWidth: 1, borderColor: 'transparent' },
-  emojiOptActive: { borderColor: COLORS.primary, backgroundColor: COLORS.primary + '22' },
-  modalInput: { backgroundColor: COLORS.card, borderRadius: RADIUS.md, borderWidth: 1, borderColor: COLORS.border, padding: SPACING.md, color: COLORS.text, fontSize: FONTS.md, marginBottom: SPACING.lg },
-  modalActions: { flexDirection: 'row' },
 });

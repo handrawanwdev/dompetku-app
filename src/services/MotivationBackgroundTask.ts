@@ -36,11 +36,11 @@ TaskManager.defineTask(TASK_NAME, async () => {
 
     const monthlyIncome = realm
       .objects(IncomeModel)
-      .filtered('date >= $0 AND date <= $1', monthStart, monthEnd)
+      .filtered('date >= $0 AND date <= $1 AND isInternal == false', monthStart, monthEnd)
       .sum('amount') ?? 0;
     const monthlyExpense = realm
       .objects(ExpenseModel)
-      .filtered('date >= $0 AND date <= $1', monthStart, monthEnd)
+      .filtered('date >= $0 AND date <= $1 AND isInternal == false', monthStart, monthEnd)
       .sum('amount') ?? 0;
 
     const activeDebts = realm.objects(DebtModel).filtered('isActive == true');
@@ -89,9 +89,12 @@ TaskManager.defineTask(TASK_NAME, async () => {
   } catch (error) {
     console.error('motivation-quote-check failed', error);
     return BackgroundTask.BackgroundTaskResult.Failed;
-  } finally {
-    realm?.close();
   }
+  // No realm.close() here — Expo can run this task in the same JS context as
+  // the app (not always a true headless isolate), so Realm.open() may hand
+  // back the exact instance RealmProvider is using. Closing it would tear
+  // down that shared session and break every useQuery/useObject in the UI
+  // with "Cannot access realm that has been closed".
 });
 
 /** Registers the ~6-hourly motivational quote check. Call once at app startup. */

@@ -98,6 +98,7 @@ export function depositToSavingFromCash(realm: Realm, params: {
     amount,
     date,
     note: `Setor ke ${saving.name}${note ? ': ' + note : ''}`,
+    isInternal: true,
     createdAt: new Date(),
   });
   return { ok: true };
@@ -139,6 +140,7 @@ export function withdrawFromSavingToCash(realm: Realm, params: {
     allocationCash: amount,
     allocationDebtId: '',
     allocationSavingId: '',
+    isInternal: true,
     createdAt: new Date(),
   });
   return { ok: true };

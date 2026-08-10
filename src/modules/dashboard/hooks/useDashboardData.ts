@@ -99,19 +99,19 @@ export function useDashboardData() {
 
   const summary = useMemo(() => {
     const monthlyIncome = incomes
-      .filtered("date >= $0 AND date <= $1", monthStart, monthEnd)
+      .filtered("date >= $0 AND date <= $1 AND isInternal == false", monthStart, monthEnd)
       .reduce((s, i) => s + i.amount, 0);
 
     const monthlyExpense = expenses
-      .filtered("date >= $0 AND date <= $1", monthStart, monthEnd)
+      .filtered("date >= $0 AND date <= $1 AND isInternal == false", monthStart, monthEnd)
       .reduce((s, e) => s + e.amount, 0);
 
     const prevIncome = incomes
-      .filtered("date >= $0 AND date <= $1", prevMonthStart, prevMonthEnd)
+      .filtered("date >= $0 AND date <= $1 AND isInternal == false", prevMonthStart, prevMonthEnd)
       .reduce((s, i) => s + i.amount, 0);
 
     const prevExpense = expenses
-      .filtered("date >= $0 AND date <= $1", prevMonthStart, prevMonthEnd)
+      .filtered("date >= $0 AND date <= $1 AND isInternal == false", prevMonthStart, prevMonthEnd)
       .reduce((s, e) => s + e.amount, 0);
 
     const cash = getKasBebasBalance(realm);

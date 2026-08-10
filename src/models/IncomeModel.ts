@@ -13,6 +13,9 @@ export class IncomeModel extends Realm.Object<IncomeModel> {
   allocationDebtId!: string;
   /** SavingModel._id (hex) that received allocationSavings, if any */
   allocationSavingId!: string;
+  /** True for synthetic rows (e.g. Tarik Tabungan) that just move money between
+   * pockets rather than represent real income — excluded from ratio calcs. */
+  isInternal!: boolean;
   createdAt!: Date;
 
   static schema: ObjectSchema = {
@@ -29,6 +32,7 @@ export class IncomeModel extends Realm.Object<IncomeModel> {
       allocationCash: { type: 'double', default: 0 },
       allocationDebtId: { type: 'string', default: '' },
       allocationSavingId: { type: 'string', default: '' },
+      isInternal: { type: 'bool', default: false },
       createdAt: { type: 'date', default: () => new Date() },
     },
   };

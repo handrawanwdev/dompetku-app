@@ -17,10 +17,10 @@ export function useCashflowChart(period: ChartPeriod = '30d') {
         const d = dayjs().subtract(6 - i, 'day');
         const dateStr = d.format('YYYY-MM-DD');
         const income = incomes
-          .filtered('date == $0', dateStr)
+          .filtered('date == $0 AND isInternal == false', dateStr)
           .reduce((s, x) => s + x.amount, 0);
         const expense = expenses
-          .filtered('date == $0', dateStr)
+          .filtered('date == $0 AND isInternal == false', dateStr)
           .reduce((s, x) => s + x.amount, 0);
         return { label: d.format('DD'), income, expense, cashflow: income - expense };
       });
@@ -31,10 +31,10 @@ export function useCashflowChart(period: ChartPeriod = '30d') {
         const d = dayjs().subtract(29 - i, 'day');
         const dateStr = d.format('YYYY-MM-DD');
         const income = incomes
-          .filtered('date == $0', dateStr)
+          .filtered('date == $0 AND isInternal == false', dateStr)
           .reduce((s, x) => s + x.amount, 0);
         const expense = expenses
-          .filtered('date == $0', dateStr)
+          .filtered('date == $0 AND isInternal == false', dateStr)
           .reduce((s, x) => s + x.amount, 0);
         return { label: d.format('DD'), income, expense, cashflow: income - expense };
       });
@@ -46,10 +46,10 @@ export function useCashflowChart(period: ChartPeriod = '30d') {
       const start = d.startOf('month').format('YYYY-MM-DD');
       const end = d.endOf('month').format('YYYY-MM-DD');
       const income = incomes
-        .filtered('date >= $0 AND date <= $1', start, end)
+        .filtered('date >= $0 AND date <= $1 AND isInternal == false', start, end)
         .reduce((s, x) => s + x.amount, 0);
       const expense = expenses
-        .filtered('date >= $0 AND date <= $1', start, end)
+        .filtered('date >= $0 AND date <= $1 AND isInternal == false', start, end)
         .reduce((s, x) => s + x.amount, 0);
       return { label: d.format('MMM'), income, expense, cashflow: income - expense };
     });
