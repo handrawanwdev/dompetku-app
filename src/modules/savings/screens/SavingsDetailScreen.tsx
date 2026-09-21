@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { MaterialIcons } from '@expo/vector-icons';
 import Realm from 'realm';
 import { useQuery, useObject } from '@realm/react';
 
@@ -121,29 +122,23 @@ export function SavingsDetailScreen({ navigation, route }: Props) {
 
             {/* Action Buttons */}
             <View style={styles.actionRow}>
-              <TouchableOpacity
-                style={[styles.actionBtn, styles.actionDeposit]}
-                onPress={() => openMove('deposit')}
-                activeOpacity={0.75}
-              >
-                <Text style={styles.actionIcon}>⬆️</Text>
-                <Text style={[styles.actionLabel, { color: COLORS.income }]}>Setor</Text>
+              <TouchableOpacity style={styles.actionItem} onPress={() => openMove('deposit')} activeOpacity={0.7}>
+                <View style={[styles.actionIconBadge, { backgroundColor: COLORS.income + '18' }]}>
+                  <MaterialIcons name="arrow-upward" size={22} color={COLORS.income} />
+                </View>
+                <Text style={styles.actionLabel}>Setor</Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.actionBtn, styles.actionWithdraw]}
-                onPress={() => openMove('withdraw')}
-                activeOpacity={0.75}
-              >
-                <Text style={styles.actionIcon}>⬇️</Text>
-                <Text style={[styles.actionLabel, { color: COLORS.expense }]}>Tarik</Text>
+              <TouchableOpacity style={styles.actionItem} onPress={() => openMove('withdraw')} activeOpacity={0.7}>
+                <View style={[styles.actionIconBadge, { backgroundColor: COLORS.expense + '18' }]}>
+                  <MaterialIcons name="arrow-downward" size={22} color={COLORS.expense} />
+                </View>
+                <Text style={styles.actionLabel}>Tarik</Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.actionBtn, styles.actionTransfer]}
-                onPress={() => openMove('transfer')}
-                activeOpacity={0.75}
-              >
-                <Text style={styles.actionIcon}>↔️</Text>
-                <Text style={[styles.actionLabel, { color: COLORS.warning }]}>Transfer</Text>
+              <TouchableOpacity style={styles.actionItem} onPress={() => openMove('transfer')} activeOpacity={0.7}>
+                <View style={[styles.actionIconBadge, { backgroundColor: COLORS.warning + '18' }]}>
+                  <MaterialIcons name="swap-horiz" size={22} color={COLORS.warning} />
+                </View>
+                <Text style={styles.actionLabel}>Transfer</Text>
               </TouchableOpacity>
             </View>
 
@@ -256,24 +251,22 @@ const styles = StyleSheet.create({
   // Actions
   actionRow: {
     flexDirection: 'row',
+    justifyContent: 'space-around',
     paddingHorizontal: SPACING.lg,
     marginBottom: SPACING.lg,
-    gap: SPACING.sm,
   },
-  actionBtn: {
-    flex: 1,
+  actionItem: {
+    alignItems: 'center',
+    gap: SPACING.xs,
+  },
+  actionIconBadge: {
+    width: 52,
+    height: 52,
+    borderRadius: RADIUS.round,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: SPACING.md,
-    borderRadius: RADIUS.lg,
-    borderWidth: 1,
-    borderColor: COLORS.border,
   },
-  actionDeposit: { backgroundColor: COLORS.income + '18' },
-  actionWithdraw: { backgroundColor: COLORS.expense + '18' },
-  actionTransfer: { backgroundColor: COLORS.warning + '18' },
-  actionIcon: { fontSize: 20, marginBottom: SPACING.xs },
-  actionLabel: { fontSize: FONTS.sm, fontWeight: '600' },
+  actionLabel: { fontSize: FONTS.sm, fontWeight: '600', color: COLORS.text },
   historyTitle: {
     fontSize: FONTS.lg,
     fontWeight: '600',

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   View,
   ScrollView,
@@ -19,7 +19,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Realm from 'realm';
 
 import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
-import { Text, Button, Input, DateInput, CurrencyInput, BackButton } from '../../../components/common';
+import { Text, Button, Input, DateInput, CurrencyInput, BackButton, TransactionSuccessAnimation } from '../../../components/common';
 import { IncomeModel } from '../../../models/IncomeModel';
 import { today } from '../../../utils/date';
 import type { CashflowStackParamList } from '../../transaction/types';
@@ -99,6 +99,7 @@ export function IncomeFormScreen() {
   }, [existingIncome, setValue]);
 
   const savingRef = useRef(false);
+  const [successAmount, setSuccessAmount] = useState<number | null>(null);
 
   const onSubmit = (data: FormValues) => {
     if (savingRef.current) return;
@@ -135,7 +136,11 @@ export function IncomeFormScreen() {
       }
     });
 
-    navigation.goBack();
+    if (isEdit) {
+      navigation.goBack();
+    } else {
+      setSuccessAmount(amount);
+    }
   };
 
   const handleDelete = () => {
@@ -295,6 +300,13 @@ export function IncomeFormScreen() {
           )}
         </ScrollView>
       </KeyboardAvoidingView>
+
+      <TransactionSuccessAnimation
+        visible={successAmount !== null}
+        amount={successAmount ?? 0}
+        kind="income"
+        onFinish={() => navigation.goBack()}
+      />
     </SafeAreaView>
   );
 }

@@ -19,6 +19,7 @@ import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
 import { Button } from '../../../components/common/Button';
 import { BackButton } from '../../../components/common/BackButton';
 import { CurrencyInput } from '../../../components/common/CurrencyInput';
+import { AssetSuccessAnimation } from '../../../components/common/AssetSuccessAnimation';
 import { PhysicalAssetModel } from '../../../models/PhysicalAssetModel';
 import { SavingModel } from '../../../models/SavingModel';
 import { formatCurrency, parseCurrency } from '../../../utils/currency';
@@ -38,6 +39,7 @@ export function PhysicalAssetSellScreen({ navigation, route }: Props) {
   const [sellPriceInput, setSellPriceInput] = useState('');
   const [destination, setDestination] = useState<'cash' | 'savings'>('cash');
   const [savingId, setSavingId] = useState('');
+  const [successAmount, setSuccessAmount] = useState<number | null>(null);
 
   if (!asset) {
     return (
@@ -76,7 +78,7 @@ export function PhysicalAssetSellScreen({ navigation, route }: Props) {
       asset.sellPrice = sellPrice;
       asset.sellDate = date;
     });
-    navigation.goBack();
+    setSuccessAmount(sellPrice);
   };
 
   return (
@@ -149,6 +151,13 @@ export function PhysicalAssetSellScreen({ navigation, route }: Props) {
           <Button title="Jual Sekarang" onPress={confirmSell} fullWidth style={styles.saveBtn} />
         </ScrollView>
       </KeyboardAvoidingView>
+
+      <AssetSuccessAnimation
+        visible={successAmount !== null}
+        amount={successAmount ?? 0}
+        kind="sell"
+        onFinish={() => navigation.goBack()}
+      />
     </SafeAreaView>
   );
 }

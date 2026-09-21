@@ -19,6 +19,7 @@ import { COLORS, FONTS, SPACING } from '../../../theme';
 import { Button } from '../../../components/common/Button';
 import { BackButton } from '../../../components/common/BackButton';
 import { CurrencyInput } from '../../../components/common/CurrencyInput';
+import { InvestmentSuccessAnimation } from '../../../components/common/InvestmentSuccessAnimation';
 import { InvestmentModel } from '../../../models/InvestmentModel';
 import { PassiveIncomeModel } from '../../../models/PassiveIncomeModel';
 import { IncomeModel } from '../../../models/IncomeModel';
@@ -37,6 +38,7 @@ export function InvestmentDividendScreen({ navigation, route }: Props) {
 
   const [dividendAmountInput, setDividendAmountInput] = useState('');
   const [dividendFrequency, setDividendFrequency] = useState<'monthly' | 'yearly'>('monthly');
+  const [successAmount, setSuccessAmount] = useState<number | null>(null);
 
   if (!investment) {
     return (
@@ -74,8 +76,7 @@ export function InvestmentDividendScreen({ navigation, route }: Props) {
         type: 'passive',
       });
     });
-    navigation.goBack();
-    Alert.alert('Tersimpan', 'Dividen masuk Kas Bebas & dicatat sebagai passive income');
+    setSuccessAmount(dividendAmount);
   };
 
   return (
@@ -121,6 +122,13 @@ export function InvestmentDividendScreen({ navigation, route }: Props) {
           <Button title="Simpan" onPress={confirmDividend} fullWidth style={styles.saveBtn} />
         </ScrollView>
       </KeyboardAvoidingView>
+
+      <InvestmentSuccessAnimation
+        visible={successAmount !== null}
+        amount={successAmount ?? 0}
+        kind="dividend"
+        onFinish={() => navigation.goBack()}
+      />
     </SafeAreaView>
   );
 }

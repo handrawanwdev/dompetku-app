@@ -484,6 +484,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: SPACING.xl,
     gap: SPACING.sm,
+    marginTop: SPACING.md,
     marginBottom: SPACING.md,
   },
   filterChip: {

@@ -22,6 +22,7 @@ import { Button } from '../../../components/common/Button';
 import { BackButton } from '../../../components/common/BackButton';
 import { DateInput } from '../../../components/common/DateInput';
 import { CurrencyInput } from '../../../components/common/CurrencyInput';
+import { InvestmentSuccessAnimation } from '../../../components/common/InvestmentSuccessAnimation';
 import { InvestmentModel } from '../../../models/InvestmentModel';
 import { today } from '../../../utils/date';
 import { InvestmentStackParamList } from './InvestmentListScreen';
@@ -59,6 +60,7 @@ export function InvestmentFormScreen({ navigation, route }: Props) {
   const [note, setNote] = useState(existing?.note ?? '');
 
   const savingRef = useRef(false);
+  const [successAmount, setSuccessAmount] = useState<number | null>(null);
 
   const handleSave = () => {
     if (savingRef.current) return;
@@ -82,7 +84,12 @@ export function InvestmentFormScreen({ navigation, route }: Props) {
         realm.create(InvestmentModel, { type, name, buyPrice: bp, quantity: qty, currentPrice: cp, buyDate, note });
       }
     });
-    navigation.goBack();
+
+    if (existing) {
+      navigation.goBack();
+    } else {
+      setSuccessAmount(bp * qty);
+    }
   };
 
   const handleDelete = () => {
@@ -129,6 +136,13 @@ export function InvestmentFormScreen({ navigation, route }: Props) {
         {editId && <Button title="Hapus Investasi" onPress={handleDelete} variant="danger" fullWidth style={{ marginTop: SPACING.sm }} />}
       </ScrollView>
       </KeyboardAvoidingView>
+
+      <InvestmentSuccessAnimation
+        visible={successAmount !== null}
+        amount={successAmount ?? 0}
+        kind="add"
+        onFinish={() => navigation.goBack()}
+      />
     </SafeAreaView>
   );
 }

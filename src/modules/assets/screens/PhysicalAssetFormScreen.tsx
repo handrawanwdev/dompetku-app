@@ -22,6 +22,7 @@ import { Button } from '../../../components/common/Button';
 import { BackButton } from '../../../components/common/BackButton';
 import { DateInput } from '../../../components/common/DateInput';
 import { CurrencyInput } from '../../../components/common/CurrencyInput';
+import { AssetSuccessAnimation } from '../../../components/common/AssetSuccessAnimation';
 import { PhysicalAssetModel } from '../../../models/PhysicalAssetModel';
 import { today } from '../../../utils/date';
 import { AssetsStackParamList } from './PhysicalAssetListScreen';
@@ -58,6 +59,7 @@ export function PhysicalAssetFormScreen({ navigation, route }: Props) {
   const [note, setNote] = useState(existing?.note ?? '');
 
   const savingRef = useRef(false);
+  const [successAmount, setSuccessAmount] = useState<number | null>(null);
 
   const handleSave = () => {
     if (savingRef.current) return;
@@ -82,7 +84,12 @@ export function PhysicalAssetFormScreen({ navigation, route }: Props) {
         realm.create(PhysicalAssetModel, { category, name, purchasePrice: pp, purchaseDate, usefulLife: ul, residualValue: rv, note });
       }
     });
-    navigation.goBack();
+
+    if (existing) {
+      navigation.goBack();
+    } else {
+      setSuccessAmount(pp);
+    }
   };
 
   const handleDelete = () => {
@@ -129,6 +136,13 @@ export function PhysicalAssetFormScreen({ navigation, route }: Props) {
         {editId && <Button title="Hapus Aset" onPress={handleDelete} variant="danger" fullWidth style={{ marginTop: SPACING.sm }} />}
       </ScrollView>
       </KeyboardAvoidingView>
+
+      <AssetSuccessAnimation
+        visible={successAmount !== null}
+        amount={successAmount ?? 0}
+        kind="add"
+        onFinish={() => navigation.goBack()}
+      />
     </SafeAreaView>
   );
 }

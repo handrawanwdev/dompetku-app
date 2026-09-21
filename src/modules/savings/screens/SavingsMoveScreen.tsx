@@ -25,6 +25,7 @@ import { Button } from '../../../components/common/Button';
 import { BackButton } from '../../../components/common/BackButton';
 import { DateInput } from '../../../components/common/DateInput';
 import { CurrencyInput } from '../../../components/common/CurrencyInput';
+import { SavingSuccessAnimation } from '../../../components/common/SavingSuccessAnimation';
 
 import type { SavingsStackParamList } from './SavingsListScreen';
 
@@ -45,6 +46,7 @@ export function SavingsMoveScreen({ navigation, route }: Props) {
   const [moveType, setMoveType] = useState<MoveType>('cash');
   const [targetSavingId, setTargetSavingId] = useState<string | null>(null);
   const [showSavingPicker, setShowSavingPicker] = useState(false);
+  const [successAmount, setSuccessAmount] = useState<number | null>(null);
 
   const selectedTarget = otherSavings.find(s => s._id.toHexString() === targetSavingId);
 
@@ -98,7 +100,8 @@ export function SavingsMoveScreen({ navigation, route }: Props) {
       Alert.alert('Validasi', (result as { ok: false; error: string }).error);
       return;
     }
-    navigation.goBack();
+
+    setSuccessAmount(amt);
   };
 
   return (
@@ -200,6 +203,13 @@ export function SavingsMoveScreen({ navigation, route }: Props) {
           <Button title="Simpan" onPress={handleConfirm} fullWidth style={styles.saveBtn} />
         </ScrollView>
       </KeyboardAvoidingView>
+
+      <SavingSuccessAnimation
+        visible={successAmount !== null}
+        amount={successAmount ?? 0}
+        type={type}
+        onFinish={() => navigation.goBack()}
+      />
     </SafeAreaView>
   );
 }

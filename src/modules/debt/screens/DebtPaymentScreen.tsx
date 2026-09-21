@@ -15,7 +15,8 @@ import { useRealm, useQuery, useObject } from '@realm/react';
 import Realm from 'realm';
 
 import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
-import { Text, Button, Input, DateInput, CurrencyInput, BackButton } from '../../../components/common';
+import { Text, Button, Input, DateInput, CurrencyInput, BackButton, DebtPaymentSuccessAnimation } from '../../../components/common';
+import type { DebtPaymentKind } from '../../../components/common/DebtPaymentSuccessAnimation';
 import { DebtModel } from '../../../models/DebtModel';
 import { DebtPaymentModel } from '../../../models/DebtPaymentModel';
 import { SavingModel } from '../../../models/SavingModel';
@@ -53,6 +54,11 @@ export function DebtPaymentScreen({ navigation, route }: Props) {
         ? 'Bayar Tagihan'
         : 'Bayar Utang';
   const amountLabel = mode === 'usage' ? 'Nominal Pemakaian' : 'Nominal Pembayaran';
+  const paymentKind: DebtPaymentKind = debt?.debtType === 'cicilan'
+    ? 'installment'
+    : debt?.debtType === 'revolving' || debt?.debtType === 'tagihan_rutin'
+      ? 'bill'
+      : 'debt';
 
   const defaultAmount = useMemo(() => {
     if (!debt) return 0;
@@ -72,6 +78,7 @@ export function DebtPaymentScreen({ navigation, route }: Props) {
   const [showSavingPicker, setShowSavingPicker] = useState(false);
   const [amountError, setAmountError] = useState('');
   const [sourceError, setSourceError] = useState('');
+  const [successAmount, setSuccessAmount] = useState<number | null>(null);
 
   const selectedSaving = savings.find((s) => s._id.toHexString() === savingId);
 
@@ -150,7 +157,7 @@ export function DebtPaymentScreen({ navigation, route }: Props) {
           if (totalPaidSoFar + parsed >= debt.totalAmount) debt.isActive = false;
         }
       });
-      navigation.goBack();
+      setSuccessAmount(parsed);
     } catch (e) {
       Alert.alert('Validasi', e instanceof Error ? e.message : 'Gagal memproses pembayaran');
     }
@@ -235,6 +242,13 @@ export function DebtPaymentScreen({ navigation, route }: Props) {
           <Button title="Konfirmasi" onPress={handleConfirm} fullWidth style={styles.saveBtn} />
         </ScrollView>
       </KeyboardAvoidingView>
+
+      <DebtPaymentSuccessAnimation
+        visible={successAmount !== null}
+        amount={successAmount ?? 0}
+        kind={paymentKind}
+        onFinish={() => navigation.goBack()}
+      />
     </SafeAreaView>
   );
 }

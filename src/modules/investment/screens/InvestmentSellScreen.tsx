@@ -19,6 +19,7 @@ import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
 import { Button } from '../../../components/common/Button';
 import { BackButton } from '../../../components/common/BackButton';
 import { CurrencyInput } from '../../../components/common/CurrencyInput';
+import { InvestmentSuccessAnimation } from '../../../components/common/InvestmentSuccessAnimation';
 import { InvestmentModel } from '../../../models/InvestmentModel';
 import { SavingModel } from '../../../models/SavingModel';
 import { formatCurrency } from '../../../utils/currency';
@@ -39,6 +40,7 @@ export function InvestmentSellScreen({ navigation, route }: Props) {
   const [sellPriceInput, setSellPriceInput] = useState('');
   const [destination, setDestination] = useState<'cash' | 'savings'>('cash');
   const [savingId, setSavingId] = useState('');
+  const [successAmount, setSuccessAmount] = useState<number | null>(null);
 
   if (!investment) {
     return (
@@ -78,7 +80,7 @@ export function InvestmentSellScreen({ navigation, route }: Props) {
       investment.sellPrice = sellPrice;
       investment.sellDate = date;
     });
-    navigation.goBack();
+    setSuccessAmount(sellPrice);
   };
 
   return (
@@ -151,6 +153,13 @@ export function InvestmentSellScreen({ navigation, route }: Props) {
           <Button title="Jual Sekarang" onPress={confirmSell} fullWidth style={styles.saveBtn} />
         </ScrollView>
       </KeyboardAvoidingView>
+
+      <InvestmentSuccessAnimation
+        visible={successAmount !== null}
+        amount={successAmount ?? 0}
+        kind="sell"
+        onFinish={() => navigation.goBack()}
+      />
     </SafeAreaView>
   );
 }

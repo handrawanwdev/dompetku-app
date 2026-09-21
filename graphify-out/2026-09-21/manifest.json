@@ -170,8 +170,8 @@
     "semantic_hash": ""
   },
   "src/components/common/index.ts": {
-    "mtime": 1783842435.8142736,
-    "ast_hash": "3f1c41d2d33bc20b7256ed741db90f1d",
+    "mtime": 1790008852.272237,
+    "ast_hash": "bd0353f74bd2eb4faca9cf03e0d58021",
     "semantic_hash": ""
   },
   "src/constants/index.ts": {
@@ -260,8 +260,8 @@
     "semantic_hash": ""
   },
   "src/modules/assets/screens/PhysicalAssetFormScreen.tsx": {
-    "mtime": 1785858999.0622005,
-    "ast_hash": "eaa52376d8a5f8531c464aa7586954d2",
+    "mtime": 1790008864.255401,
+    "ast_hash": "0d5feaf99f7c93ac3133394b49f34ab8",
     "semantic_hash": ""
   },
   "src/modules/assets/screens/PhysicalAssetListScreen.tsx": {
@@ -400,18 +400,18 @@
     "semantic_hash": ""
   },
   "src/modules/debt/screens/DebtListScreen.tsx": {
-    "mtime": 1790004837.292467,
-    "ast_hash": "f1ecc79202d9d9134224b9470458fe7e",
+    "mtime": 1790007916.107471,
+    "ast_hash": "441314db9e3289a1ecf54fd5104afe43",
     "semantic_hash": ""
   },
   "src/modules/expense/screens/ExpenseFormScreen.tsx": {
-    "mtime": 1785859563.6157682,
-    "ast_hash": "0d0d25b11a7a38140dbcb2ec1b195211",
+    "mtime": 1790008829.588876,
+    "ast_hash": "48105189e2bf2fe8529eb6d0e0d338aa",
     "semantic_hash": ""
   },
   "src/modules/income/screens/IncomeFormScreen.tsx": {
-    "mtime": 1790004467.1028316,
-    "ast_hash": "6e49cb98afb3715c56a25ce9ba325383",
+    "mtime": 1790008813.841405,
+    "ast_hash": "c803eca76037156649fdf2678d3ad09a",
     "semantic_hash": ""
   },
   "src/modules/investment/InvestmentNavigator.tsx": {
@@ -450,8 +450,8 @@
     "semantic_hash": ""
   },
   "src/modules/savings/screens/SavingsDetailScreen.tsx": {
-    "mtime": 1790004467.1028316,
-    "ast_hash": "4ea8154cb3959cd59065d289f957c66f",
+    "mtime": 1790008030.2584362,
+    "ast_hash": "2dac97df2a7aa2d8e2fc3912461ef87a",
     "semantic_hash": ""
   },
   "src/modules/savings/screens/SavingsFormScreen.tsx": {
@@ -735,33 +735,33 @@
     "semantic_hash": ""
   },
   "src/data/motivationQuotes.ts": {
-    "mtime": 1785867996.9538596,
-    "ast_hash": "6b70722a9f8c838b35c50567c9e01be7",
+    "mtime": 1790006856.7997258,
+    "ast_hash": "41b6d3ee576984b7e6086b4f07e48832",
     "semantic_hash": ""
   },
   "src/services/MotivationBackgroundTask.ts": {
-    "mtime": 1790004467.1038318,
-    "ast_hash": "ba5f83cf2c32e4e6a48cd84224675f66",
+    "mtime": 1790006941.0435677,
+    "ast_hash": "db410e044da43469bf82eae7b5534895",
     "semantic_hash": ""
   },
   "src/utils/motivation.ts": {
-    "mtime": 1785868329.251706,
-    "ast_hash": "cbb79ebc9c4397586a473445d83feb0f",
+    "mtime": 1790006983.6298492,
+    "ast_hash": "570afe686e0ccc71c800b84b63e08df3",
     "semantic_hash": ""
   },
   "src/modules/dashboard/components/MotivationCard.tsx": {
-    "mtime": 1785868347.9789226,
-    "ast_hash": "c1bd831732025c0f07b6383d66e12d38",
+    "mtime": 1790006944.831605,
+    "ast_hash": "84c7fcda920090dd15e696445c0164f6",
     "semantic_hash": ""
   },
   "src/modules/assets/screens/PhysicalAssetSellScreen.tsx": {
-    "mtime": 1786330114.274929,
-    "ast_hash": "9070962ac6da6c3f4cae82b47d6e21c0",
+    "mtime": 1790008884.8977628,
+    "ast_hash": "2960cb559c0671e8dbb425b1d2204283",
     "semantic_hash": ""
   },
   "src/modules/debt/screens/DebtPaymentScreen.tsx": {
-    "mtime": 1790004861.3763769,
-    "ast_hash": "4f0f10ac34a8c0ad007e2f462aa4f5cd",
+    "mtime": 1790008612.192217,
+    "ast_hash": "b29247a5cc8b06faa8dad0265239a64b",
     "semantic_hash": ""
   },
   "src/modules/investment/screens/InvestmentDividendScreen.tsx": {
@@ -775,8 +775,8 @@
     "semantic_hash": ""
   },
   "src/modules/savings/screens/SavingsMoveScreen.tsx": {
-    "mtime": 1786329459.541757,
-    "ast_hash": "39ca5d9b1c0610353090a18c1f322ed2",
+    "mtime": 1790008452.7999334,
+    "ast_hash": "b2262f02c1b037d318574dc7ee17fced",
     "semantic_hash": ""
   },
   "src/modules/settings/screens/CategoryFormScreen.tsx": {
@@ -817,6 +817,31 @@
   "src/modules/dashboard/components/FinancialInsightsCard.tsx": {
     "mtime": 1790006173.812853,
     "ast_hash": "19b5ad0d34efc8faf27abd005a028240",
+    "semantic_hash": ""
+  },
+  "src/components/common/SavingSuccessAnimation.tsx": {
+    "mtime": 1790008584.8004856,
+    "ast_hash": "2c3bdce9a2754b600ef372c93800f3f8",
+    "semantic_hash": ""
+  },
+  "src/components/common/DebtPaymentSuccessAnimation.tsx": {
+    "mtime": 1790008589.062107,
+    "ast_hash": "7141710955c32b35b0f084f3f4b63d9f",
+    "semantic_hash": ""
+  },
+  "src/components/common/MoneyDropAnimation.tsx": {
+    "mtime": 1790008579.655871,
+    "ast_hash": "1c8ba9d913d56fd9764ddf28d7c3c86d",
+    "semantic_hash": ""
+  },
+  "src/components/common/AssetSuccessAnimation.tsx": {
+    "mtime": 1790008850.1118557,
+    "ast_hash": "fac0152a28c0d52956d7e56660387bf8",
+    "semantic_hash": ""
+  },
+  "src/components/common/TransactionSuccessAnimation.tsx": {
+    "mtime": 1790008793.0419834,
+    "ast_hash": "4b0ed7ed0fa32833cbfa4b6a70d6f703",
     "semantic_hash": ""
   }
 }
