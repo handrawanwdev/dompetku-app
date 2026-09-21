@@ -10,7 +10,7 @@ import { DebtModel } from '../models/DebtModel';
 import { SavingModel } from '../models/SavingModel';
 import { InvestmentModel } from '../models/InvestmentModel';
 import { computeFinancialScore } from '../utils/financialScore';
-import { getScheduledMotivation, getSixHourBucket } from '../utils/motivation';
+import { getScheduledMotivation, getMotivationBucketKey } from '../utils/motivation';
 import { QUOTE_CATEGORY_LABEL } from '../data/motivationQuotes';
 import { startOfMonth, endOfMonth } from '../utils/date';
 import { storage, getSettings } from '../storage/mmkv';
@@ -21,10 +21,10 @@ const LAST_BUCKET_KEY = 'motivation-last-bucket';
 TaskManager.defineTask(TASK_NAME, async () => {
   let realm: Realm | null = null;
   try {
-    const currentBucket = getSixHourBucket();
-    const lastBucket = storage.getNumber(LAST_BUCKET_KEY);
-    if (lastBucket === currentBucket) {
-      // Already notified for this 6-hour window — the OS just ran the task early/again.
+    const currentBucketKey = getMotivationBucketKey();
+    const lastBucketKey = storage.getString(LAST_BUCKET_KEY);
+    if (lastBucketKey === currentBucketKey) {
+      // Already notified for this slot today — the OS just ran the task early/again.
       return BackgroundTask.BackgroundTaskResult.Success;
     }
 
@@ -88,7 +88,7 @@ TaskManager.defineTask(TASK_NAME, async () => {
       },
       trigger: null,
     });
-    storage.set(LAST_BUCKET_KEY, currentBucket);
+    storage.set(LAST_BUCKET_KEY, currentBucketKey);
 
     return BackgroundTask.BackgroundTaskResult.Success;
   } catch (error) {
@@ -102,9 +102,15 @@ TaskManager.defineTask(TASK_NAME, async () => {
   // with "Cannot access realm that has been closed".
 });
 
-/** Registers the ~6-hourly motivational quote check. Call once at app startup. */
+/**
+ * Registers the motivational quote check. Runs at least every 3 hours so the
+ * OS has a chance to catch each of the 4 fixed daily slots (07:00, 12:00,
+ * 17:00, 21:00 — the closest gap between two slots is 4 hours). The task
+ * itself dedupes against `LAST_BUCKET_KEY`, so extra wakeups inside the same
+ * slot are no-ops. Call once at app startup.
+ */
 export async function registerMotivationBackgroundTask() {
   const alreadyRegistered = await TaskManager.isTaskRegisteredAsync(TASK_NAME);
   if (alreadyRegistered) return;
-  await BackgroundTask.registerTaskAsync(TASK_NAME, { minimumInterval: 360 });
+  await BackgroundTask.registerTaskAsync(TASK_NAME, { minimumInterval: 180 });
 }

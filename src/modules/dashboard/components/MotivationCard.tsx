@@ -11,10 +11,10 @@ interface Props {
 }
 
 /**
- * Shows the system-picked motivational quote for the current 6-hour window
- * — same category + quote everywhere (dashboard, push notification) until
- * the window rolls over. Deliberately not user-changeable: see
- * getScheduledMotivation for why.
+ * Shows the system-picked motivational quote for the current fixed slot
+ * (pagi/siang/sore/malam) — same category + quote everywhere (dashboard,
+ * push notification) until the next slot starts. Deliberately not
+ * user-changeable: see getScheduledMotivation for why.
  */
 export function MotivationCard({ score }: Props) {
   const motivation = useMemo(() => getScheduledMotivation(score), [score]);

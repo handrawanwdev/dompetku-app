@@ -1,14 +1,32 @@
 import type { FinancialScoreResult } from './financialScore';
 import { getQuotesForCategory, type QuoteCategory } from '../data/motivationQuotes';
 
-const SIX_HOURS_MS = 6 * 60 * 60 * 1000;
+export type MotivationSlot = 'pagi' | 'siang' | 'sore' | 'malam';
 
-/** Index of the current 6-hour window since epoch — same value for everyone within that window. */
-export function getSixHourBucket(now: Date = new Date()): number {
-  return Math.floor(now.getTime() / SIX_HOURS_MS);
+/** Which of the 4 fixed slots `now` falls into — pagi 07–11, siang 12–16, sore 17–20, malam 21–06. */
+export function getMotivationSlot(now: Date = new Date()): MotivationSlot {
+  const hour = now.getHours();
+  if (hour >= 7 && hour < 12) return 'pagi';
+  if (hour >= 12 && hour < 17) return 'siang';
+  if (hour >= 17 && hour < 21) return 'sore';
+  return 'malam';
 }
 
-/** Deterministic PRNG (mulberry32) seeded from the bucket index, so the same window always reproduces the same picks. */
+/** Stable per-day-per-slot key, e.g. "2026-09-21-sore" — same slot on the same day always resolves the same way. */
+export function getMotivationBucketKey(now: Date = new Date()): string {
+  const day = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+  return `${day}-${getMotivationSlot(now)}`;
+}
+
+function hashString(value: string): number {
+  let hash = 0;
+  for (let i = 0; i < value.length; i++) {
+    hash = (Math.imul(31, hash) + value.charCodeAt(i)) | 0;
+  }
+  return hash;
+}
+
+/** Deterministic PRNG (mulberry32) seeded from the bucket key, so the same slot always reproduces the same pick. */
 function seededRandom(seed: number): () => number {
   let t = seed;
   return function () {
@@ -20,62 +38,61 @@ function seededRandom(seed: number): () => number {
   };
 }
 
+function worstScore(score: FinancialScoreResult): number {
+  return Math.min(
+    score.debtScore,
+    score.cashflowScore,
+    score.emergencyScore,
+    score.investmentScore,
+    score.passiveScore,
+  );
+}
+
 /**
- * Picks which quote category best matches the user's current financial
- * state, so the notification feels targeted instead of random noise:
- * - Struggling broadly (worst sub-score very low) → reinforce money mindset
- *   half the time, the specific weak area the other half.
- * - One dimension clearly weak → motivate that exact dimension (e.g. high
- *   debt load → debt freedom, thin emergency fund → saving).
- * - Everything healthy → maintenance categories (daily discipline / goal
- *   achievement) to keep good habits going instead of nagging about a
- *   problem that doesn't exist.
+ * Picks which of the current slot's two candidate categories best matches
+ * the user's financial state, so the notification feels targeted:
+ * - Pagi: struggling broadly → money mindset, otherwise goal achievement.
+ * - Siang: weak cashflow → budgeting, otherwise daily discipline.
+ * - Sore: whichever of the emergency fund / debt load is weaker.
+ * - Malam: struggling broadly → daily discipline, otherwise goal achievement.
  */
-export function pickMotivationCategory(
-  score: FinancialScoreResult,
-  random: () => number = Math.random,
-): QuoteCategory {
-  const dimensions: Array<{ value: number; category: QuoteCategory }> = [
-    { value: score.debtScore, category: 'debt_freedom' },
-    { value: score.cashflowScore, category: 'budgeting' },
-    { value: score.emergencyScore, category: 'saving' },
-    { value: score.investmentScore, category: 'investment' },
-    { value: score.passiveScore, category: 'goal_achievement' },
-  ];
-
-  const worst = dimensions.reduce((min, d) => (d.value < min.value ? d : min), dimensions[0]);
-
-  if (worst.value < 40) {
-    return random() < 0.5 ? 'money_mindset' : worst.category;
+export function pickMotivationCategory(score: FinancialScoreResult, slot: MotivationSlot): QuoteCategory {
+  switch (slot) {
+    case 'pagi':
+      return worstScore(score) < 40 ? 'money_mindset' : 'goal_achievement';
+    case 'siang':
+      return score.cashflowScore < 70 ? 'budgeting' : 'daily_discipline';
+    case 'sore':
+      return score.emergencyScore <= score.debtScore ? 'saving' : 'debt_freedom';
+    case 'malam':
+      return worstScore(score) < 70 ? 'daily_discipline' : 'goal_achievement';
   }
-  if (worst.value < 70) {
-    return worst.category;
-  }
-  return random() < 0.5 ? 'daily_discipline' : 'goal_achievement';
 }
 
 export interface ScheduledMotivation {
   category: QuoteCategory;
   quote: string;
-  /** The 6-hour window this pick belongs to — unchanged until the next window starts. */
-  bucket: number;
+  slot: MotivationSlot;
+  /** The per-day-per-slot key this pick belongs to — unchanged until the next slot starts. */
+  bucketKey: string;
 }
 
 /**
- * The single system-chosen category + quote for the current 6-hour window.
- * Deterministic: calling this repeatedly within the same window (dashboard
- * re-renders, the background notification check, app relaunches) always
- * returns the exact same result — it only changes once the window rolls
- * over. Not user-changeable by design.
+ * The single system-chosen category + quote for the current fixed slot
+ * (07:00/12:00/17:00/21:00). Deterministic: calling this repeatedly within
+ * the same slot (dashboard re-renders, the background notification check,
+ * app relaunches) always returns the exact same result — it only changes
+ * once the next slot starts. Not user-changeable by design.
  */
 export function getScheduledMotivation(
   score: FinancialScoreResult,
   now: Date = new Date(),
 ): ScheduledMotivation {
-  const bucket = getSixHourBucket(now);
-  const rng = seededRandom(bucket);
-  const category = pickMotivationCategory(score, rng);
+  const slot = getMotivationSlot(now);
+  const bucketKey = getMotivationBucketKey(now);
+  const rng = seededRandom(hashString(bucketKey));
+  const category = pickMotivationCategory(score, slot);
   const quotes = getQuotesForCategory(category);
   const quote = quotes[Math.floor(rng() * quotes.length)];
-  return { category, quote, bucket };
+  return { category, quote, slot, bucketKey };
 }
