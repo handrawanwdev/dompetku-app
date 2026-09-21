@@ -8,7 +8,6 @@ import { formatDate } from "../../utils/date";
 import { useDashboardData } from "./hooks/useDashboardData";
 import {
   FreedomCard,
-  AiCard,
   MotivationCard,
   NetWorthCard,
   DebtRatioCard,
@@ -56,20 +55,12 @@ export function DashboardScreen() {
 
         {/* Debt/Obligations detail + Upcoming payment */}
         <ObligationsCard
-          totalDebt={d.summary.totalDebt}
-          monthlyInstallment={d.summary.monthlyInstallment}
           urgent={d.urgentReminders}
           normal={d.normalReminders}
           onPress={() => d.setShowReminders(true)}
         />
 
-        {/* Goals */}
-        <GoalProgressCard goal={d.nearestGoal} />
-
-        {/* 1–3 Financial Insights */}
-        <FinancialInsightsCard insights={d.aiReport.insights} onPress={() => d.setShowAiDetail(true)} />
-
-        {/* Kondisi keuangan gimana */}
+        {/* Kondisi keuangan gimana — melengkapi 4 pilar inti sampai sini */}
         <FreedomCard
           score={d.financialScore}
           level={d.financialLevel}
@@ -78,17 +69,21 @@ export function DashboardScreen() {
           onPress={() => d.setShowLevelDetail(true)}
         />
 
-        <Cashflow30dCard data={d.cashflow30d} />
+        {/* Bonus, bukan salah satu dari 4 pilar inti */}
+        <GoalProgressCard goal={d.nearestGoal} />
+
+        {/* 1–3 Financial Insights */}
+        <FinancialInsightsCard insights={d.aiReport.insights} onPress={() => d.setShowAiDetail(true)} />
 
         {/* Detail pendukung — dibaca kalau sempat, bukan sekilas */}
+        <Cashflow30dCard data={d.cashflow30d} />
+
         <DebtRatioCard
           totalDebt={d.summary.totalDebt}
           debtRatio={d.summary.debtRatio}
           debtRatioLimit={d.settings.debtRatioLimit}
           monthlyInstallment={d.summary.monthlyInstallment}
         />
-
-        <AiCard report={d.aiReport} onPress={() => d.setShowAiDetail(true)} />
 
         <RoadmapCard items={d.roadmap} />
 
@@ -98,10 +93,7 @@ export function DashboardScreen() {
 
         <NeracaCard
           totalIncomeAllTime={d.neraca.totalIncomeAllTime}
-          cash={d.summary.cash}
-          totalSavings={d.summary.totalSavings}
           investmentCost={d.neraca.investmentCost}
-          totalAssets={d.summary.totalAssets}
           totalAset={d.neraca.totalAset}
           totalDebt={d.summary.totalDebt}
           kekayaanBersih={d.neraca.kekayaanBersih}

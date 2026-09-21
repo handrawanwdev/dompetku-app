@@ -270,13 +270,8 @@
     "semantic_hash": ""
   },
   "src/modules/dashboard/DashboardScreen.tsx": {
-    "mtime": 1790005723.2950358,
-    "ast_hash": "1e03b92444b58ab0ea38287cd2659019",
-    "semantic_hash": ""
-  },
-  "src/modules/dashboard/components/AiCard.tsx": {
-    "mtime": 1783846410.6190634,
-    "ast_hash": "603bc9299d399259dcb320435c348a63",
+    "mtime": 1790006216.5117688,
+    "ast_hash": "8befba30f3f9f8ca03d30ded3b2fce11",
     "semantic_hash": ""
   },
   "src/modules/dashboard/components/AiDetailModal.tsx": {
@@ -325,8 +320,8 @@
     "semantic_hash": ""
   },
   "src/modules/dashboard/components/NeracaCard.tsx": {
-    "mtime": 1783844419.1759331,
-    "ast_hash": "899ee2800100843198c256ee59489eb4",
+    "mtime": 1790005993.2944756,
+    "ast_hash": "bc302e6fccfcc65fda61bc709cd79f9b",
     "semantic_hash": ""
   },
   "src/modules/dashboard/components/NetWorthCard.tsx": {
@@ -380,13 +375,13 @@
     "semantic_hash": ""
   },
   "src/modules/dashboard/components/index.ts": {
-    "mtime": 1790005708.2610614,
-    "ast_hash": "daaae3340c18bbd0905fb8977782a941",
+    "mtime": 1790006188.229565,
+    "ast_hash": "3a3908f9632461fa48f570260a0ad491",
     "semantic_hash": ""
   },
   "src/modules/dashboard/hooks/useDashboardData.ts": {
-    "mtime": 1790005294.6242263,
-    "ast_hash": "bb3249a05b985435166b0f9240829f55",
+    "mtime": 1790005981.878518,
+    "ast_hash": "3a3f509f8061a1bf7c55a794ac0d584d",
     "semantic_hash": ""
   },
   "src/modules/debt/DebtNavigator.tsx": {
@@ -815,13 +810,13 @@
     "semantic_hash": ""
   },
   "src/modules/dashboard/components/ObligationsCard.tsx": {
-    "mtime": 1790005553.7351537,
-    "ast_hash": "d24d1b413ef4e1bed6308f3bba8442e4",
+    "mtime": 1790006018.3255887,
+    "ast_hash": "b741171ac7a064d2d66db078dde43639",
     "semantic_hash": ""
   },
   "src/modules/dashboard/components/FinancialInsightsCard.tsx": {
-    "mtime": 1790005704.8321605,
-    "ast_hash": "ee072f21de0d5acf3135e3a9af58d3b5",
+    "mtime": 1790006173.812853,
+    "ast_hash": "19b5ad0d34efc8faf27abd005a028240",
     "semantic_hash": ""
   }
 }

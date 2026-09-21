@@ -16,7 +16,12 @@ interface Props {
   onPress: () => void;
 }
 
-/** Compact 1–3 item glance list — the deep-dive narrative lives in AiCard/AiDetailModal, tap through to it. */
+/**
+ * Compact 1–3 item glance list — tap through to AiDetailModal for the full
+ * narrative. No health-score badge here on purpose: it'd just restate
+ * FreedomCard's Level in different words (both come from the exact same
+ * computeFinancialScore() call) — FreedomCard already owns that signal.
+ */
 export function FinancialInsightsCard({ insights, onPress }: Props) {
   if (insights.length === 0) return null;
   const top = insights.slice(0, 3);

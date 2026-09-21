@@ -349,7 +349,10 @@ export function useDashboardData() {
     ],
   );
 
-  // Neraca (itemized balance sheet)
+  // Neraca (itemized balance sheet). totalAset/kekayaanBersih use current
+  // investment value (summary.totalInvestment) — same basis as
+  // summary.netWorth — so the two "net worth" numbers never disagree.
+  // investmentCost (buy price) is kept only as a separate cost-basis figure.
   const neraca = useMemo(() => {
     const totalIncomeAllTime = incomes.reduce((s, i) => s + i.amount, 0);
     const investmentCost = investments.reduce(
@@ -359,7 +362,7 @@ export function useDashboardData() {
     const totalAset =
       Math.max(0, summary.cash) +
       summary.totalSavings +
-      investmentCost +
+      summary.totalInvestment +
       summary.totalAssets;
     const kekayaanBersih = totalAset - summary.totalDebt;
     return { totalIncomeAllTime, investmentCost, totalAset, kekayaanBersih };

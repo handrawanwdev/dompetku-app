@@ -2,26 +2,24 @@ import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Card, Text } from "../../../components/common";
 import { COLORS, FONTS, RADIUS, SPACING } from "../../../theme";
-import { formatCompact } from "../../../utils/currency";
 import type { DebtModel } from "../../../models/DebtModel";
 import type { ReminderStatus } from "../../../utils/finance";
 
 type Reminder = { debt: DebtModel; status: ReminderStatus };
 
 interface Props {
-  totalDebt: number;
-  monthlyInstallment: number;
   urgent: Reminder[];
   normal: Reminder[];
   onPress: () => void;
 }
 
 /**
- * Glanceable "kewajiban apa" answer for the dashboard's 5-second scan —
- * doesn't require tapping the topbar bell to know if anything's due.
+ * Glanceable "kewajiban apa" status + upcoming payment — the nominal totals
+ * (sisa kewajiban, cicilan/bln) already live in SummaryGrid right above,
+ * this card only adds what's unique: urgency + nearest due item.
  */
-export function ObligationsCard({ totalDebt, monthlyInstallment, urgent, normal, onPress }: Props) {
-  if (totalDebt <= 0 && monthlyInstallment <= 0 && urgent.length === 0 && normal.length === 0) return null;
+export function ObligationsCard({ urgent, normal, onPress }: Props) {
+  if (urgent.length === 0 && normal.length === 0) return null;
 
   const hasUrgent = urgent.length > 0;
   const nearest = urgent[0] ?? normal[0];
@@ -42,22 +40,6 @@ export function ObligationsCard({ totalDebt, monthlyInstallment, urgent, normal,
               <Text style={[styles.badgeText, { color: COLORS.success }]}>✅ Aman</Text>
             </View>
           )}
-        </View>
-
-        <View style={styles.row}>
-          <View style={styles.item}>
-            <Text style={styles.itemLabel}>Sisa Kewajiban</Text>
-            <Text style={[styles.itemValue, { color: COLORS.debt }]}>
-              {formatCompact(totalDebt)}
-            </Text>
-          </View>
-          <View style={styles.divider} />
-          <View style={styles.item}>
-            <Text style={styles.itemLabel}>Per Bulan</Text>
-            <Text style={[styles.itemValue, { color: COLORS.warning }]}>
-              {formatCompact(monthlyInstallment)}
-            </Text>
-          </View>
         </View>
 
         {nearest && (
@@ -86,11 +68,6 @@ const styles = StyleSheet.create({
   title: { fontSize: FONTS.md, fontWeight: "700", color: COLORS.text },
   badge: { paddingHorizontal: SPACING.sm, paddingVertical: 4, borderRadius: RADIUS.round },
   badgeText: { fontSize: FONTS.xs, fontWeight: "800" },
-  row: { flexDirection: "row", alignItems: "flex-start" },
-  item: { flex: 1, alignItems: "center" },
-  itemLabel: { fontSize: FONTS.xs, color: COLORS.textMuted },
-  itemValue: { fontSize: FONTS.lg, fontWeight: "700", marginTop: 2 },
-  divider: { width: 1, height: 36, backgroundColor: COLORS.border, marginTop: 4 },
   nearestRow: {
     flexDirection: "row",
     justifyContent: "space-between",

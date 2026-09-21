@@ -285,8 +285,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "ref_expo_background_task",
-      "community": 8,
-      "community_name": "expo",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "expo-background-task"
     },
     {
@@ -604,8 +604,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "package_dependencies_expo_background_task",
-      "community": 26,
-      "community_name": "DebtDetailScreen.tsx",
+      "community": 46,
+      "community_name": "expo-background-task",
       "norm_label": "expo-background-task"
     },
     {
@@ -615,8 +615,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "expo_background_task",
-      "community": 26,
-      "community_name": "DebtDetailScreen.tsx",
+      "community": 46,
+      "community_name": "expo-background-task",
       "norm_label": "expo-background-task"
     },
     {
@@ -1022,8 +1022,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "package_dependencies_realm",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 11,
+      "community_name": "InvestmentListScreen.tsx",
       "norm_label": "realm"
     },
     {
@@ -1033,8 +1033,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "realm",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 11,
+      "community_name": "InvestmentListScreen.tsx",
       "norm_label": "realm"
     },
     {
@@ -1726,8 +1726,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_charts_donutchart",
-      "community": 84,
-      "community_name": "CurrencyInput.tsx",
+      "community": 27,
+      "community_name": "PassiveIncomeFormScreen.tsx",
       "norm_label": "donutchart.tsx"
     },
     {
@@ -1737,8 +1737,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "src_components_charts_donutchart_segment",
-      "community": 84,
-      "community_name": "CurrencyInput.tsx",
+      "community": 27,
+      "community_name": "PassiveIncomeFormScreen.tsx",
       "norm_label": "segment"
     },
     {
@@ -1748,8 +1748,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_components_charts_donutchart_donutchartprops",
-      "community": 84,
-      "community_name": "CurrencyInput.tsx",
+      "community": 27,
+      "community_name": "PassiveIncomeFormScreen.tsx",
       "norm_label": "donutchartprops"
     },
     {
@@ -1759,8 +1759,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "src_components_charts_donutchart_donutchart",
-      "community": 84,
-      "community_name": "CurrencyInput.tsx",
+      "community": 27,
+      "community_name": "PassiveIncomeFormScreen.tsx",
       "norm_label": "donutchart()"
     },
     {
@@ -1770,8 +1770,8 @@
       "source_location": "L96",
       "_origin": "ast",
       "id": "src_components_charts_donutchart_styles",
-      "community": 84,
-      "community_name": "CurrencyInput.tsx",
+      "community": 27,
+      "community_name": "PassiveIncomeFormScreen.tsx",
       "norm_label": "styles"
     },
     {
@@ -1836,8 +1836,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_charts_simplebarchart",
-      "community": 84,
-      "community_name": "CurrencyInput.tsx",
+      "community": 41,
+      "community_name": "scripts",
       "norm_label": "simplebarchart.tsx"
     },
     {
@@ -1847,8 +1847,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_components_charts_simplebarchart_datapoint",
-      "community": 84,
-      "community_name": "CurrencyInput.tsx",
+      "community": 41,
+      "community_name": "scripts",
       "norm_label": "datapoint"
     },
     {
@@ -1858,8 +1858,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_components_charts_simplebarchart_simplebarchartprops",
-      "community": 84,
-      "community_name": "CurrencyInput.tsx",
+      "community": 41,
+      "community_name": "scripts",
       "norm_label": "simplebarchartprops"
     },
     {
@@ -1869,8 +1869,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "src_components_charts_simplebarchart_simplebarchart",
-      "community": 84,
-      "community_name": "CurrencyInput.tsx",
+      "community": 41,
+      "community_name": "scripts",
       "norm_label": "simplebarchart()"
     },
     {
@@ -1880,8 +1880,8 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "src_components_charts_simplebarchart_styles",
-      "community": 84,
-      "community_name": "CurrencyInput.tsx",
+      "community": 41,
+      "community_name": "scripts",
       "norm_label": "styles"
     },
     {
@@ -1891,8 +1891,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_common_amountdisplay",
-      "community": 45,
-      "community_name": "SettingsNavigator.tsx",
+      "community": 37,
+      "community_name": "DonutChart.tsx",
       "norm_label": "amountdisplay.tsx"
     },
     {
@@ -1902,8 +1902,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "src_components_common_amountdisplay_amountdisplayprops",
-      "community": 45,
-      "community_name": "SettingsNavigator.tsx",
+      "community": 37,
+      "community_name": "DonutChart.tsx",
       "norm_label": "amountdisplayprops"
     },
     {
@@ -1913,8 +1913,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "src_components_common_amountdisplay_sizes",
-      "community": 45,
-      "community_name": "SettingsNavigator.tsx",
+      "community": 37,
+      "community_name": "DonutChart.tsx",
       "norm_label": "sizes"
     },
     {
@@ -1924,8 +1924,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "src_components_common_amountdisplay_amountdisplay",
-      "community": 45,
-      "community_name": "SettingsNavigator.tsx",
+      "community": 37,
+      "community_name": "DonutChart.tsx",
       "norm_label": "amountdisplay()"
     },
     {
@@ -1935,8 +1935,8 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "src_components_common_amountdisplay_styles",
-      "community": 45,
-      "community_name": "SettingsNavigator.tsx",
+      "community": 37,
+      "community_name": "DonutChart.tsx",
       "norm_label": "styles"
     },
     {
@@ -1946,8 +1946,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_common_backbutton",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 84,
+      "community_name": "CurrencyInput.tsx",
       "norm_label": "backbutton.tsx"
     },
     {
@@ -1957,8 +1957,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "src_components_common_backbutton_backbuttonprops",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 84,
+      "community_name": "CurrencyInput.tsx",
       "norm_label": "backbuttonprops"
     },
     {
@@ -1968,8 +1968,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_components_common_backbutton_backbutton",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 31,
+      "community_name": "formatCurrency",
       "norm_label": "backbutton()"
     },
     {
@@ -1979,8 +1979,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "src_components_common_backbutton_styles",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 84,
+      "community_name": "CurrencyInput.tsx",
       "norm_label": "styles"
     },
     {
@@ -1990,8 +1990,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_common_button",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 84,
+      "community_name": "CurrencyInput.tsx",
       "norm_label": "button.tsx"
     },
     {
@@ -2001,8 +2001,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_components_common_button_buttonprops",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 84,
+      "community_name": "CurrencyInput.tsx",
       "norm_label": "buttonprops"
     },
     {
@@ -2012,8 +2012,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "src_components_common_button_button",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 31,
+      "community_name": "formatCurrency",
       "norm_label": "button()"
     },
     {
@@ -2023,8 +2023,8 @@
       "source_location": "L89",
       "_origin": "ast",
       "id": "src_components_common_button_styles",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 84,
+      "community_name": "CurrencyInput.tsx",
       "norm_label": "styles"
     },
     {
@@ -2034,8 +2034,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_common_card",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 84,
+      "community_name": "CurrencyInput.tsx",
       "norm_label": "card.tsx"
     },
     {
@@ -2045,8 +2045,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "src_components_common_card_cardprops",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 84,
+      "community_name": "CurrencyInput.tsx",
       "norm_label": "cardprops"
     },
     {
@@ -2067,8 +2067,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "src_components_common_card_styles",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 84,
+      "community_name": "CurrencyInput.tsx",
       "norm_label": "styles"
     },
     {
@@ -2078,8 +2078,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_common_currencyinput",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 84,
+      "community_name": "CurrencyInput.tsx",
       "norm_label": "currencyinput.tsx"
     },
     {
@@ -2089,8 +2089,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "src_components_common_currencyinput_currencyinputprops",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 84,
+      "community_name": "CurrencyInput.tsx",
       "norm_label": "currencyinputprops"
     },
     {
@@ -2100,8 +2100,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_components_common_currencyinput_formatthousands",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 75,
+      "community_name": "IncomeFormScreen.tsx",
       "norm_label": "formatthousands()"
     },
     {
@@ -2111,8 +2111,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "src_components_common_currencyinput_currencyinput",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 75,
+      "community_name": "IncomeFormScreen.tsx",
       "norm_label": "currencyinput()"
     },
     {
@@ -2122,8 +2122,8 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "src_components_common_currencyinput_styles",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 84,
+      "community_name": "CurrencyInput.tsx",
       "norm_label": "styles"
     },
     {
@@ -2221,8 +2221,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_common_emptystate",
-      "community": 21,
-      "community_name": "ExpenseListScreen.tsx",
+      "community": 10,
+      "community_name": "index.ts",
       "norm_label": "emptystate.tsx"
     },
     {
@@ -2232,8 +2232,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "src_components_common_emptystate_emptystateprops",
-      "community": 21,
-      "community_name": "ExpenseListScreen.tsx",
+      "community": 10,
+      "community_name": "index.ts",
       "norm_label": "emptystateprops"
     },
     {
@@ -2243,8 +2243,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "src_components_common_emptystate_emptystate",
-      "community": 21,
-      "community_name": "ExpenseListScreen.tsx",
+      "community": 10,
+      "community_name": "index.ts",
       "norm_label": "emptystate()"
     },
     {
@@ -2254,8 +2254,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "src_components_common_emptystate_styles",
-      "community": 21,
-      "community_name": "ExpenseListScreen.tsx",
+      "community": 10,
+      "community_name": "index.ts",
       "norm_label": "styles"
     },
     {
@@ -2265,8 +2265,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_common_errorboundary",
-      "community": 4,
-      "community_name": "SettingsNavigator.tsx",
+      "community": 84,
+      "community_name": "CurrencyInput.tsx",
       "norm_label": "errorboundary.tsx"
     },
     {
@@ -2276,8 +2276,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_components_common_errorboundary_props",
-      "community": 4,
-      "community_name": "SettingsNavigator.tsx",
+      "community": 84,
+      "community_name": "CurrencyInput.tsx",
       "norm_label": "props"
     },
     {
@@ -2287,8 +2287,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "src_components_common_errorboundary_state",
-      "community": 4,
-      "community_name": "SettingsNavigator.tsx",
+      "community": 84,
+      "community_name": "CurrencyInput.tsx",
       "norm_label": "state"
     },
     {
@@ -2353,8 +2353,8 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "src_components_common_errorboundary_styles",
-      "community": 4,
-      "community_name": "SettingsNavigator.tsx",
+      "community": 84,
+      "community_name": "CurrencyInput.tsx",
       "norm_label": "styles"
     },
     {
@@ -2364,8 +2364,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_common_fab",
-      "community": 15,
-      "community_name": "GoalFormScreen.tsx",
+      "community": 45,
+      "community_name": "SettingsNavigator.tsx",
       "norm_label": "fab.tsx"
     },
     {
@@ -2375,8 +2375,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "src_components_common_fab_lighten",
-      "community": 15,
-      "community_name": "GoalFormScreen.tsx",
+      "community": 45,
+      "community_name": "SettingsNavigator.tsx",
       "norm_label": "lighten()"
     },
     {
@@ -2386,8 +2386,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_components_common_fab_props",
-      "community": 15,
-      "community_name": "GoalFormScreen.tsx",
+      "community": 45,
+      "community_name": "SettingsNavigator.tsx",
       "norm_label": "props"
     },
     {
@@ -2397,8 +2397,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "src_components_common_fab_fab",
-      "community": 15,
-      "community_name": "GoalFormScreen.tsx",
+      "community": 45,
+      "community_name": "SettingsNavigator.tsx",
       "norm_label": "fab()"
     },
     {
@@ -2408,8 +2408,8 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "src_components_common_fab_styles",
-      "community": 15,
-      "community_name": "GoalFormScreen.tsx",
+      "community": 45,
+      "community_name": "SettingsNavigator.tsx",
       "norm_label": "styles"
     },
     {
@@ -2441,8 +2441,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "src_components_common_input_input",
-      "community": 31,
-      "community_name": "formatCurrency",
+      "community": 84,
+      "community_name": "CurrencyInput.tsx",
       "norm_label": "input"
     },
     {
@@ -2760,8 +2760,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_database_realm",
-      "community": 4,
-      "community_name": "SettingsNavigator.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "realm.ts"
     },
     {
@@ -2771,8 +2771,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "src_database_realm_realmconfig",
-      "community": 4,
-      "community_name": "SettingsNavigator.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "realmconfig"
     },
     {
@@ -2815,8 +2815,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_models_categorymodel",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "categorymodel.ts"
     },
     {
@@ -2826,8 +2826,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "src_models_categorymodel_categorymodel",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "categorymodel"
     },
     {
@@ -2837,8 +2837,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_models_debtmodel",
-      "community": 31,
-      "community_name": "formatCurrency",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "debtmodel.ts"
     },
     {
@@ -2848,8 +2848,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_models_debtmodel_debttype",
-      "community": 31,
-      "community_name": "formatCurrency",
+      "community": 5,
+      "community_name": "DiagnosisScreen.tsx",
       "norm_label": "debttype"
     },
     {
@@ -2859,8 +2859,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_models_debtmodel_debtmodel",
-      "community": 27,
-      "community_name": "PassiveIncomeFormScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "debtmodel"
     },
     {
@@ -2870,8 +2870,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_models_debtpaymentmodel",
-      "community": 31,
-      "community_name": "formatCurrency",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "debtpaymentmodel.ts"
     },
     {
@@ -2881,8 +2881,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "src_models_debtpaymentmodel_debtpaymentmodel",
-      "community": 31,
-      "community_name": "formatCurrency",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "debtpaymentmodel"
     },
     {
@@ -2914,8 +2914,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_models_financialmilestonemodel",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "financialmilestonemodel.ts"
     },
     {
@@ -2925,8 +2925,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "src_models_financialmilestonemodel_financialmilestonemodel",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "financialmilestonemodel"
     },
     {
@@ -2936,8 +2936,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_models_financialscoremodel",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "financialscoremodel.ts"
     },
     {
@@ -2947,8 +2947,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "src_models_financialscoremodel_financialscoremodel",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "financialscoremodel"
     },
     {
@@ -2980,8 +2980,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_models_investmentmodel",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "investmentmodel.ts"
     },
     {
@@ -2991,8 +2991,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "src_models_investmentmodel_investmentmodel",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "investmentmodel"
     },
     {
@@ -3002,8 +3002,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_models_passiveincomemodel",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "passiveincomemodel.ts"
     },
     {
@@ -3013,8 +3013,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "src_models_passiveincomemodel_passiveincomemodel",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "passiveincomemodel"
     },
     {
@@ -3024,8 +3024,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_models_physicalassetmodel",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "physicalassetmodel.ts"
     },
     {
@@ -3035,8 +3035,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "src_models_physicalassetmodel_physicalassetmodel",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "physicalassetmodel"
     },
     {
@@ -3046,8 +3046,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_models_savinghistorymodel",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "savinghistorymodel.ts"
     },
     {
@@ -3057,8 +3057,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "src_models_savinghistorymodel_savinghistorymodel",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 11,
+      "community_name": "InvestmentListScreen.tsx",
       "norm_label": "savinghistorymodel"
     },
     {
@@ -3068,8 +3068,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_models_savingmodel",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 31,
+      "community_name": "formatCurrency",
       "norm_label": "savingmodel.ts"
     },
     {
@@ -3079,8 +3079,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "src_models_savingmodel_savingmodel",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 31,
+      "community_name": "formatCurrency",
       "norm_label": "savingmodel"
     },
     {
@@ -3090,8 +3090,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_models_index",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "index.ts"
     },
     {
@@ -3101,8 +3101,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "src_models_index_all_models",
-      "community": 4,
-      "community_name": "SettingsNavigator.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "all_models"
     },
     {
@@ -3134,8 +3134,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "src_modules_assets_assetsnavigator_assetsnavigator",
-      "community": 13,
-      "community_name": "COLORS",
+      "community": 12,
+      "community_name": "SavingsDetailScreen.tsx",
       "norm_label": "assetsnavigator()"
     },
     {
@@ -3145,8 +3145,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_modules_assets_screens_physicalassetformscreen",
-      "community": 12,
-      "community_name": "SavingsDetailScreen.tsx",
+      "community": 26,
+      "community_name": "DebtDetailScreen.tsx",
       "norm_label": "physicalassetformscreen.tsx"
     },
     {
@@ -3156,8 +3156,8 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "src_modules_assets_screens_physicalassetformscreen_categories",
-      "community": 12,
-      "community_name": "SavingsDetailScreen.tsx",
+      "community": 26,
+      "community_name": "DebtDetailScreen.tsx",
       "norm_label": "categories"
     },
     {
@@ -3167,8 +3167,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "src_modules_assets_screens_physicalassetformscreen_navprop",
-      "community": 12,
-      "community_name": "SavingsDetailScreen.tsx",
+      "community": 26,
+      "community_name": "DebtDetailScreen.tsx",
       "norm_label": "navprop"
     },
     {
@@ -3178,8 +3178,8 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "src_modules_assets_screens_physicalassetformscreen_routepropt",
-      "community": 12,
-      "community_name": "SavingsDetailScreen.tsx",
+      "community": 26,
+      "community_name": "DebtDetailScreen.tsx",
       "norm_label": "routepropt"
     },
     {
@@ -3189,8 +3189,8 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "src_modules_assets_screens_physicalassetformscreen_props",
-      "community": 12,
-      "community_name": "SavingsDetailScreen.tsx",
+      "community": 26,
+      "community_name": "DebtDetailScreen.tsx",
       "norm_label": "props"
     },
     {
@@ -3211,8 +3211,8 @@
       "source_location": "L136",
       "_origin": "ast",
       "id": "src_modules_assets_screens_physicalassetformscreen_field",
-      "community": 12,
-      "community_name": "SavingsDetailScreen.tsx",
+      "community": 26,
+      "community_name": "DebtDetailScreen.tsx",
       "norm_label": "field()"
     },
     {
@@ -3222,8 +3222,8 @@
       "source_location": "L153",
       "_origin": "ast",
       "id": "src_modules_assets_screens_physicalassetformscreen_fs",
-      "community": 12,
-      "community_name": "SavingsDetailScreen.tsx",
+      "community": 26,
+      "community_name": "DebtDetailScreen.tsx",
       "norm_label": "fs"
     },
     {
@@ -3233,8 +3233,8 @@
       "source_location": "L158",
       "_origin": "ast",
       "id": "src_modules_assets_screens_physicalassetformscreen_styles",
-      "community": 12,
-      "community_name": "SavingsDetailScreen.tsx",
+      "community": 26,
+      "community_name": "DebtDetailScreen.tsx",
       "norm_label": "styles"
     },
     {
@@ -3321,8 +3321,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_modules_assets_screens_physicalassetsellscreen",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 31,
+      "community_name": "formatCurrency",
       "norm_label": "physicalassetsellscreen.tsx"
     },
     {
@@ -3332,8 +3332,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "src_modules_assets_screens_physicalassetsellscreen_props",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 31,
+      "community_name": "formatCurrency",
       "norm_label": "props"
     },
     {
@@ -3343,8 +3343,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "src_modules_assets_screens_physicalassetsellscreen_physicalassetsellscreen",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 31,
+      "community_name": "formatCurrency",
       "norm_label": "physicalassetsellscreen()"
     },
     {
@@ -3354,8 +3354,8 @@
       "source_location": "L156",
       "_origin": "ast",
       "id": "src_modules_assets_screens_physicalassetsellscreen_styles",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 31,
+      "community_name": "formatCurrency",
       "norm_label": "styles"
     },
     {
@@ -3373,77 +3373,22 @@
       "label": "DashboardScreen()",
       "file_type": "code",
       "source_file": "src/modules/dashboard/DashboardScreen.tsx",
-      "source_location": "L30",
+      "source_location": "L29",
       "_origin": "ast",
       "id": "src_modules_dashboard_dashboardscreen_dashboardscreen",
-      "community": 13,
-      "community_name": "COLORS",
+      "community": 16,
+      "community_name": "RADIUS",
       "norm_label": "dashboardscreen()"
     },
     {
       "label": "styles",
       "file_type": "code",
       "source_file": "src/modules/dashboard/DashboardScreen.tsx",
-      "source_location": "L137",
+      "source_location": "L129",
       "_origin": "ast",
       "id": "src_modules_dashboard_dashboardscreen_styles",
       "community": 16,
       "community_name": "RADIUS",
-      "norm_label": "styles"
-    },
-    {
-      "label": "AiCard.tsx",
-      "file_type": "code",
-      "source_file": "src/modules/dashboard/components/AiCard.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "src_modules_dashboard_components_aicard",
-      "community": 84,
-      "community_name": "CurrencyInput.tsx",
-      "norm_label": "aicard.tsx"
-    },
-    {
-      "label": "healthColor()",
-      "file_type": "code",
-      "source_file": "src/modules/dashboard/components/AiCard.tsx",
-      "source_location": "L7",
-      "_origin": "ast",
-      "id": "src_modules_dashboard_components_aicard_healthcolor",
-      "community": 84,
-      "community_name": "CurrencyInput.tsx",
-      "norm_label": "healthcolor()"
-    },
-    {
-      "label": "Props",
-      "file_type": "code",
-      "source_file": "src/modules/dashboard/components/AiCard.tsx",
-      "source_location": "L13",
-      "_origin": "ast",
-      "id": "src_modules_dashboard_components_aicard_props",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
-      "norm_label": "props"
-    },
-    {
-      "label": "AiCard()",
-      "file_type": "code",
-      "source_file": "src/modules/dashboard/components/AiCard.tsx",
-      "source_location": "L18",
-      "_origin": "ast",
-      "id": "src_modules_dashboard_components_aicard_aicard",
-      "community": 84,
-      "community_name": "CurrencyInput.tsx",
-      "norm_label": "aicard()"
-    },
-    {
-      "label": "styles",
-      "file_type": "code",
-      "source_file": "src/modules/dashboard/components/AiCard.tsx",
-      "source_location": "L47",
-      "_origin": "ast",
-      "id": "src_modules_dashboard_components_aicard_styles",
-      "community": 84,
-      "community_name": "CurrencyInput.tsx",
       "norm_label": "styles"
     },
     {
@@ -3453,8 +3398,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_aidetailmodal",
-      "community": 84,
-      "community_name": "CurrencyInput.tsx",
+      "community": 41,
+      "community_name": "scripts",
       "norm_label": "aidetailmodal.tsx"
     },
     {
@@ -3475,8 +3420,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_aidetailmodal_aidetailmodal",
-      "community": 84,
-      "community_name": "CurrencyInput.tsx",
+      "community": 41,
+      "community_name": "scripts",
       "norm_label": "aidetailmodal()"
     },
     {
@@ -3486,8 +3431,8 @@
       "source_location": "L126",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_aidetailmodal_styles",
-      "community": 84,
-      "community_name": "CurrencyInput.tsx",
+      "community": 41,
+      "community_name": "scripts",
       "norm_label": "styles"
     },
     {
@@ -3629,8 +3574,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_debtratiocard",
-      "community": 40,
-      "community_name": "expo-sharing",
+      "community": 45,
+      "community_name": "SettingsNavigator.tsx",
       "norm_label": "debtratiocard.tsx"
     },
     {
@@ -3640,8 +3585,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_debtratiocard_props",
-      "community": 40,
-      "community_name": "expo-sharing",
+      "community": 45,
+      "community_name": "SettingsNavigator.tsx",
       "norm_label": "props"
     },
     {
@@ -3651,8 +3596,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_debtratiocard_debtratiocard",
-      "community": 40,
-      "community_name": "expo-sharing",
+      "community": 45,
+      "community_name": "SettingsNavigator.tsx",
       "norm_label": "debtratiocard()"
     },
     {
@@ -3662,8 +3607,8 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_debtratiocard_styles",
-      "community": 40,
-      "community_name": "expo-sharing",
+      "community": 45,
+      "community_name": "SettingsNavigator.tsx",
       "norm_label": "styles"
     },
     {
@@ -3673,8 +3618,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_emergencyfundcard",
-      "community": 60,
-      "community_name": "Props",
+      "community": 7,
+      "community_name": "FONTS",
       "norm_label": "emergencyfundcard.tsx"
     },
     {
@@ -3695,8 +3640,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_emergencyfundcard_emergencyfundcard",
-      "community": 60,
-      "community_name": "Props",
+      "community": 7,
+      "community_name": "FONTS",
       "norm_label": "emergencyfundcard()"
     },
     {
@@ -3706,8 +3651,8 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_emergencyfundcard_styles",
-      "community": 60,
-      "community_name": "Props",
+      "community": 7,
+      "community_name": "FONTS",
       "norm_label": "styles"
     },
     {
@@ -3728,8 +3673,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_emergencypickermodal_props",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 31,
+      "community_name": "formatCurrency",
       "norm_label": "props"
     },
     {
@@ -3739,8 +3684,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_emergencypickermodal_emergencypickermodal",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 22,
+      "community_name": "CashflowScreen.tsx",
       "norm_label": "emergencypickermodal()"
     },
     {
@@ -3761,8 +3706,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_financialinsightscard",
-      "community": 16,
-      "community_name": "RADIUS",
+      "community": 7,
+      "community_name": "FONTS",
       "norm_label": "financialinsightscard.tsx"
     },
     {
@@ -3772,8 +3717,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_financialinsightscard_severity_color",
-      "community": 16,
-      "community_name": "RADIUS",
+      "community": 7,
+      "community_name": "FONTS",
       "norm_label": "severity_color"
     },
     {
@@ -3791,7 +3736,7 @@
       "label": "FinancialInsightsCard()",
       "file_type": "code",
       "source_file": "src/modules/dashboard/components/FinancialInsightsCard.tsx",
-      "source_location": "L20",
+      "source_location": "L25",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_financialinsightscard_financialinsightscard",
       "community": 16,
@@ -3802,11 +3747,11 @@
       "label": "styles",
       "file_type": "code",
       "source_file": "src/modules/dashboard/components/FinancialInsightsCard.tsx",
-      "source_location": "L46",
+      "source_location": "L51",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_financialinsightscard_styles",
-      "community": 16,
-      "community_name": "RADIUS",
+      "community": 7,
+      "community_name": "FONTS",
       "norm_label": "styles"
     },
     {
@@ -3816,8 +3761,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_freedomcard",
-      "community": 45,
-      "community_name": "SettingsNavigator.tsx",
+      "community": 16,
+      "community_name": "RADIUS",
       "norm_label": "freedomcard.tsx"
     },
     {
@@ -3827,8 +3772,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_freedomcard_props",
-      "community": 45,
-      "community_name": "SettingsNavigator.tsx",
+      "community": 16,
+      "community_name": "RADIUS",
       "norm_label": "props"
     },
     {
@@ -3838,8 +3783,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_freedomcard_freedomcard",
-      "community": 45,
-      "community_name": "SettingsNavigator.tsx",
+      "community": 16,
+      "community_name": "RADIUS",
       "norm_label": "freedomcard()"
     },
     {
@@ -3849,8 +3794,8 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_freedomcard_styles",
-      "community": 45,
-      "community_name": "SettingsNavigator.tsx",
+      "community": 16,
+      "community_name": "RADIUS",
       "norm_label": "styles"
     },
     {
@@ -3959,8 +3904,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_leveldetailmodal",
-      "community": 45,
-      "community_name": "SettingsNavigator.tsx",
+      "community": 16,
+      "community_name": "RADIUS",
       "norm_label": "leveldetailmodal.tsx"
     },
     {
@@ -3970,8 +3915,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_leveldetailmodal_checklistitem",
-      "community": 45,
-      "community_name": "SettingsNavigator.tsx",
+      "community": 16,
+      "community_name": "RADIUS",
       "norm_label": "checklistitem"
     },
     {
@@ -3981,8 +3926,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_leveldetailmodal_props",
-      "community": 45,
-      "community_name": "SettingsNavigator.tsx",
+      "community": 16,
+      "community_name": "RADIUS",
       "norm_label": "props"
     },
     {
@@ -3992,8 +3937,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_leveldetailmodal_leveldetailmodal",
-      "community": 45,
-      "community_name": "SettingsNavigator.tsx",
+      "community": 16,
+      "community_name": "RADIUS",
       "norm_label": "leveldetailmodal()"
     },
     {
@@ -4003,8 +3948,8 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_leveldetailmodal_styles",
-      "community": 45,
-      "community_name": "SettingsNavigator.tsx",
+      "community": 16,
+      "community_name": "RADIUS",
       "norm_label": "styles"
     },
     {
@@ -4014,8 +3959,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_motivationcard",
-      "community": 7,
-      "community_name": "FONTS",
+      "community": 20,
+      "community_name": "DebtFormScreen.tsx",
       "norm_label": "motivationcard.tsx"
     },
     {
@@ -4025,8 +3970,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_motivationcard_props",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 20,
+      "community_name": "DebtFormScreen.tsx",
       "norm_label": "props"
     },
     {
@@ -4036,8 +3981,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_motivationcard_motivationcard",
-      "community": 16,
-      "community_name": "RADIUS",
+      "community": 20,
+      "community_name": "DebtFormScreen.tsx",
       "norm_label": "motivationcard()"
     },
     {
@@ -4047,8 +3992,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_motivationcard_styles",
-      "community": 7,
-      "community_name": "FONTS",
+      "community": 20,
+      "community_name": "DebtFormScreen.tsx",
       "norm_label": "styles"
     },
     {
@@ -4058,8 +4003,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_neracacard",
-      "community": 10,
-      "community_name": "index.ts",
+      "community": 7,
+      "community_name": "FONTS",
       "norm_label": "neracacard.tsx"
     },
     {
@@ -4069,8 +4014,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_neracacard_neracarow",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 22,
+      "community_name": "CashflowScreen.tsx",
       "norm_label": "neracarow()"
     },
     {
@@ -4080,30 +4025,30 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_neracacard_props",
-      "community": 10,
-      "community_name": "index.ts",
+      "community": 7,
+      "community_name": "FONTS",
       "norm_label": "props"
     },
     {
       "label": "NeracaCard()",
       "file_type": "code",
       "source_file": "src/modules/dashboard/components/NeracaCard.tsx",
-      "source_location": "L42",
+      "source_location": "L44",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_neracacard_neracacard",
-      "community": 10,
-      "community_name": "index.ts",
+      "community": 7,
+      "community_name": "FONTS",
       "norm_label": "neracacard()"
     },
     {
       "label": "styles",
       "file_type": "code",
       "source_file": "src/modules/dashboard/components/NeracaCard.tsx",
-      "source_location": "L84",
+      "source_location": "L76",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_neracacard_styles",
-      "community": 10,
-      "community_name": "index.ts",
+      "community": 7,
+      "community_name": "FONTS",
       "norm_label": "styles"
     },
     {
@@ -4179,8 +4124,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_networthtrackercard_props",
-      "community": 7,
-      "community_name": "FONTS",
+      "community": 52,
+      "community_name": "NetWorthPoint",
       "norm_label": "props"
     },
     {
@@ -4220,7 +4165,7 @@
       "label": "Reminder",
       "file_type": "code",
       "source_file": "src/modules/dashboard/components/ObligationsCard.tsx",
-      "source_location": "L9",
+      "source_location": "L8",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_obligationscard_reminder",
       "community": 16,
@@ -4231,7 +4176,7 @@
       "label": "Props",
       "file_type": "code",
       "source_file": "src/modules/dashboard/components/ObligationsCard.tsx",
-      "source_location": "L11",
+      "source_location": "L10",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_obligationscard_props",
       "community": 16,
@@ -4242,7 +4187,7 @@
       "label": "ObligationsCard()",
       "file_type": "code",
       "source_file": "src/modules/dashboard/components/ObligationsCard.tsx",
-      "source_location": "L23",
+      "source_location": "L21",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_obligationscard_obligationscard",
       "community": 16,
@@ -4253,7 +4198,7 @@
       "label": "styles",
       "file_type": "code",
       "source_file": "src/modules/dashboard/components/ObligationsCard.tsx",
-      "source_location": "L78",
+      "source_location": "L60",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_obligationscard_styles",
       "community": 16,
@@ -4443,8 +4388,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_reminderssection",
-      "community": 10,
-      "community_name": "index.ts",
+      "community": 16,
+      "community_name": "RADIUS",
       "norm_label": "reminderssection.tsx"
     },
     {
@@ -4454,8 +4399,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_reminderssection_reminder",
-      "community": 10,
-      "community_name": "index.ts",
+      "community": 16,
+      "community_name": "RADIUS",
       "norm_label": "reminder"
     },
     {
@@ -4465,8 +4410,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_reminderssection_props",
-      "community": 10,
-      "community_name": "index.ts",
+      "community": 16,
+      "community_name": "RADIUS",
       "norm_label": "props"
     },
     {
@@ -4487,8 +4432,8 @@
       "source_location": "L67",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_reminderssection_styles",
-      "community": 10,
-      "community_name": "index.ts",
+      "community": 16,
+      "community_name": "RADIUS",
       "norm_label": "styles"
     },
     {
@@ -4498,8 +4443,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_roadmapcard",
-      "community": 41,
-      "community_name": "scripts",
+      "community": 7,
+      "community_name": "FONTS",
       "norm_label": "roadmapcard.tsx"
     },
     {
@@ -4509,8 +4454,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_roadmapcard_roadmapcard",
-      "community": 41,
-      "community_name": "scripts",
+      "community": 7,
+      "community_name": "FONTS",
       "norm_label": "roadmapcard()"
     },
     {
@@ -4520,8 +4465,8 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_roadmapcard_styles",
-      "community": 41,
-      "community_name": "scripts",
+      "community": 7,
+      "community_name": "FONTS",
       "norm_label": "styles"
     },
     {
@@ -4531,8 +4476,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_sectiontitle",
-      "community": 10,
-      "community_name": "index.ts",
+      "community": 7,
+      "community_name": "FONTS",
       "norm_label": "sectiontitle.tsx"
     },
     {
@@ -4542,8 +4487,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_sectiontitle_sectiontitle",
-      "community": 10,
-      "community_name": "index.ts",
+      "community": 7,
+      "community_name": "FONTS",
       "norm_label": "sectiontitle()"
     },
     {
@@ -4553,8 +4498,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_sectiontitle_styles",
-      "community": 10,
-      "community_name": "index.ts",
+      "community": 7,
+      "community_name": "FONTS",
       "norm_label": "styles"
     },
     {
@@ -4564,8 +4509,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_suggestionscard",
-      "community": 10,
-      "community_name": "index.ts",
+      "community": 16,
+      "community_name": "RADIUS",
       "norm_label": "suggestionscard.tsx"
     },
     {
@@ -4586,8 +4531,8 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "src_modules_dashboard_components_suggestionscard_styles",
-      "community": 10,
-      "community_name": "index.ts",
+      "community": 16,
+      "community_name": "RADIUS",
       "norm_label": "styles"
     },
     {
@@ -4707,8 +4652,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_modules_dashboard_hooks_usedashboarddata",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "usedashboarddata.ts"
     },
     {
@@ -4718,15 +4663,15 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "src_modules_dashboard_hooks_usedashboarddata_usedashboarddata",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "usedashboarddata()"
     },
     {
       "label": "DashboardData",
       "file_type": "code",
       "source_file": "src/modules/dashboard/hooks/useDashboardData.ts",
-      "source_location": "L491",
+      "source_location": "L494",
       "_origin": "ast",
       "id": "src_modules_dashboard_hooks_usedashboarddata_dashboarddata",
       "community": 80,
@@ -4740,8 +4685,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_modules_debt_debtnavigator",
-      "community": 5,
-      "community_name": "DiagnosisScreen.tsx",
+      "community": 13,
+      "community_name": "COLORS",
       "norm_label": "debtnavigator.tsx"
     },
     {
@@ -4751,8 +4696,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "src_modules_debt_debtnavigator_stack",
-      "community": 5,
-      "community_name": "DiagnosisScreen.tsx",
+      "community": 13,
+      "community_name": "COLORS",
       "norm_label": "stack"
     },
     {
@@ -4806,8 +4751,8 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "src_modules_debt_screens_debtdetailscreen_paymentitemprops",
-      "community": 31,
-      "community_name": "formatCurrency",
+      "community": 0,
+      "community_name": "DebtListScreen.tsx",
       "norm_label": "paymentitemprops"
     },
     {
@@ -4817,8 +4762,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "src_modules_debt_screens_debtdetailscreen_paymentitem",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 22,
+      "community_name": "CashflowScreen.tsx",
       "norm_label": "paymentitem()"
     },
     {
@@ -4850,8 +4795,8 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "src_modules_debt_screens_debtdetailscreen_scheduleitem",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 22,
+      "community_name": "CashflowScreen.tsx",
       "norm_label": "scheduleitem()"
     },
     {
@@ -5026,8 +4971,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_modules_debt_screens_debtlistscreen",
-      "community": 27,
-      "community_name": "PassiveIncomeFormScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "debtlistscreen.tsx"
     },
     {
@@ -5037,8 +4982,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "src_modules_debt_screens_debtlistscreen_debtstackparamlist",
-      "community": 5,
-      "community_name": "DiagnosisScreen.tsx",
+      "community": 13,
+      "community_name": "COLORS",
       "norm_label": "debtstackparamlist"
     },
     {
@@ -5048,8 +4993,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "src_modules_debt_screens_debtlistscreen_navprop",
-      "community": 27,
-      "community_name": "PassiveIncomeFormScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "navprop"
     },
     {
@@ -5059,8 +5004,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "src_modules_debt_screens_debtlistscreen_debt_type_badge",
-      "community": 27,
-      "community_name": "PassiveIncomeFormScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "debt_type_badge"
     },
     {
@@ -5070,8 +5015,8 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "src_modules_debt_screens_debtlistscreen_debtitemprops",
-      "community": 27,
-      "community_name": "PassiveIncomeFormScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "debtitemprops"
     },
     {
@@ -5081,8 +5026,8 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "src_modules_debt_screens_debtlistscreen_debtitem",
-      "community": 27,
-      "community_name": "PassiveIncomeFormScreen.tsx",
+      "community": 22,
+      "community_name": "CashflowScreen.tsx",
       "norm_label": "debtitem()"
     },
     {
@@ -5092,8 +5037,8 @@
       "source_location": "L170",
       "_origin": "ast",
       "id": "src_modules_debt_screens_debtlistscreen_obligationfilter",
-      "community": 27,
-      "community_name": "PassiveIncomeFormScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "obligationfilter"
     },
     {
@@ -5103,8 +5048,8 @@
       "source_location": "L172",
       "_origin": "ast",
       "id": "src_modules_debt_screens_debtlistscreen_debtlistscreen",
-      "community": 27,
-      "community_name": "PassiveIncomeFormScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "debtlistscreen()"
     },
     {
@@ -5114,8 +5059,8 @@
       "source_location": "L435",
       "_origin": "ast",
       "id": "src_modules_debt_screens_debtlistscreen_styles",
-      "community": 27,
-      "community_name": "PassiveIncomeFormScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "styles"
     },
     {
@@ -5180,8 +5125,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_modules_expense_screens_expenseformscreen",
-      "community": 37,
-      "community_name": "DonutChart.tsx",
+      "community": 75,
+      "community_name": "IncomeFormScreen.tsx",
       "norm_label": "expenseformscreen.tsx"
     },
     {
@@ -5191,8 +5136,8 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "src_modules_expense_screens_expenseformscreen_navprop",
-      "community": 37,
-      "community_name": "DonutChart.tsx",
+      "community": 75,
+      "community_name": "IncomeFormScreen.tsx",
       "norm_label": "navprop"
     },
     {
@@ -5202,8 +5147,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "src_modules_expense_screens_expenseformscreen_routetype",
-      "community": 37,
-      "community_name": "DonutChart.tsx",
+      "community": 75,
+      "community_name": "IncomeFormScreen.tsx",
       "norm_label": "routetype"
     },
     {
@@ -5213,8 +5158,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "src_modules_expense_screens_expenseformscreen_categories",
-      "community": 37,
-      "community_name": "DonutChart.tsx",
+      "community": 75,
+      "community_name": "IncomeFormScreen.tsx",
       "norm_label": "categories"
     },
     {
@@ -5224,8 +5169,8 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "src_modules_expense_screens_expenseformscreen_schema",
-      "community": 37,
-      "community_name": "DonutChart.tsx",
+      "community": 75,
+      "community_name": "IncomeFormScreen.tsx",
       "norm_label": "schema"
     },
     {
@@ -5235,8 +5180,8 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "src_modules_expense_screens_expenseformscreen_formvalues",
-      "community": 37,
-      "community_name": "DonutChart.tsx",
+      "community": 75,
+      "community_name": "IncomeFormScreen.tsx",
       "norm_label": "formvalues"
     },
     {
@@ -5257,8 +5202,8 @@
       "source_location": "L276",
       "_origin": "ast",
       "id": "src_modules_expense_screens_expenseformscreen_styles",
-      "community": 37,
-      "community_name": "DonutChart.tsx",
+      "community": 75,
+      "community_name": "IncomeFormScreen.tsx",
       "norm_label": "styles"
     },
     {
@@ -5268,8 +5213,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_modules_finance_screens_cashscreen",
-      "community": 9,
-      "community_name": "index.ts",
+      "community": 84,
+      "community_name": "CurrencyInput.tsx",
       "norm_label": "cashscreen.tsx"
     },
     {
@@ -5279,8 +5224,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "src_modules_finance_screens_cashscreen_cashrow",
-      "community": 9,
-      "community_name": "index.ts",
+      "community": 84,
+      "community_name": "CurrencyInput.tsx",
       "norm_label": "cashrow"
     },
     {
@@ -5290,8 +5235,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "src_modules_finance_screens_cashscreen_cashitem",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 22,
+      "community_name": "CashflowScreen.tsx",
       "norm_label": "cashitem()"
     },
     {
@@ -5312,8 +5257,8 @@
       "source_location": "L104",
       "_origin": "ast",
       "id": "src_modules_finance_screens_cashscreen_styles",
-      "community": 9,
-      "community_name": "index.ts",
+      "community": 84,
+      "community_name": "CurrencyInput.tsx",
       "norm_label": "styles"
     },
     {
@@ -5433,8 +5378,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_modules_investment_investmentnavigator_investmentnavigator",
-      "community": 13,
-      "community_name": "COLORS",
+      "community": 25,
+      "community_name": "IncomeListScreen.tsx",
       "norm_label": "investmentnavigator()"
     },
     {
@@ -5444,8 +5389,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_modules_investment_screens_investmentdividendscreen",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "investmentdividendscreen.tsx"
     },
     {
@@ -5455,8 +5400,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "src_modules_investment_screens_investmentdividendscreen_props",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "props"
     },
     {
@@ -5466,8 +5411,8 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "src_modules_investment_screens_investmentdividendscreen_investmentdividendscreen",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "investmentdividendscreen()"
     },
     {
@@ -5477,8 +5422,8 @@
       "source_location": "L128",
       "_origin": "ast",
       "id": "src_modules_investment_screens_investmentdividendscreen_styles",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "styles"
     },
     {
@@ -5664,8 +5609,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_modules_investment_screens_investmentsellscreen",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 31,
+      "community_name": "formatCurrency",
       "norm_label": "investmentsellscreen.tsx"
     },
     {
@@ -5675,8 +5620,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "src_modules_investment_screens_investmentsellscreen_props",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 31,
+      "community_name": "formatCurrency",
       "norm_label": "props"
     },
     {
@@ -5686,8 +5631,8 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "src_modules_investment_screens_investmentsellscreen_investmentsellscreen",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 31,
+      "community_name": "formatCurrency",
       "norm_label": "investmentsellscreen()"
     },
     {
@@ -5697,8 +5642,8 @@
       "source_location": "L158",
       "_origin": "ast",
       "id": "src_modules_investment_screens_investmentsellscreen_styles",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 31,
+      "community_name": "formatCurrency",
       "norm_label": "styles"
     },
     {
@@ -5840,8 +5785,8 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "src_modules_passiveincome_screens_passiveincomelistscreen_passiveincomelistscreen",
-      "community": 15,
-      "community_name": "GoalFormScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "passiveincomelistscreen()"
     },
     {
@@ -5862,8 +5807,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_modules_savings_savingsnavigator",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 10,
+      "community_name": "index.ts",
       "norm_label": "savingsnavigator.tsx"
     },
     {
@@ -5873,8 +5818,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "src_modules_savings_savingsnavigator_stack",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 10,
+      "community_name": "index.ts",
       "norm_label": "stack"
     },
     {
@@ -5895,8 +5840,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_modules_savings_screens_savingsdetailscreen",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 10,
+      "community_name": "index.ts",
       "norm_label": "savingsdetailscreen.tsx"
     },
     {
@@ -5906,8 +5851,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "src_modules_savings_screens_savingsdetailscreen_props",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 10,
+      "community_name": "index.ts",
       "norm_label": "props"
     },
     {
@@ -5917,8 +5862,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "src_modules_savings_screens_savingsdetailscreen_modaltype",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 10,
+      "community_name": "index.ts",
       "norm_label": "modaltype"
     },
     {
@@ -5928,8 +5873,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "src_modules_savings_screens_savingsdetailscreen_type_label",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 10,
+      "community_name": "index.ts",
       "norm_label": "type_label"
     },
     {
@@ -5939,8 +5884,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "src_modules_savings_screens_savingsdetailscreen_type_color",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 10,
+      "community_name": "index.ts",
       "norm_label": "type_color"
     },
     {
@@ -5950,8 +5895,8 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "src_modules_savings_screens_savingsdetailscreen_savingsdetailscreen",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 10,
+      "community_name": "index.ts",
       "norm_label": "savingsdetailscreen()"
     },
     {
@@ -5961,8 +5906,8 @@
       "source_location": "L208",
       "_origin": "ast",
       "id": "src_modules_savings_screens_savingsdetailscreen_styles",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 10,
+      "community_name": "index.ts",
       "norm_label": "styles"
     },
     {
@@ -5972,8 +5917,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_modules_savings_screens_savingsformscreen",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 84,
+      "community_name": "CurrencyInput.tsx",
       "norm_label": "savingsformscreen.tsx"
     },
     {
@@ -5983,8 +5928,8 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "src_modules_savings_screens_savingsformscreen_props",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 84,
+      "community_name": "CurrencyInput.tsx",
       "norm_label": "props"
     },
     {
@@ -5994,8 +5939,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "src_modules_savings_screens_savingsformscreen_emoji_options",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 84,
+      "community_name": "CurrencyInput.tsx",
       "norm_label": "emoji_options"
     },
     {
@@ -6005,8 +5950,8 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "src_modules_savings_screens_savingsformscreen_savingsformscreen",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 31,
+      "community_name": "formatCurrency",
       "norm_label": "savingsformscreen()"
     },
     {
@@ -6016,8 +5961,8 @@
       "source_location": "L218",
       "_origin": "ast",
       "id": "src_modules_savings_screens_savingsformscreen_styles",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 84,
+      "community_name": "CurrencyInput.tsx",
       "norm_label": "styles"
     },
     {
@@ -6027,8 +5972,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_modules_savings_screens_savingslistscreen",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 10,
+      "community_name": "index.ts",
       "norm_label": "savingslistscreen.tsx"
     },
     {
@@ -6038,8 +5983,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "src_modules_savings_screens_savingslistscreen_savingsstackparamlist",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 10,
+      "community_name": "index.ts",
       "norm_label": "savingsstackparamlist"
     },
     {
@@ -6049,8 +5994,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "src_modules_savings_screens_savingslistscreen_props",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 10,
+      "community_name": "index.ts",
       "norm_label": "props"
     },
     {
@@ -6060,8 +6005,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "src_modules_savings_screens_savingslistscreen_savingslistscreen",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 10,
+      "community_name": "index.ts",
       "norm_label": "savingslistscreen()"
     },
     {
@@ -6071,8 +6016,8 @@
       "source_location": "L122",
       "_origin": "ast",
       "id": "src_modules_savings_screens_savingslistscreen_styles",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 10,
+      "community_name": "index.ts",
       "norm_label": "styles"
     },
     {
@@ -6082,8 +6027,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_modules_savings_screens_savingsmovescreen",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 11,
+      "community_name": "InvestmentListScreen.tsx",
       "norm_label": "savingsmovescreen.tsx"
     },
     {
@@ -6093,8 +6038,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "src_modules_savings_screens_savingsmovescreen_props",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 11,
+      "community_name": "InvestmentListScreen.tsx",
       "norm_label": "props"
     },
     {
@@ -6104,8 +6049,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "src_modules_savings_screens_savingsmovescreen_movetype",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 11,
+      "community_name": "InvestmentListScreen.tsx",
       "norm_label": "movetype"
     },
     {
@@ -6115,8 +6060,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "src_modules_savings_screens_savingsmovescreen_savingsmovescreen",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 11,
+      "community_name": "InvestmentListScreen.tsx",
       "norm_label": "savingsmovescreen()"
     },
     {
@@ -6126,8 +6071,8 @@
       "source_location": "L207",
       "_origin": "ast",
       "id": "src_modules_savings_screens_savingsmovescreen_styles",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 11,
+      "community_name": "InvestmentListScreen.tsx",
       "norm_label": "styles"
     },
     {
@@ -6159,8 +6104,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "src_modules_settings_settingsnavigator_settingsnavigator",
-      "community": 13,
-      "community_name": "COLORS",
+      "community": 14,
+      "community_name": "PhysicalAssetListScreen.tsx",
       "norm_label": "settingsnavigator()"
     },
     {
@@ -6225,8 +6170,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_modules_settings_screens_categoriesscreen",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 84,
+      "community_name": "CurrencyInput.tsx",
       "norm_label": "categoriesscreen.tsx"
     },
     {
@@ -6236,8 +6181,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "src_modules_settings_screens_categoriesscreen_categorytype",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 84,
+      "community_name": "CurrencyInput.tsx",
       "norm_label": "categorytype"
     },
     {
@@ -6258,8 +6203,8 @@
       "source_location": "L128",
       "_origin": "ast",
       "id": "src_modules_settings_screens_categoriesscreen_styles",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 84,
+      "community_name": "CurrencyInput.tsx",
       "norm_label": "styles"
     },
     {
@@ -6324,8 +6269,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_modules_settings_screens_devtoolsscreen",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 7,
+      "community_name": "FONTS",
       "norm_label": "devtoolsscreen.tsx"
     },
     {
@@ -6346,8 +6291,8 @@
       "source_location": "L113",
       "_origin": "ast",
       "id": "src_modules_settings_screens_devtoolsscreen_menuitem",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 7,
+      "community_name": "FONTS",
       "norm_label": "menuitem()"
     },
     {
@@ -6357,8 +6302,8 @@
       "source_location": "L135",
       "_origin": "ast",
       "id": "src_modules_settings_screens_devtoolsscreen_styles",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 7,
+      "community_name": "FONTS",
       "norm_label": "styles"
     },
     {
@@ -6423,8 +6368,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_modules_settings_screens_firecalculatorscreen",
-      "community": 22,
-      "community_name": "CashflowScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "firecalculatorscreen.tsx"
     },
     {
@@ -6434,8 +6379,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "src_modules_settings_screens_firecalculatorscreen_navprop",
-      "community": 22,
-      "community_name": "CashflowScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "navprop"
     },
     {
@@ -6445,8 +6390,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "src_modules_settings_screens_firecalculatorscreen_props",
-      "community": 22,
-      "community_name": "CashflowScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "props"
     },
     {
@@ -6467,8 +6412,8 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "src_modules_settings_screens_firecalculatorscreen_firecalculatorscreen",
-      "community": 22,
-      "community_name": "CashflowScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "firecalculatorscreen()"
     },
     {
@@ -6478,8 +6423,8 @@
       "source_location": "L332",
       "_origin": "ast",
       "id": "src_modules_settings_screens_firecalculatorscreen_styles",
-      "community": 22,
-      "community_name": "CashflowScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "styles"
     },
     {
@@ -6555,8 +6500,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_modules_settings_screens_parametersscreen",
-      "community": 4,
-      "community_name": "SettingsNavigator.tsx",
+      "community": 84,
+      "community_name": "CurrencyInput.tsx",
       "norm_label": "parametersscreen.tsx"
     },
     {
@@ -6566,8 +6511,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "src_modules_settings_screens_parametersscreen_day_labels",
-      "community": 4,
-      "community_name": "SettingsNavigator.tsx",
+      "community": 84,
+      "community_name": "CurrencyInput.tsx",
       "norm_label": "day_labels"
     },
     {
@@ -6577,8 +6522,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "src_modules_settings_screens_parametersscreen_parametersscreen",
-      "community": 4,
-      "community_name": "SettingsNavigator.tsx",
+      "community": 14,
+      "community_name": "PhysicalAssetListScreen.tsx",
       "norm_label": "parametersscreen()"
     },
     {
@@ -6588,8 +6533,8 @@
       "source_location": "L130",
       "_origin": "ast",
       "id": "src_modules_settings_screens_parametersscreen_styles",
-      "community": 4,
-      "community_name": "SettingsNavigator.tsx",
+      "community": 84,
+      "community_name": "CurrencyInput.tsx",
       "norm_label": "styles"
     },
     {
@@ -6599,8 +6544,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_modules_settings_screens_settingsmainscreen",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "settingsmainscreen.tsx"
     },
     {
@@ -6621,8 +6566,8 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "src_modules_settings_screens_settingsmainscreen_navprop",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "navprop"
     },
     {
@@ -6632,8 +6577,8 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "src_modules_settings_screens_settingsmainscreen_props",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "props"
     },
     {
@@ -6643,8 +6588,8 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "src_modules_settings_screens_settingsmainscreen_settingsmainscreen",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "settingsmainscreen()"
     },
     {
@@ -6654,8 +6599,8 @@
       "source_location": "L251",
       "_origin": "ast",
       "id": "src_modules_settings_screens_settingsmainscreen_styles",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "styles"
     },
     {
@@ -6797,8 +6742,8 @@
       "source_location": "L88",
       "_origin": "ast",
       "id": "src_modules_transaction_screens_cashflowscreen_incomeitem",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 22,
+      "community_name": "CashflowScreen.tsx",
       "norm_label": "incomeitem()"
     },
     {
@@ -6808,8 +6753,8 @@
       "source_location": "L130",
       "_origin": "ast",
       "id": "src_modules_transaction_screens_cashflowscreen_expenseitem",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 22,
+      "community_name": "CashflowScreen.tsx",
       "norm_label": "expenseitem()"
     },
     {
@@ -6951,8 +6896,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_modules_transaction_screens_transferscreen",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 22,
+      "community_name": "CashflowScreen.tsx",
       "norm_label": "transferscreen.tsx"
     },
     {
@@ -6962,8 +6907,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "src_modules_transaction_screens_transferscreen_navprop",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 22,
+      "community_name": "CashflowScreen.tsx",
       "norm_label": "navprop"
     },
     {
@@ -6973,8 +6918,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "src_modules_transaction_screens_transferscreen_type_label",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 22,
+      "community_name": "CashflowScreen.tsx",
       "norm_label": "type_label"
     },
     {
@@ -6984,8 +6929,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "src_modules_transaction_screens_transferscreen_transferitem",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 22,
+      "community_name": "CashflowScreen.tsx",
       "norm_label": "transferitem()"
     },
     {
@@ -6995,8 +6940,8 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "src_modules_transaction_screens_transferscreen_transferscreen",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 22,
+      "community_name": "CashflowScreen.tsx",
       "norm_label": "transferscreen()"
     },
     {
@@ -7006,8 +6951,8 @@
       "source_location": "L117",
       "_origin": "ast",
       "id": "src_modules_transaction_screens_transferscreen_styles",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 22,
+      "community_name": "CashflowScreen.tsx",
       "norm_label": "styles"
     },
     {
@@ -7105,8 +7050,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_navigation_maintabnavigator",
-      "community": 13,
-      "community_name": "COLORS",
+      "community": 16,
+      "community_name": "RADIUS",
       "norm_label": "maintabnavigator.tsx"
     },
     {
@@ -7116,8 +7061,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "src_navigation_maintabnavigator_tab",
-      "community": 13,
-      "community_name": "COLORS",
+      "community": 16,
+      "community_name": "RADIUS",
       "norm_label": "tab"
     },
     {
@@ -7127,8 +7072,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_navigation_maintabnavigator_tabicon",
-      "community": 13,
-      "community_name": "COLORS",
+      "community": 16,
+      "community_name": "RADIUS",
       "norm_label": "tabicon()"
     },
     {
@@ -7171,8 +7116,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_services_achievementservice_checkandunlockachievements",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "checkandunlockachievements()"
     },
     {
@@ -7182,8 +7127,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_services_allocationservice",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 11,
+      "community_name": "InvestmentListScreen.tsx",
       "norm_label": "allocationservice.ts"
     },
     {
@@ -7204,8 +7149,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "src_services_allocationservice_debtpaymentfundingresult",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 11,
+      "community_name": "InvestmentListScreen.tsx",
       "norm_label": "debtpaymentfundingresult"
     },
     {
@@ -7215,8 +7160,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "src_services_allocationservice_applydebtpaymentfunding",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 11,
+      "community_name": "InvestmentListScreen.tsx",
       "norm_label": "applydebtpaymentfunding()"
     },
     {
@@ -7226,8 +7171,8 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "src_services_allocationservice_savingcashmoveresult",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 11,
+      "community_name": "InvestmentListScreen.tsx",
       "norm_label": "savingcashmoveresult"
     },
     {
@@ -7237,8 +7182,8 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "src_services_allocationservice_deposittosavingfromcash",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 11,
+      "community_name": "InvestmentListScreen.tsx",
       "norm_label": "deposittosavingfromcash()"
     },
     {
@@ -7248,8 +7193,8 @@
       "source_location": "L111",
       "_origin": "ast",
       "id": "src_services_allocationservice_withdrawfromsavingtocash",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 11,
+      "community_name": "InvestmentListScreen.tsx",
       "norm_label": "withdrawfromsavingtocash()"
     },
     {
@@ -7259,8 +7204,8 @@
       "source_location": "L150",
       "_origin": "ast",
       "id": "src_services_allocationservice_savingtransferresult",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 11,
+      "community_name": "InvestmentListScreen.tsx",
       "norm_label": "savingtransferresult"
     },
     {
@@ -7270,8 +7215,8 @@
       "source_location": "L156",
       "_origin": "ast",
       "id": "src_services_allocationservice_transferbetweensavings",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 11,
+      "community_name": "InvestmentListScreen.tsx",
       "norm_label": "transferbetweensavings()"
     },
     {
@@ -7281,8 +7226,8 @@
       "source_location": "L196",
       "_origin": "ast",
       "id": "src_services_allocationservice_saleproceedsresult",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 11,
+      "community_name": "InvestmentListScreen.tsx",
       "norm_label": "saleproceedsresult"
     },
     {
@@ -7292,8 +7237,8 @@
       "source_location": "L203",
       "_origin": "ast",
       "id": "src_services_allocationservice_routesaleproceeds",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 31,
+      "community_name": "formatCurrency",
       "norm_label": "routesaleproceeds()"
     },
     {
@@ -7347,8 +7292,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_services_debtreminderbackgroundtask",
-      "community": 31,
-      "community_name": "formatCurrency",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "debtreminderbackgroundtask.ts"
     },
     {
@@ -7358,8 +7303,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "src_services_debtreminderbackgroundtask_notifiedkey",
-      "community": 31,
-      "community_name": "formatCurrency",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "notifiedkey()"
     },
     {
@@ -7380,8 +7325,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_services_devseeder",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "devseeder.ts"
     },
     {
@@ -7391,8 +7336,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "src_services_devseeder_expense_categories",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "expense_categories"
     },
     {
@@ -7402,8 +7347,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "src_services_devseeder_income_categories",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "income_categories"
     },
     {
@@ -7413,8 +7358,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "src_services_devseeder_randint",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "randint()"
     },
     {
@@ -7424,8 +7369,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "src_services_devseeder_pick",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "pick()"
     },
     {
@@ -7435,8 +7380,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "src_services_devseeder_datedaysago",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "datedaysago()"
     },
     {
@@ -7446,8 +7391,8 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "src_services_devseeder_seedsummary",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "seedsummary"
     },
     {
@@ -7457,8 +7402,8 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "src_services_devseeder_seeddummydata",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "seeddummydata()"
     },
     {
@@ -7611,8 +7556,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_services_financialscoreservice",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "financialscoreservice.ts"
     },
     {
@@ -7622,8 +7567,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_services_financialscoreservice_savefinancialscoresnapshot",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "savefinancialscoresnapshot()"
     },
     {
@@ -7633,8 +7578,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_services_motivationbackgroundtask",
-      "community": 11,
-      "community_name": "InvestmentListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "motivationbackgroundtask.ts"
     },
     {
@@ -7655,8 +7600,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_services_notificationservice",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 4,
+      "community_name": "SettingsNavigator.tsx",
       "norm_label": "notificationservice.ts"
     },
     {
@@ -7666,8 +7611,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "src_services_notificationservice_daily_reminder_hours",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 4,
+      "community_name": "SettingsNavigator.tsx",
       "norm_label": "daily_reminder_hours"
     },
     {
@@ -7688,8 +7633,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "src_services_notificationservice_cancelbyprefix",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 4,
+      "community_name": "SettingsNavigator.tsx",
       "norm_label": "cancelbyprefix()"
     },
     {
@@ -7699,8 +7644,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "src_services_notificationservice_scheduleat",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 4,
+      "community_name": "SettingsNavigator.tsx",
       "norm_label": "scheduleat()"
     },
     {
@@ -7710,8 +7655,8 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "src_services_notificationservice_debttypefornotification",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 4,
+      "community_name": "SettingsNavigator.tsx",
       "norm_label": "debttypefornotification"
     },
     {
@@ -7721,8 +7666,8 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "src_services_notificationservice_debtreminderinput",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 4,
+      "community_name": "SettingsNavigator.tsx",
       "norm_label": "debtreminderinput"
     },
     {
@@ -7732,8 +7677,8 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "src_services_notificationservice_refreshdebtreminders",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 4,
+      "community_name": "SettingsNavigator.tsx",
       "norm_label": "refreshdebtreminders()"
     },
     {
@@ -7743,8 +7688,8 @@
       "source_location": "L130",
       "_origin": "ast",
       "id": "src_services_notificationservice_refreshdailyreminders",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 4,
+      "community_name": "SettingsNavigator.tsx",
       "norm_label": "refreshdailyreminders()"
     },
     {
@@ -7754,8 +7699,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_services_passiveincomescheduler",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "passiveincomescheduler.ts"
     },
     {
@@ -7765,8 +7710,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "src_services_passiveincomescheduler_category_label",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "category_label"
     },
     {
@@ -7776,8 +7721,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "src_services_passiveincomescheduler_runpassiveincomeschedule",
-      "community": 14,
-      "community_name": "PhysicalAssetListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "runpassiveincomeschedule()"
     },
     {
@@ -7787,8 +7732,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_storage_mmkv",
-      "community": 11,
-      "community_name": "InvestmentListScreen.tsx",
+      "community": 6,
+      "community_name": "index.ts",
       "norm_label": "mmkv.ts"
     },
     {
@@ -7798,8 +7743,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "src_storage_mmkv_storage",
-      "community": 11,
-      "community_name": "InvestmentListScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "storage"
     },
     {
@@ -7809,8 +7754,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_storage_mmkv_storagekeys",
-      "community": 11,
-      "community_name": "InvestmentListScreen.tsx",
+      "community": 6,
+      "community_name": "index.ts",
       "norm_label": "storagekeys"
     },
     {
@@ -7820,8 +7765,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_storage_mmkv_getsettings",
-      "community": 11,
-      "community_name": "InvestmentListScreen.tsx",
+      "community": 6,
+      "community_name": "index.ts",
       "norm_label": "getsettings()"
     },
     {
@@ -7831,8 +7776,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "src_storage_mmkv_savesettings",
-      "community": 11,
-      "community_name": "InvestmentListScreen.tsx",
+      "community": 6,
+      "community_name": "index.ts",
       "norm_label": "savesettings()"
     },
     {
@@ -7842,8 +7787,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_store_settingsstore",
-      "community": 11,
-      "community_name": "InvestmentListScreen.tsx",
+      "community": 6,
+      "community_name": "index.ts",
       "norm_label": "settingsstore.ts"
     },
     {
@@ -7853,8 +7798,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "src_store_settingsstore_settingsstate",
-      "community": 11,
-      "community_name": "InvestmentListScreen.tsx",
+      "community": 6,
+      "community_name": "index.ts",
       "norm_label": "settingsstate"
     },
     {
@@ -7864,8 +7809,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "src_store_settingsstore_default_settings",
-      "community": 11,
-      "community_name": "InvestmentListScreen.tsx",
+      "community": 6,
+      "community_name": "index.ts",
       "norm_label": "default_settings"
     },
     {
@@ -7875,8 +7820,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "src_store_settingsstore_usesettingsstore",
-      "community": 4,
-      "community_name": "SettingsNavigator.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "usesettingsstore"
     },
     {
@@ -7897,8 +7842,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "src_theme_index_colors",
-      "community": 45,
-      "community_name": "SettingsNavigator.tsx",
+      "community": 84,
+      "community_name": "CurrencyInput.tsx",
       "norm_label": "colors"
     },
     {
@@ -7919,8 +7864,8 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "src_theme_index_fonts",
-      "community": 84,
-      "community_name": "CurrencyInput.tsx",
+      "community": 16,
+      "community_name": "RADIUS",
       "norm_label": "fonts"
     },
     {
@@ -8161,8 +8106,8 @@
       "source_location": "L142",
       "_origin": "ast",
       "id": "src_types_index_appsettings",
-      "community": 11,
-      "community_name": "InvestmentListScreen.tsx",
+      "community": 6,
+      "community_name": "index.ts",
       "norm_label": "appsettings"
     },
     {
@@ -8249,8 +8194,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_utils_currency_formatcurrency",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 22,
+      "community_name": "CashflowScreen.tsx",
       "norm_label": "formatcurrency()"
     },
     {
@@ -8271,8 +8216,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "src_utils_currency_parsecurrency",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 31,
+      "community_name": "formatCurrency",
       "norm_label": "parsecurrency()"
     },
     {
@@ -8293,8 +8238,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "src_utils_date_formatdate",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 22,
+      "community_name": "CashflowScreen.tsx",
       "norm_label": "formatdate()"
     },
     {
@@ -8326,8 +8271,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "src_utils_date_today",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 31,
+      "community_name": "formatCurrency",
       "norm_label": "today()"
     },
     {
@@ -8337,8 +8282,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_utils_date_startofmonth",
-      "community": 27,
-      "community_name": "PassiveIncomeFormScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "startofmonth()"
     },
     {
@@ -8348,8 +8293,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "src_utils_date_endofmonth",
-      "community": 22,
-      "community_name": "CashflowScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "endofmonth()"
     },
     {
@@ -8436,8 +8381,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "src_utils_finance_calcdepreciation",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "calcdepreciation()"
     },
     {
@@ -8469,8 +8414,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "src_utils_finance_calcgoalprogress",
-      "community": 25,
-      "community_name": "IncomeListScreen.tsx",
+      "community": 10,
+      "community_name": "index.ts",
       "norm_label": "calcgoalprogress()"
     },
     {
@@ -8502,8 +8447,8 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "src_utils_finance_getworkingdaysinmonth",
-      "community": 1,
-      "community_name": "useDashboardData.ts",
+      "community": 40,
+      "community_name": "expo-sharing",
       "norm_label": "getworkingdaysinmonth()"
     },
     {
@@ -8513,8 +8458,8 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "src_utils_finance_getworkingdaysremaining",
-      "community": 1,
-      "community_name": "useDashboardData.ts",
+      "community": 40,
+      "community_name": "expo-sharing",
       "norm_label": "getworkingdaysremaining()"
     },
     {
@@ -8535,8 +8480,8 @@
       "source_location": "L86",
       "_origin": "ast",
       "id": "src_utils_finance_reminderstatus",
-      "community": 27,
-      "community_name": "PassiveIncomeFormScreen.tsx",
+      "community": 16,
+      "community_name": "RADIUS",
       "norm_label": "reminderstatus"
     },
     {
@@ -8568,8 +8513,8 @@
       "source_location": "L111",
       "_origin": "ast",
       "id": "src_utils_finance_getreminderstatus",
-      "community": 31,
-      "community_name": "formatCurrency",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "getreminderstatus()"
     },
     {
@@ -8601,8 +8546,8 @@
       "source_location": "L191",
       "_origin": "ast",
       "id": "src_utils_finance_getdebtroadmap",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "getdebtroadmap()"
     },
     {
@@ -8678,8 +8623,8 @@
       "source_location": "L338",
       "_origin": "ast",
       "id": "src_utils_finance_networthpoint",
-      "community": 7,
-      "community_name": "FONTS",
+      "community": 52,
+      "community_name": "NetWorthPoint",
       "norm_label": "networthpoint"
     },
     {
@@ -8733,8 +8678,8 @@
       "source_location": "L385",
       "_origin": "ast",
       "id": "src_utils_finance_getemergencyfundstatus",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "getemergencyfundstatus()"
     },
     {
@@ -8755,8 +8700,8 @@
       "source_location": "L411",
       "_origin": "ast",
       "id": "src_utils_finance_getdebtfreedomstatus",
-      "community": 27,
-      "community_name": "PassiveIncomeFormScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "getdebtfreedomstatus()"
     },
     {
@@ -8788,8 +8733,8 @@
       "source_location": "L453",
       "_origin": "ast",
       "id": "src_utils_finance_ismonthlyobligation",
-      "community": 1,
-      "community_name": "useDashboardData.ts",
+      "community": 40,
+      "community_name": "expo-sharing",
       "norm_label": "ismonthlyobligation()"
     },
     {
@@ -8799,8 +8744,8 @@
       "source_location": "L458",
       "_origin": "ast",
       "id": "src_utils_finance_ismonthlyobligationnextmonth",
-      "community": 1,
-      "community_name": "useDashboardData.ts",
+      "community": 40,
+      "community_name": "expo-sharing",
       "norm_label": "ismonthlyobligationnextmonth()"
     },
     {
@@ -8810,8 +8755,8 @@
       "source_location": "L463",
       "_origin": "ast",
       "id": "src_utils_finance_getkewajibanbulanini",
-      "community": 1,
-      "community_name": "useDashboardData.ts",
+      "community": 40,
+      "community_name": "expo-sharing",
       "norm_label": "getkewajibanbulanini()"
     },
     {
@@ -8865,8 +8810,8 @@
       "source_location": "L591",
       "_origin": "ast",
       "id": "src_utils_finance_calcfireprogress",
-      "community": 22,
-      "community_name": "CashflowScreen.tsx",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "calcfireprogress()"
     },
     {
@@ -8887,8 +8832,8 @@
       "source_location": "L624",
       "_origin": "ast",
       "id": "src_utils_finance_passive_income_frequencies",
-      "community": 15,
-      "community_name": "GoalFormScreen.tsx",
+      "community": 1,
+      "community_name": "useDashboardData.ts",
       "norm_label": "passive_income_frequencies"
     },
     {
@@ -8898,8 +8843,8 @@
       "source_location": "L630",
       "_origin": "ast",
       "id": "src_utils_finance_tomonthlyamount",
-      "community": 15,
-      "community_name": "GoalFormScreen.tsx",
+      "community": 1,
+      "community_name": "useDashboardData.ts",
       "norm_label": "tomonthlyamount()"
     },
     {
@@ -8920,8 +8865,8 @@
       "source_location": "L642",
       "_origin": "ast",
       "id": "src_utils_finance_getpassiveincomestatus",
-      "community": 15,
-      "community_name": "GoalFormScreen.tsx",
+      "community": 1,
+      "community_name": "useDashboardData.ts",
       "norm_label": "getpassiveincomestatus()"
     },
     {
@@ -8931,8 +8876,8 @@
       "source_location": "L655",
       "_origin": "ast",
       "id": "src_utils_finance_generatescorerecommendations",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "generatescorerecommendations()"
     },
     {
@@ -8942,8 +8887,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_utils_financialscore",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "financialscore.ts"
     },
     {
@@ -8953,8 +8898,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "src_utils_financialscore_calccashflowscore",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "calccashflowscore()"
     },
     {
@@ -8964,8 +8909,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_utils_financialscore_calcemergencyfundscore",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "calcemergencyfundscore()"
     },
     {
@@ -8975,8 +8920,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "src_utils_financialscore_calcdebthealthscore",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "calcdebthealthscore()"
     },
     {
@@ -8986,8 +8931,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "src_utils_financialscore_calcinvestmenthealthscore",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "calcinvestmenthealthscore()"
     },
     {
@@ -8997,8 +8942,8 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "src_utils_financialscore_calcpassiveincomescore",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "calcpassiveincomescore()"
     },
     {
@@ -9008,8 +8953,8 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "src_utils_financialscore_financialscoreinput",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "financialscoreinput"
     },
     {
@@ -9019,8 +8964,8 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "src_utils_financialscore_financialscoreresult",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 20,
+      "community_name": "DebtFormScreen.tsx",
       "norm_label": "financialscoreresult"
     },
     {
@@ -9030,8 +8975,8 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "src_utils_financialscore_weights",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "weights"
     },
     {
@@ -9041,8 +8986,8 @@
       "source_location": "L80",
       "_origin": "ast",
       "id": "src_utils_financialscore_financiallevel",
-      "community": 45,
-      "community_name": "SettingsNavigator.tsx",
+      "community": 16,
+      "community_name": "RADIUS",
       "norm_label": "financiallevel"
     },
     {
@@ -9052,8 +8997,8 @@
       "source_location": "L91",
       "_origin": "ast",
       "id": "src_utils_financialscore_financial_levels",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "financial_levels"
     },
     {
@@ -9063,8 +9008,8 @@
       "source_location": "L184",
       "_origin": "ast",
       "id": "src_utils_financialscore_getlevel",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "getlevel()"
     },
     {
@@ -9074,8 +9019,8 @@
       "source_location": "L192",
       "_origin": "ast",
       "id": "src_utils_financialscore_getnextlevel",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "getnextlevel()"
     },
     {
@@ -9085,8 +9030,8 @@
       "source_location": "L198",
       "_origin": "ast",
       "id": "src_utils_financialscore_scoreneededfornext",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "scoreneededfornext()"
     },
     {
@@ -9096,8 +9041,8 @@
       "source_location": "L204",
       "_origin": "ast",
       "id": "src_utils_financialscore_computefinancialscore",
-      "community": 3,
-      "community_name": "FinancialAdvisorService.ts",
+      "community": 9,
+      "community_name": "index.ts",
       "norm_label": "computefinancialscore()"
     },
     {
@@ -12717,18 +12662,6 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/modules/dashboard/components/AiCard.tsx",
-      "source_location": "L5",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_modules_dashboard_components_aicard",
-      "target": "src_ai_financialadvisorservice",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/AiDetailModal.tsx",
       "source_location": "L12",
       "weight": 1.0,
@@ -12783,30 +12716,6 @@
       "_origin": "ast",
       "source": "src_ai_financialadvisorservice_aifinancialcard",
       "target": "src_ai_recommendationengine_recommendationplan",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/modules/dashboard/components/AiCard.tsx",
-      "source_location": "L5",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_modules_dashboard_components_aicard",
-      "target": "src_ai_financialadvisorservice_aifinancialcard",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "references",
-      "context": "field",
-      "confidence": "EXTRACTED",
-      "source_file": "src/modules/dashboard/components/AiCard.tsx",
-      "source_location": "L14",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_modules_dashboard_components_aicard_props",
-      "target": "src_ai_financialadvisorservice_aifinancialcard",
       "confidence_score": 1.0
     },
     {
@@ -15993,18 +15902,6 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/modules/dashboard/components/AiCard.tsx",
-      "source_location": "L3",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_modules_dashboard_components_aicard",
-      "target": "src_components_common_card_card",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/Cashflow12mCard.tsx",
       "source_location": "L3",
       "weight": 1.0,
@@ -18477,18 +18374,6 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/modules/dashboard/components/AiCard.tsx",
-      "source_location": "L3",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_modules_dashboard_components_aicard",
-      "target": "src_components_common_text_text",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/AiDetailModal.tsx",
       "source_location": "L9",
       "weight": 1.0,
@@ -18927,18 +18812,6 @@
       "_origin": "ast",
       "source": "src_modules_transaction_screens_transferscreen",
       "target": "src_components_common_text_text",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/modules/dashboard/components/AiCard.tsx",
-      "source_location": "L3",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_modules_dashboard_components_aicard",
-      "target": "src_components_common_index",
       "confidence_score": 1.0
     },
     {
@@ -20305,7 +20178,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/ObligationsCard.tsx",
-      "source_location": "L6",
+      "source_location": "L5",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_obligationscard",
@@ -20485,7 +20358,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/ObligationsCard.tsx",
-      "source_location": "L6",
+      "source_location": "L5",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_obligationscard",
@@ -24875,18 +24748,6 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_dashboardscreen",
-      "target": "src_modules_dashboard_components_aicard_aicard",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/modules/dashboard/DashboardScreen.tsx",
-      "source_location": "L9",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_modules_dashboard_dashboardscreen",
       "target": "src_modules_dashboard_components_aidetailmodal_aidetailmodal",
       "confidence_score": 1.0
     },
@@ -25098,7 +24959,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/DashboardScreen.tsx",
-      "source_location": "L30",
+      "source_location": "L29",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_dashboardscreen",
@@ -25109,7 +24970,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/DashboardScreen.tsx",
-      "source_location": "L137",
+      "source_location": "L129",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_dashboardscreen",
@@ -25230,7 +25091,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/modules/dashboard/DashboardScreen.tsx",
-      "source_location": "L31",
+      "source_location": "L30",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_dashboardscreen_dashboardscreen",
@@ -25242,7 +25103,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/modules/dashboard/DashboardScreen.tsx",
-      "source_location": "L41",
+      "source_location": "L40",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_dashboardscreen_dashboardscreen",
@@ -25258,146 +25119,6 @@
       "_origin": "ast",
       "source": "src_navigation_maintabnavigator",
       "target": "src_modules_dashboard_dashboardscreen_dashboardscreen",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/modules/dashboard/components/AiCard.tsx",
-      "source_location": "L18",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_modules_dashboard_components_aicard",
-      "target": "src_modules_dashboard_components_aicard_aicard",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/modules/dashboard/components/AiCard.tsx",
-      "source_location": "L7",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_modules_dashboard_components_aicard",
-      "target": "src_modules_dashboard_components_aicard_healthcolor",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/modules/dashboard/components/AiCard.tsx",
-      "source_location": "L13",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_modules_dashboard_components_aicard",
-      "target": "src_modules_dashboard_components_aicard_props",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/modules/dashboard/components/AiCard.tsx",
-      "source_location": "L47",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_modules_dashboard_components_aicard",
-      "target": "src_modules_dashboard_components_aicard_styles",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/modules/dashboard/components/AiCard.tsx",
-      "source_location": "L4",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_modules_dashboard_components_aicard",
-      "target": "src_theme_index",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/modules/dashboard/components/AiCard.tsx",
-      "source_location": "L4",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_modules_dashboard_components_aicard",
-      "target": "src_theme_index_colors",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/modules/dashboard/components/AiCard.tsx",
-      "source_location": "L4",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_modules_dashboard_components_aicard",
-      "target": "src_theme_index_fonts",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/modules/dashboard/components/AiCard.tsx",
-      "source_location": "L4",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_modules_dashboard_components_aicard",
-      "target": "src_theme_index_radius",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/modules/dashboard/components/AiCard.tsx",
-      "source_location": "L4",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_modules_dashboard_components_aicard",
-      "target": "src_theme_index_spacing",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "re_exports",
-      "context": "export",
-      "confidence": "EXTRACTED",
-      "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_modules_dashboard_components_index",
-      "target": "src_modules_dashboard_components_aicard",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/modules/dashboard/components/AiCard.tsx",
-      "source_location": "L19",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_modules_dashboard_components_aicard_aicard",
-      "target": "src_modules_dashboard_components_aicard_healthcolor",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "re_exports",
-      "context": "re-export",
-      "confidence": "EXTRACTED",
-      "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_modules_dashboard_components_index",
-      "target": "src_modules_dashboard_components_aicard_aicard",
       "confidence_score": 1.0
     },
     {
@@ -25522,7 +25243,7 @@
       "context": "export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L20",
+      "source_location": "L19",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -25546,7 +25267,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L20",
+      "source_location": "L19",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -25687,7 +25408,7 @@
       "context": "export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L16",
+      "source_location": "L15",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -25711,7 +25432,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L16",
+      "source_location": "L15",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -25852,7 +25573,7 @@
       "context": "export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L15",
+      "source_location": "L14",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -25876,7 +25597,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L15",
+      "source_location": "L14",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -26158,7 +25879,7 @@
       "context": "export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L6",
+      "source_location": "L5",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -26182,7 +25903,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L6",
+      "source_location": "L5",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -26511,7 +26232,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/FinancialInsightsCard.tsx",
-      "source_location": "L20",
+      "source_location": "L25",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_financialinsightscard",
@@ -26544,7 +26265,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/FinancialInsightsCard.tsx",
-      "source_location": "L46",
+      "source_location": "L51",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_financialinsightscard",
@@ -26628,7 +26349,7 @@
       "context": "export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L9",
+      "source_location": "L8",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -26640,7 +26361,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L9",
+      "source_location": "L8",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -26970,7 +26691,7 @@
       "context": "export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L10",
+      "source_location": "L9",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -27006,7 +26727,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L10",
+      "source_location": "L9",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -27158,7 +26879,7 @@
       "context": "export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L19",
+      "source_location": "L18",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -27310,7 +27031,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L19",
+      "source_location": "L18",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -27322,7 +27043,7 @@
       "context": "export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L4",
+      "source_location": "L3",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -27475,7 +27196,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L4",
+      "source_location": "L3",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -27499,7 +27220,7 @@
       "context": "export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L14",
+      "source_location": "L13",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -27510,7 +27231,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/NeracaCard.tsx",
-      "source_location": "L42",
+      "source_location": "L44",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_neracacard",
@@ -27543,7 +27264,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/NeracaCard.tsx",
-      "source_location": "L84",
+      "source_location": "L76",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_neracacard",
@@ -27675,7 +27396,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L14",
+      "source_location": "L13",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -27688,7 +27409,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/modules/dashboard/components/NeracaCard.tsx",
-      "source_location": "L76",
+      "source_location": "L68",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_neracacard_neracacard",
@@ -27699,7 +27420,7 @@
       "context": "export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L5",
+      "source_location": "L4",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -27875,7 +27596,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L5",
+      "source_location": "L4",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -28052,7 +27773,7 @@
       "context": "export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L7",
+      "source_location": "L6",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -28063,7 +27784,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/ObligationsCard.tsx",
-      "source_location": "L23",
+      "source_location": "L21",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_obligationscard",
@@ -28074,7 +27795,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/ObligationsCard.tsx",
-      "source_location": "L11",
+      "source_location": "L10",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_obligationscard",
@@ -28085,7 +27806,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/ObligationsCard.tsx",
-      "source_location": "L9",
+      "source_location": "L8",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_obligationscard",
@@ -28096,7 +27817,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/ObligationsCard.tsx",
-      "source_location": "L78",
+      "source_location": "L60",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_obligationscard",
@@ -28168,31 +27889,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/ObligationsCard.tsx",
-      "source_location": "L5",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_modules_dashboard_components_obligationscard",
-      "target": "src_utils_currency",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/modules/dashboard/components/ObligationsCard.tsx",
-      "source_location": "L5",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_modules_dashboard_components_obligationscard",
-      "target": "src_utils_currency_formatcompact",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/modules/dashboard/components/ObligationsCard.tsx",
-      "source_location": "L7",
+      "source_location": "L6",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_obligationscard",
@@ -28204,7 +27901,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/ObligationsCard.tsx",
-      "source_location": "L7",
+      "source_location": "L6",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_obligationscard",
@@ -28216,24 +27913,12 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L7",
+      "source_location": "L6",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
       "target": "src_modules_dashboard_components_obligationscard_obligationscard",
       "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/modules/dashboard/components/ObligationsCard.tsx",
-      "source_location": "L51",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_modules_dashboard_components_obligationscard_obligationscard",
-      "target": "src_utils_currency_formatcompact"
     },
     {
       "relation": "contains",
@@ -28499,7 +28184,7 @@
       "context": "export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L12",
+      "source_location": "L11",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -28592,7 +28277,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L12",
+      "source_location": "L11",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -28604,7 +28289,7 @@
       "context": "export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L13",
+      "source_location": "L12",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -28768,7 +28453,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L13",
+      "source_location": "L12",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -28780,7 +28465,7 @@
       "context": "export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L11",
+      "source_location": "L10",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -28968,7 +28653,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L11",
+      "source_location": "L10",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -28992,7 +28677,7 @@
       "context": "export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L17",
+      "source_location": "L16",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -29146,7 +28831,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L17",
+      "source_location": "L16",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -29336,7 +29021,7 @@
       "context": "export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L18",
+      "source_location": "L17",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -29454,7 +29139,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L18",
+      "source_location": "L17",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -29466,7 +29151,7 @@
       "context": "export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L8",
+      "source_location": "L7",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -29630,7 +29315,7 @@
       "context": "re-export",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/components/index.ts",
-      "source_location": "L8",
+      "source_location": "L7",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_components_index",
@@ -29770,7 +29455,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/modules/dashboard/hooks/useDashboardData.ts",
-      "source_location": "L491",
+      "source_location": "L494",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_hooks_usedashboarddata",
@@ -30286,7 +29971,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/modules/dashboard/hooks/useDashboardData.ts",
-      "source_location": "L433",
+      "source_location": "L436",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_hooks_usedashboarddata_usedashboarddata",
@@ -30298,7 +29983,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/modules/dashboard/hooks/useDashboardData.ts",
-      "source_location": "L442",
+      "source_location": "L445",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_hooks_usedashboarddata_usedashboarddata",
@@ -30310,7 +29995,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/modules/dashboard/hooks/useDashboardData.ts",
-      "source_location": "L417",
+      "source_location": "L420",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_hooks_usedashboarddata_usedashboarddata",
@@ -30334,7 +30019,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/modules/dashboard/hooks/useDashboardData.ts",
-      "source_location": "L380",
+      "source_location": "L383",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_modules_dashboard_hooks_usedashboarddata_usedashboarddata",
@@ -42948,5 +42633,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "05bd6816ae62c15ef8b607cf8e8c5f03514382d7"
+  "built_at_commit": "3e412f6d4492a546b975793f2aba461ee660ecdd"
 }

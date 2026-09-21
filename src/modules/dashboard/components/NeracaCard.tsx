@@ -30,21 +30,20 @@ function NeracaRow({
 
 interface Props {
   totalIncomeAllTime: number;
-  cash: number;
-  totalSavings: number;
   investmentCost: number;
-  totalAssets: number;
   totalAset: number;
   totalDebt: number;
   kekayaanBersih: number;
 }
 
+/**
+ * Kas/Tabungan/Aset Fisik/Total Hutang udah tampil di SummaryGrid (atas) —
+ * di sini cuma yang unik: pendapatan sepanjang masa, harga beli investasi
+ * (buat dibanding sama nilai sekarang), dan subtotal akhir.
+ */
 export function NeracaCard({
   totalIncomeAllTime,
-  cash,
-  totalSavings,
   investmentCost,
-  totalAssets,
   totalAset,
   totalDebt,
   kekayaanBersih,
@@ -53,15 +52,8 @@ export function NeracaCard({
     <>
       <SectionTitle>⚖️ Neraca Keuangan</SectionTitle>
       <Card padding={SPACING.lg}>
-        <NeracaRow label="💰 Total Pendapatan" value={totalIncomeAllTime} color={COLORS.income} />
-        <NeracaRow label="💵 Kas Bersih" value={cash} color={COLORS.savings} />
-        <NeracaRow label="🏦 Total Tabungan" value={totalSavings} color={COLORS.investment} />
-        <NeracaRow
-          label="📈 Total Investasi (harga beli)"
-          value={investmentCost}
-          color={COLORS.asset}
-        />
-        <NeracaRow label="🖥️ Aset Fisik (nilai skrg)" value={totalAssets} color={COLORS.debt} />
+        <NeracaRow label="💰 Total Pendapatan (sepanjang masa)" value={totalIncomeAllTime} color={COLORS.income} />
+        <NeracaRow label="📈 Total Investasi (harga beli)" value={investmentCost} color={COLORS.asset} />
         <View style={styles.divider} />
         <NeracaRow label="✅ Total Aset" value={totalAset} color={COLORS.income} bold />
         <NeracaRow label="💳 Total Sisa Hutang" value={-totalDebt} color={COLORS.expense} />
