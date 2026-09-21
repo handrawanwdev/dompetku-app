@@ -14,6 +14,7 @@ import { useQuery } from "@realm/react";
 import { SavingModel } from "../../../models";
 import { COLORS, FONTS, SPACING, RADIUS } from "../../../theme";
 import { formatCurrency } from "../../../utils/currency";
+import { formatDate } from "../../../utils/date";
 import { calcGoalProgress } from "../../../utils/finance";
 import { ProgressBar } from "../../../components/common/ProgressBar";
 import { EmptyState } from "../../../components/common/EmptyState";
@@ -105,6 +106,9 @@ export function SavingsListScreen({ navigation }: Props) {
                   / {formatCurrency(item.target)}
                 </Text>
               </View>
+              {item.deadline ? (
+                <Text style={styles.deadline}>🎯 Target: {formatDate(item.deadline)}</Text>
+              ) : null}
             </TouchableOpacity>
           );
         }}
@@ -209,5 +213,10 @@ const styles = StyleSheet.create({
     fontSize: FONTS.sm,
     color: COLORS.textSecondary,
     marginLeft: SPACING.xs,
+  },
+  deadline: {
+    fontSize: FONTS.xs,
+    color: COLORS.textMuted,
+    marginTop: SPACING.xs,
   },
 });

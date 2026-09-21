@@ -114,6 +114,9 @@ export function SavingsDetailScreen({ navigation, route }: Props) {
                   <Text style={styles.remainLabel}>Sisa: {formatCurrency(remaining)}</Text>
                 )}
               </View>
+              {saving.deadline ? (
+                <Text style={styles.deadlineLabel}>🎯 Target tanggal: {formatDate(saving.deadline)}</Text>
+              ) : null}
             </View>
 
             {/* Action Buttons */}
@@ -249,6 +252,7 @@ const styles = StyleSheet.create({
   targetRow: { flexDirection: 'row', justifyContent: 'space-between' },
   targetLabel: { fontSize: FONTS.sm, color: COLORS.textSecondary },
   remainLabel: { fontSize: FONTS.sm, color: COLORS.warning },
+  deadlineLabel: { fontSize: FONTS.xs, color: COLORS.textMuted, marginTop: SPACING.xs },
   // Actions
   actionRow: {
     flexDirection: 'row',

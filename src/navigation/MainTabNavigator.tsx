@@ -5,8 +5,7 @@ import { COLORS, FONTS } from '../theme';
 
 import { DashboardScreen } from '../modules/dashboard/DashboardScreen';
 import { TransactionNavigator } from '../modules/transaction/TransactionNavigator';
-import { DebtNavigator } from '../modules/debt/DebtNavigator';
-import { AssetsTabNavigator } from './AssetsTabNavigator';
+import { FinanceTabNavigator } from './FinanceTabNavigator';
 import { SettingsNavigator } from '../modules/settings/SettingsNavigator';
 
 const Tab = createBottomTabNavigator();
@@ -59,18 +58,10 @@ export function MainTabNavigator() {
         }}
       />
       <Tab.Screen
-        name="Debt"
-        component={DebtNavigator}
+        name="Finance"
+        component={FinanceTabNavigator}
         options={{
-          title: 'Hutang',
-          tabBarIcon: ({ focused }) => <TabIcon emoji="💳" focused={focused} />,
-        }}
-      />
-      <Tab.Screen
-        name="Assets"
-        component={AssetsTabNavigator}
-        options={{
-          title: 'Aset',
+          title: 'Keuangan',
           tabBarIcon: ({ focused }) => <TabIcon emoji="🏦" focused={focused} />,
         }}
       />

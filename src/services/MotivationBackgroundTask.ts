@@ -9,11 +9,9 @@ import { ExpenseModel } from '../models/ExpenseModel';
 import { DebtModel } from '../models/DebtModel';
 import { SavingModel } from '../models/SavingModel';
 import { InvestmentModel } from '../models/InvestmentModel';
-import { PassiveIncomeModel } from '../models/PassiveIncomeModel';
 import { computeFinancialScore } from '../utils/financialScore';
 import { getScheduledMotivation, getSixHourBucket } from '../utils/motivation';
 import { QUOTE_CATEGORY_LABEL } from '../data/motivationQuotes';
-import { toMonthlyAmount } from '../utils/finance';
 import { startOfMonth, endOfMonth } from '../utils/date';
 import { storage, getSettings } from '../storage/mmkv';
 
@@ -60,9 +58,16 @@ TaskManager.defineTask(TASK_NAME, async () => {
       .filtered('sold == false')
       .reduce((s, inv) => s + inv.currentPrice * inv.quantity, 0);
 
+    // Subset of monthlyIncome above (type==='passive') — not a separate sum,
+    // so it can't double-count against it.
     const passiveIncome = realm
-      .objects(PassiveIncomeModel)
-      .reduce((s, p) => s + toMonthlyAmount(p.amount, p.frequency), 0);
+      .objects(IncomeModel)
+      .filtered(
+        "date >= $0 AND date <= $1 AND isInternal == false AND type == 'passive'",
+        monthStart,
+        monthEnd,
+      )
+      .sum('amount') ?? 0;
 
     const score = computeFinancialScore({
       monthlyIncome,

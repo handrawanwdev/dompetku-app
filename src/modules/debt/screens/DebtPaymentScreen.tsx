@@ -47,9 +47,11 @@ export function DebtPaymentScreen({ navigation, route }: Props) {
   const showFundingSource = mode !== 'usage';
   const title = mode === 'usage'
     ? 'Catat Pemakaian'
-    : debt && (debt.debtType === 'cicilan' || debt.debtType === 'revolving' || debt.debtType === 'tagihan_rutin')
-      ? 'Bayar Tagihan'
-      : 'Bayar Hutang';
+    : debt?.debtType === 'cicilan'
+      ? 'Bayar Cicilan'
+      : debt?.debtType === 'revolving' || debt?.debtType === 'tagihan_rutin'
+        ? 'Bayar Tagihan'
+        : 'Bayar Utang';
   const amountLabel = mode === 'usage' ? 'Nominal Pemakaian' : 'Nominal Pembayaran';
 
   const defaultAmount = useMemo(() => {

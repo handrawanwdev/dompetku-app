@@ -7,7 +7,6 @@ import { SavingModel } from "../models/SavingModel";
 import { SavingHistoryModel } from "../models/SavingHistoryModel";
 import { InvestmentModel } from "../models/InvestmentModel";
 import { PhysicalAssetModel } from "../models/PhysicalAssetModel";
-import { GoalModel } from "../models/GoalModel";
 import { CategoryModel } from "../models/CategoryModel";
 import { PassiveIncomeModel } from "../models/PassiveIncomeModel";
 import { FinancialMilestoneModel } from "../models/FinancialMilestoneModel";
@@ -53,7 +52,6 @@ export interface SeedSummary {
   savingHistory: number;
   investments: number;
   physicalAssets: number;
-  goals: number;
   passiveIncomes: number;
   milestones: number;
 }
@@ -69,7 +67,6 @@ export function seedDummyData(realm: Realm): SeedSummary {
     savingHistory: 0,
     investments: 0,
     physicalAssets: 0,
-    goals: 0,
     passiveIncomes: 0,
     milestones: 0,
   };
@@ -106,6 +103,7 @@ export function seedDummyData(realm: Realm): SeedSummary {
         target: 25_000_000,
         balance: 5_000_000,
         emoji: "🏍️",
+        deadline: dateDaysAgo(-180),
       },
     ].forEach((s) => {
       const saving = realm.create(SavingModel, { ...s });
@@ -163,6 +161,7 @@ export function seedDummyData(realm: Realm): SeedSummary {
         allocationCash: 0,
         allocationDebtId: "",
         allocationSavingId: "",
+        type: "active",
       });
       summary.incomes += 1;
     }
@@ -227,16 +226,6 @@ export function seedDummyData(realm: Realm): SeedSummary {
       sellDate: "",
     });
     summary.physicalAssets += 1;
-
-    const motorSaving = savings.find((s) => s.name === "Beli Motor")!;
-    realm.create(GoalModel, {
-      name: "Beli Motor",
-      target: 25_000_000,
-      deadline: dateDaysAgo(-180),
-      savingId: motorSaving._id.toHexString(),
-      emoji: "🏍️",
-    });
-    summary.goals += 1;
 
     realm.create(PassiveIncomeModel, {
       category: "dividen",

@@ -71,6 +71,7 @@ export function InvestmentDividendScreen({ navigation, route }: Props) {
         allocationSavings: 0,
         date: today(),
         note: `Dividen ${investment.name}`,
+        type: 'passive',
       });
     });
     navigation.goBack();

@@ -50,6 +50,7 @@ const schema = z.object({
   category: z.string().min(1, 'Kategori wajib dipilih'),
   date: z.string().min(1, 'Tanggal wajib diisi'),
   note: z.string().optional(),
+  type: z.enum(['active', 'passive']),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -82,6 +83,7 @@ export function IncomeFormScreen() {
       category: '',
       date: today(),
       note: '',
+      type: 'active',
     },
   });
 
@@ -92,6 +94,7 @@ export function IncomeFormScreen() {
       setValue('category', existingIncome.category);
       setValue('date', existingIncome.date);
       setValue('note', existingIncome.note);
+      setValue('type', existingIncome.type === 'passive' ? 'passive' : 'active');
     }
   }, [existingIncome, setValue]);
 
@@ -113,6 +116,7 @@ export function IncomeFormScreen() {
         existingIncome.allocationCash = amount;
         existingIncome.allocationDebtId = '';
         existingIncome.allocationSavingId = '';
+        existingIncome.type = data.type;
       } else {
         realm.create(IncomeModel, {
           _id: new Realm.BSON.ObjectId(),
@@ -125,6 +129,7 @@ export function IncomeFormScreen() {
           allocationCash: amount,
           allocationDebtId: '',
           allocationSavingId: '',
+          type: data.type,
           createdAt: new Date(),
         });
       }
@@ -214,6 +219,28 @@ export function IncomeFormScreen() {
             {errors.category && (
               <Text style={styles.errorText}>{errors.category.message}</Text>
             )}
+          </View>
+
+          {/* Type: active vs passive */}
+          <View style={styles.fieldGroup}>
+            <Text style={styles.fieldLabel}>Tipe</Text>
+            <View style={styles.typeRow}>
+              {(['active', 'passive'] as const).map((t) => {
+                const isSelected = watch('type') === t;
+                return (
+                  <TouchableOpacity
+                    key={t}
+                    onPress={() => setValue('type', t)}
+                    style={[styles.typeOption, isSelected && styles.typeOptionSelected]}
+                    activeOpacity={0.7}
+                  >
+                    <Text style={[styles.typeLabel, isSelected && styles.typeLabelSelected]}>
+                      {t === 'active' ? 'Aktif' : 'Pasif'}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
           </View>
 
           {/* Date */}
@@ -329,6 +356,30 @@ const styles = StyleSheet.create({
   },
   chipLabelSelected: {
     color: '#FFFFFF',
+  },
+  typeRow: {
+    flexDirection: 'row',
+    gap: SPACING.sm,
+  },
+  typeOption: {
+    flex: 1,
+    paddingVertical: SPACING.sm,
+    borderRadius: RADIUS.md,
+    borderWidth: 1.5,
+    borderColor: COLORS.border,
+    alignItems: 'center',
+  },
+  typeOptionSelected: {
+    borderColor: COLORS.primary,
+    backgroundColor: COLORS.primary + '18',
+  },
+  typeLabel: {
+    fontSize: FONTS.sm,
+    fontWeight: '600',
+    color: COLORS.textSecondary,
+  },
+  typeLabelSelected: {
+    color: COLORS.primary,
   },
   errorText: {
     fontSize: FONTS.sm,

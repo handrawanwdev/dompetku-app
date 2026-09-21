@@ -36,6 +36,7 @@ export function runPassiveIncomeSchedule(realm: Realm): void {
       allocationSavingId: '',
       date: anchor.format('YYYY-MM-DD'),
       note: `Passive income terjadwal: ${p.note || p.category}`,
+      type: 'passive',
       createdAt: new Date(),
     });
     p.lastGeneratedPeriod = periodKey;

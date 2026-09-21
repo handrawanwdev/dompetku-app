@@ -20,6 +20,7 @@ import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
 import { parseCurrency } from '../../../utils/currency';
 import { Input } from '../../../components/common/Input';
 import { CurrencyInput } from '../../../components/common/CurrencyInput';
+import { DateInput } from '../../../components/common/DateInput';
 import { Button } from '../../../components/common/Button';
 import { BackButton } from '../../../components/common/BackButton';
 
@@ -37,6 +38,7 @@ export function SavingsFormScreen({ navigation, route }: Props) {
   const [emoji, setEmoji] = useState('💰');
   const [name, setName] = useState('');
   const [targetInput, setTargetInput] = useState('');
+  const [deadline, setDeadline] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -46,6 +48,7 @@ export function SavingsFormScreen({ navigation, route }: Props) {
         setEmoji(saving.emoji);
         setName(saving.name);
         setTargetInput(saving.target.toString());
+        setDeadline(saving.deadline ?? '');
       }
     }
   }, [id]);
@@ -74,6 +77,7 @@ export function SavingsFormScreen({ navigation, route }: Props) {
             saving.emoji = emoji;
             saving.name = name.trim();
             saving.target = target;
+            saving.deadline = deadline;
           });
         }
       } else {
@@ -84,6 +88,7 @@ export function SavingsFormScreen({ navigation, route }: Props) {
             target,
             balance: 0,
             emoji,
+            deadline,
             createdAt: new Date(),
           });
         });
@@ -176,6 +181,17 @@ export function SavingsFormScreen({ navigation, route }: Props) {
           onChangeText={setTargetInput}
         />
 
+        <DateInput
+          label="Target Tanggal (opsional)"
+          value={deadline}
+          onChange={setDeadline}
+        />
+        {deadline ? (
+          <TouchableOpacity onPress={() => setDeadline('')} style={styles.clearDeadline}>
+            <Text style={styles.clearDeadlineText}>Hapus target tanggal</Text>
+          </TouchableOpacity>
+        ) : null}
+
         <Button
           title={isEdit ? 'Simpan Perubahan' : 'Buat Tabungan'}
           onPress={handleSave}
@@ -267,6 +283,16 @@ const styles = StyleSheet.create({
     fontSize: FONTS.lg,
     fontWeight: '600',
     color: COLORS.text,
+  },
+  clearDeadline: {
+    marginTop: -SPACING.sm,
+    marginBottom: SPACING.sm,
+    alignSelf: 'flex-start',
+  },
+  clearDeadlineText: {
+    fontSize: FONTS.sm,
+    color: COLORS.danger,
+    fontWeight: '500',
   },
   saveBtn: {
     marginTop: SPACING.lg,

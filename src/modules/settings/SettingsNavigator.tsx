@@ -7,9 +7,6 @@ import {
 import { ParametersScreen } from "./screens/ParametersScreen";
 import { CategoriesScreen } from "./screens/CategoriesScreen";
 import { CategoryFormScreen } from "./screens/CategoryFormScreen";
-import { ReportScreen } from "./screens/ReportScreen";
-import { GoalsNavigator } from "../goals/GoalsNavigator";
-import { PassiveIncomeNavigator } from "../passiveIncome/PassiveIncomeNavigator";
 import { FireCalculatorScreen } from "./screens/FireCalculatorScreen";
 import { AchievementsScreen } from "./screens/AchievementsScreen";
 import { LevelGuideScreen } from "./screens/LevelGuideScreen";
@@ -41,17 +38,6 @@ export function SettingsNavigator() {
         name="CategoryForm"
         component={CategoryFormScreen}
         options={{ headerTitle: "Tambah Kategori", presentation: "modal" }}
-      />
-      <Stack.Screen name="ReportScreen" component={ReportScreen} />
-      <Stack.Screen
-        name="GoalsNavScreen"
-        component={GoalsNavigator}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="PassiveIncomeNavScreen"
-        component={PassiveIncomeNavigator}
-        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="FireCalculatorScreen"

@@ -12,10 +12,9 @@ import { IncomeModel } from "../../../models/IncomeModel";
 import { ExpenseModel } from "../../../models/ExpenseModel";
 import { DebtModel } from "../../../models/DebtModel";
 import { InvestmentModel } from "../../../models/InvestmentModel";
-import { PassiveIncomeModel } from "../../../models/PassiveIncomeModel";
 import { formatCurrency, formatCompact } from "../../../utils/currency";
 import { startOfMonth, endOfMonth } from "../../../utils/date";
-import { calcFireProgress, toMonthlyAmount } from "../../../utils/finance";
+import { calcFireProgress } from "../../../utils/finance";
 import { SettingsStackParamList } from "./SettingsMainScreen";
 
 type NavProp = NativeStackNavigationProp<
@@ -75,7 +74,6 @@ export function FireCalculatorScreen({ navigation }: Props) {
   );
   const debts = useQuery(DebtModel).filtered("isActive == true");
   const investments = useQuery(InvestmentModel).filtered("sold == false");
-  const passiveIncomes = useQuery(PassiveIncomeModel);
 
   const monthlyIncome = incomes.reduce((s, i) => s + i.amount, 0);
   const monthlyExpense = expenses.reduce((s, e) => s + e.amount, 0);
@@ -91,10 +89,11 @@ export function FireCalculatorScreen({ navigation }: Props) {
     (s, d) => s + d.monthlyInstallment,
     0,
   );
-  const monthlyPassiveIncome = passiveIncomes.reduce(
-    (s, p) => s + toMonthlyAmount(p.amount, p.frequency),
-    0,
-  );
+  // Already inside `incomes` (month-scoped) — filter, don't sum separately,
+  // so this can't double-count against monthlyIncome above.
+  const monthlyPassiveIncome = incomes
+    .filtered("type == 'passive'")
+    .reduce((s, i) => s + i.amount, 0);
 
   const currentAmount = Math.max(0, totalInvestment - totalDebt);
   const fire = calcFireProgress(

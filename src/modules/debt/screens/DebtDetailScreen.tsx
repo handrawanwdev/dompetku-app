@@ -19,7 +19,7 @@ import { Card, Text, Button, AmountDisplay, ProgressBar, EmptyState, BackButton 
 import { DebtModel } from '../../../models/DebtModel';
 import { DebtPaymentModel } from '../../../models/DebtPaymentModel';
 import { formatCurrency } from '../../../utils/currency';
-import { formatDate, isOverdue } from '../../../utils/date';
+import { formatDate, isOverdue, startOfMonth } from '../../../utils/date';
 import { buildDebtSchedule, DebtScheduleMonth, DebtScheduleStatus } from '../../../utils/finance';
 import type { DebtStackParamList } from './DebtListScreen';
 
@@ -113,6 +113,16 @@ export function DebtDetailScreen() {
 
   const totalPaidSoFar = useMemo(() => payments.reduce((s, p) => s + p.amount, 0), [payments]);
 
+  // Cicilan/revolving/tagihan_rutin: sudah ada pembayaran bulan ini → jangan
+  // tandai jatuh tempo lagi (dulu `overdue` di bawah cuma bandingin tanggal,
+  // gak peduli udah dibayar atau belum — makanya status bisa salah nampilin
+  // JATUH TEMPO walau bulan ini udah lunas).
+  const paidThisMonth = useMemo(() => {
+    if (!debt) return false;
+    if (debt.debtType === 'berjangka' || debt.debtType === 'tanpa_tenor') return false;
+    return payments.filtered('date >= $0', startOfMonth()).length > 0;
+  }, [debt, payments]);
+
   const remaining = useMemo(() => {
     if (!debt) return 0;
     if (debt.debtType === 'cicilan') return debt.monthlyInstallment * debt.remainingMonth;
@@ -139,12 +149,13 @@ export function DebtDetailScreen() {
 
   const overdue = useMemo(() => {
     if (!debt || !debt.isActive) return false;
+    if (paidThisMonth) return false;
     if (debt.debtType === 'tanpa_tenor') return false;
     if (debt.debtType === 'berjangka') {
       return debt.dueDateFull ? dayjs().isAfter(dayjs(debt.dueDateFull), 'day') : false;
     }
     return isOverdue(debt.dueDate);
-  }, [debt]);
+  }, [debt, paidThisMonth]);
 
   const berjangkaMeta = useMemo(() => {
     if (!debt || debt.debtType !== 'berjangka' || !debt.dueDateFull) return null;
@@ -344,7 +355,9 @@ export function DebtDetailScreen() {
             title={
               debt.debtType === 'cicilan'
                 ? `💳  Bayar Cicilan  •  ${formatCurrency(debt.monthlyInstallment)}`
-                : '💳  Bayar Hutang'
+                : debt.debtType === 'tagihan_rutin'
+                  ? '🔁  Bayar Tagihan'
+                  : '💳  Bayar Utang'
             }
             onPress={() => navigation.navigate('DebtPayment', { debtId: id, mode: 'payment' })}
             fullWidth

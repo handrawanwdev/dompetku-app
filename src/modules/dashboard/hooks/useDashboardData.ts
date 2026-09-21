@@ -9,7 +9,6 @@ import { DebtPaymentModel } from "../../../models/DebtPaymentModel";
 import { SavingModel } from "../../../models/SavingModel";
 import { InvestmentModel } from "../../../models/InvestmentModel";
 import { PhysicalAssetModel } from "../../../models/PhysicalAssetModel";
-import { PassiveIncomeModel } from "../../../models/PassiveIncomeModel";
 import { startOfMonth, endOfMonth } from "../../../utils/date";
 import {
   calcDepreciation,
@@ -18,7 +17,7 @@ import {
   generateFinancialSuggestions,
   generateScoreRecommendations,
   getEmergencyFundStatus,
-  toMonthlyAmount,
+  calcGoalProgress,
 } from "../../../utils/finance";
 import { useSettingsStore } from "../../../store/settingsStore";
 import { useCashflowChart } from "../../../hooks/useCashflowChart";
@@ -52,7 +51,6 @@ export function useDashboardData() {
   const investments = useQuery(InvestmentModel).filtered("sold == false");
   const allInvestments = useQuery(InvestmentModel);
   const physicalAssets = useQuery(PhysicalAssetModel).filtered("sold == false");
-  const passiveIncomes = useQuery(PassiveIncomeModel);
 
   useEffect(() => {
     realm.write(() => runPassiveIncomeSchedule(realm));
@@ -60,18 +58,29 @@ export function useDashboardData() {
   }, [realm]);
 
   useEffect(() => {
+    const cycleStart = startOfMonth();
     refreshDebtReminders(
-      debts.map((d) => ({
-        id: d._id.toHexString(),
-        name: d.name,
-        monthlyInstallment: d.monthlyInstallment,
-        remainingMonth: d.remainingMonth,
-        dueDate: d.dueDate,
-        dueDateFull: d.dueDateFull,
-        debtType: d.debtType,
-      })),
+      debts.map((d) => {
+        const paidThisMonth =
+          d.debtType === "berjangka" || d.debtType === "tanpa_tenor"
+            ? false
+            : debtPayments.filtered("debtId == $0 AND date >= $1", d._id.toHexString(), cycleStart).length > 0;
+        return {
+          id: d._id.toHexString(),
+          name: d.name,
+          monthlyInstallment: d.monthlyInstallment,
+          remainingMonth: d.remainingMonth,
+          dueDate: d.dueDate,
+          dueDateFull: d.dueDateFull,
+          debtType: d.debtType,
+          paidThisMonth,
+        };
+      }),
     );
-  }, [debts]);
+    // debtPayments must stay a dep — paying a tagihan_rutin bill only adds a
+    // DebtPaymentModel row, it never touches the DebtModel record itself, so
+    // this effect wouldn't otherwise re-run and cancel that bill's reminder.
+  }, [debts, debtPayments]);
 
   useEffect(() => {
     const today = dayjs().format("YYYY-MM-DD");
@@ -205,13 +214,18 @@ export function useDashboardData() {
     prevMonthEnd,
   ]);
 
+  // Subset of summary.monthlyIncome already tagged type==='passive' — not a
+  // separate sum, so it can't double-count against monthlyIncome below.
   const monthlyPassiveIncome = useMemo(
     () =>
-      passiveIncomes.reduce(
-        (s, p) => s + toMonthlyAmount(p.amount, p.frequency),
-        0,
-      ),
-    [passiveIncomes],
+      incomes
+        .filtered(
+          "date >= $0 AND date <= $1 AND isInternal == false AND type == 'passive'",
+          monthStart,
+          monthEnd,
+        )
+        .reduce((s, i) => s + i.amount, 0),
+    [incomes, monthStart, monthEnd],
   );
 
   const scoreInput = useMemo(
@@ -280,6 +294,25 @@ export function useDashboardData() {
       ),
     [savings, settings.emergencyFundSavingId],
   );
+  // Savings pos with a deadline set, closest one first (progress <100 only —
+  // a completed goal has nothing left to track towards).
+  const nearestGoal = useMemo(() => {
+    const withDeadline = savings
+      .filter((s) => s.deadline && calcGoalProgress(s.balance, s.target) < 100)
+      .sort((a, b) => (a.deadline < b.deadline ? -1 : 1));
+    const s = withDeadline[0];
+    if (!s) return null;
+    return {
+      id: s._id.toHexString(),
+      name: s.name,
+      emoji: s.emoji,
+      balance: s.balance,
+      target: s.target,
+      deadline: s.deadline,
+      progress: calcGoalProgress(s.balance, s.target),
+    };
+  }, [savings]);
+
   const emergencyFundInfo = useMemo(
     () =>
       emergencyFundSaving
@@ -434,6 +467,7 @@ export function useDashboardData() {
     aiReport,
 
     neraca,
+    nearestGoal,
 
     urgentReminders,
     normalReminders,

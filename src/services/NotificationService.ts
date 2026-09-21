@@ -54,6 +54,11 @@ export interface DebtReminderInput {
   /** YYYY-MM-DD — berjangka's single fixed maturity date. */
   dueDateFull: string;
   debtType: DebtTypeForNotification;
+  /** A DebtPayment already exists for the current cycle (this month for
+   * cicilan/revolving/tagihan_rutin, or the debt is already inactive/paid
+   * off for berjangka) — when true, H-7 and due-date notifications for this
+   * cycle are skipped entirely, so a paid debt never nags again this month. */
+  paidThisMonth: boolean;
 }
 
 /** (Re)schedules H-7 and due-date reminders for every active debt. Call after any debt is created/edited/paid. */
@@ -63,6 +68,7 @@ export async function refreshDebtReminders(debts: DebtReminderInput[]) {
 
   for (const debt of debts) {
     if (debt.debtType === 'tanpa_tenor') continue;
+    if (debt.paidThisMonth) continue;
 
     if (debt.debtType === 'berjangka') {
       if (!debt.dueDateFull) continue;

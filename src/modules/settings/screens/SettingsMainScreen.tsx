@@ -26,7 +26,6 @@ import { SavingModel } from '../../../models/SavingModel';
 import { SavingHistoryModel } from '../../../models/SavingHistoryModel';
 import { InvestmentModel } from '../../../models/InvestmentModel';
 import { PhysicalAssetModel } from '../../../models/PhysicalAssetModel';
-import { GoalModel } from '../../../models/GoalModel';
 import { CategoryModel } from '../../../models/CategoryModel';
 import { PassiveIncomeModel } from '../../../models/PassiveIncomeModel';
 import { FinancialMilestoneModel } from '../../../models/FinancialMilestoneModel';
@@ -36,9 +35,6 @@ export type SettingsStackParamList = {
   ParametersScreen: undefined;
   CategoriesScreen: undefined;
   CategoryForm: { type: 'income' | 'expense' };
-  ReportScreen: undefined;
-  GoalsNavScreen: undefined;
-  PassiveIncomeNavScreen: undefined;
   FireCalculatorScreen: undefined;
   AchievementsScreen: undefined;
   LevelGuideScreen: undefined;
@@ -62,7 +58,6 @@ export function SettingsMainScreen({ navigation }: Props) {
   const savingHistory = useQuery(SavingHistoryModel);
   const investments = useQuery(InvestmentModel);
   const physicalAssets = useQuery(PhysicalAssetModel);
-  const goals = useQuery(GoalModel);
   const categories = useQuery(CategoryModel);
   const passiveIncomes = useQuery(PassiveIncomeModel);
   const milestones = useQuery(FinancialMilestoneModel);
@@ -80,7 +75,6 @@ export function SettingsMainScreen({ navigation }: Props) {
         savingHistory: savingHistory.map(h => ({ ...h, _id: h._id.toHexString() })),
         investments: investments.map(i => ({ ...i, _id: i._id.toHexString() })),
         physicalAssets: physicalAssets.map(a => ({ ...a, _id: a._id.toHexString() })),
-        goals: goals.map(g => ({ ...g, _id: g._id.toHexString() })),
         categories: categories.map(c => ({ ...c, _id: c._id.toHexString() })),
         passiveIncomes: passiveIncomes.map(p => ({ ...p, _id: p._id.toHexString() })),
         milestones: milestones.map(m => ({ ...m, _id: m._id.toHexString() })),
@@ -147,8 +141,13 @@ export function SettingsMainScreen({ navigation }: Props) {
                 data.physicalAssets?.forEach((item: any) => {
                   realm.create(PhysicalAssetModel, { ...item, _id: new Realm.BSON.ObjectId(item._id), createdAt: new Date(item.createdAt) });
                 });
+                // Legacy backups (pre-merge) carry a standalone `goals` array —
+                // fold each one's deadline onto the Saving it was linked to,
+                // since Goal is no longer a separate model.
                 data.goals?.forEach((item: any) => {
-                  realm.create(GoalModel, { ...item, _id: new Realm.BSON.ObjectId(item._id), createdAt: new Date(item.createdAt) });
+                  if (!item.savingId) return;
+                  const saving = realm.objectForPrimaryKey(SavingModel, new Realm.BSON.ObjectId(item.savingId));
+                  if (saving) saving.deadline = item.deadline ?? '';
                 });
                 data.categories?.forEach((item: any) => {
                   realm.create(CategoryModel, { ...item, _id: new Realm.BSON.ObjectId(item._id), createdAt: new Date(item.createdAt) });
@@ -207,27 +206,9 @@ export function SettingsMainScreen({ navigation }: Props) {
           <MenuItem emoji="⚙️" label="Parameter" onPress={() => navigation.navigate('ParametersScreen')} />
           <View style={styles.separator} />
           <MenuItem emoji="🏷️" label="Kategori" onPress={() => navigation.navigate('CategoriesScreen')} />
-          <View style={styles.separator} />
-          <MenuItem emoji="🎯" label="Financial Goals" onPress={() => navigation.navigate('GoalsNavScreen')} />
         </Card>
 
-        <Text style={styles.sectionTitle}>Financial Freedom</Text>
-        <Card padding={0}>
-          <MenuItem emoji="🔥" label="FIRE Calculator" onPress={() => navigation.navigate('FireCalculatorScreen')} />
-          <View style={styles.separator} />
-          <MenuItem emoji="💎" label="Passive Income" onPress={() => navigation.navigate('PassiveIncomeNavScreen')} />
-          <View style={styles.separator} />
-          <MenuItem emoji="🏆" label="Achievements" onPress={() => navigation.navigate('AchievementsScreen')} />
-          <View style={styles.separator} />
-          <MenuItem emoji="📖" label="Panduan Level" onPress={() => navigation.navigate('LevelGuideScreen')} />
-        </Card>
-
-        <Text style={styles.sectionTitle}>Laporan</Text>
-        <Card padding={0}>
-          <MenuItem emoji="📊" label="Laporan Bulanan & Tahunan" onPress={() => navigation.navigate('ReportScreen')} />
-        </Card>
-
-        <Text style={styles.sectionTitle}>Data</Text>
+        <Text style={styles.sectionTitle}>Backup & Restore</Text>
         <Card padding={0}>
           <MenuItem emoji="📤" label="Export JSON" onPress={handleExport} />
           <View style={styles.separator} />
@@ -236,8 +217,14 @@ export function SettingsMainScreen({ navigation }: Props) {
           <MenuItem emoji="🗑️" label="Reset Semua Data" onPress={handleReset} danger />
         </Card>
 
-        <Text style={styles.sectionTitle}>Bantuan</Text>
+        <Text style={styles.sectionTitle}>App Settings</Text>
         <Card padding={0}>
+          <MenuItem emoji="🔥" label="FIRE Calculator" onPress={() => navigation.navigate('FireCalculatorScreen')} />
+          <View style={styles.separator} />
+          <MenuItem emoji="🏆" label="Achievements" onPress={() => navigation.navigate('AchievementsScreen')} />
+          <View style={styles.separator} />
+          <MenuItem emoji="📖" label="Panduan Level" onPress={() => navigation.navigate('LevelGuideScreen')} />
+          <View style={styles.separator} />
           <MenuItem emoji="🩺" label="Diagnosis & Laporan Error" onPress={() => navigation.navigate('DiagnosisScreen')} />
         </Card>
 
@@ -252,6 +239,7 @@ export function SettingsMainScreen({ navigation }: Props) {
 
         <Text style={styles.sectionTitle}>Info</Text>
         <Card padding={SPACING.lg}>
+          <Text style={styles.appTagline}>Uang Lebih Teratur, Hidup Lebih Tenang.</Text>
           <Text style={styles.appName}>Dompetku v1.0</Text>
           <Text style={styles.appDesc}>Aplikasi manajemen keuangan pribadi. Offline first, data tersimpan lokal.</Text>
         </Card>
@@ -271,6 +259,7 @@ const styles = StyleSheet.create({
   menuLabel: { flex: 1, fontSize: FONTS.md, color: COLORS.text, fontWeight: '500' },
   menuArrow: { fontSize: FONTS.lg, color: COLORS.textMuted },
   separator: { height: 1, backgroundColor: COLORS.border, marginLeft: SPACING.lg * 2 + 20 },
+  appTagline: { fontSize: FONTS.sm, fontWeight: '600', color: COLORS.primary, marginBottom: SPACING.sm, fontStyle: 'italic' },
   appName: { fontSize: FONTS.md, fontWeight: '700', color: COLORS.text, marginBottom: SPACING.xs },
   appDesc: { fontSize: FONTS.sm, color: COLORS.textSecondary, lineHeight: 20 },
 });

@@ -6,6 +6,8 @@ export class SavingModel extends Realm.Object<SavingModel> {
   target!: number;
   balance!: number;
   emoji!: string;
+  /** Optional target date for this saving pos — merged in from the old standalone Goal module */
+  deadline!: string;
   createdAt!: Date;
 
   static schema: ObjectSchema = {
@@ -17,6 +19,7 @@ export class SavingModel extends Realm.Object<SavingModel> {
       target: 'double',
       balance: { type: 'double', default: 0 },
       emoji: { type: 'string', default: '💰' },
+      deadline: { type: 'string', default: '' },
       createdAt: { type: 'date', default: () => new Date() },
     },
   };

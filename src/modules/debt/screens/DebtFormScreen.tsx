@@ -29,15 +29,29 @@ import type { DebtStackParamList } from './DebtListScreen';
 type NavProp = NativeStackNavigationProp<DebtStackParamList, 'DebtForm'>;
 type RouteType = RouteProp<DebtStackParamList, 'DebtForm'>;
 
-// ─── Debt Type Options ──────────────────────────────────────────────────────────
+// ─── Kategori: Utang vs Tagihan Rutin ────────────────────────────────────────
+
+type Category = 'utang' | 'tagihan';
+
+const CATEGORY_OPTIONS: Array<{ value: Category; label: string; emoji: string }> = [
+  { value: 'utang', label: 'Utang', emoji: '💳' },
+  { value: 'tagihan', label: 'Tagihan Rutin', emoji: '🔁' },
+];
+
+function categoryOf(debtType: DebtType): Category {
+  return debtType === 'tagihan_rutin' ? 'tagihan' : 'utang';
+}
+
+// ─── Debt Type Options (sub-jenis Utang) ─────────────────────────────────────
 
 const DEBT_TYPES: Array<{ value: DebtType; label: string; hint: string }> = [
   { value: 'tanpa_tenor', label: 'Tanpa Tenor', hint: 'Gak ada tanggal jatuh tempo, dibayar kapan aja. Contoh: pinjam teman, keluarga.' },
   { value: 'berjangka', label: 'Berjangka', hint: 'Ada satu tanggal jatuh tempo pelunasan. Contoh: pinjaman bank, koperasi.' },
   { value: 'cicilan', label: 'Cicilan', hint: 'Dibayar berkala tiap bulan sampai lunas. Contoh: motor, mobil, HP, KPR.' },
   { value: 'revolving', label: 'Revolving', hint: 'Limit bisa dipakai lagi setelah dibayar. Contoh: kartu kredit, paylater.' },
-  { value: 'tagihan_rutin', label: 'Tagihan Rutin', hint: 'Muncul berkala tiap bulan, nominal bisa beda-beda. Contoh: listrik, internet, BPJS.' },
 ];
+
+const TAGIHAN_HINT = 'Muncul berkala tiap bulan, nominal bisa beda-beda. Contoh: listrik, internet, BPJS, sewa, langganan.';
 
 const HAS_TOTAL_AMOUNT: DebtType[] = ['tanpa_tenor', 'berjangka', 'cicilan', 'revolving'];
 const HAS_DUE_DATE: DebtType[] = ['cicilan', 'revolving', 'tagihan_rutin'];
@@ -92,7 +106,7 @@ export function DebtFormScreen() {
   const navigation = useNavigation<NavProp>();
   const route = useRoute<RouteType>();
   const realm = useRealm();
-  const { id } = route.params ?? {};
+  const { id, presetType } = route.params ?? {};
   const isEdit = Boolean(id);
 
   const allDebts = useQuery(DebtModel);
@@ -112,7 +126,7 @@ export function DebtFormScreen() {
     defaultValues: {
       name: '',
       lender: '',
-      debtType: 'cicilan',
+      debtType: presetType ?? 'cicilan',
       totalAmount: '',
       monthlyInstallment: '',
       remainingMonth: '',
@@ -125,7 +139,16 @@ export function DebtFormScreen() {
   });
 
   const debtType = watch('debtType');
+  const category = categoryOf(debtType);
   const activeType = DEBT_TYPES.find((t) => t.value === debtType) ?? DEBT_TYPES[2];
+
+  const selectCategory = (next: Category) => {
+    if (next === 'tagihan') {
+      setValue('debtType', 'tagihan_rutin');
+    } else if (category === 'tagihan') {
+      setValue('debtType', 'cicilan');
+    }
+  };
 
   useEffect(() => {
     if (existingDebt) {
@@ -198,7 +221,8 @@ export function DebtFormScreen() {
   };
 
   const handleDelete = () => {
-    Alert.alert('Hapus Hutang', 'Yakin ingin menghapus hutang ini?', [
+    const noun = category === 'tagihan' ? 'tagihan' : 'utang';
+    Alert.alert(`Nonaktifkan ${noun === 'tagihan' ? 'Tagihan' : 'Utang'}`, `Yakin ingin menonaktifkan ${noun} ini?`, [
       { text: 'Batal', style: 'cancel' },
       {
         text: 'Hapus',
@@ -240,8 +264,8 @@ export function DebtFormScreen() {
             name="name"
             render={({ field: { onChange, value } }) => (
               <Input
-                label="Nama Hutang"
-                placeholder="contoh: KPR Bank BCA"
+                label="Nama"
+                placeholder={category === 'tagihan' ? 'contoh: Listrik Rumah' : 'contoh: KPR Bank BCA'}
                 value={value}
                 onChangeText={onChange}
                 error={errors.name?.message}
@@ -255,8 +279,8 @@ export function DebtFormScreen() {
             name="lender"
             render={({ field: { onChange, value } }) => (
               <Input
-                label="Pemberi Hutang / Kreditur"
-                placeholder="contoh: Bank BCA"
+                label={category === 'tagihan' ? 'Penyedia / Penagih' : 'Pemberi Hutang / Kreditur'}
+                placeholder={category === 'tagihan' ? 'contoh: PLN, Indihome, BPJS' : 'contoh: Bank BCA'}
                 value={value}
                 onChangeText={onChange}
                 error={errors.lender?.message}
@@ -264,25 +288,51 @@ export function DebtFormScreen() {
             )}
           />
 
-          {/* Debt Type */}
+          {/* Kategori: Utang vs Tagihan Rutin */}
           <View style={styles.fieldGroup}>
-            <Text style={styles.fieldLabel}>Jenis Hutang</Text>
-            {DEBT_TYPES.map((t) => {
-              const isSelected = debtType === t.value;
-              return (
-                <TouchableOpacity
-                  key={t.value}
-                  onPress={() => setValue('debtType', t.value)}
-                  style={[styles.typeOption, isSelected && styles.typeOptionActive]}
-                  activeOpacity={0.7}
-                >
-                  <View style={[styles.radioCircle, isSelected && styles.radioCircleActive]} />
-                  <Text style={[styles.typeLabel, isSelected && styles.typeLabelActive]}>{t.label}</Text>
-                </TouchableOpacity>
-              );
-            })}
-            <Text style={styles.typeHint}>{activeType.hint}</Text>
+            <Text style={styles.fieldLabel}>Kategori Kewajiban</Text>
+            <View style={styles.categoryRow}>
+              {CATEGORY_OPTIONS.map((c) => {
+                const isSelected = category === c.value;
+                return (
+                  <TouchableOpacity
+                    key={c.value}
+                    onPress={() => selectCategory(c.value)}
+                    style={[styles.categoryOption, isSelected && styles.categoryOptionActive]}
+                    activeOpacity={0.7}
+                  >
+                    <Text style={styles.categoryEmoji}>{c.emoji}</Text>
+                    <Text style={[styles.categoryLabel, isSelected && styles.categoryLabelActive]}>{c.label}</Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
           </View>
+
+          {/* Jenis Utang — cuma tampil kalau kategori Utang */}
+          {category === 'utang' && (
+            <View style={styles.fieldGroup}>
+              <Text style={styles.fieldLabel}>Jenis Utang</Text>
+              {DEBT_TYPES.map((t) => {
+                const isSelected = debtType === t.value;
+                return (
+                  <TouchableOpacity
+                    key={t.value}
+                    onPress={() => setValue('debtType', t.value)}
+                    style={[styles.typeOption, isSelected && styles.typeOptionActive]}
+                    activeOpacity={0.7}
+                  >
+                    <View style={[styles.radioCircle, isSelected && styles.radioCircleActive]} />
+                    <Text style={[styles.typeLabel, isSelected && styles.typeLabelActive]}>{t.label}</Text>
+                  </TouchableOpacity>
+                );
+              })}
+              <Text style={styles.typeHint}>{activeType.hint}</Text>
+            </View>
+          )}
+          {category === 'tagihan' && (
+            <Text style={styles.typeHint}>{TAGIHAN_HINT}</Text>
+          )}
 
           {/* Total Amount / Limit — tanpa_tenor, berjangka, cicilan, revolving */}
           {HAS_TOTAL_AMOUNT.includes(debtType) && (
@@ -425,7 +475,7 @@ export function DebtFormScreen() {
 
           {/* Save */}
           <Button
-            title={isEdit ? 'Simpan Perubahan' : 'Simpan Hutang'}
+            title={isEdit ? 'Simpan Perubahan' : category === 'tagihan' ? 'Simpan Tagihan' : 'Simpan Utang'}
             onPress={handleSubmit(onSubmit)}
             loading={isSubmitting}
             fullWidth
@@ -435,7 +485,7 @@ export function DebtFormScreen() {
           {/* Delete */}
           {isEdit && (
             <Button
-              title="Nonaktifkan Hutang"
+              title={category === 'tagihan' ? 'Nonaktifkan Tagihan' : 'Nonaktifkan Utang'}
               onPress={handleDelete}
               variant="danger"
               fullWidth
@@ -484,6 +534,38 @@ const styles = StyleSheet.create({
     color: COLORS.textSecondary,
     marginBottom: SPACING.sm,
     fontWeight: '500',
+  },
+  categoryRow: {
+    flexDirection: 'row',
+    gap: SPACING.md,
+  },
+  categoryOption: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: SPACING.sm,
+    paddingVertical: SPACING.lg,
+    borderRadius: RADIUS.md,
+    backgroundColor: COLORS.surface,
+    borderWidth: 1.5,
+    borderColor: COLORS.border,
+  },
+  categoryOptionActive: {
+    borderColor: COLORS.debt,
+    backgroundColor: COLORS.debt + '18',
+  },
+  categoryEmoji: {
+    fontSize: 18,
+  },
+  categoryLabel: {
+    fontSize: FONTS.md,
+    fontWeight: '600',
+    color: COLORS.textSecondary,
+  },
+  categoryLabelActive: {
+    color: COLORS.debt,
+    fontWeight: '700',
   },
   typeOption: {
     flexDirection: 'row',

@@ -6,7 +6,6 @@ export { SavingModel } from './SavingModel';
 export { SavingHistoryModel } from './SavingHistoryModel';
 export { InvestmentModel } from './InvestmentModel';
 export { PhysicalAssetModel } from './PhysicalAssetModel';
-export { GoalModel } from './GoalModel';
 export { CategoryModel } from './CategoryModel';
 export { FinancialScoreModel } from './FinancialScoreModel';
 export { PassiveIncomeModel } from './PassiveIncomeModel';
@@ -20,7 +19,6 @@ import { SavingModel } from './SavingModel';
 import { SavingHistoryModel } from './SavingHistoryModel';
 import { InvestmentModel } from './InvestmentModel';
 import { PhysicalAssetModel } from './PhysicalAssetModel';
-import { GoalModel } from './GoalModel';
 import { CategoryModel } from './CategoryModel';
 import { FinancialScoreModel } from './FinancialScoreModel';
 import { PassiveIncomeModel } from './PassiveIncomeModel';
@@ -35,7 +33,6 @@ export const ALL_MODELS = [
   SavingHistoryModel,
   InvestmentModel,
   PhysicalAssetModel,
-  GoalModel,
   CategoryModel,
   FinancialScoreModel,
   PassiveIncomeModel,

@@ -340,9 +340,9 @@ export function CashflowScreen() {
   const filteredIncomes = useMemo(
     () =>
       (incomeCategory === ALL_CATEGORY
-        ? allIncomes.filtered("date BEGINSWITH $0", incomeMonth)
+        ? allIncomes.filtered("date BEGINSWITH $0 AND isInternal == false", incomeMonth)
         : allIncomes.filtered(
-            "date BEGINSWITH $0 AND category == $1",
+            "date BEGINSWITH $0 AND isInternal == false AND category == $1",
             incomeMonth,
             incomeCategory,
           )
@@ -352,9 +352,9 @@ export function CashflowScreen() {
   const filteredExpenses = useMemo(
     () =>
       (expenseCategory === ALL_CATEGORY
-        ? allExpenses.filtered("date BEGINSWITH $0", expenseMonth)
+        ? allExpenses.filtered("date BEGINSWITH $0 AND isInternal == false", expenseMonth)
         : allExpenses.filtered(
-            "date BEGINSWITH $0 AND category == $1",
+            "date BEGINSWITH $0 AND isInternal == false AND category == $1",
             expenseMonth,
             expenseCategory,
           )
@@ -433,6 +433,29 @@ export function CashflowScreen() {
             {incomeTotal - expenseTotal >= 0 ? "+" : ""}
             {formatCurrency(incomeTotal - expenseTotal)}
           </Text>
+        </View>
+        <View style={styles.headerActions}>
+          <TouchableOpacity
+            style={styles.headerActionBtn}
+            onPress={() => navigation.navigate("TransferScreen")}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.headerActionEmoji}>🔁</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.headerActionBtn}
+            onPress={() => navigation.navigate("RecurringNavScreen")}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.headerActionEmoji}>🔂</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.headerActionBtn}
+            onPress={() => navigation.navigate("ReportScreen")}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.headerActionEmoji}>📊</Text>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -606,7 +629,7 @@ const styles = StyleSheet.create({
 
   header: {
     flexDirection: "row",
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: COLORS.background,
     paddingHorizontal: SPACING.lg,
@@ -614,6 +637,18 @@ const styles = StyleSheet.create({
     paddingBottom: SPACING.sm,
   },
   headerBadge: { alignItems: "flex-start" },
+  headerActions: { flexDirection: "row", gap: SPACING.sm },
+  headerActionBtn: {
+    width: 36,
+    height: 36,
+    borderRadius: RADIUS.round,
+    backgroundColor: COLORS.surface,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  headerActionEmoji: { fontSize: 16 },
   headerBadgeLabel: {
     fontSize: FONTS.xs,
     color: COLORS.textMuted,

@@ -1,24 +1,28 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { createBottomTabNavigator, BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { COLORS, FONTS, SPACING, RADIUS, SHADOWS } from '../theme';
 
+import { CashScreen } from '../modules/finance/screens/CashScreen';
 import { SavingsNavigator } from '../modules/savings/SavingsNavigator';
+import { DebtNavigator } from '../modules/debt/DebtNavigator';
 import { InvestmentNavigator } from '../modules/investment/InvestmentNavigator';
 import { AssetsNavigator } from '../modules/assets/AssetsNavigator';
 
 const Tab = createBottomTabNavigator();
 
 const ROUTE_EMOJI: Record<string, string> = {
+  CashTab: '💵',
   SavingsTab: '🏦',
+  ObligationsTab: '💳',
   InvestmentTab: '📈',
   PhysicalAssetsTab: '🏠',
 };
 
-function AssetsSegmentedTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
+function FinanceSegmentedTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   return (
     <View style={styles.tabBar}>
-      <View style={styles.segmentTrack}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.segmentTrack}>
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key];
           const label = (options.title ?? route.name) as string;
@@ -43,20 +47,22 @@ function AssetsSegmentedTabBar({ state, descriptors, navigation }: BottomTabBarP
             </TouchableOpacity>
           );
         })}
-      </View>
+      </ScrollView>
     </View>
   );
 }
 
-export function AssetsTabNavigator() {
+export function FinanceTabNavigator() {
   return (
     <Tab.Navigator
       screenOptions={{ headerShown: false }}
-      tabBar={(props) => <AssetsSegmentedTabBar {...props} />}
+      tabBar={(props) => <FinanceSegmentedTabBar {...props} />}
     >
+      <Tab.Screen name="CashTab" component={CashScreen} options={{ title: 'Kas' }} />
       <Tab.Screen name="SavingsTab" component={SavingsNavigator} options={{ title: 'Tabungan' }} />
+      <Tab.Screen name="ObligationsTab" component={DebtNavigator} options={{ title: 'Kewajiban' }} />
       <Tab.Screen name="InvestmentTab" component={InvestmentNavigator} options={{ title: 'Investasi' }} />
-      <Tab.Screen name="PhysicalAssetsTab" component={AssetsNavigator} options={{ title: 'Aset Fisik' }} />
+      <Tab.Screen name="PhysicalAssetsTab" component={AssetsNavigator} options={{ title: 'Aset' }} />
     </Tab.Navigator>
   );
 }
@@ -78,12 +84,12 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   segment: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 6,
     paddingVertical: SPACING.sm,
+    paddingHorizontal: SPACING.md,
     borderRadius: RADIUS.md,
   },
   segmentActive: {

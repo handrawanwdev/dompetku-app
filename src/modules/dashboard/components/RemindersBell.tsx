@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Text } from "../../../components/common";
-import { COLORS, RADIUS } from "../../../theme";
+import { COLORS, FONTS, RADIUS } from "../../../theme";
 
 interface Props {
   count: number;
@@ -12,7 +12,11 @@ export function RemindersBell({ count, onPress }: Props) {
   return (
     <TouchableOpacity style={styles.btn} onPress={onPress} activeOpacity={0.7}>
       <Text style={styles.icon}>🔔</Text>
-      {count > 0 && <View style={styles.badge} />}
+      {count > 0 && (
+        <View style={styles.badge}>
+          <Text style={styles.badgeText}>{count > 9 ? "9+" : count}</Text>
+        </View>
+      )}
     </TouchableOpacity>
   );
 }
@@ -27,11 +31,15 @@ const styles = StyleSheet.create({
   icon: { fontSize: 18 },
   badge: {
     position: "absolute",
-    top: 6,
-    right: 6,
-    width: 8,
-    height: 8,
+    top: 2,
+    right: 0,
+    minWidth: 16,
+    height: 16,
+    paddingHorizontal: 3,
     borderRadius: RADIUS.round,
     backgroundColor: COLORS.expense,
+    alignItems: "center",
+    justifyContent: "center",
   },
+  badgeText: { fontSize: 9, fontWeight: "800", color: "#FFFFFF" },
 });

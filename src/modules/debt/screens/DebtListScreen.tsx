@@ -29,7 +29,7 @@ import { useRealm } from '@realm/react';
 
 export type DebtStackParamList = {
   DebtList: undefined;
-  DebtForm: { id?: string };
+  DebtForm: { id?: string; presetType?: DebtModel['debtType'] };
   DebtDetail: { id: string };
   DebtPayment: { debtId: string; mode: 'payment' | 'usage' };
 };
@@ -167,10 +167,13 @@ function DebtItem({ item, remaining, reminder, onPress }: DebtItemProps) {
 
 // ─── Screen ───────────────────────────────────────────────────────────────────
 
+type ObligationFilter = 'all' | 'debt' | 'bills';
+
 export function DebtListScreen() {
   const navigation = useNavigation<NavProp>();
   const realm = useRealm();
   const { settings } = useSettingsStore();
+  const [obligationFilter, setObligationFilter] = React.useState<ObligationFilter>('all');
   const allDebts = useQuery(DebtModel).filtered('isActive == true').sorted('createdAt', true);
   const allDebtsEver = useQuery(DebtModel);
   const debtPayments = useQuery(DebtPaymentModel);
@@ -196,17 +199,25 @@ export function DebtListScreen() {
     return 0; // tagihan_rutin — no fixed total
   }, [totalPaidByDebt]);
 
+  const displayedDebts = useMemo(() => {
+    if (obligationFilter === 'bills') return allDebts.filtered("debtType == 'tagihan_rutin'");
+    if (obligationFilter === 'debt') return allDebts.filtered("debtType != 'tagihan_rutin'");
+    return allDebts;
+  }, [allDebts, obligationFilter]);
+
+  // Ringkasan ikut filter aktif (Semua/Utang/Tagihan) — biar angka yang
+  // ditampilkan selalu sesuai dengan apa yang lagi dilihat user di list.
   const summary = useMemo(() => {
     let totalRemaining = 0;
     let totalMonthly = 0;
-    for (const d of allDebts) {
+    for (const d of displayedDebts) {
       totalRemaining += remainingFor(d);
       totalMonthly += d.monthlyInstallment;
     }
-    return { totalRemaining, totalMonthly, count: allDebts.length };
-  }, [allDebts, remainingFor]);
+    return { totalRemaining, totalMonthly, count: displayedDebts.length };
+  }, [displayedDebts, remainingFor]);
 
-  const debtInputs = useMemo(() => allDebts.map((d) => {
+  const debtInputs = useMemo(() => displayedDebts.map((d) => {
     const paidThisMonth = d.debtType === 'berjangka' || d.debtType === 'tanpa_tenor'
       ? false
       : debtPayments.filtered('debtId == $0 AND date >= $1', d._id.toHexString(), monthStart).length > 0;
@@ -220,7 +231,7 @@ export function DebtListScreen() {
       paidThisMonth,
       debtType: d.debtType,
     };
-  }), [allDebts, debtPayments, monthStart]);
+  }), [displayedDebts, debtPayments, monthStart]);
 
   const reminderMap = useMemo(() => {
     const map = new Map<string, ReminderStatus>();
@@ -259,105 +270,115 @@ export function DebtListScreen() {
 
   const keyExtractor = useCallback((item: DebtModel) => item._id.toHexString(), []);
 
+  const [showDailyTarget, setShowDailyTarget] = React.useState(false);
+
+  const filterNoun = obligationFilter === 'bills' ? 'Tagihan' : obligationFilter === 'debt' ? 'Utang' : 'Kewajiban';
+  const filterNounLower = filterNoun.toLowerCase();
+
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
 
       {/* Body (light bg, no gaps exposing the dark root behind it) */}
       <View style={styles.body}>
-      {/* Summary Card */}
-      <View style={styles.summaryWrapper}>
-        <Card style={styles.summaryCard}>
-          <View style={styles.summaryRow}>
-            <View style={styles.summaryItem}>
-              <Text style={styles.summaryLabel}>Total Hutang</Text>
-              <AmountDisplay amount={summary.totalRemaining} size="sm" style={{ color: COLORS.debt }} />
-            </View>
-            <View style={styles.summaryDivider} />
-            <View style={styles.summaryItem}>
-              <Text style={styles.summaryLabel}>Cicilan/Bln</Text>
-              <AmountDisplay amount={summary.totalMonthly} size="sm" style={{ color: COLORS.warning }} />
-            </View>
-            <View style={styles.summaryDivider} />
-            <View style={styles.summaryItem}>
-              <Text style={styles.summaryLabel}>Jumlah</Text>
-              <Text style={styles.summaryCount}>{summary.count} hutang</Text>
-            </View>
-          </View>
-        </Card>
+
+      {/* Obligation Filter: Semua / Utang / Tagihan — mengontrol semua yang di bawahnya */}
+      <View style={styles.filterRow}>
+        {(['all', 'debt', 'bills'] as ObligationFilter[]).map((f) => {
+          const isActive = obligationFilter === f;
+          const label = f === 'all' ? 'Semua' : f === 'debt' ? 'Utang' : 'Tagihan';
+          return (
+            <TouchableOpacity
+              key={f}
+              onPress={() => setObligationFilter(f)}
+              style={[styles.filterChip, isActive && styles.filterChipActive]}
+              activeOpacity={0.7}
+            >
+              <Text style={[styles.filterChipText, isActive && styles.filterChipTextActive]}>{label}</Text>
+            </TouchableOpacity>
+          );
+        })}
       </View>
 
-      {/* Debt Freedom Progress */}
-      {debtFreedom.totalDebt > 0 && (
+      {/* Ringkasan — satu card, angka ikut filter aktif */}
+      {summary.count > 0 && (
         <View style={styles.summaryWrapper}>
-          <Card style={styles.debtFreedomCard} padding={SPACING.lg}>
-            <Text style={styles.kewajibanTitle}>💳 Debt Freedom</Text>
-            <View style={styles.debtFreedomRow}>
-              <View>
-                <Text style={styles.summaryLabel}>Total Debt</Text>
-                <Text style={styles.debtFreedomValue}>{formatCompact(debtFreedom.totalDebt)}</Text>
+          <Card style={styles.summaryCard}>
+            <Text style={styles.cardTitle}>Ringkasan {filterNoun}</Text>
+
+            <View style={styles.summaryRow}>
+              <View style={styles.summaryItem}>
+                <Text style={styles.summaryLabel}>Sisa {filterNoun}</Text>
+                <AmountDisplay amount={summary.totalRemaining} size="sm" style={{ color: COLORS.debt }} />
               </View>
-              <View>
-                <Text style={styles.summaryLabel}>Paid</Text>
-                <Text style={[styles.debtFreedomValue, { color: COLORS.income }]}>{formatCompact(debtFreedom.totalPaid)}</Text>
+              <View style={styles.summaryDivider} />
+              <View style={styles.summaryItem}>
+                <Text style={styles.summaryLabel}>Per Bulan</Text>
+                <AmountDisplay amount={summary.totalMonthly} size="sm" style={{ color: COLORS.warning }} />
               </View>
-              <View>
-                <Text style={styles.summaryLabel}>Progress</Text>
-                <Text style={styles.debtFreedomValue}>{debtFreedom.progressPct.toFixed(0)}%</Text>
+              <View style={styles.summaryDivider} />
+              <View style={styles.summaryItem}>
+                <Text style={styles.summaryLabel}>Jumlah</Text>
+                <Text style={styles.summaryCount}>{summary.count} item</Text>
               </View>
             </View>
-            <ProgressBar progress={debtFreedom.progressPct} color={COLORS.income} height={8} style={{ marginTop: SPACING.md }} />
-            <Text style={styles.debtFreedomEstimate}>
-              Estimated Freedom: <Text style={{ fontWeight: '700', color: COLORS.text }}>{debtFreedom.estimatedFreedomLabel}</Text>
-            </Text>
-          </Card>
-        </View>
-      )}
 
-      {/* List */}
-      <FlatList
-        data={allDebts as unknown as DebtModel[]}
-        renderItem={renderItem}
-        keyExtractor={keyExtractor}
-        contentContainerStyle={styles.listContent}
-        showsVerticalScrollIndicator={false}
-        ListHeaderComponent={
-          summary.count > 0 ? (
-            <Card style={styles.kewajibanCard}>
-              <Text style={styles.kewajibanTitle}>🗓️ Kewajiban Pembayaran</Text>
-              <View style={styles.kewajibanGrid}>
-                <View style={[styles.kewajibanBox, { backgroundColor: '#fee2e2' }]}>
-                  <Text style={[styles.kewajibanMonthLabel, { color: '#991b1b' }]} numberOfLines={1}>{kewajiban.bulanIniLabel}</Text>
-                  <Text style={[styles.kewajibanAmount, { color: COLORS.warning }]}>{formatCompact(kewajiban.totalBulanIni)}</Text>
-                  <Text style={[styles.kewajibanSub, { color: '#991b1b' }]}>Total cicilan</Text>
-                  {kewajiban.totalBelumBayar > 0 && (
-                    <View style={styles.kewajibanRow}>
-                      <Text style={styles.kewajibanRowLabel}>⏳ Belum dibayar</Text>
-                      <Text style={[styles.kewajibanRowValue, { color: COLORS.warning }]}>{formatCompact(kewajiban.totalBelumBayar)}</Text>
-                    </View>
-                  )}
-                  {kewajiban.totalSudahBayar > 0 && (
-                    <View style={styles.kewajibanRow}>
-                      <Text style={styles.kewajibanRowLabel}>✅ Sudah dibayar</Text>
-                      <Text style={[styles.kewajibanRowValue, { color: '#065f46' }]}>{formatCompact(kewajiban.totalSudahBayar)}</Text>
-                    </View>
-                  )}
-                </View>
-                <View style={[styles.kewajibanBox, { backgroundColor: '#fef3c7' }]}>
-                  <Text style={[styles.kewajibanMonthLabel, { color: '#92400e' }]} numberOfLines={1}>{kewajiban.bulanDepanLabel}</Text>
-                  <Text style={[styles.kewajibanAmount, { color: '#ef9f27' }]}>{formatCompact(kewajiban.totalBulanDepan)}</Text>
-                  <Text style={[styles.kewajibanSub, { color: '#92400e' }]}>Estimasi cicilan</Text>
-                </View>
+            {/* Bulan Ini / Bulan Depan */}
+            <View style={styles.divider} />
+            <View style={styles.kewajibanGrid}>
+              <View style={[styles.kewajibanBox, { backgroundColor: '#fee2e2' }]}>
+                <Text style={[styles.kewajibanMonthLabel, { color: '#991b1b' }]} numberOfLines={1}>{kewajiban.bulanIniLabel}</Text>
+                <Text style={[styles.kewajibanAmount, { color: COLORS.warning }]}>{formatCompact(kewajiban.totalBulanIni)}</Text>
+                <Text style={[styles.kewajibanSub, { color: '#991b1b' }]}>Wajib bulan ini</Text>
+                {kewajiban.totalBelumBayar > 0 && (
+                  <View style={styles.kewajibanRow}>
+                    <Text style={styles.kewajibanRowLabel}>⏳ Belum dibayar</Text>
+                    <Text style={[styles.kewajibanRowValue, { color: COLORS.warning }]}>{formatCompact(kewajiban.totalBelumBayar)}</Text>
+                  </View>
+                )}
+                {kewajiban.totalSudahBayar > 0 && (
+                  <View style={styles.kewajibanRow}>
+                    <Text style={styles.kewajibanRowLabel}>✅ Sudah dibayar</Text>
+                    <Text style={[styles.kewajibanRowValue, { color: '#065f46' }]}>{formatCompact(kewajiban.totalSudahBayar)}</Text>
+                  </View>
+                )}
               </View>
-              <View style={styles.kewajibanInfoBox}>
-                <Text style={styles.kewajibanInfoText}>
-                  🗓️ Bulan ini: <Text style={styles.bold}>{kewajiban.workingDaysInMonth} hari kerja</Text>
-                  {' · Libur: '}<Text style={styles.bold}>{kewajiban.hariLiburLabel}</Text>
-                  {' · Sisa: '}<Text style={styles.bold}>{kewajiban.workingDaysRemaining} hari</Text>
+              <View style={[styles.kewajibanBox, { backgroundColor: '#fef3c7' }]}>
+                <Text style={[styles.kewajibanMonthLabel, { color: '#92400e' }]} numberOfLines={1}>{kewajiban.bulanDepanLabel}</Text>
+                <Text style={[styles.kewajibanAmount, { color: '#ef9f27' }]}>{formatCompact(kewajiban.totalBulanDepan)}</Text>
+                <Text style={[styles.kewajibanSub, { color: '#92400e' }]}>Estimasi bulan depan</Text>
+              </View>
+            </View>
+
+            {/* Progress Cicilan Tetap — cuma cicilan, disembunyikan saat filter Tagihan */}
+            {obligationFilter !== 'bills' && debtFreedom.totalDebt > 0 && (
+              <>
+                <View style={styles.divider} />
+                <View style={styles.freedomRow}>
+                  <Text style={styles.freedomLabel}>📉 Progress Cicilan Tetap</Text>
+                  <Text style={styles.freedomPct}>{debtFreedom.progressPct.toFixed(0)}%</Text>
+                </View>
+                <ProgressBar progress={debtFreedom.progressPct} color={COLORS.income} height={6} style={{ marginTop: SPACING.xs }} />
+                <Text style={styles.freedomHint}>
+                  {formatCompact(debtFreedom.totalPaid)} lunas dari {formatCompact(debtFreedom.totalDebt)} · Estimasi bebas: <Text style={styles.bold}>{debtFreedom.estimatedFreedomLabel}</Text>
                 </Text>
-              </View>
+              </>
+            )}
+
+            {/* Target Harian — progressive disclosure */}
+            <View style={styles.divider} />
+            <TouchableOpacity
+              style={styles.disclosureRow}
+              onPress={() => setShowDailyTarget((v) => !v)}
+              activeOpacity={0.7}
+            >
+              <Text style={styles.disclosureText}>
+                🎯 Kumpulkan <Text style={styles.bold}>{formatCompact(kewajiban.targetPerHariKerja)}</Text>/hari kerja
+              </Text>
+              <Text style={styles.disclosureArrow}>{showDailyTarget ? '▲' : '▼'}</Text>
+            </TouchableOpacity>
+            {showDailyTarget && (
               <View style={styles.kewajibanTargetBox}>
-                <Text style={styles.slabel}>🎯 Target Harian — Dibagi Rata Semua Hutang</Text>
                 <View style={styles.kewajibanTargetGrid}>
                   <View style={styles.kewajibanTargetItem}>
                     <Text style={styles.kewajibanTargetLabel}>Target/hari kerja</Text>
@@ -368,22 +389,43 @@ export function DebtListScreen() {
                     <Text style={[styles.kewajibanTargetValue, { color: COLORS.savings }]}>{formatCompact(kewajiban.targetPerHariSisa)}</Text>
                   </View>
                 </View>
+                <Text style={styles.kewajibanInfoText}>
+                  🗓️ Bulan ini: <Text style={styles.bold}>{kewajiban.workingDaysInMonth} hari kerja</Text>
+                  {' · Libur: '}<Text style={styles.bold}>{kewajiban.hariLiburLabel}</Text>
+                  {' · Sisa: '}<Text style={styles.bold}>{kewajiban.workingDaysRemaining} hari</Text>
+                </Text>
               </View>
-            </Card>
-          ) : null
-        }
+            )}
+          </Card>
+        </View>
+      )}
+
+      {/* List */}
+      <FlatList
+        data={displayedDebts as unknown as DebtModel[]}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
+        contentContainerStyle={styles.listContent}
+        showsVerticalScrollIndicator={false}
         ListEmptyComponent={
           <EmptyState
             emoji="🏦"
-            title="Belum ada hutang"
-            subtitle="Tap tombol + untuk mencatat hutang"
+            title={`Belum ada ${filterNounLower}`}
+            subtitle={`Tap tombol + untuk mencatat ${filterNounLower}`}
           />
         }
       />
       </View>
 
       {/* FAB */}
-      <FAB color={COLORS.debt} onPress={() => navigation.navigate('DebtForm', {})} />
+      <FAB
+        color={COLORS.debt}
+        onPress={() =>
+          navigation.navigate('DebtForm', {
+            presetType: obligationFilter === 'bills' ? 'tagihan_rutin' : undefined,
+          })
+        }
+      />
     </SafeAreaView>
   );
 }
@@ -437,6 +479,32 @@ const styles = StyleSheet.create({
     paddingHorizontal: SPACING.xl,
     paddingBottom: 100,
     flexGrow: 1,
+  },
+  filterRow: {
+    flexDirection: 'row',
+    paddingHorizontal: SPACING.xl,
+    gap: SPACING.sm,
+    marginBottom: SPACING.md,
+  },
+  filterChip: {
+    paddingVertical: 6,
+    paddingHorizontal: SPACING.md,
+    borderRadius: RADIUS.round,
+    backgroundColor: COLORS.surface,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+  },
+  filterChipActive: {
+    backgroundColor: COLORS.debt,
+    borderColor: COLORS.debt,
+  },
+  filterChipText: {
+    fontSize: FONTS.sm,
+    color: COLORS.textSecondary,
+    fontWeight: '600',
+  },
+  filterChipTextActive: {
+    color: '#FFFFFF',
   },
   itemContainer: {
     backgroundColor: COLORS.card,
@@ -529,16 +597,49 @@ const styles = StyleSheet.create({
     color: COLORS.text,
     marginTop: 2,
   },
-  debtFreedomEstimate: {
-    fontSize: FONTS.sm,
-    color: COLORS.textSecondary,
-    marginTop: SPACING.md,
-  },
-  kewajibanTitle: {
+  cardTitle: {
     fontSize: FONTS.md,
     fontWeight: '700',
     color: COLORS.text,
     marginBottom: SPACING.md,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: COLORS.border,
+    marginVertical: SPACING.md,
+  },
+  freedomRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  freedomLabel: {
+    fontSize: FONTS.sm,
+    fontWeight: '600',
+    color: COLORS.text,
+  },
+  freedomPct: {
+    fontSize: FONTS.md,
+    fontWeight: '700',
+    color: COLORS.income,
+  },
+  freedomHint: {
+    fontSize: FONTS.xs,
+    color: COLORS.textMuted,
+    marginTop: SPACING.xs,
+  },
+  disclosureRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  disclosureText: {
+    fontSize: FONTS.sm,
+    color: COLORS.text,
+  },
+  disclosureArrow: {
+    fontSize: FONTS.sm,
+    color: COLORS.textMuted,
   },
   kewajibanGrid: {
     flexDirection: 'row',
@@ -580,15 +681,10 @@ const styles = StyleSheet.create({
     fontSize: FONTS.sm,
     fontWeight: '700',
   },
-  kewajibanInfoBox: {
-    backgroundColor: '#eff6ff',
-    borderRadius: RADIUS.md,
-    padding: SPACING.sm,
-    marginBottom: SPACING.md,
-  },
   kewajibanInfoText: {
     fontSize: FONTS.xs,
     color: COLORS.savings,
+    marginTop: SPACING.sm,
   },
   bold: {
     fontWeight: '700',
@@ -597,14 +693,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.subtleBg,
     borderRadius: RADIUS.md,
     padding: SPACING.md,
-  },
-  slabel: {
-    fontSize: FONTS.xs,
-    fontWeight: '700',
-    color: COLORS.textMuted,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-    marginBottom: SPACING.sm,
+    marginTop: SPACING.sm,
   },
   kewajibanTargetGrid: {
     flexDirection: 'row',

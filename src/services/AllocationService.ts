@@ -141,6 +141,7 @@ export function withdrawFromSavingToCash(realm: Realm, params: {
     allocationDebtId: '',
     allocationSavingId: '',
     isInternal: true,
+    type: 'active',
     createdAt: new Date(),
   });
   return { ok: true };
@@ -241,6 +242,7 @@ export function routeSaleProceeds(realm: Realm, params: {
     allocationCash: amount,
     allocationDebtId: '',
     allocationSavingId: '',
+    type: 'active',
     createdAt: new Date(),
   });
   return { ok: true };

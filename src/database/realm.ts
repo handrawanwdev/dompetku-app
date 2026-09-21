@@ -3,8 +3,22 @@ import { ALL_MODELS } from '../models';
 
 export const realmConfig: Realm.Configuration = {
   schema: ALL_MODELS,
-  schemaVersion: 12,
+  schemaVersion: 13,
   onMigration: (oldRealm, newRealm) => {
+    if (oldRealm.schemaVersion < 13) {
+      // Goal module merged into Saving — copy deadline onto the linked Saving
+      // pos before the Goal type is dropped from the schema below. Read from
+      // oldRealm (still has the pre-merge Goal table); Income.type's schema
+      // `default` already backfills 'active' onto every pre-existing row.
+      const oldGoals = oldRealm.objects('Goal') as unknown as Array<{ savingId: string; deadline: string }>;
+      const newSavings = newRealm.objects('Saving') as unknown as Array<{ _id: Realm.BSON.ObjectId; deadline: string }>;
+      for (const g of oldGoals) {
+        if (!g.savingId) continue;
+        const saving = newSavings.find((s) => s._id.toHexString() === g.savingId);
+        if (saving) saving.deadline = g.deadline ?? '';
+      }
+    }
+
     if (oldRealm.schemaVersion < 12) {
       // isInternal isn't backfilled by Realm's default — flag pre-existing
       // synthetic rows so ratio calcs exclude them retroactively.

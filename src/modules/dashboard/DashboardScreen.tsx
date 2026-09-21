@@ -12,6 +12,10 @@ import {
   MotivationCard,
   NetWorthCard,
   DebtRatioCard,
+  ObligationsCard,
+  SummaryGrid,
+  FinancialInsightsCard,
+  GoalProgressCard,
   RemindersBell,
   RemindersModal,
   NeracaCard,
@@ -44,6 +48,28 @@ export function DashboardScreen() {
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
+        {/* Net Worth + Income vs Expense bulan ini — angka paling dicari, paling atas */}
+        <NetWorthCard summary={d.summary} />
+
+        {/* Cash / Savings / Investment / Debt — posisi keuangan sekilas */}
+        <SummaryGrid summary={d.summary} />
+
+        {/* Debt/Obligations detail + Upcoming payment */}
+        <ObligationsCard
+          totalDebt={d.summary.totalDebt}
+          monthlyInstallment={d.summary.monthlyInstallment}
+          urgent={d.urgentReminders}
+          normal={d.normalReminders}
+          onPress={() => d.setShowReminders(true)}
+        />
+
+        {/* Goals */}
+        <GoalProgressCard goal={d.nearestGoal} />
+
+        {/* 1–3 Financial Insights */}
+        <FinancialInsightsCard insights={d.aiReport.insights} onPress={() => d.setShowAiDetail(true)} />
+
+        {/* Kondisi keuangan gimana */}
         <FreedomCard
           score={d.financialScore}
           level={d.financialLevel}
@@ -52,12 +78,9 @@ export function DashboardScreen() {
           onPress={() => d.setShowLevelDetail(true)}
         />
 
-        <AiCard report={d.aiReport} onPress={() => d.setShowAiDetail(true)} />
+        <Cashflow30dCard data={d.cashflow30d} />
 
-        <MotivationCard score={d.financialScore} />
-
-        <NetWorthCard summary={d.summary} />
-
+        {/* Detail pendukung — dibaca kalau sempat, bukan sekilas */}
         <DebtRatioCard
           totalDebt={d.summary.totalDebt}
           debtRatio={d.summary.debtRatio}
@@ -65,11 +88,12 @@ export function DashboardScreen() {
           monthlyInstallment={d.summary.monthlyInstallment}
         />
 
+        <AiCard report={d.aiReport} onPress={() => d.setShowAiDetail(true)} />
+
         <RoadmapCard items={d.roadmap} />
 
         <SuggestionsCard items={d.suggestions} />
 
-        <Cashflow30dCard data={d.cashflow30d} />
         <Cashflow12mCard data={d.cashflow12m} />
 
         <NeracaCard
@@ -82,6 +106,8 @@ export function DashboardScreen() {
           totalDebt={d.summary.totalDebt}
           kekayaanBersih={d.neraca.kekayaanBersih}
         />
+
+        <MotivationCard score={d.financialScore} />
       </ScrollView>
 
       <LevelDetailModal
