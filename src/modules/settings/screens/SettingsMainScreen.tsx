@@ -10,13 +10,14 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { MaterialIcons } from '@expo/vector-icons';
 import { useRealm, useQuery } from '@realm/react';
 import { File, Paths } from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import * as DocumentPicker from 'expo-document-picker';
 import Realm from 'realm';
 
-import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
+import { COLORS, FONTS, ICON_SIZES, SPACING, RADIUS } from '../../../theme';
 import { Card } from '../../../components/common/Card';
 import { IncomeModel } from '../../../models/IncomeModel';
 import { ExpenseModel } from '../../../models/ExpenseModel';
@@ -188,11 +189,25 @@ export function SettingsMainScreen({ navigation }: Props) {
     );
   };
 
-  const MenuItem = ({ emoji, label, onPress, danger }: { emoji: string; label: string; onPress: () => void; danger?: boolean }) => (
+  const MenuItem = ({
+    icon,
+    color = COLORS.textSecondary,
+    label,
+    onPress,
+    danger,
+  }: {
+    icon: keyof typeof MaterialIcons.glyphMap;
+    color?: string;
+    label: string;
+    onPress: () => void;
+    danger?: boolean;
+  }) => (
     <TouchableOpacity style={styles.menuItem} onPress={onPress} activeOpacity={0.7}>
-      <Text style={styles.menuEmoji}>{emoji}</Text>
+      <View style={[styles.menuIconBadge, { backgroundColor: (danger ? COLORS.danger : color) + '18' }]}>
+        <MaterialIcons name={icon} size={ICON_SIZES.md} color={danger ? COLORS.danger : color} />
+      </View>
       <Text style={[styles.menuLabel, danger && { color: COLORS.danger }]}>{label}</Text>
-      <Text style={styles.menuArrow}>›</Text>
+      <MaterialIcons name="chevron-right" size={ICON_SIZES.lg} color={COLORS.textMuted} />
     </TouchableOpacity>
   );
 
@@ -203,36 +218,36 @@ export function SettingsMainScreen({ navigation }: Props) {
 
         <Text style={[styles.sectionTitle, { marginTop: 0 }]}>Preferensi</Text>
         <Card padding={0}>
-          <MenuItem emoji="⚙️" label="Parameter" onPress={() => navigation.navigate('ParametersScreen')} />
+          <MenuItem icon="tune" label="Parameter" onPress={() => navigation.navigate('ParametersScreen')} />
           <View style={styles.separator} />
-          <MenuItem emoji="🏷️" label="Kategori" onPress={() => navigation.navigate('CategoriesScreen')} />
+          <MenuItem icon="label" color={COLORS.primary} label="Kategori" onPress={() => navigation.navigate('CategoriesScreen')} />
         </Card>
 
         <Text style={styles.sectionTitle}>Backup & Restore</Text>
         <Card padding={0}>
-          <MenuItem emoji="📤" label="Export JSON" onPress={handleExport} />
+          <MenuItem icon="file-upload" color={COLORS.income} label="Export JSON" onPress={handleExport} />
           <View style={styles.separator} />
-          <MenuItem emoji="📥" label="Import JSON" onPress={handleImport} />
+          <MenuItem icon="file-download" color={COLORS.savings} label="Import JSON" onPress={handleImport} />
           <View style={styles.separator} />
-          <MenuItem emoji="🗑️" label="Reset Semua Data" onPress={handleReset} danger />
+          <MenuItem icon="delete-outline" label="Reset Semua Data" onPress={handleReset} danger />
         </Card>
 
         <Text style={styles.sectionTitle}>App Settings</Text>
         <Card padding={0}>
-          <MenuItem emoji="🔥" label="FIRE Calculator" onPress={() => navigation.navigate('FireCalculatorScreen')} />
+          <MenuItem icon="local-fire-department" color={COLORS.warning} label="FIRE Calculator" onPress={() => navigation.navigate('FireCalculatorScreen')} />
           <View style={styles.separator} />
-          <MenuItem emoji="🏆" label="Achievements" onPress={() => navigation.navigate('AchievementsScreen')} />
+          <MenuItem icon="emoji-events" color={COLORS.warning} label="Achievements" onPress={() => navigation.navigate('AchievementsScreen')} />
           <View style={styles.separator} />
-          <MenuItem emoji="📖" label="Panduan Level" onPress={() => navigation.navigate('LevelGuideScreen')} />
+          <MenuItem icon="menu-book" color={COLORS.primary} label="Panduan Level" onPress={() => navigation.navigate('LevelGuideScreen')} />
           <View style={styles.separator} />
-          <MenuItem emoji="🩺" label="Diagnosis & Laporan Error" onPress={() => navigation.navigate('DiagnosisScreen')} />
+          <MenuItem icon="health-and-safety" color={COLORS.expense} label="Diagnosis & Laporan Error" onPress={() => navigation.navigate('DiagnosisScreen')} />
         </Card>
 
         {__DEV__ && (
           <>
             <Text style={styles.sectionTitle}>Developer</Text>
             <Card padding={0}>
-              <MenuItem emoji="🛠️" label="DevTools" onPress={() => navigation.navigate('DevToolsScreen')} />
+              <MenuItem icon="build" label="DevTools" onPress={() => navigation.navigate('DevToolsScreen')} />
             </Card>
           </>
         )}
@@ -255,10 +270,15 @@ const styles = StyleSheet.create({
   header: { fontSize: FONTS.xxl, fontWeight: '700', color: COLORS.text, marginBottom: SPACING.xl, display: 'none' },
   sectionTitle: { fontSize: FONTS.sm, color: COLORS.textMuted, marginBottom: SPACING.sm, marginTop: SPACING.lg, textTransform: 'uppercase', letterSpacing: 0.5 },
   menuItem: { flexDirection: 'row', alignItems: 'center', padding: SPACING.lg, gap: SPACING.md },
-  menuEmoji: { fontSize: 20 },
+  menuIconBadge: {
+    width: 34,
+    height: 34,
+    borderRadius: RADIUS.round,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   menuLabel: { flex: 1, fontSize: FONTS.md, color: COLORS.text, fontWeight: '500' },
-  menuArrow: { fontSize: FONTS.lg, color: COLORS.textMuted },
-  separator: { height: 1, backgroundColor: COLORS.border, marginLeft: SPACING.lg * 2 + 20 },
+  separator: { height: 1, backgroundColor: COLORS.border, marginLeft: SPACING.lg * 2 + 34 },
   appTagline: { fontSize: FONTS.sm, fontWeight: '600', color: COLORS.primary, marginBottom: SPACING.sm, fontStyle: 'italic' },
   appName: { fontSize: FONTS.md, fontWeight: '700', color: COLORS.text, marginBottom: SPACING.xs },
   appDesc: { fontSize: FONTS.sm, color: COLORS.textSecondary, lineHeight: 20 },

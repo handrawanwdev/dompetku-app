@@ -505,8 +505,8 @@
     "semantic_hash": ""
   },
   "src/modules/settings/screens/SettingsMainScreen.tsx": {
-    "mtime": 1790004997.0726845,
-    "ast_hash": "4af82ab31bf2a63738ef321b94494ded",
+    "mtime": 1790009436.8088188,
+    "ast_hash": "8c05e8ae72a27df6596b294626040f0f",
     "semantic_hash": ""
   },
   "src/modules/transaction/TransactionNavigator.tsx": {

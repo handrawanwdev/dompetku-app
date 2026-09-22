@@ -8,7 +8,7 @@ import { SectionTitle } from "./SectionTitle";
 export function SuggestionsCard({ items }: { items: FinancialSuggestionCard[] }) {
   return (
     <>
-      <SectionTitle>💡 Saran Hari Ini</SectionTitle>
+      <SectionTitle icon="lightbulb">Saran Hari Ini</SectionTitle>
       <Card padding={SPACING.md}>
         {items.map((s, idx) => (
           <View

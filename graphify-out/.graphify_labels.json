@@ -41,7 +41,6 @@
   "39": "10. Dashboard Widgets",
   "40": "CashScreen.tsx",
   "41": "DonutChart.tsx",
-  "42": "FAB.tsx",
   "43": "Income Module",
   "44": "Settings Module",
   "45": "FAB.tsx",
@@ -57,6 +56,7 @@
   "56": "NetWorthPoint",
   "58": "@expo/vector-icons",
   "59": "@hookform/resolvers",
+  "60": "babel-preset-expo",
   "61": "react-hook-form",
   "62": "react-native-mmkv",
   "63": "react-native-safe-area-context",
@@ -73,10 +73,8 @@
   "74": "upgrade-system.md",
   "75": "IncomeFormScreen.tsx",
   "76": "expo-file-system",
-  "77": "BackupService.ts",
   "78": "react-native",
   "79": "victory-native",
   "81": "expo-background-task",
-  "82": "expo-splash-screen",
   "84": "CurrencyInput.tsx"
 }

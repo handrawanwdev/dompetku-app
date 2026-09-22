@@ -20,7 +20,7 @@ export const QUOTE_CATEGORY_LABEL: Record<QuoteCategory, string> = {
   money_mindset: '🧠 Pola Pikir Uang',
   debt_freedom: '⛓️ Bebas Utang',
   budgeting: '📊 Anggaran',
-  saving: '🐷 Menabung',
+  saving: '🫙 Menabung',
   investment: '📈 Investasi',
   goal_achievement: '🎯 Mencapai Tujuan',
   daily_discipline: '🔁 Disiplin Harian',

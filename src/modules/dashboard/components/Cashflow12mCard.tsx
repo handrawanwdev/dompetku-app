@@ -18,7 +18,7 @@ export function Cashflow12mCard({ data }: Props) {
 
   return (
     <>
-      <SectionTitle>📊 Cashflow 1 Tahun</SectionTitle>
+      <SectionTitle icon="bar-chart">Cashflow 1 Tahun</SectionTitle>
       <Card padding={SPACING.lg}>
         <View style={styles.grid}>
           <View style={[styles.box, { backgroundColor: "#d1fae5" }]}>

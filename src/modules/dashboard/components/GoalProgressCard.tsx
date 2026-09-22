@@ -22,7 +22,7 @@ export function GoalProgressCard({ goal }: Props) {
 
   return (
     <>
-      <SectionTitle>🎯 Goal Terdekat</SectionTitle>
+      <SectionTitle icon="flag">Goal Terdekat</SectionTitle>
       <Card padding={SPACING.lg}>
         <View style={styles.row}>
           <Text style={styles.name}>{goal.emoji} {goal.name}</Text>

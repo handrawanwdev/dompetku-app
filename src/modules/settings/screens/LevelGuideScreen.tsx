@@ -2,8 +2,9 @@ import React from 'react';
 import { View, Text, ScrollView, StyleSheet, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { MaterialIcons } from '@expo/vector-icons';
 
-import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
+import { COLORS, FONTS, ICON_SIZES, SPACING, RADIUS } from '../../../theme';
 import { Card } from '../../../components/common/Card';
 import { BackButton } from '../../../components/common/BackButton';
 import { FINANCIAL_LEVELS } from '../../../utils/financialScore';
@@ -77,7 +78,10 @@ export function LevelGuideScreen({ navigation }: Props) {
           <BackButton onPress={() => navigation.goBack()} color={COLORS.text} />
         </View>
 
-        <Text style={styles.title}>💎 Panduan Level Financial Freedom</Text>
+        <View style={styles.titleRow}>
+          <MaterialIcons name="stars" size={ICON_SIZES.lg} color={COLORS.text} />
+          <Text style={styles.title}>Panduan Level Financial Freedom</Text>
+        </View>
         <Text style={styles.subtitle}>
           Skor 0–100 kamu di Dashboard dipetakan ke 10 level ini. Tiap level nunjukin
           seberapa sehat dan bebas kondisi keuangan kamu saat ini.
@@ -117,6 +121,7 @@ const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: COLORS.background },
   content: { padding: SPACING.lg, paddingBottom: SPACING.xxxl },
   header: { flexDirection: 'row', alignItems: 'center', gap: SPACING.sm, marginBottom: SPACING.md, marginLeft: -SPACING.sm },
+  titleRow: { flexDirection: 'row', alignItems: 'center', gap: SPACING.sm },
   title: { fontSize: FONTS.xxl, fontWeight: '800', color: COLORS.text },
   subtitle: { fontSize: FONTS.sm, color: COLORS.textSecondary, marginTop: SPACING.xs, marginBottom: SPACING.lg, lineHeight: 20 },
 

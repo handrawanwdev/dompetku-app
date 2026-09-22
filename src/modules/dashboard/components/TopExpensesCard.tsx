@@ -15,7 +15,7 @@ export function TopExpensesCard({ categories, monthlyExpense }: Props) {
 
   return (
     <>
-      <SectionTitle>🧾 Pengeluaran Terbesar Bulan Ini</SectionTitle>
+      <SectionTitle icon="receipt-long">Pengeluaran Terbesar Bulan Ini</SectionTitle>
       <Card padding={SPACING.md}>
         {categories.map(([cat, amount], idx) => {
           const pct = monthlyExpense > 0 ? (amount / monthlyExpense) * 100 : 0;

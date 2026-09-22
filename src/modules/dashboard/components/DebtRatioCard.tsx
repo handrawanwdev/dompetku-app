@@ -23,7 +23,7 @@ export function DebtRatioCard({
 
   return (
     <>
-      <SectionTitle>📉 Rasio Hutang</SectionTitle>
+      <SectionTitle icon="trending-down">Rasio Hutang</SectionTitle>
       <Card padding={SPACING.lg}>
         <View style={styles.row}>
           <Text style={styles.value}>{debtRatio.toFixed(1)}%</Text>

@@ -2,9 +2,10 @@ import React from "react";
 import { View, Text, ScrollView, StyleSheet, StatusBar } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { MaterialIcons } from "@expo/vector-icons";
 import { useQuery } from "@realm/react";
 
-import { COLORS, FONTS, SPACING } from "../../../theme";
+import { COLORS, FONTS, ICON_SIZES, SPACING } from "../../../theme";
 import { Card } from "../../../components/common/Card";
 import { ProgressBar } from "../../../components/common/ProgressBar";
 import { BackButton } from "../../../components/common/BackButton";
@@ -130,7 +131,10 @@ export function FireCalculatorScreen({ navigation }: Props) {
           <BackButton onPress={() => navigation.goBack()} color={COLORS.text} />
         </View>
 
-        <Text style={styles.title}>🔥 FIRE Calculator</Text>
+        <View style={styles.titleRow}>
+          <MaterialIcons name="local-fire-department" size={ICON_SIZES.xl} color={COLORS.warning} />
+          <Text style={styles.title}>FIRE Calculator</Text>
+        </View>
         <Text style={styles.subtitle}>
           FIRE = Financial Independence, Retire Early. Intinya: berapa total
           kekayaan yang kamu butuhkan supaya bisa hidup selamanya dari hasil
@@ -138,7 +142,10 @@ export function FireCalculatorScreen({ navigation }: Props) {
         </Text>
 
         <Card padding={SPACING.lg} style={styles.explainerCard}>
-          <Text style={styles.explainerTitle}>💡 Cara kerjanya</Text>
+          <View style={styles.explainerTitleRow}>
+            <MaterialIcons name="lightbulb" size={ICON_SIZES.sm} color={COLORS.text} />
+            <Text style={styles.explainerTitle}>Cara kerjanya</Text>
+          </View>
           <Text style={styles.explainerText}>
             Kalau kamu investasikan sejumlah dana besar, tiap tahun kamu bisa
             tarik sekitar <Text style={styles.bold}>4%</Text> dari dana itu buat
@@ -339,6 +346,7 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.md,
     marginLeft: -SPACING.sm,
   },
+  titleRow: { flexDirection: "row", alignItems: "center", gap: SPACING.sm },
   title: { fontSize: FONTS.xxl, fontWeight: "800", color: COLORS.text },
   subtitle: {
     fontSize: FONTS.sm,
@@ -348,11 +356,11 @@ const styles = StyleSheet.create({
   },
 
   explainerCard: { marginTop: SPACING.lg, backgroundColor: COLORS.subtleBg },
+  explainerTitleRow: { flexDirection: "row", alignItems: "center", gap: SPACING.xs, marginBottom: SPACING.xs },
   explainerTitle: {
     fontSize: FONTS.sm,
     fontWeight: "700",
     color: COLORS.text,
-    marginBottom: SPACING.xs,
   },
   explainerText: {
     fontSize: FONTS.sm,

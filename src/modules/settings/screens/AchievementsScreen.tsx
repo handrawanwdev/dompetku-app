@@ -2,9 +2,10 @@ import React from 'react';
 import { View, Text, ScrollView, StyleSheet, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { MaterialIcons } from '@expo/vector-icons';
 import { useQuery } from '@realm/react';
 
-import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
+import { COLORS, FONTS, ICON_SIZES, SPACING, RADIUS } from '../../../theme';
 import { Card } from '../../../components/common/Card';
 import { BackButton } from '../../../components/common/BackButton';
 import { FinancialMilestoneModel } from '../../../models/FinancialMilestoneModel';
@@ -30,7 +31,10 @@ export function AchievementsScreen({ navigation }: Props) {
           <BackButton onPress={() => navigation.goBack()} color={COLORS.text} />
         </View>
 
-        <Text style={styles.title}>🏆 Achievements</Text>
+        <View style={styles.titleRow}>
+          <MaterialIcons name="emoji-events" size={ICON_SIZES.lg} color={COLORS.text} />
+          <Text style={styles.title}>Achievements</Text>
+        </View>
         <Text style={styles.subtitle}>
           {achievedMap.size} / {ACHIEVEMENT_DEFS.length} badge terbuka
         </Text>
@@ -58,6 +62,7 @@ const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: COLORS.background },
   content: { padding: SPACING.lg, paddingBottom: SPACING.xxxl },
   header: { flexDirection: 'row', alignItems: 'center', gap: SPACING.sm, marginBottom: SPACING.md, marginLeft: -SPACING.sm },
+  titleRow: { flexDirection: 'row', alignItems: 'center', gap: SPACING.sm },
   title: { fontSize: FONTS.xxl, fontWeight: '800', color: COLORS.text },
   subtitle: { fontSize: FONTS.sm, color: COLORS.textSecondary, marginTop: SPACING.xs, marginBottom: SPACING.lg },
   badgeCard: { flexDirection: 'row', alignItems: 'center', gap: SPACING.md, marginBottom: SPACING.sm, borderWidth: 1, borderColor: COLORS.primary + '40' },

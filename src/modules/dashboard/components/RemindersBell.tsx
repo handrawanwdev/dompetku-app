@@ -1,7 +1,8 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 import { Text } from "../../../components/common";
-import { COLORS, FONTS, RADIUS } from "../../../theme";
+import { COLORS, FONTS, ICON_SIZES, RADIUS } from "../../../theme";
 
 interface Props {
   count: number;
@@ -11,7 +12,7 @@ interface Props {
 export function RemindersBell({ count, onPress }: Props) {
   return (
     <TouchableOpacity style={styles.btn} onPress={onPress} activeOpacity={0.7}>
-      <Text style={styles.icon}>🔔</Text>
+      <MaterialIcons name="notifications" size={ICON_SIZES.lg} color={COLORS.text} />
       {count > 0 && (
         <View style={styles.badge}>
           <Text style={styles.badgeText}>{count > 9 ? "9+" : count}</Text>
@@ -28,7 +29,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  icon: { fontSize: 18 },
   badge: {
     position: "absolute",
     top: 2,

@@ -1,7 +1,8 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 import { Text } from "../../../components/common";
-import { COLORS, FONTS, RADIUS, SPACING } from "../../../theme";
+import { COLORS, FONTS, ICON_SIZES, RADIUS, SPACING } from "../../../theme";
 import { formatCompact } from "../../../utils/currency";
 import type { DebtModel } from "../../../models/DebtModel";
 import type { ReminderStatus } from "../../../utils/finance";
@@ -20,12 +21,15 @@ export function RemindersSection({ urgent, normal, paid }: Props) {
 
   return (
     <>
-      <SectionTitle>🔔 Pengingat Pembayaran</SectionTitle>
+      <SectionTitle icon="notifications">Pengingat Pembayaran</SectionTitle>
       {urgent.map(({ debt: d, status }) => (
         <View
           key={d._id.toHexString()}
           style={[styles.tierRow, { backgroundColor: status.bg }]}
         >
+          <View style={[styles.iconBadge, { backgroundColor: COLORS.card }]}>
+            <MaterialIcons name="warning" size={ICON_SIZES.sm} color={status.color} />
+          </View>
           <View style={{ flex: 1 }}>
             <Text style={[styles.tierLabel, { color: status.color }]}>
               {status.label}
@@ -38,6 +42,9 @@ export function RemindersSection({ urgent, normal, paid }: Props) {
       ))}
       {normal.map(({ debt: d, status }) => (
         <View key={d._id.toHexString()} style={styles.plainRow}>
+          <View style={[styles.iconBadge, { backgroundColor: COLORS.subtleBg }]}>
+            <MaterialIcons name="schedule" size={ICON_SIZES.sm} color={COLORS.textSecondary} />
+          </View>
           <View style={{ flex: 1 }}>
             <Text style={styles.plainName}>{d.name}</Text>
             <Text style={styles.plainSub}>
@@ -55,7 +62,10 @@ export function RemindersSection({ urgent, normal, paid }: Props) {
           {paid.map(({ debt: d }) => (
             <View key={d._id.toHexString()} style={styles.paidRow}>
               <Text style={styles.paidName}>{d.name}</Text>
-              <Text style={styles.paidCheck}>✅ Lunas</Text>
+              <View style={styles.paidCheckRow}>
+                <MaterialIcons name="check-circle" size={ICON_SIZES.xs} color={COLORS.income} />
+                <Text style={styles.paidCheck}>Lunas</Text>
+              </View>
             </View>
           ))}
         </View>
@@ -65,6 +75,14 @@ export function RemindersSection({ urgent, normal, paid }: Props) {
 }
 
 const styles = StyleSheet.create({
+  iconBadge: {
+    width: 32,
+    height: 32,
+    borderRadius: RADIUS.round,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: SPACING.sm,
+  },
   tierRow: {
     borderRadius: RADIUS.md,
     padding: SPACING.md,
@@ -101,7 +119,8 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
     marginBottom: SPACING.xs,
   },
-  paidRow: { flexDirection: "row", justifyContent: "space-between", paddingVertical: 3 },
+  paidRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingVertical: 3 },
   paidName: { fontSize: FONTS.xs, color: COLORS.textMuted },
-  paidCheck: { fontSize: FONTS.xs, color: COLORS.income },
+  paidCheckRow: { flexDirection: "row", alignItems: "center", gap: 3 },
+  paidCheck: { fontSize: FONTS.xs, color: COLORS.income, fontWeight: "600" },
 });

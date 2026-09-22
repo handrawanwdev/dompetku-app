@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { createBottomTabNavigator, BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import { COLORS, FONTS, SPACING, RADIUS, SHADOWS } from '../theme';
+import { MaterialIcons } from '@expo/vector-icons';
+import { COLORS, FONTS, ICON_SIZES, SPACING, RADIUS, SHADOWS } from '../theme';
 
 import { CashScreen } from '../modules/finance/screens/CashScreen';
 import { SavingsNavigator } from '../modules/savings/SavingsNavigator';
@@ -11,12 +12,12 @@ import { AssetsNavigator } from '../modules/assets/AssetsNavigator';
 
 const Tab = createBottomTabNavigator();
 
-const ROUTE_EMOJI: Record<string, string> = {
-  CashTab: '💵',
-  SavingsTab: '🏦',
-  ObligationsTab: '💳',
-  InvestmentTab: '📈',
-  PhysicalAssetsTab: '🏠',
+const ROUTE_ICON: Record<string, keyof typeof MaterialIcons.glyphMap> = {
+  CashTab: 'payments',
+  SavingsTab: 'savings',
+  ObligationsTab: 'receipt-long',
+  InvestmentTab: 'trending-up',
+  PhysicalAssetsTab: 'home-work',
 };
 
 function FinanceSegmentedTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
@@ -40,9 +41,11 @@ function FinanceSegmentedTabBar({ state, descriptors, navigation }: BottomTabBar
               activeOpacity={0.7}
               style={[styles.segment, isFocused && styles.segmentActive]}
             >
-              <Text style={[styles.segmentEmoji, isFocused && styles.segmentEmojiActive]}>
-                {ROUTE_EMOJI[route.name] ?? '•'}
-              </Text>
+              <MaterialIcons
+                name={ROUTE_ICON[route.name] ?? 'circle'}
+                size={ICON_SIZES.sm}
+                color={isFocused ? COLORS.primary : COLORS.textMuted}
+              />
               <Text style={[styles.segmentLabel, isFocused && styles.segmentLabelActive]}>{label}</Text>
             </TouchableOpacity>
           );
@@ -96,8 +99,6 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.surface,
     ...SHADOWS.sm,
   },
-  segmentEmoji: { fontSize: 15, opacity: 0.5 },
-  segmentEmojiActive: { opacity: 1 },
   segmentLabel: { fontSize: FONTS.sm, fontWeight: '600', color: COLORS.textMuted },
   segmentLabelActive: { color: COLORS.primary },
 });

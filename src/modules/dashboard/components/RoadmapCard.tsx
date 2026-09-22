@@ -9,7 +9,7 @@ import { SectionTitle } from "./SectionTitle";
 export function RoadmapCard({ items }: { items: RoadmapItem[] }) {
   return (
     <>
-      <SectionTitle>🗺️ Roadmap Bebas Hutang</SectionTitle>
+      <SectionTitle icon="map">Roadmap Bebas Hutang</SectionTitle>
       <Card padding={SPACING.lg}>
         {items.length === 0 ? (
           <Text style={styles.doneText}>🎉 Semua hutang lunas!</Text>

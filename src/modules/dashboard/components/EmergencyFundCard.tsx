@@ -16,7 +16,7 @@ interface Props {
 export function EmergencyFundCard({ saving, info, onPress }: Props) {
   return (
     <>
-      <SectionTitle>🛡 Emergency Fund</SectionTitle>
+      <SectionTitle icon="shield">Emergency Fund</SectionTitle>
       <Card style={styles.card} padding={SPACING.lg}>
         {info && saving ? (
           <TouchableOpacity onPress={onPress} activeOpacity={0.8}>

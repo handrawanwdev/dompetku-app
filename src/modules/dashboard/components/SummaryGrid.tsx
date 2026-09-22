@@ -1,7 +1,8 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 import { Card, Text } from "../../../components/common";
-import { COLORS, FONTS, SPACING } from "../../../theme";
+import { COLORS, FONTS, ICON_SIZES, RADIUS, SPACING } from "../../../theme";
 import { formatCompact } from "../../../utils/currency";
 import { SectionTitle } from "./SectionTitle";
 import type { DashboardData } from "../hooks/useDashboardData";
@@ -12,18 +13,20 @@ function SummaryItem({
   label,
   value,
   color,
-  emoji,
+  icon,
   negative,
 }: {
   label: string;
   value: number;
   color: string;
-  emoji: string;
+  icon: keyof typeof MaterialIcons.glyphMap;
   negative?: boolean;
 }) {
   return (
     <Card style={styles.item} padding={SPACING.md}>
-      <Text style={styles.emoji}>{emoji}</Text>
+      <View style={[styles.iconBadge, { backgroundColor: color + "18" }]}>
+        <MaterialIcons name={icon} size={ICON_SIZES.sm} color={color} />
+      </View>
       <Text style={[styles.value, { color }]}>
         {negative ? "-" : ""}
         {formatCompact(value)}
@@ -38,39 +41,39 @@ function SummaryItem({
 export function SummaryGrid({ summary }: { summary: Summary }) {
   return (
     <>
-      <SectionTitle>📋 Ringkasan Keuangan</SectionTitle>
+      <SectionTitle icon="dashboard">Ringkasan Keuangan</SectionTitle>
       <View style={styles.grid}>
-        <SummaryItem label="Kas" value={summary.cash} color={COLORS.income} emoji="💵" />
+        <SummaryItem label="Kas" value={summary.cash} color={COLORS.income} icon="payments" />
         <SummaryItem
           label="Tabungan"
           value={summary.totalSavings}
           color={COLORS.savings}
-          emoji="🏦"
+          icon="savings"
         />
         <SummaryItem
           label="Investasi"
           value={summary.totalInvestment}
           color={COLORS.investment}
-          emoji="📈"
+          icon="trending-up"
         />
         <SummaryItem
           label="Aset Fisik"
           value={summary.totalAssets}
           color={COLORS.asset}
-          emoji="🏠"
+          icon="home-work"
         />
         <SummaryItem
           label="Total Hutang"
           value={summary.totalDebt}
           color={COLORS.debt}
-          emoji="📋"
+          icon="receipt-long"
           negative
         />
         <SummaryItem
           label="Cicilan/Bln"
           value={summary.monthlyInstallment}
           color={COLORS.debt}
-          emoji="📅"
+          icon="event"
           negative
         />
       </View>
@@ -81,7 +84,14 @@ export function SummaryGrid({ summary }: { summary: Summary }) {
 const styles = StyleSheet.create({
   grid: { flexDirection: "row", flexWrap: "wrap", gap: SPACING.sm },
   item: { width: "31%", alignItems: "center" },
-  emoji: { fontSize: 20, marginBottom: SPACING.xs },
+  iconBadge: {
+    width: 32,
+    height: 32,
+    borderRadius: RADIUS.round,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: SPACING.xs,
+  },
   value: { fontSize: FONTS.md, fontWeight: "700" },
   label: { fontSize: FONTS.xs, color: COLORS.textMuted, marginTop: 2, textAlign: "center" },
 });

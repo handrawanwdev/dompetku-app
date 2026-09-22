@@ -1,7 +1,8 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 import { Card, Text } from "../../../components/common";
-import { COLORS, FONTS, RADIUS, SPACING } from "../../../theme";
+import { COLORS, FONTS, ICON_SIZES, RADIUS, SPACING } from "../../../theme";
 import type { DebtModel } from "../../../models/DebtModel";
 import type { ReminderStatus } from "../../../utils/finance";
 
@@ -28,7 +29,10 @@ export function ObligationsCard({ urgent, normal, onPress }: Props) {
     <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
       <Card style={styles.card} padding={SPACING.xl}>
         <View style={styles.header}>
-          <Text style={styles.title}>💳 Kewajiban</Text>
+          <View style={styles.titleRow}>
+            <MaterialIcons name="receipt-long" size={ICON_SIZES.sm} color={COLORS.text} />
+            <Text style={styles.title}>Kewajiban</Text>
+          </View>
           {hasUrgent ? (
             <View style={[styles.badge, { backgroundColor: COLORS.danger + "22" }]}>
               <Text style={[styles.badgeText, { color: COLORS.danger }]}>
@@ -36,8 +40,9 @@ export function ObligationsCard({ urgent, normal, onPress }: Props) {
               </Text>
             </View>
           ) : (
-            <View style={[styles.badge, { backgroundColor: COLORS.success + "22" }]}>
-              <Text style={[styles.badgeText, { color: COLORS.success }]}>✅ Aman</Text>
+            <View style={[styles.badge, styles.badgeRow, { backgroundColor: COLORS.success + "22" }]}>
+              <MaterialIcons name="check-circle" size={ICON_SIZES.xs} color={COLORS.success} />
+              <Text style={[styles.badgeText, { color: COLORS.success }]}>Aman</Text>
             </View>
           )}
         </View>
@@ -51,7 +56,10 @@ export function ObligationsCard({ urgent, normal, onPress }: Props) {
           </View>
         )}
 
-        <Text style={styles.tapHint}>Tap untuk lihat semua ›</Text>
+        <View style={styles.tapHintRow}>
+          <Text style={styles.tapHint}>Tap untuk lihat semua</Text>
+          <MaterialIcons name="chevron-right" size={ICON_SIZES.xs} color={COLORS.textMuted} />
+        </View>
       </Card>
     </TouchableOpacity>
   );
@@ -65,8 +73,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: SPACING.md,
   },
+  titleRow: { flexDirection: "row", alignItems: "center", gap: SPACING.xs },
   title: { fontSize: FONTS.md, fontWeight: "700", color: COLORS.text },
   badge: { paddingHorizontal: SPACING.sm, paddingVertical: 4, borderRadius: RADIUS.round },
+  badgeRow: { flexDirection: "row", alignItems: "center", gap: 3 },
   badgeText: { fontSize: FONTS.xs, fontWeight: "800" },
   nearestRow: {
     flexDirection: "row",
@@ -80,10 +90,14 @@ const styles = StyleSheet.create({
   },
   nearestName: { flex: 1, fontSize: FONTS.sm, fontWeight: "600", color: COLORS.text },
   nearestStatus: { fontSize: FONTS.xs, fontWeight: "600" },
+  tapHintRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    marginTop: SPACING.sm,
+  },
   tapHint: {
     fontSize: FONTS.xs,
     color: COLORS.textMuted,
-    marginTop: SPACING.sm,
-    textAlign: "right",
   },
 });

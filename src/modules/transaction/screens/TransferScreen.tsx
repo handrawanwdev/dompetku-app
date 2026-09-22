@@ -4,8 +4,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useQuery } from "@realm/react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
+import { MaterialIcons } from "@expo/vector-icons";
 
-import { COLORS, FONTS, SPACING, RADIUS } from "../../../theme";
+import { COLORS, FONTS, ICON_SIZES, SPACING, RADIUS } from "../../../theme";
 import { Card, Text, EmptyState, BackButton, FAB } from "../../../components/common";
 import { SavingHistoryModel } from "../../../models/SavingHistoryModel";
 import { SavingModel } from "../../../models/SavingModel";
@@ -15,18 +16,22 @@ import { CashflowStackParamList } from "../types";
 
 type NavProp = NativeStackNavigationProp<CashflowStackParamList>;
 
-const TYPE_LABEL: Record<string, string> = {
-  deposit: "⬆️ Setor",
-  withdraw: "⬇️ Tarik",
-  transfer: "🔁 Transfer",
+const TYPE_CONFIG: Record<string, { label: string; icon: keyof typeof MaterialIcons.glyphMap; color: string }> = {
+  deposit: { label: "Setor", icon: "arrow-upward", color: COLORS.income },
+  withdraw: { label: "Tarik", icon: "arrow-downward", color: COLORS.expense },
+  transfer: { label: "Transfer", icon: "swap-horiz", color: COLORS.warning },
 };
 
 function TransferItem({ item, savingName }: { item: SavingHistoryModel; savingName: string }) {
+  const config = TYPE_CONFIG[item.type] ?? { label: item.type, icon: "swap-horiz" as const, color: COLORS.textMuted };
   return (
     <Card style={styles.itemCard}>
       <View style={styles.itemRow}>
+        <View style={[styles.itemIconBadge, { backgroundColor: config.color + "18" }]}>
+          <MaterialIcons name={config.icon} size={ICON_SIZES.md} color={config.color} />
+        </View>
         <View style={styles.itemInfo}>
-          <Text style={styles.itemType}>{TYPE_LABEL[item.type] ?? item.type}</Text>
+          <Text style={styles.itemType}>{config.label}</Text>
           <Text style={styles.itemSaving}>{savingName}</Text>
           <Text style={styles.itemDate}>{formatDate(item.date)}</Text>
           {item.note ? <Text style={styles.itemNote} numberOfLines={1}>{item.note}</Text> : null}
@@ -66,7 +71,10 @@ export function TransferScreen() {
       <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
       <View style={styles.header}>
         <BackButton onPress={() => navigation.goBack()} />
-        <Text style={styles.headerTitle}>🔁 Transfer</Text>
+        <View style={styles.headerTitleRow}>
+          <MaterialIcons name="swap-horiz" size={ICON_SIZES.md} color={COLORS.text} />
+          <Text style={styles.headerTitle}>Transfer</Text>
+        </View>
         <View style={{ width: 40 }} />
       </View>
 
@@ -123,10 +131,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: SPACING.lg,
     paddingVertical: SPACING.md,
   },
+  headerTitleRow: { flexDirection: "row", alignItems: "center", gap: SPACING.xs },
   headerTitle: { fontSize: FONTS.lg, fontWeight: "700", color: COLORS.text },
   listContent: { paddingHorizontal: SPACING.lg, paddingBottom: 100 },
   itemCard: { marginBottom: SPACING.sm, padding: SPACING.md },
   itemRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
+  itemIconBadge: {
+    width: 36,
+    height: 36,
+    borderRadius: RADIUS.round,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: SPACING.md,
+  },
   itemInfo: { flex: 1 },
   itemType: { fontSize: FONTS.sm, fontWeight: "700", color: COLORS.text },
   itemSaving: { fontSize: FONTS.sm, color: COLORS.textSecondary, marginTop: 2 },

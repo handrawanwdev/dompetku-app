@@ -14,7 +14,7 @@ interface Props {
 export function NetWorthTrackerCard({ series, growthPct }: Props) {
   return (
     <>
-      <SectionTitle>📈 Net Worth Growth</SectionTitle>
+      <SectionTitle icon="trending-up">Net Worth Growth</SectionTitle>
       <Card style={styles.card} padding={SPACING.lg}>
         {series.length >= 2 ? (
           <>

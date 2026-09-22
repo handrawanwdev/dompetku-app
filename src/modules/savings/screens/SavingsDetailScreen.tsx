@@ -13,7 +13,7 @@ import Realm from 'realm';
 import { useQuery, useObject } from '@realm/react';
 
 import { SavingModel, SavingHistoryModel } from '../../../models';
-import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
+import { COLORS, FONTS, ICON_SIZES, SPACING, RADIUS } from '../../../theme';
 import { formatCurrency } from '../../../utils/currency';
 import { formatDate } from '../../../utils/date';
 import { calcGoalProgress } from '../../../utils/finance';
@@ -124,19 +124,19 @@ export function SavingsDetailScreen({ navigation, route }: Props) {
             <View style={styles.actionRow}>
               <TouchableOpacity style={styles.actionItem} onPress={() => openMove('deposit')} activeOpacity={0.7}>
                 <View style={[styles.actionIconBadge, { backgroundColor: COLORS.income + '18' }]}>
-                  <MaterialIcons name="arrow-upward" size={22} color={COLORS.income} />
+                  <MaterialIcons name="arrow-upward" size={ICON_SIZES.xl} color={COLORS.income} />
                 </View>
                 <Text style={styles.actionLabel}>Setor</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.actionItem} onPress={() => openMove('withdraw')} activeOpacity={0.7}>
                 <View style={[styles.actionIconBadge, { backgroundColor: COLORS.expense + '18' }]}>
-                  <MaterialIcons name="arrow-downward" size={22} color={COLORS.expense} />
+                  <MaterialIcons name="arrow-downward" size={ICON_SIZES.xl} color={COLORS.expense} />
                 </View>
                 <Text style={styles.actionLabel}>Tarik</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.actionItem} onPress={() => openMove('transfer')} activeOpacity={0.7}>
                 <View style={[styles.actionIconBadge, { backgroundColor: COLORS.warning + '18' }]}>
-                  <MaterialIcons name="swap-horiz" size={22} color={COLORS.warning} />
+                  <MaterialIcons name="swap-horiz" size={ICON_SIZES.xl} color={COLORS.warning} />
                 </View>
                 <Text style={styles.actionLabel}>Transfer</Text>
               </TouchableOpacity>

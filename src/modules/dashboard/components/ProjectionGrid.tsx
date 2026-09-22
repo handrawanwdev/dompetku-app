@@ -31,7 +31,7 @@ function ProyeksiItem({
 export function ProjectionGrid({ projection }: { projection: FinancialProjection }) {
   return (
     <>
-      <SectionTitle>🔮 Proyeksi Finansial</SectionTitle>
+      <SectionTitle icon="insights">Proyeksi Finansial</SectionTitle>
       <View style={styles.grid}>
         <ProyeksiItem
           label="Kas bersih saat ini"

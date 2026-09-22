@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { COLORS } from '../../theme';
+import { COLORS, ICON_SIZES } from '../../theme';
 
 interface BackButtonProps {
   onPress: () => void;
@@ -18,7 +18,7 @@ export function BackButton({ onPress, color = COLORS.text }: BackButtonProps) {
       accessibilityRole="button"
       accessibilityLabel="Kembali"
     >
-      <MaterialIcons name="arrow-back" size={24} color={color} />
+      <MaterialIcons name="arrow-back" size={ICON_SIZES.xxl} color={color} />
     </TouchableOpacity>
   );
 }

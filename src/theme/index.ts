@@ -87,6 +87,17 @@ export const SPACING = {
   xxxl: 32,
 } as const;
 
+// ─── Icon Sizes ──────────────────────────────────────────────────────────────
+
+export const ICON_SIZES = {
+  xs: 14,
+  sm: 16,
+  md: 18,
+  lg: 20,
+  xl: 22,
+  xxl: 24,
+} as const;
+
 // ─── Border Radius ───────────────────────────────────────────────────────────
 
 export const RADIUS = {

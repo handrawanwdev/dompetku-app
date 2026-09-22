@@ -12,10 +12,11 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { MaterialIcons } from '@expo/vector-icons';
 import { useQuery, useRealm, useObject } from '@realm/react';
 import Realm from 'realm';
 
-import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
+import { COLORS, FONTS, ICON_SIZES, SPACING, RADIUS } from '../../../theme';
 import { Button } from '../../../components/common/Button';
 import { BackButton } from '../../../components/common/BackButton';
 import { CurrencyInput } from '../../../components/common/CurrencyInput';
@@ -88,7 +89,10 @@ export function InvestmentSellScreen({ navigation, route }: Props) {
       <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
       <View style={styles.header}>
         <BackButton onPress={() => navigation.goBack()} color={COLORS.text} />
-        <Text style={styles.headerTitle}>💸 Jual Investasi</Text>
+        <View style={styles.headerTitleRow}>
+          <MaterialIcons name="sell" size={ICON_SIZES.md} color={COLORS.text} />
+          <Text style={styles.headerTitle}>Jual Investasi</Text>
+        </View>
         <View style={{ width: 40 }} />
       </View>
 
@@ -175,6 +179,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: COLORS.border,
   },
+  headerTitleRow: { flexDirection: 'row', alignItems: 'center', gap: SPACING.xs },
   headerTitle: { fontSize: FONTS.lg, fontWeight: '700', color: COLORS.text },
   scroll: { flex: 1, backgroundColor: COLORS.background },
   content: { padding: SPACING.lg, paddingBottom: SPACING.xxxl },

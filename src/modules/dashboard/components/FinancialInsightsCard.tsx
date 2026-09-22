@@ -28,7 +28,7 @@ export function FinancialInsightsCard({ insights, onPress }: Props) {
 
   return (
     <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
-      <SectionTitle>💡 Financial Insights</SectionTitle>
+      <SectionTitle icon="lightbulb">Financial Insights</SectionTitle>
       <Card padding={SPACING.md}>
         {top.map((insight, idx) => (
           <View

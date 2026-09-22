@@ -1,9 +1,10 @@
 import React, { useMemo } from 'react';
 import { View, FlatList, StyleSheet, StatusBar, ListRenderItemInfo } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { MaterialIcons } from '@expo/vector-icons';
 import { useRealm, useQuery } from '@realm/react';
 
-import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
+import { COLORS, FONTS, ICON_SIZES, SPACING, RADIUS } from '../../../theme';
 import { Card, Text, EmptyState, AmountDisplay } from '../../../components/common';
 import { IncomeModel } from '../../../models/IncomeModel';
 import { ExpenseModel } from '../../../models/ExpenseModel';
@@ -77,7 +78,8 @@ export function CashScreen() {
     <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>💵 Kas Bebas</Text>
+        <MaterialIcons name="payments" size={ICON_SIZES.md} color={COLORS.text} />
+        <Text style={styles.headerTitle}>Kas Bebas</Text>
       </View>
       <View style={styles.body}>
         <Card style={styles.balanceCard}>
@@ -105,6 +107,9 @@ const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: COLORS.background },
   body: { flex: 1, paddingHorizontal: SPACING.lg },
   header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: SPACING.xs,
     paddingHorizontal: SPACING.lg,
     paddingTop: SPACING.md,
     paddingBottom: SPACING.sm,

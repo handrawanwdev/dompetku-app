@@ -1,7 +1,8 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { COLORS, FONTS } from '../theme';
+import { MaterialIcons } from '@expo/vector-icons';
+import { COLORS, FONTS, ICON_SIZES } from '../theme';
 
 import { DashboardScreen } from '../modules/dashboard/DashboardScreen';
 import { TransactionNavigator } from '../modules/transaction/TransactionNavigator';
@@ -10,10 +11,10 @@ import { SettingsNavigator } from '../modules/settings/SettingsNavigator';
 
 const Tab = createBottomTabNavigator();
 
-function TabIcon({ emoji, focused }: { emoji: string; focused: boolean }) {
+function TabIcon({ icon, focused }: { icon: keyof typeof MaterialIcons.glyphMap; focused: boolean }) {
   return (
     <View style={{ alignItems: 'center' }}>
-      <Text style={{ fontSize: 19, opacity: focused ? 1 : 0.5 }}>{emoji}</Text>
+      <MaterialIcons name={icon} size={ICON_SIZES.xxl} color={focused ? COLORS.primary : COLORS.textMuted} />
     </View>
   );
 }
@@ -46,7 +47,7 @@ export function MainTabNavigator() {
         component={DashboardScreen}
         options={{
           title: 'Dashboard',
-          tabBarIcon: ({ focused }) => <TabIcon emoji="📊" focused={focused} />,
+          tabBarIcon: ({ focused }) => <TabIcon icon="dashboard" focused={focused} />,
         }}
       />
       <Tab.Screen
@@ -54,7 +55,7 @@ export function MainTabNavigator() {
         component={TransactionNavigator}
         options={{
           title: 'Transaksi',
-          tabBarIcon: ({ focused }) => <TabIcon emoji="💸" focused={focused} />,
+          tabBarIcon: ({ focused }) => <TabIcon icon="swap-vert" focused={focused} />,
         }}
       />
       <Tab.Screen
@@ -62,7 +63,7 @@ export function MainTabNavigator() {
         component={FinanceTabNavigator}
         options={{
           title: 'Keuangan',
-          tabBarIcon: ({ focused }) => <TabIcon emoji="🏦" focused={focused} />,
+          tabBarIcon: ({ focused }) => <TabIcon icon="account-balance" focused={focused} />,
         }}
       />
       <Tab.Screen
@@ -70,7 +71,7 @@ export function MainTabNavigator() {
         component={SettingsNavigator}
         options={{
           title: 'Pengaturan',
-          tabBarIcon: ({ focused }) => <TabIcon emoji="⚙️" focused={focused} />,
+          tabBarIcon: ({ focused }) => <TabIcon icon="settings" focused={focused} />,
         }}
       />
     </Tab.Navigator>

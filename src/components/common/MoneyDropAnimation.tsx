@@ -11,7 +11,7 @@ import Animated, {
   Easing,
 } from 'react-native-reanimated';
 import { MaterialIcons } from '@expo/vector-icons';
-import { COLORS, FONTS, SPACING, RADIUS } from '../../theme';
+import { COLORS, FONTS, ICON_SIZES, SPACING, RADIUS } from '../../theme';
 import { formatCurrency } from '../../utils/currency';
 
 export type MoneyDropMode = 'in' | 'out' | 'across';
@@ -137,7 +137,7 @@ export function MoneyDropAnimation({ visible, amount, title, accentColor, icon, 
             </Animated.View>
 
             <Animated.View style={[styles.checkBadge, isAcross && styles.checkBadgeAcross, checkStyle]}>
-              <MaterialIcons name="check" size={16} color="#ffffff" />
+              <MaterialIcons name="check" size={ICON_SIZES.sm} color="#ffffff" />
             </Animated.View>
           </View>
           <Animated.View style={textStyle}>

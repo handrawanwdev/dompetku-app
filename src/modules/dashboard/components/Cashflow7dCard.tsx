@@ -14,7 +14,7 @@ interface Props {
 export function Cashflow7dCard({ data }: Props) {
   return (
     <>
-      <SectionTitle>💹 Cashflow 7 Hari</SectionTitle>
+      <SectionTitle icon="show-chart">Cashflow 7 Hari</SectionTitle>
       <Card padding={SPACING.lg}>
         <View style={styles.summaryRow}>
           <Text style={[styles.summaryText, { color: COLORS.income }]}>

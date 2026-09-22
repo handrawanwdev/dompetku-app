@@ -13,9 +13,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useQuery } from "@realm/react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
+import { MaterialIcons } from "@expo/vector-icons";
 import dayjs from "dayjs";
 
-import { COLORS, FONTS, SPACING, RADIUS } from "../../../theme";
+import { COLORS, FONTS, ICON_SIZES, SPACING, RADIUS } from "../../../theme";
 import {
   Card,
   Text,
@@ -440,21 +441,21 @@ export function CashflowScreen() {
             onPress={() => navigation.navigate("TransferScreen")}
             activeOpacity={0.7}
           >
-            <Text style={styles.headerActionEmoji}>🔁</Text>
+            <MaterialIcons name="swap-horiz" size={ICON_SIZES.md} color={COLORS.textSecondary} />
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.headerActionBtn}
             onPress={() => navigation.navigate("RecurringNavScreen")}
             activeOpacity={0.7}
           >
-            <Text style={styles.headerActionEmoji}>🔂</Text>
+            <MaterialIcons name="repeat" size={ICON_SIZES.md} color={COLORS.textSecondary} />
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.headerActionBtn}
             onPress={() => navigation.navigate("ReportScreen")}
             activeOpacity={0.7}
           >
-            <Text style={styles.headerActionEmoji}>📊</Text>
+            <MaterialIcons name="bar-chart" size={ICON_SIZES.md} color={COLORS.textSecondary} />
           </TouchableOpacity>
         </View>
       </View>
@@ -472,17 +473,24 @@ export function CashflowScreen() {
           onPress={() => setActiveTab("income")}
           activeOpacity={0.8}
         >
-          <Text
-            style={[
-              styles.tabLabel,
-              activeTab === "income" && {
-                color: COLORS.income,
-                fontWeight: "700",
-              },
-            ]}
-          >
-            💵 Pemasukan
-          </Text>
+          <View style={styles.tabLabelRow}>
+            <MaterialIcons
+              name="arrow-downward"
+              size={ICON_SIZES.xs}
+              color={activeTab === "income" ? COLORS.income : COLORS.textSecondary}
+            />
+            <Text
+              style={[
+                styles.tabLabel,
+                activeTab === "income" && {
+                  color: COLORS.income,
+                  fontWeight: "700",
+                },
+              ]}
+            >
+              Pemasukan
+            </Text>
+          </View>
           <Text style={[styles.tabAmount, { color: COLORS.income }]}>
             {formatCurrency(incomeTotal)}
           </Text>
@@ -499,17 +507,24 @@ export function CashflowScreen() {
           onPress={() => setActiveTab("expense")}
           activeOpacity={0.8}
         >
-          <Text
-            style={[
-              styles.tabLabel,
-              activeTab === "expense" && {
-                color: COLORS.expense,
-                fontWeight: "700",
-              },
-            ]}
-          >
-            🛒 Pengeluaran
-          </Text>
+          <View style={styles.tabLabelRow}>
+            <MaterialIcons
+              name="arrow-upward"
+              size={ICON_SIZES.xs}
+              color={activeTab === "expense" ? COLORS.expense : COLORS.textSecondary}
+            />
+            <Text
+              style={[
+                styles.tabLabel,
+                activeTab === "expense" && {
+                  color: COLORS.expense,
+                  fontWeight: "700",
+                },
+              ]}
+            >
+              Pengeluaran
+            </Text>
+          </View>
           <Text style={[styles.tabAmount, { color: COLORS.expense }]}>
             {formatCurrency(expenseTotal)}
           </Text>
@@ -648,7 +663,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  headerActionEmoji: { fontSize: 16 },
   headerBadgeLabel: {
     fontSize: FONTS.xs,
     color: COLORS.textMuted,
@@ -673,6 +687,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 3,
     borderBottomColor: "transparent",
   },
+  tabLabelRow: { flexDirection: "row", alignItems: "center", gap: 4 },
   tabLabel: {
     fontSize: FONTS.sm,
     color: COLORS.textSecondary,

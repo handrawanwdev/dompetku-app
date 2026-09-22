@@ -11,8 +11,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useQuery } from '@realm/react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
+import { MaterialIcons } from '@expo/vector-icons';
 
-import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
+import { COLORS, FONTS, ICON_SIZES, SPACING, RADIUS } from '../../../theme';
 import { Card } from '../../../components/common/Card';
 import { EmptyState } from '../../../components/common/EmptyState';
 import { FAB } from '../../../components/common/FAB';
@@ -145,11 +146,13 @@ export function InvestmentListScreen() {
                 </View>
               </TouchableOpacity>
               <View style={styles.actionRow}>
-                <TouchableOpacity style={[styles.sellBtn, styles.actionBtnHalf, styles.dividendBtn]} onPress={() => navigation.navigate('InvestmentDividend', { id: item._id.toHexString() })}>
-                  <Text style={styles.dividendBtnText}>💰 Dividen</Text>
+                <TouchableOpacity style={[styles.sellBtn, styles.actionBtnHalf, styles.dividendBtn, styles.actionBtnRow]} onPress={() => navigation.navigate('InvestmentDividend', { id: item._id.toHexString() })}>
+                  <MaterialIcons name="payments" size={ICON_SIZES.xs} color={COLORS.income} />
+                  <Text style={styles.dividendBtnText}>Dividen</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.sellBtn, styles.actionBtnHalf]} onPress={() => navigation.navigate('InvestmentSell', { id: item._id.toHexString() })}>
-                  <Text style={styles.sellBtnText}>💸 Jual</Text>
+                <TouchableOpacity style={[styles.sellBtn, styles.actionBtnHalf, styles.actionBtnRow]} onPress={() => navigation.navigate('InvestmentSell', { id: item._id.toHexString() })}>
+                  <MaterialIcons name="sell" size={ICON_SIZES.xs} color={COLORS.investment} />
+                  <Text style={styles.sellBtnText}>Jual</Text>
                 </TouchableOpacity>
               </View>
             </Card>
@@ -226,6 +229,7 @@ const styles = StyleSheet.create({
     borderColor: COLORS.investment,
     alignItems: 'center',
   },
+  actionBtnRow: { flexDirection: 'row', justifyContent: 'center', gap: 4 },
   sellBtnText: { fontSize: FONTS.sm, fontWeight: '700', color: COLORS.investment },
   dividendBtn: { borderColor: COLORS.income },
   dividendBtnText: { fontSize: FONTS.sm, fontWeight: '700', color: COLORS.income },

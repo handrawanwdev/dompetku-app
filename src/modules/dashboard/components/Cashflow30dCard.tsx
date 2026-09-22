@@ -21,7 +21,7 @@ export function Cashflow30dCard({ data }: Props) {
 
   return (
     <>
-      <SectionTitle>💹 Cashflow 1 Bulan</SectionTitle>
+      <SectionTitle icon="show-chart">Cashflow 1 Bulan</SectionTitle>
       <Card padding={SPACING.lg}>
         <View style={styles.summaryRow}>
           <Text style={[styles.summaryText, { color: COLORS.income }]}>

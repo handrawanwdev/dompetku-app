@@ -50,7 +50,7 @@ export function NeracaCard({
 }: Props) {
   return (
     <>
-      <SectionTitle>⚖️ Neraca Keuangan</SectionTitle>
+      <SectionTitle icon="balance">Neraca Keuangan</SectionTitle>
       <Card padding={SPACING.lg}>
         <NeracaRow label="💰 Total Pendapatan (sepanjang masa)" value={totalIncomeAllTime} color={COLORS.income} />
         <NeracaRow label="📈 Total Investasi (harga beli)" value={investmentCost} color={COLORS.asset} />

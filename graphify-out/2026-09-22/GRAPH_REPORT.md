@@ -1,7 +1,7 @@
 # Graph Report - Dompetku  (2026-09-21)
 
 ## Corpus Check
-- 161 files · ~133,646 words
+- 161 files · ~133,690 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -193,7 +193,7 @@ Nodes (25): Card(), ProgressBar(), DebtRatioCard(), Props, styles, FinancialInsi
 
 ### Community 17 - "dependencies"
 Cohesion: 0.13
-Nodes (15): dayjs, expo-document-picker, expo-splash-screen, dependencies, dayjs, expo-document-picker, expo-splash-screen, react (+7 more)
+Nodes (15): dayjs, expo-dev-client, expo-document-picker, dependencies, dayjs, expo-dev-client, expo-document-picker, react (+7 more)
 
 ### Community 18 - "Project Context — Dompetku"
 Cohesion: 0.13
