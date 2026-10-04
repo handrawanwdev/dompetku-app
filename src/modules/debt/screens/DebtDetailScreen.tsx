@@ -20,7 +20,7 @@ import { DebtModel } from '../../../models/DebtModel';
 import { DebtPaymentModel } from '../../../models/DebtPaymentModel';
 import { formatCurrency } from '../../../utils/currency';
 import { formatDate, isOverdue, startOfMonth } from '../../../utils/date';
-import { buildDebtSchedule, DebtScheduleMonth, DebtScheduleStatus } from '../../../utils/finance';
+import { buildDebtSchedule, getMonthlyPaymentState, DebtScheduleMonth, DebtScheduleStatus } from '../../../utils/finance';
 import type { DebtStackParamList } from './DebtListScreen';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -113,14 +113,19 @@ export function DebtDetailScreen() {
 
   const totalPaidSoFar = useMemo(() => payments.reduce((s, p) => s + p.amount, 0), [payments]);
 
-  // Cicilan/revolving/tagihan_rutin: sudah ada pembayaran bulan ini → jangan
-  // tandai jatuh tempo lagi (dulu `overdue` di bawah cuma bandingin tanggal,
-  // gak peduli udah dibayar atau belum — makanya status bisa salah nampilin
-  // JATUH TEMPO walau bulan ini udah lunas).
-  const paidThisMonth = useMemo(() => {
-    if (!debt) return false;
-    if (debt.debtType === 'berjangka' || debt.debtType === 'tanpa_tenor') return false;
-    return payments.filtered('date >= $0', startOfMonth()).length > 0;
+  // Cicilan/tagihan_rutin: pembayaran dipakai buat bulan tertua dulu, jadi
+  // bayar bulan ini padahal bulan lalu nunggak = masih nunggak (dulu cukup
+  // "ada bayar bulan ini" → LANCAR, padahal ada tunggakan).
+  const { paidThisMonth, missedMonths } = useMemo(() => {
+    if (!debt) return { paidThisMonth: false, missedMonths: 0 };
+    return getMonthlyPaymentState({
+      debtType: debt.debtType,
+      startDate: debt.startDate,
+      dueDate: debt.dueDate,
+      remainingMonth: debt.remainingMonth,
+      paymentsCount: payments.length,
+      hasPaymentThisMonth: payments.filtered('date >= $0', startOfMonth()).length > 0,
+    });
   }, [debt, payments]);
 
   const remaining = useMemo(() => {
@@ -149,13 +154,14 @@ export function DebtDetailScreen() {
 
   const overdue = useMemo(() => {
     if (!debt || !debt.isActive) return false;
+    if (missedMonths > 0) return true;
     if (paidThisMonth) return false;
     if (debt.debtType === 'tanpa_tenor') return false;
     if (debt.debtType === 'berjangka') {
       return debt.dueDateFull ? dayjs().isAfter(dayjs(debt.dueDateFull), 'day') : false;
     }
     return isOverdue(debt.dueDate);
-  }, [debt, paidThisMonth]);
+  }, [debt, paidThisMonth, missedMonths]);
 
   const berjangkaMeta = useMemo(() => {
     if (!debt || debt.debtType !== 'berjangka' || !debt.dueDateFull) return null;
@@ -229,7 +235,7 @@ export function DebtDetailScreen() {
             </View>
             <View style={[styles.statusBadge, overdue ? styles.statusOverdue : styles.statusLancar]}>
               <Text style={[styles.statusText, overdue ? styles.statusTextOverdue : styles.statusTextLancar]}>
-                {overdue ? 'JATUH TEMPO' : 'LANCAR'}
+                {missedMonths > 0 ? `NUNGGAK ${missedMonths} BLN` : overdue ? 'JATUH TEMPO' : 'LANCAR'}
               </Text>
             </View>
           </View>

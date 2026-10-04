@@ -106,6 +106,49 @@ export interface DebtReminderInput {
   debtType: DebtTypeForReminder;
   /** For cicilan/revolving/tagihan_rutin: a DebtPayment already exists this month cycle. For berjangka: the debt is fully paid off (isActive false). Unused for tanpa_tenor. */
   paidThisMonth: boolean;
+  /** Past months still unpaid (see getMonthlyPaymentState). Takes priority over paidThisMonth. */
+  missedMonths?: number;
+}
+
+/**
+ * Payment state for monthly-installment debts (cicilan, tagihan_rutin).
+ * Payments are consumed oldest-first — same rule as buildDebtSchedule — so a
+ * payment made this month while last month is still unpaid only settles last
+ * month: the debt stays in arrears and this month isn't covered yet.
+ * revolving keeps the plain "any payment this month" check (partial payments
+ * are normal there, so counting them per month would be meaningless).
+ */
+export function getMonthlyPaymentState(params: {
+  debtType: DebtTypeForReminder;
+  startDate: string;
+  dueDate: number;
+  remainingMonth: number;
+  paymentsCount: number;
+  hasPaymentThisMonth: boolean;
+  now?: Date;
+}): { paidThisMonth: boolean; missedMonths: number } {
+  const { debtType, startDate, dueDate, remainingMonth, paymentsCount, hasPaymentThisMonth } = params;
+  if (debtType === 'berjangka' || debtType === 'tanpa_tenor') return { paidThisMonth: false, missedMonths: 0 };
+  if (debtType === 'revolving' || !startDate || !dueDate) return { paidThisMonth: hasPaymentThisMonth, missedMonths: 0 };
+
+  const now = dayjs(params.now ?? new Date());
+  const startMonth = dayjs(startDate).startOf('month');
+  const monthsElapsed = now.startOf('month').diff(startMonth, 'month');
+  const maxMonths = debtType === 'cicilan' ? paymentsCount + remainingMonth : Infinity;
+
+  let duePassed = 0; // months whose due date is already behind today
+  let dueUpToThisMonth = 0; // same, plus this month's installment regardless of its due date
+  for (let i = 0; i <= monthsElapsed && dueUpToThisMonth < maxMonths; i++) {
+    const month = startMonth.add(i, 'month');
+    const dueDay = month.date(Math.min(dueDate, month.daysInMonth()));
+    dueUpToThisMonth++;
+    if (dueDay.isBefore(now, 'day')) duePassed++;
+  }
+
+  return {
+    paidThisMonth: dueUpToThisMonth > 0 ? paymentsCount >= dueUpToThisMonth : hasPaymentThisMonth,
+    missedMonths: Math.max(0, duePassed - paymentsCount),
+  };
 }
 
 export function getReminderStatus(debt: DebtReminderInput, now: Date = new Date()): ReminderStatus | null {
@@ -138,6 +181,13 @@ export function getReminderStatus(debt: DebtReminderInput, now: Date = new Date(
   const today = now.getDate();
   const daysUntil = debt.dueDate - today;
 
+  if (debt.missedMonths && debt.missedMonths > 0) {
+    return {
+      tier: 'hari-ini',
+      label: `🔴 Nunggak ${debt.missedMonths} bulan!`,
+      color: '#991b1b', bg: '#fee2e2', urgent: true, daysUntil,
+    };
+  }
   if (debt.paidThisMonth) {
     return { tier: 'lunas', label: '✅ Sudah bayar bulan ini', color: '#065f46', bg: '#d1fae5', urgent: false, daysUntil };
   }

@@ -13,6 +13,7 @@ import { startOfMonth, endOfMonth } from "../../../utils/date";
 import {
   calcDepreciation,
   getReminderStatus,
+  getMonthlyPaymentState,
   getDebtRoadmap,
   generateFinancialSuggestions,
   generateScoreRecommendations,
@@ -61,10 +62,16 @@ export function useDashboardData() {
     const cycleStart = startOfMonth();
     refreshDebtReminders(
       debts.map((d) => {
-        const paidThisMonth =
-          d.debtType === "berjangka" || d.debtType === "tanpa_tenor"
-            ? false
-            : debtPayments.filtered("debtId == $0 AND date >= $1", d._id.toHexString(), cycleStart).length > 0;
+        const debtId = d._id.toHexString();
+        const { paidThisMonth } = getMonthlyPaymentState({
+          debtType: d.debtType,
+          startDate: d.startDate,
+          dueDate: d.dueDate,
+          remainingMonth: d.remainingMonth,
+          paymentsCount: debtPayments.filtered("debtId == $0", debtId).length,
+          hasPaymentThisMonth:
+            debtPayments.filtered("debtId == $0 AND date >= $1", debtId, cycleStart).length > 0,
+        });
         return {
           id: d._id.toHexString(),
           name: d.name,
@@ -372,14 +379,16 @@ export function useDashboardData() {
   const debtReminders = useMemo(() => {
     return debts
       .map((d) => {
-        const paidThisMonth =
-          d.debtType === "berjangka" || d.debtType === "tanpa_tenor"
-            ? false
-            : debtPayments.filtered(
-                "debtId == $0 AND date >= $1",
-                d._id.toHexString(),
-                monthStart,
-              ).length > 0;
+        const debtId = d._id.toHexString();
+        const { paidThisMonth, missedMonths } = getMonthlyPaymentState({
+          debtType: d.debtType,
+          startDate: d.startDate,
+          dueDate: d.dueDate,
+          remainingMonth: d.remainingMonth,
+          paymentsCount: debtPayments.filtered("debtId == $0", debtId).length,
+          hasPaymentThisMonth:
+            debtPayments.filtered("debtId == $0 AND date >= $1", debtId, monthStart).length > 0,
+        });
         const status = getReminderStatus({
           id: d._id.toHexString(),
           name: d.name,
@@ -388,6 +397,7 @@ export function useDashboardData() {
           dueDate: d.dueDate,
           dueDateFull: d.dueDateFull,
           paidThisMonth,
+          missedMonths,
           debtType: d.debtType,
         });
         return { debt: d, status };

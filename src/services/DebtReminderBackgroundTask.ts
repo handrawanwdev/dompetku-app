@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import { realmConfig } from '../database/realm';
 import { DebtModel } from '../models/DebtModel';
 import { DebtPaymentModel } from '../models/DebtPaymentModel';
-import { getReminderStatus } from '../utils/finance';
+import { getMonthlyPaymentState, getReminderStatus } from '../utils/finance';
 import { formatCurrency } from '../utils/currency';
 import { storage } from '../storage/mmkv';
 
@@ -29,7 +29,14 @@ TaskManager.defineTask(TASK_NAME, async () => {
 
     for (const d of debts) {
       const debtId = d._id.toHexString();
-      const paidThisMonth = debtPayments.filtered('debtId == $0 AND date >= $1', debtId, monthStart).length > 0;
+      const { paidThisMonth, missedMonths } = getMonthlyPaymentState({
+        debtType: d.debtType,
+        startDate: d.startDate,
+        dueDate: d.dueDate,
+        remainingMonth: d.remainingMonth,
+        paymentsCount: debtPayments.filtered('debtId == $0', debtId).length,
+        hasPaymentThisMonth: debtPayments.filtered('debtId == $0 AND date >= $1', debtId, monthStart).length > 0,
+      });
       const status = getReminderStatus(
         {
           id: debtId,
@@ -39,6 +46,7 @@ TaskManager.defineTask(TASK_NAME, async () => {
           dueDate: d.dueDate,
           dueDateFull: d.dueDateFull,
           paidThisMonth,
+          missedMonths,
           debtType: d.debtType,
         },
       );

@@ -1,7 +1,7 @@
 {
   ".claude/settings.local.json": {
-    "mtime": 1782749791.3793592,
-    "ast_hash": "8e587de981aab4ce3a101c304da735e8",
+    "mtime": 1790125331.240267,
+    "ast_hash": "7306f936001cde31002898ed5aee54e4",
     "semantic_hash": ""
   },
   "App.tsx": {
@@ -380,8 +380,8 @@
     "semantic_hash": ""
   },
   "src/modules/dashboard/hooks/useDashboardData.ts": {
-    "mtime": 1790005981.878518,
-    "ast_hash": "3a3f509f8061a1bf7c55a794ac0d584d",
+    "mtime": 1791156004.9916947,
+    "ast_hash": "051d5e4f96064cd3769a44f176c3d0d6",
     "semantic_hash": ""
   },
   "src/modules/debt/DebtNavigator.tsx": {
@@ -390,8 +390,8 @@
     "semantic_hash": ""
   },
   "src/modules/debt/screens/DebtDetailScreen.tsx": {
-    "mtime": 1790005306.9168887,
-    "ast_hash": "c59c5f9ae3745a7e8e674a69f2ab5b22",
+    "mtime": 1791156004.9929762,
+    "ast_hash": "701357e55353b7aafe9ac628f2b38405",
     "semantic_hash": ""
   },
   "src/modules/debt/screens/DebtFormScreen.tsx": {
@@ -400,8 +400,8 @@
     "semantic_hash": ""
   },
   "src/modules/debt/screens/DebtListScreen.tsx": {
-    "mtime": 1790007916.107471,
-    "ast_hash": "441314db9e3289a1ecf54fd5104afe43",
+    "mtime": 1791156004.993169,
+    "ast_hash": "863bd1f000269e14bba85093af7d8839",
     "semantic_hash": ""
   },
   "src/modules/expense/screens/ExpenseFormScreen.tsx": {
@@ -605,8 +605,8 @@
     "semantic_hash": ""
   },
   "src/utils/finance.ts": {
-    "mtime": 1785896787.686947,
-    "ast_hash": "266ab1a9e1837dea5a02b629292ad6c4",
+    "mtime": 1791156004.9935172,
+    "ast_hash": "4f53e7c5c1f403748c24ca2ce2125bb2",
     "semantic_hash": ""
   },
   "src/utils/financialScore.ts": {
@@ -730,8 +730,8 @@
     "semantic_hash": ""
   },
   "src/services/DebtReminderBackgroundTask.ts": {
-    "mtime": 1786329791.7043254,
-    "ast_hash": "e2610e98c67152a4199f1fae8ab51d8a",
+    "mtime": 1791156004.9932966,
+    "ast_hash": "3bb3b54119802c074705f7896b2842dd",
     "semantic_hash": ""
   },
   "src/data/motivationQuotes.ts": {

@@ -20,7 +20,7 @@ import { IncomeModel } from '../../../models/IncomeModel';
 import { ExpenseModel } from '../../../models/ExpenseModel';
 import { formatCurrency, formatCompact } from '../../../utils/currency';
 import { startOfMonth } from '../../../utils/date';
-import { getReminderStatus, getKewajibanBulanIni, getDebtFreedomStatus, type ReminderStatus } from '../../../utils/finance';
+import { getReminderStatus, getKewajibanBulanIni, getDebtFreedomStatus, getMonthlyPaymentState, type ReminderStatus } from '../../../utils/finance';
 import { useSettingsStore } from '../../../store/settingsStore';
 import { getKasBebasBalance } from '../../../services/AllocationService';
 import { useRealm } from '@realm/react';
@@ -218,9 +218,15 @@ export function DebtListScreen() {
   }, [displayedDebts, remainingFor]);
 
   const debtInputs = useMemo(() => displayedDebts.map((d) => {
-    const paidThisMonth = d.debtType === 'berjangka' || d.debtType === 'tanpa_tenor'
-      ? false
-      : debtPayments.filtered('debtId == $0 AND date >= $1', d._id.toHexString(), monthStart).length > 0;
+    const debtId = d._id.toHexString();
+    const { paidThisMonth, missedMonths } = getMonthlyPaymentState({
+      debtType: d.debtType,
+      startDate: d.startDate,
+      dueDate: d.dueDate,
+      remainingMonth: d.remainingMonth,
+      paymentsCount: debtPayments.filtered('debtId == $0', debtId).length,
+      hasPaymentThisMonth: debtPayments.filtered('debtId == $0 AND date >= $1', debtId, monthStart).length > 0,
+    });
     return {
       id: d._id.toHexString(),
       name: d.name,
@@ -229,6 +235,7 @@ export function DebtListScreen() {
       dueDate: d.dueDate,
       dueDateFull: d.dueDateFull,
       paidThisMonth,
+      missedMonths,
       debtType: d.debtType,
     };
   }), [displayedDebts, debtPayments, monthStart]);
