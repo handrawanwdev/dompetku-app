@@ -11,8 +11,6 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useQuery } from "@realm/react";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useNavigation } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 import dayjs from "dayjs";
 
@@ -28,11 +26,9 @@ import { IncomeModel } from "../../../models/IncomeModel";
 import { ExpenseModel } from "../../../models/ExpenseModel";
 import { formatCurrency } from "../../../utils/currency";
 import { formatDate } from "../../../utils/date";
-import { CashflowStackParamList } from "../types";
+import { useRootNavigation } from "../../../navigation/types";
+import { KIND_META, SPEND_KINDS, isSpendKind, isKeptKind, type SpendKind } from "../../../utils/budget";
 
-export type { CashflowStackParamList };
-
-type NavProp = NativeStackNavigationProp<CashflowStackParamList>;
 
 type ActiveTab = "income" | "expense";
 
@@ -62,27 +58,6 @@ const INCOME_EMOJIS: Record<string, string> = {
   Lainnya: "💰",
 };
 
-const EXPENSE_EMOJIS: Record<string, string> = {
-  "Makan & Minum": "🍜",
-  Transportasi: "🚗",
-  Belanja: "🛍️",
-  Tagihan: "📄",
-  Kesehatan: "🏥",
-  Hiburan: "🎬",
-  Pendidikan: "📚",
-  Rumah: "🏠",
-  Komunikasi: "📱",
-  Lainnya: "💸",
-};
-
-const SOURCE_LABELS: Record<string, string> = {
-  cash: "Kas",
-  savings: "Tabungan",
-};
-const SOURCE_COLORS: Record<string, string> = {
-  cash: COLORS.warning,
-  savings: COLORS.savings,
-};
 
 // ─── Income Item ──────────────────────────────────────────────────────────────
 
@@ -135,9 +110,8 @@ function ExpenseItem({
   item: ExpenseModel;
   onPress: () => void;
 }) {
-  const emoji = EXPENSE_EMOJIS[item.category] ?? "💸";
-  const sourceBg = SOURCE_COLORS[item.source] ?? COLORS.textMuted;
-  const sourceLabel = SOURCE_LABELS[item.source] ?? item.source;
+  const meta = KIND_META[isSpendKind(item.kind) ? item.kind : "need"];
+  const isSaving = isKeptKind(item.kind);
 
   return (
     <TouchableOpacity
@@ -146,30 +120,23 @@ function ExpenseItem({
       style={styles.itemContainer}
     >
       <View style={styles.itemLeft}>
-        <View
-          style={[
-            styles.emojiContainer,
-            { backgroundColor: COLORS.expense + "15" },
-          ]}
-        >
-          <Text style={styles.emoji}>{emoji}</Text>
+        <View style={[styles.emojiContainer, { backgroundColor: meta.color + "1A" }]}>
+          <MaterialIcons name={meta.icon} size={ICON_SIZES.lg} color={meta.color} />
         </View>
         <View style={styles.itemInfo}>
           <View style={styles.itemTopRow}>
             <Text style={styles.itemCategory}>{item.category}</Text>
-            <View
-              style={[styles.sourceBadge, { backgroundColor: sourceBg + "22" }]}
-            >
-              <Text
-                style={
-                  [styles.sourceBadgeText, { color: sourceBg }] as TextStyle[]
-                }
-              >
-                {sourceLabel}
-              </Text>
-            </View>
+            {item.source === "savings" && (
+              <View style={[styles.sourceBadge, { backgroundColor: COLORS.saving + "1A" }]}>
+                <Text style={[styles.sourceBadgeText, { color: COLORS.saving }] as TextStyle[]}>
+                  dari tabungan
+                </Text>
+              </View>
+            )}
           </View>
-          <Text style={styles.itemDate}>{formatDate(item.date)}</Text>
+          <Text style={styles.itemDate}>
+            {meta.label} · {formatDate(item.date)}
+          </Text>
           {item.note ? (
             <Text style={styles.itemNote} numberOfLines={1}>
               {item.note}
@@ -177,8 +144,9 @@ function ExpenseItem({
           ) : null}
         </View>
       </View>
-      <Text style={[styles.itemAmount, { color: COLORS.expense }]}>
-        - {formatCurrency(item.amount)}
+      <Text style={[styles.itemAmount, { color: isSaving ? meta.color : COLORS.expense }]}>
+        {isSaving ? "" : "- "}
+        {formatCurrency(item.amount)}
       </Text>
     </TouchableOpacity>
   );
@@ -294,7 +262,7 @@ function CategoryFilter({
             ]}
             activeOpacity={0.7}
           >
-            <Text style={styles.categoryChipEmoji}>{cat.emoji}</Text>
+            {cat.emoji ? <Text style={styles.categoryChipEmoji}>{cat.emoji}</Text> : null}
             <Text
               style={[
                 styles.categoryChipText,
@@ -313,7 +281,7 @@ function CategoryFilter({
 // ─── Screen ───────────────────────────────────────────────────────────────────
 
 export function CashflowScreen() {
-  const navigation = useNavigation<NavProp>();
+  const navigation = useRootNavigation();
   const [activeTab, setActiveTab] = useState<ActiveTab>("income");
   const monthOptions = useMemo(() => buildMonthOptions(), []);
   const [incomeMonth, setIncomeMonth] = useState(monthOptions[0].yearMonth);
@@ -330,12 +298,11 @@ export function CashflowScreen() {
     [],
   );
   const expenseCategories = useMemo(
-    () =>
-      Object.entries(EXPENSE_EMOJIS).map(([label, emoji]) => ({
-        label,
-        emoji,
-      })),
+    () => SPEND_KINDS.map((k) => ({ label: KIND_META[k].label, emoji: "" })),
     [],
+  );
+  const selectedKind: SpendKind | undefined = SPEND_KINDS.find(
+    (k) => KIND_META[k].label === expenseCategory,
   );
 
   const filteredIncomes = useMemo(
@@ -352,15 +319,15 @@ export function CashflowScreen() {
   );
   const filteredExpenses = useMemo(
     () =>
-      (expenseCategory === ALL_CATEGORY
-        ? allExpenses.filtered("date BEGINSWITH $0 AND isInternal == false", expenseMonth)
-        : allExpenses.filtered(
-            "date BEGINSWITH $0 AND isInternal == false AND category == $1",
+      (selectedKind
+        ? allExpenses.filtered(
+            "date BEGINSWITH $0 AND isInternal == false AND kind == $1",
             expenseMonth,
-            expenseCategory,
+            selectedKind,
           )
+        : allExpenses.filtered("date BEGINSWITH $0 AND isInternal == false", expenseMonth)
       ).sorted("date", true),
-    [allExpenses, expenseMonth, expenseCategory],
+    [allExpenses, expenseMonth, selectedKind],
   );
 
   const incomeTotal = useMemo(
@@ -435,29 +402,6 @@ export function CashflowScreen() {
             {formatCurrency(incomeTotal - expenseTotal)}
           </Text>
         </View>
-        <View style={styles.headerActions}>
-          <TouchableOpacity
-            style={styles.headerActionBtn}
-            onPress={() => navigation.navigate("TransferScreen")}
-            activeOpacity={0.7}
-          >
-            <MaterialIcons name="swap-horiz" size={ICON_SIZES.md} color={COLORS.textSecondary} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.headerActionBtn}
-            onPress={() => navigation.navigate("RecurringNavScreen")}
-            activeOpacity={0.7}
-          >
-            <MaterialIcons name="repeat" size={ICON_SIZES.md} color={COLORS.textSecondary} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.headerActionBtn}
-            onPress={() => navigation.navigate("ReportScreen")}
-            activeOpacity={0.7}
-          >
-            <MaterialIcons name="bar-chart" size={ICON_SIZES.md} color={COLORS.textSecondary} />
-          </TouchableOpacity>
-        </View>
       </View>
 
       {/* Tab Switcher */}
@@ -522,7 +466,7 @@ export function CashflowScreen() {
                 },
               ]}
             >
-              Pengeluaran
+              Uang keluar
             </Text>
           </View>
           <Text style={[styles.tabAmount, { color: COLORS.expense }]}>
@@ -537,7 +481,7 @@ export function CashflowScreen() {
         <View style={styles.summaryWrapper}>
           <Card style={styles.summaryCard}>
             <Text style={styles.summaryLabel}>
-              Total {activeTab === "income" ? "Pemasukan" : "Pengeluaran"}{" "}
+              Total {activeTab === "income" ? "pemasukan" : "uang keluar"}{" "}
               {currentMonthLabel}
             </Text>
             <AmountDisplay
@@ -572,7 +516,7 @@ export function CashflowScreen() {
         )}
 
         {/* Category Filter */}
-        <Text style={styles.categoryLabel}>Kategori</Text>
+        <Text style={styles.categoryLabel}>{activeTab === "income" ? "Kategori" : "Jenis"}</Text>
         {activeTab === "income" ? (
           <CategoryFilter
             categories={incomeCategories}
@@ -601,7 +545,7 @@ export function CashflowScreen() {
               <EmptyState
                 emoji="💰"
                 title="Belum ada pemasukan"
-                subtitle="Tap + untuk menambah pemasukan"
+                subtitle="Gajian atau dapat uang? Catat lewat tombol +."
               />
             }
           />
@@ -615,8 +559,8 @@ export function CashflowScreen() {
             ListEmptyComponent={
               <EmptyState
                 emoji="💸"
-                title="Belum ada pengeluaran"
-                subtitle="Tap + untuk mencatat pengeluaran"
+                title="Belum ada uang keluar"
+                subtitle="Catat kebutuhan, keinginan, atau tabungan lewat tombol +."
               />
             }
           />
@@ -629,7 +573,7 @@ export function CashflowScreen() {
         onPress={() =>
           activeTab === "income"
             ? navigation.navigate("IncomeForm", {})
-            : navigation.navigate("ExpenseForm", {})
+            : navigation.navigate("ExpenseForm", { kind: selectedKind })
         }
       />
     </SafeAreaView>
@@ -652,17 +596,6 @@ const styles = StyleSheet.create({
     paddingBottom: SPACING.sm,
   },
   headerBadge: { alignItems: "flex-start" },
-  headerActions: { flexDirection: "row", gap: SPACING.sm },
-  headerActionBtn: {
-    width: 36,
-    height: 36,
-    borderRadius: RADIUS.round,
-    backgroundColor: COLORS.surface,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-    alignItems: "center",
-    justifyContent: "center",
-  },
   headerBadgeLabel: {
     fontSize: FONTS.xs,
     color: COLORS.textMuted,
@@ -733,7 +666,7 @@ const styles = StyleSheet.create({
     color: COLORS.textSecondary,
     fontWeight: "500",
   },
-  filterChipTextActive: { color: "#FFFFFF" },
+  filterChipTextActive: { color: COLORS.onPrimary },
 
   categoryLabel: {
     fontSize: FONTS.xs,

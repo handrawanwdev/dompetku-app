@@ -45,12 +45,10 @@ export function CurrencyInput({ label, value, onChangeText, error, placeholder =
 const styles = StyleSheet.create({
   container: { marginBottom: SPACING.md },
   label: {
-    fontSize: FONTS.xs,
-    color: COLORS.textMuted,
+    fontSize: FONTS.sm,
+    color: COLORS.textSecondary,
     marginBottom: SPACING.xs,
     fontWeight: '600',
-    textTransform: 'uppercase',
-    letterSpacing: 0.4,
   },
   inputRow: {
     flexDirection: 'row',

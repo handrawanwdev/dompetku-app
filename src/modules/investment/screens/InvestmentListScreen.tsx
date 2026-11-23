@@ -8,6 +8,7 @@ import {
   StatusBar,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { BackButton } from '../../../components/common/BackButton';
 import { useQuery } from '@realm/react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
@@ -72,6 +73,11 @@ export function InvestmentListScreen() {
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
+
+      <View style={styles.topBar}>
+        <BackButton onPress={() => navigation.goBack()} />
+        <Text style={styles.topTitle}>Investasi</Text>
+      </View>
 
       {/* Header */}
       <View style={styles.header}>
@@ -158,7 +164,7 @@ export function InvestmentListScreen() {
             </Card>
           );
         }}
-        ListEmptyComponent={<EmptyState emoji="📈" title="Belum ada investasi" subtitle="Tap + untuk menambah portfolio investasi" />}
+        ListEmptyComponent={<EmptyState emoji="📈" title="Belum ada investasi" subtitle="Saham, reksa dana, emas, atau kripto. Catat biar kelihatan untung-ruginya." />}
         ListFooterComponent={
           soldInvestments.length > 0 ? (
             <View style={styles.soldSection}>
@@ -198,6 +204,8 @@ function SummaryCol({ label, value, color }: { label: string; value: string; col
 }
 
 const styles = StyleSheet.create({
+  topBar: { flexDirection: 'row', alignItems: 'center', gap: SPACING.md, paddingHorizontal: SPACING.lg, paddingTop: SPACING.sm },
+  topTitle: { fontSize: FONTS.lg, fontWeight: '700', color: COLORS.text },
   safe: { flex: 1, backgroundColor: COLORS.background },
   body: { flex: 1, backgroundColor: COLORS.background },
   header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: COLORS.background, paddingHorizontal: SPACING.lg, paddingVertical: SPACING.lg },

@@ -1,4 +1,5 @@
 import { InvestmentType, AssetCategory } from '../types';
+import type { SpendKind } from '../utils/budget';
 
 // ─── Default Income Categories ────────────────────────────────────────────────
 
@@ -13,17 +14,34 @@ export const DEFAULT_INCOME_CATEGORIES: { name: string; emoji: string }[] = [
 
 // ─── Default Expense Categories ───────────────────────────────────────────────
 
-export const DEFAULT_EXPENSE_CATEGORIES: { name: string; emoji: string }[] = [
-  { name: 'Makan & Minum', emoji: '🍜' },
-  { name: 'Transportasi', emoji: '🚗' },
-  { name: 'Belanja', emoji: '🛍️' },
-  { name: 'Tagihan', emoji: '📄' },
-  { name: 'Kesehatan', emoji: '🏥' },
-  { name: 'Hiburan', emoji: '🎬' },
-  { name: 'Pendidikan', emoji: '📚' },
-  { name: 'Rumah', emoji: '🏠' },
-  { name: 'Komunikasi', emoji: '📱' },
-  { name: 'Lainnya', emoji: '💸' },
+// Tiap kategori pengeluaran punya jenis; transaksi otomatis ikut jenis kategorinya.
+export const DEFAULT_EXPENSE_CATEGORIES: { name: string; emoji: string; kind: SpendKind }[] = [
+  { name: 'Makan & Minum', emoji: '🍜', kind: 'need' },
+  { name: 'Transportasi', emoji: '🚗', kind: 'need' },
+  { name: 'Tagihan', emoji: '💡', kind: 'need' },
+  { name: 'Internet & Pulsa', emoji: '📶', kind: 'need' },
+  { name: 'Rumah', emoji: '🏠', kind: 'need' },
+  { name: 'Kesehatan', emoji: '🏥', kind: 'need' },
+  { name: 'Pendidikan', emoji: '📚', kind: 'need' },
+  { name: 'Lainnya', emoji: '💸', kind: 'need' },
+  { name: 'Cicilan', emoji: '🏦', kind: 'obligation' },
+  { name: 'Kartu Kredit', emoji: '💳', kind: 'obligation' },
+  { name: 'Utang', emoji: '🤝', kind: 'obligation' },
+  { name: 'Jajan & Kopi', emoji: '☕', kind: 'want' },
+  { name: 'Hiburan', emoji: '🎬', kind: 'want' },
+  { name: 'Belanja', emoji: '🛍️', kind: 'want' },
+  { name: 'Liburan', emoji: '✈️', kind: 'want' },
+  { name: 'Tabungan', emoji: '🐷', kind: 'saving' },
+  { name: 'Dana Darurat', emoji: '🆘', kind: 'saving' },
+  { name: 'Reksa Dana', emoji: '📈', kind: 'invest' },
+  { name: 'Saham', emoji: '📊', kind: 'invest' },
+  { name: 'Emas', emoji: '🥇', kind: 'invest' },
+  { name: 'Deposito', emoji: '🏦', kind: 'invest' },
+  { name: 'Obligasi', emoji: '📜', kind: 'invest' },
+  { name: 'Kripto', emoji: '🪙', kind: 'invest' },
+  { name: 'Properti', emoji: '🏘️', kind: 'invest' },
+  { name: 'Aset', emoji: '💎', kind: 'invest' },
+  { name: 'Investasi lain', emoji: '🌱', kind: 'invest' },
 ];
 
 // ─── Investment Types ─────────────────────────────────────────────────────────

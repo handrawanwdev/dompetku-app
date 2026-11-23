@@ -47,7 +47,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
             </TouchableOpacity>
 
             <Text style={styles.hint}>
-              Detail error tersimpan. Buka Pengaturan → Diagnosis & Laporan Error untuk melihat atau membagikan laporan.
+              Detail error-nya sudah disimpan. Kalau mau lihat atau kirim ke developer, buka Profil, lalu Cek masalah.
             </Text>
           </ScrollView>
         </SafeAreaView>
@@ -65,6 +65,6 @@ const styles = StyleSheet.create({
   title: { fontSize: FONTS.lg, fontWeight: '700', color: COLORS.text, marginBottom: SPACING.sm, textAlign: 'center' },
   desc: { fontSize: FONTS.sm, color: COLORS.textSecondary, textAlign: 'center', marginBottom: SPACING.xl },
   button: { backgroundColor: COLORS.primary, paddingVertical: SPACING.md, paddingHorizontal: SPACING.xl, borderRadius: RADIUS.md, marginBottom: SPACING.sm, minWidth: 220, alignItems: 'center' },
-  buttonText: { color: '#fff', fontSize: FONTS.md, fontWeight: '600' },
+  buttonText: { color: COLORS.onPrimary, fontSize: FONTS.md, fontWeight: '600' },
   hint: { fontSize: FONTS.xs, color: COLORS.textMuted, textAlign: 'center', marginTop: SPACING.md, maxWidth: 260 },
 });

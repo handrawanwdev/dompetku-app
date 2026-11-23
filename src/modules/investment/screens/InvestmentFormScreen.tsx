@@ -25,6 +25,10 @@ import { CurrencyInput } from '../../../components/common/CurrencyInput';
 import { InvestmentSuccessAnimation } from '../../../components/common/InvestmentSuccessAnimation';
 import { InvestmentModel } from '../../../models/InvestmentModel';
 import { today } from '../../../utils/date';
+import { formatCurrency } from '../../../utils/currency';
+import { ExpenseModel } from '../../../models/ExpenseModel';
+import { syncPurchaseExpense, INVESTMENT_CATEGORY } from '../../../services/AllocationService';
+import { PurchaseToggle } from '../../../components/common/PurchaseToggle';
 import { InvestmentStackParamList } from './InvestmentListScreen';
 
 const INVESTMENT_TYPES = [
@@ -59,6 +63,11 @@ export function InvestmentFormScreen({ navigation, route }: Props) {
   const [buyDate, setBuyDate] = useState(existing?.buyDate ?? today());
   const [note, setNote] = useState(existing?.note ?? '');
 
+  // Data lama yang belum punya catatan uang keluar bisa disusulkan dari sini.
+  const linked = existing
+    ? realm.objects(ExpenseModel).filtered('assetRef == $0', `investment:${existing._id.toHexString()}`).length > 0
+    : false;
+  const [recordPurchase, setRecordPurchase] = useState(!existing);
   const savingRef = useRef(false);
   const [successAmount, setSuccessAmount] = useState<number | null>(null);
 
@@ -72,7 +81,14 @@ export function InvestmentFormScreen({ navigation, route }: Props) {
 
     savingRef.current = true;
     realm.write(() => {
+      const purchase = {
+        amount: bp * qty,
+        date: buyDate,
+        category: INVESTMENT_CATEGORY[type] ?? 'Investasi lain',
+        note: `Beli ${name.trim()}`,
+      };
       if (existing) {
+        syncPurchaseExpense(realm, `investment:${existing._id.toHexString()}`, purchase, recordPurchase);
         existing.type = type;
         existing.name = name;
         existing.buyPrice = bp;
@@ -81,7 +97,8 @@ export function InvestmentFormScreen({ navigation, route }: Props) {
         existing.buyDate = buyDate;
         existing.note = note;
       } else {
-        realm.create(InvestmentModel, { type, name, buyPrice: bp, quantity: qty, currentPrice: cp, buyDate, note });
+        const created = realm.create(InvestmentModel, { type, name, buyPrice: bp, quantity: qty, currentPrice: cp, buyDate, note });
+        if (recordPurchase) syncPurchaseExpense(realm, `investment:${created._id.toHexString()}`, purchase, true);
       }
     });
 
@@ -94,9 +111,19 @@ export function InvestmentFormScreen({ navigation, route }: Props) {
 
   const handleDelete = () => {
     if (!existing) return;
-    Alert.alert('Hapus', `Hapus investasi "${existing.name}"?`, [
+    Alert.alert('Hapus', `Hapus investasi "${existing.name}"? Catatan uang keluar pembeliannya ikut dihapus.`, [
       { text: 'Batal', style: 'cancel' },
-      { text: 'Hapus', style: 'destructive', onPress: () => { realm.write(() => realm.delete(existing)); navigation.goBack(); } },
+      {
+        text: 'Hapus',
+        style: 'destructive',
+        onPress: () => {
+          realm.write(() => {
+            syncPurchaseExpense(realm, `investment:${existing._id.toHexString()}`, null, false);
+            realm.delete(existing);
+          });
+          navigation.goBack();
+        },
+      },
     ]);
   };
 
@@ -129,8 +156,16 @@ export function InvestmentFormScreen({ navigation, route }: Props) {
           <Field label="Jumlah / Lot" value={quantity} onChange={setQuantity} keyboardType="numeric" placeholder="0" />
           <CurrencyInput label="Harga Saat Ini per Unit" value={currentPrice} onChangeText={setCurrentPrice} />
           <DateInput label="Tanggal Beli" value={buyDate} onChange={setBuyDate} />
-          <Field label="Catatan (opsional)" value={note} onChange={setNote} placeholder="..." multiline />
+          <Field label="Catatan (opsional)" value={note} onChange={setNote} placeholder="Contoh: beli pas harga lagi turun" multiline />
         </Card>
+
+        {!linked && (
+          <PurchaseToggle
+            value={recordPurchase}
+            onChange={setRecordPurchase}
+            amountLabel={formatCurrency((parseFloat(buyPrice) || 0) * (parseFloat(quantity.replace(',', '.')) || 0))}
+          />
+        )}
 
         <Button title={editId ? 'Simpan Perubahan' : 'Tambah Investasi'} onPress={handleSave} fullWidth style={{ marginTop: SPACING.xl }} />
         {editId && <Button title="Hapus Investasi" onPress={handleDelete} variant="danger" fullWidth style={{ marginTop: SPACING.sm }} />}

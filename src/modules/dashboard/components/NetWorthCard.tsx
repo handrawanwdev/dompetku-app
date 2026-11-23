@@ -1,7 +1,8 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { Card, Text } from "../../../components/common";
-import { COLORS, FONTS, RADIUS, SPACING } from "../../../theme";
+import { MaterialIcons } from "@expo/vector-icons";
+import { Text } from "../../../components/common";
+import { COLORS, FONTS, ICON_SIZES, RADIUS, SHADOWS, SPACING } from "../../../theme";
 import { formatCompact, formatCurrency } from "../../../utils/currency";
 import type { DashboardData } from "../hooks/useDashboardData";
 
@@ -11,56 +12,50 @@ interface Props {
   summary: Summary;
 }
 
-export function NetWorthCard({ summary }: Props) {
+function Trend({ value, goodWhenUp }: { value: number; goodWhenUp: boolean }) {
+  if (value === 0) return null;
+  const up = value >= 0;
+  const good = up === goodWhenUp;
   return (
-    <Card style={styles.card} padding={SPACING.xl}>
-      <Text style={styles.label}>NET WORTH</Text>
-      <Text
-        style={[
-          styles.amount,
-          { color: summary.netWorth >= 0 ? COLORS.income : COLORS.expense },
-        ]}
-      >
+    <View style={styles.trendRow}>
+      <MaterialIcons
+        name={up ? "arrow-upward" : "arrow-downward"}
+        size={ICON_SIZES.xs}
+        color={good ? COLORS.incomeLight : COLORS.expenseLight}
+      />
+      <Text style={[styles.trend, { color: good ? COLORS.incomeLight : COLORS.expenseLight }]}>
+        {Math.abs(value).toFixed(0)}% vs bln lalu
+      </Text>
+    </View>
+  );
+}
+
+export function NetWorthCard({ summary }: Props) {
+  const ratio = Math.min(summary.expenseRatio, 100);
+
+  return (
+    <View style={styles.card}>
+      <Text style={styles.label}>Kekayaan bersih</Text>
+      <Text style={styles.amount} numberOfLines={1}>
         {formatCurrency(summary.netWorth)}
       </Text>
 
       <View style={styles.row}>
-        <View style={styles.item}>
-          <Text style={styles.itemLabel}>▲ Pemasukan</Text>
-          <Text style={[styles.itemValue, { color: COLORS.income }]}>
-            {formatCompact(summary.monthlyIncome)}
-          </Text>
-          {summary.incomeTrend !== 0 && (
-            <Text
-              style={[
-                styles.trend,
-                { color: summary.incomeTrend >= 0 ? COLORS.income : COLORS.expense },
-              ]}
-            >
-              {summary.incomeTrend >= 0 ? "▲" : "▼"}{" "}
-              {Math.abs(summary.incomeTrend).toFixed(0)}% vs bln lalu
-            </Text>
-          )}
+        <View style={styles.pill}>
+          <View style={styles.pillHead}>
+            <MaterialIcons name="south-west" size={ICON_SIZES.xs} color={COLORS.heroMuted} />
+            <Text style={styles.pillLabel}>Pemasukan</Text>
+          </View>
+          <Text style={styles.pillValue}>{formatCompact(summary.monthlyIncome)}</Text>
+          <Trend value={summary.incomeTrend} goodWhenUp />
         </View>
-        <View style={styles.divider} />
-        <View style={styles.item}>
-          <Text style={styles.itemLabel}>▼ Pengeluaran</Text>
-          <Text style={[styles.itemValue, { color: COLORS.expense }]}>
-            {formatCompact(summary.monthlyExpense)}
-          </Text>
-          {summary.expenseTrend !== 0 && (
-            <Text
-              style={[
-                styles.trend,
-                {
-                  color: summary.expenseTrend <= 0 ? COLORS.income : COLORS.expense,
-                },
-              ]}
-            >
-              {summary.expenseTrend >= 0 ? "▲" : "▼"}{" "}
-              {Math.abs(summary.expenseTrend).toFixed(0)}% vs bln lalu
-            </Text>
-          )}
+        <View style={styles.pill}>
+          <View style={styles.pillHead}>
+            <MaterialIcons name="north-east" size={ICON_SIZES.xs} color={COLORS.heroMuted} />
+            <Text style={styles.pillLabel}>Pengeluaran</Text>
+          </View>
+          <Text style={styles.pillValue}>{formatCompact(summary.monthlyExpense)}</Text>
+          <Trend value={summary.expenseTrend} goodWhenUp={false} />
         </View>
       </View>
 
@@ -71,50 +66,57 @@ export function NetWorthCard({ summary }: Props) {
               style={[
                 styles.barFill,
                 {
-                  width: `${summary.expenseRatio}%` as any,
-                  backgroundColor:
-                    summary.expenseRatio > 80 ? COLORS.expense : COLORS.income,
+                  width: `${ratio}%`,
+                  backgroundColor: summary.expenseRatio > 80 ? COLORS.expenseLight : COLORS.heroText,
                 },
               ]}
             />
           </View>
           <Text style={styles.barLabel}>
-            {summary.expenseRatio.toFixed(0)}% income terpakai
+            {summary.expenseRatio.toFixed(0)}% pemasukan bulan ini sudah terpakai
           </Text>
         </View>
       )}
-    </Card>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  card: { marginBottom: SPACING.sm, borderColor: COLORS.border },
-  label: {
-    fontSize: FONTS.xs,
-    color: COLORS.textMuted,
-    marginBottom: SPACING.xs,
-    textTransform: "uppercase",
-    letterSpacing: 0.5,
+  card: {
+    backgroundColor: COLORS.primaryDark,
+    borderRadius: RADIUS.xl,
+    padding: SPACING.xl,
+    marginBottom: SPACING.sm,
+    ...SHADOWS.lg,
   },
-  amount: { fontSize: 28, fontWeight: "800", marginBottom: SPACING.md },
-  row: { flexDirection: "row", alignItems: "flex-start" },
-  item: { flex: 1, alignItems: "center" },
-  itemLabel: { fontSize: FONTS.xs, color: COLORS.textMuted },
-  itemValue: { fontSize: FONTS.lg, fontWeight: "700", marginTop: 2 },
-  trend: { fontSize: FONTS.xs, marginTop: 3, fontWeight: "500" },
-  divider: { width: 1, height: 44, backgroundColor: COLORS.border, marginTop: 4 },
-  barWrap: { marginTop: SPACING.md },
+  label: { fontSize: FONTS.sm, color: COLORS.heroMuted, fontWeight: "600" },
+  amount: {
+    fontSize: FONTS.xxxl,
+    fontWeight: "800",
+    color: COLORS.heroText,
+    marginTop: SPACING.xs,
+    marginBottom: SPACING.lg,
+    letterSpacing: -0.5,
+  },
+  row: { flexDirection: "row", gap: SPACING.sm },
+  pill: {
+    flex: 1,
+    backgroundColor: "rgba(255,255,255,0.12)",
+    borderRadius: RADIUS.lg,
+    padding: SPACING.md,
+  },
+  pillHead: { flexDirection: "row", alignItems: "center", gap: 4 },
+  pillLabel: { fontSize: FONTS.xs, color: COLORS.heroMuted, fontWeight: "600" },
+  pillValue: { fontSize: FONTS.lg, fontWeight: "700", color: COLORS.heroText, marginTop: 4 },
+  trendRow: { flexDirection: "row", alignItems: "center", gap: 2, marginTop: 4 },
+  trend: { fontSize: FONTS.xs, fontWeight: "600" },
+  barWrap: { marginTop: SPACING.lg },
   barTrack: {
-    height: 6,
-    backgroundColor: COLORS.border,
+    height: 8,
+    backgroundColor: "rgba(255,255,255,0.2)",
     borderRadius: RADIUS.round,
     overflow: "hidden",
   },
-  barFill: { height: 6, borderRadius: RADIUS.round },
-  barLabel: {
-    fontSize: FONTS.xs,
-    color: COLORS.textMuted,
-    marginTop: SPACING.xs,
-    textAlign: "right",
-  },
+  barFill: { height: 8, borderRadius: RADIUS.round },
+  barLabel: { fontSize: FONTS.xs, color: COLORS.heroMuted, marginTop: SPACING.sm },
 });

@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 
 import { PassiveIncomeModel } from '../models/PassiveIncomeModel';
 import { IncomeModel } from '../models/IncomeModel';
+import { mainAccountId } from './AllocationService';
 import { PASSIVE_INCOME_CATEGORIES } from '../utils/finance';
 
 const CATEGORY_LABEL: Record<string, string> = Object.fromEntries(
@@ -37,6 +38,7 @@ export function runPassiveIncomeSchedule(realm: Realm): void {
       date: anchor.format('YYYY-MM-DD'),
       note: `Passive income terjadwal: ${p.note || p.category}`,
       type: 'passive',
+      accountId: mainAccountId(realm),
       createdAt: new Date(),
     });
     p.lastGeneratedPeriod = periodKey;

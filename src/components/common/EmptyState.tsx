@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     width: 88,
     height: 88,
     borderRadius: 44,
-    backgroundColor: COLORS.subtleBg,
+    backgroundColor: COLORS.primarySoft,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: SPACING.lg,

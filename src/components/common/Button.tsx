@@ -43,20 +43,20 @@ export function Button({
     primary: COLORS.primary,
     secondary: COLORS.border,
     danger: COLORS.danger,
-    ghost: COLORS.primary,
+    ghost: 'transparent',
   };
 
   const textColors = {
-    primary: '#FFFFFF',
+    primary: COLORS.onPrimary,
     secondary: COLORS.text,
-    danger: '#FFFFFF',
+    danger: COLORS.onPrimary,
     ghost: COLORS.primary,
   };
 
   const paddings = {
     sm: { paddingVertical: SPACING.xs, paddingHorizontal: SPACING.md },
-    md: { paddingVertical: SPACING.md, paddingHorizontal: SPACING.xl },
-    lg: { paddingVertical: SPACING.lg, paddingHorizontal: SPACING.xxl },
+    md: { paddingVertical: SPACING.md, paddingHorizontal: SPACING.xl, minHeight: 48 },
+    lg: { paddingVertical: SPACING.lg, paddingHorizontal: SPACING.xxl, minHeight: 56 },
   };
 
   const fontSizes = { sm: FONTS.sm, md: FONTS.md, lg: FONTS.lg };
@@ -88,7 +88,7 @@ export function Button({
 
 const styles = StyleSheet.create({
   base: {
-    borderRadius: RADIUS.md,
+    borderRadius: RADIUS.round,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
   text: {
-    fontWeight: '600',
+    fontWeight: '700',
+    letterSpacing: 0.2,
   },
 });

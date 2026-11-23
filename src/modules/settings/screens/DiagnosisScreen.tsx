@@ -75,7 +75,7 @@ export function DiagnosisScreen() {
     <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
       <ScrollView style={styles.scroll} contentContainerStyle={styles.content}>
-        <Text style={styles.header}>Diagnosis & Laporan Error</Text>
+        <Text style={styles.header}>Cek masalah</Text>
 
         <Text style={styles.sectionTitle}>Info Perangkat</Text>
         <Card>

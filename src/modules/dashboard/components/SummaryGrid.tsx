@@ -14,68 +14,51 @@ function SummaryItem({
   value,
   color,
   icon,
-  negative,
 }: {
   label: string;
   value: number;
   color: string;
   icon: keyof typeof MaterialIcons.glyphMap;
-  negative?: boolean;
 }) {
   return (
     <Card style={styles.item} padding={SPACING.md}>
-      <View style={[styles.iconBadge, { backgroundColor: color + "18" }]}>
+      <View style={[styles.iconBadge, { backgroundColor: color + "1A" }]}>
         <MaterialIcons name={icon} size={ICON_SIZES.sm} color={color} />
       </View>
-      <Text style={[styles.value, { color }]}>
-        {negative ? "-" : ""}
-        {formatCompact(value)}
-      </Text>
-      <Text style={styles.label} numberOfLines={1}>
-        {label}
-      </Text>
+      <View style={styles.texts}>
+        <Text style={[styles.value, { color }]} numberOfLines={1}>
+          {formatCompact(value)}
+        </Text>
+        <Text style={styles.label} numberOfLines={1}>
+          {label}
+        </Text>
+      </View>
     </Card>
   );
 }
 
 export function SummaryGrid({ summary }: { summary: Summary }) {
+  // Investasi tampil kalau ada nilainya. Utang & cicilan ada di kartu Beban cicilan.
+  const items: React.ComponentProps<typeof SummaryItem>[] = [
+    { label: "Bisa dipakai", value: summary.cash, color: COLORS.primary, icon: "account-balance-wallet" },
+    { label: "Tabungan", value: summary.totalSavings, color: COLORS.saving, icon: "savings" },
+    ...(summary.totalInvestment > 0
+      ? [{ label: "Investasi", value: summary.totalInvestment, color: COLORS.investment, icon: "trending-up" as const }]
+      : []),
+    { label: "Aset", value: summary.totalAssets, color: COLORS.asset, icon: "diamond" },
+    { label: "Pemasukan rutin/bln", value: summary.recurringIncome, color: COLORS.income, icon: "event-repeat" },
+  ];
+  const basis = items.length === 4 ? "47%" : "30%";
+
   return (
     <>
-      <SectionTitle icon="dashboard">Ringkasan Keuangan</SectionTitle>
+      <SectionTitle>Ringkasan</SectionTitle>
       <View style={styles.grid}>
-        <SummaryItem label="Kas" value={summary.cash} color={COLORS.income} icon="payments" />
-        <SummaryItem
-          label="Tabungan"
-          value={summary.totalSavings}
-          color={COLORS.savings}
-          icon="savings"
-        />
-        <SummaryItem
-          label="Investasi"
-          value={summary.totalInvestment}
-          color={COLORS.investment}
-          icon="trending-up"
-        />
-        <SummaryItem
-          label="Aset Fisik"
-          value={summary.totalAssets}
-          color={COLORS.asset}
-          icon="home-work"
-        />
-        <SummaryItem
-          label="Total Hutang"
-          value={summary.totalDebt}
-          color={COLORS.debt}
-          icon="receipt-long"
-          negative
-        />
-        <SummaryItem
-          label="Cicilan/Bln"
-          value={summary.monthlyInstallment}
-          color={COLORS.debt}
-          icon="event"
-          negative
-        />
+        {items.map((item) => (
+          <View key={item.label} style={{ flexBasis: basis, flexGrow: 1 }}>
+            <SummaryItem {...item} />
+          </View>
+        ))}
       </View>
     </>
   );
@@ -83,15 +66,15 @@ export function SummaryGrid({ summary }: { summary: Summary }) {
 
 const styles = StyleSheet.create({
   grid: { flexDirection: "row", flexWrap: "wrap", gap: SPACING.sm },
-  item: { width: "31%", alignItems: "center" },
+  item: { flexDirection: "row", alignItems: "center", gap: SPACING.sm },
+  texts: { flex: 1 },
   iconBadge: {
-    width: 32,
-    height: 32,
+    width: 36,
+    height: 36,
     borderRadius: RADIUS.round,
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: SPACING.xs,
   },
-  value: { fontSize: FONTS.md, fontWeight: "700" },
-  label: { fontSize: FONTS.xs, color: COLORS.textMuted, marginTop: 2, textAlign: "center" },
+  value: { fontSize: FONTS.lg, fontWeight: "700" },
+  label: { fontSize: FONTS.xs, color: COLORS.textSecondary, marginTop: 2 },
 });

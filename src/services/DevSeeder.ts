@@ -2,22 +2,19 @@ import Realm from "realm";
 import { IncomeModel } from "../models/IncomeModel";
 import { ExpenseModel } from "../models/ExpenseModel";
 import { DebtModel } from "../models/DebtModel";
-import { DebtPaymentModel } from "../models/DebtPaymentModel";
-import { SavingModel } from "../models/SavingModel";
-import { SavingHistoryModel } from "../models/SavingHistoryModel";
 import { InvestmentModel } from "../models/InvestmentModel";
 import { PhysicalAssetModel } from "../models/PhysicalAssetModel";
 import { CategoryModel } from "../models/CategoryModel";
 import { PassiveIncomeModel } from "../models/PassiveIncomeModel";
-import { FinancialMilestoneModel } from "../models/FinancialMilestoneModel";
+import { ensureDefaultExpenseCategories } from "./CategoryService";
 
-const EXPENSE_CATEGORIES = [
-  { name: "Makanan", emoji: "🍔" },
-  { name: "Transportasi", emoji: "🚗" },
-  { name: "Tagihan", emoji: "🧾" },
-  { name: "Hiburan", emoji: "🎬" },
-  { name: "Belanja", emoji: "🛒" },
-  { name: "Kesehatan", emoji: "💊" },
+const SPEND_ROWS = [
+  { kind: "need", category: "Makan & Minum", note: "Makan siang" },
+  { kind: "need", category: "Transportasi", note: "Bensin" },
+  { kind: "need", category: "Internet & Pulsa", note: "Wifi" },
+  { kind: "obligation", category: "Kartu Kredit", note: "Tagihan CC" },
+  { kind: "want", category: "Hiburan", note: "Nonton" },
+  { kind: "want", category: "Jajan & Kopi", note: "Kopi" },
 ];
 
 const INCOME_CATEGORIES = [
@@ -48,12 +45,9 @@ export interface SeedSummary {
   expenses: number;
   debts: number;
   debtPayments: number;
-  savings: number;
-  savingHistory: number;
   investments: number;
   physicalAssets: number;
   passiveIncomes: number;
-  milestones: number;
 }
 
 export function seedDummyData(realm: Realm): SeedSummary {
@@ -63,23 +57,13 @@ export function seedDummyData(realm: Realm): SeedSummary {
     expenses: 0,
     debts: 0,
     debtPayments: 0,
-    savings: 0,
-    savingHistory: 0,
     investments: 0,
     physicalAssets: 0,
     passiveIncomes: 0,
-    milestones: 0,
   };
 
   realm.write(() => {
-    EXPENSE_CATEGORIES.forEach((c) => {
-      realm.create(CategoryModel, {
-        name: c.name,
-        type: "expense",
-        emoji: c.emoji,
-      });
-      summary.categories += 1;
-    });
+    ensureDefaultExpenseCategories(realm);
     INCOME_CATEGORIES.forEach((c) => {
       realm.create(CategoryModel, {
         name: c.name,
@@ -89,59 +73,36 @@ export function seedDummyData(realm: Realm): SeedSummary {
       summary.categories += 1;
     });
 
-    const savings: SavingModel[] = [];
-    [
-      {
-        name: "Dana Darurat",
-        target: 20_000_000,
-        balance: 6_500_000,
-        emoji: "🚨",
-      },
-      { name: "Liburan", target: 10_000_000, balance: 2_000_000, emoji: "✈️" },
-      {
-        name: "Beli Motor",
-        target: 25_000_000,
-        balance: 5_000_000,
-        emoji: "🏍️",
-        deadline: dateDaysAgo(-180),
-      },
-    ].forEach((s) => {
-      const saving = realm.create(SavingModel, { ...s });
-      savings.push(saving);
-      summary.savings += 1;
-    });
-
-    savings.forEach((saving) => {
-      for (let i = 0; i < 3; i++) {
-        const amount = randInt(200_000, 1_000_000);
-        realm.create(SavingHistoryModel, {
-          savingId: saving._id.toHexString(),
-          type: "deposit",
-          amount,
-          date: dateDaysAgo(randInt(1, 60)),
-          note: "Setoran rutin",
-        });
-        summary.savingHistory += 1;
-      }
-    });
+    for (let i = 0; i < 3; i++) {
+      realm.create(ExpenseModel, {
+        date: dateDaysAgo(randInt(1, 60)),
+        category: "Tabungan",
+        kind: "saving",
+        amount: randInt(500_000, 2_000_000),
+        source: "cash",
+        savingId: "",
+        note: "Setoran rutin",
+      });
+      summary.expenses += 1;
+    }
 
     const debt = realm.create(DebtModel, {
       name: "KPR Rumah",
-      lender: "Bank BCA",
       totalAmount: 300_000_000,
+      paidBefore: 20_000_000,
       monthlyInstallment: 3_500_000,
-      remainingMonth: 96,
       dueDate: 10,
       startDate: dateDaysAgo(180),
-      note: "Cicilan bulanan",
-      isActive: true,
-      extraPaid: 0,
+      note: "Bank BCA",
     });
     summary.debts += 1;
 
     for (let i = 0; i < 3; i++) {
-      realm.create(DebtPaymentModel, {
+      realm.create(ExpenseModel, {
         debtId: debt._id.toHexString(),
+        category: "Cicilan",
+        kind: "obligation",
+        source: "cash",
         amount: 3_500_000,
         date: dateDaysAgo(30 * (i + 1)),
         note: "Pembayaran cicilan",
@@ -151,14 +112,15 @@ export function seedDummyData(realm: Realm): SeedSummary {
 
     for (let i = 0; i < 6; i++) {
       const category = pick(INCOME_CATEGORIES);
+      const incomeAmount = randInt(5_000_000, 12_000_000);
       realm.create(IncomeModel, {
         date: dateDaysAgo(randInt(1, 90)),
         category: category.name,
-        amount: randInt(5_000_000, 12_000_000),
+        amount: incomeAmount,
         note: "Data dummy",
         allocationDebt: 0,
         allocationSavings: 0,
-        allocationCash: 0,
+        allocationCash: incomeAmount,
         allocationDebtId: "",
         allocationSavingId: "",
         type: "active",
@@ -167,14 +129,15 @@ export function seedDummyData(realm: Realm): SeedSummary {
     }
 
     for (let i = 0; i < 15; i++) {
-      const category = pick(EXPENSE_CATEGORIES);
+      const row = pick(SPEND_ROWS);
       realm.create(ExpenseModel, {
         date: dateDaysAgo(randInt(1, 90)),
-        category: category.name,
+        category: row.category,
+        kind: row.kind,
         amount: randInt(20_000, 500_000),
         source: "cash",
         savingId: "",
-        note: "Data dummy",
+        note: row.note,
       });
       summary.expenses += 1;
     }
@@ -234,13 +197,6 @@ export function seedDummyData(realm: Realm): SeedSummary {
       note: "Data dummy",
     });
     summary.passiveIncomes += 1;
-
-    realm.create(FinancialMilestoneModel, {
-      type: "first_saving",
-      title: "Tabungan Pertama",
-      achievedAt: new Date(),
-    });
-    summary.milestones += 1;
   });
 
   return summary;

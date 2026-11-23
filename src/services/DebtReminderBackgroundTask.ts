@@ -6,8 +6,8 @@ import dayjs from 'dayjs';
 
 import { realmConfig } from '../database/realm';
 import { DebtModel } from '../models/DebtModel';
-import { DebtPaymentModel } from '../models/DebtPaymentModel';
-import { getMonthlyPaymentState, getReminderStatus } from '../utils/finance';
+import { ExpenseModel } from '../models/ExpenseModel';
+import { buildDebtInfos, getReminderStatus } from '../utils/debt';
 import { formatCurrency } from '../utils/currency';
 import { storage } from '../storage/mmkv';
 
@@ -22,34 +22,15 @@ TaskManager.defineTask(TASK_NAME, async () => {
   try {
     realm = await Realm.open(realmConfig);
     const today = dayjs().format('YYYY-MM-DD');
-    const monthStart = dayjs().startOf('month').format('YYYY-MM-DD');
+    const infos = buildDebtInfos(
+      realm.objects(DebtModel),
+      realm.objects(ExpenseModel).filtered('debtId != ""'),
+    );
 
-    const debts = realm.objects(DebtModel).filtered('isActive == true');
-    const debtPayments = realm.objects(DebtPaymentModel);
-
-    for (const d of debts) {
-      const debtId = d._id.toHexString();
-      const { paidThisMonth, missedMonths } = getMonthlyPaymentState({
-        debtType: d.debtType,
-        startDate: d.startDate,
-        dueDate: d.dueDate,
-        remainingMonth: d.remainingMonth,
-        paymentsCount: debtPayments.filtered('debtId == $0', debtId).length,
-        hasPaymentThisMonth: debtPayments.filtered('debtId == $0 AND date >= $1', debtId, monthStart).length > 0,
-      });
-      const status = getReminderStatus(
-        {
-          id: debtId,
-          name: d.name,
-          monthlyInstallment: d.monthlyInstallment,
-          remainingMonth: d.remainingMonth,
-          dueDate: d.dueDate,
-          dueDateFull: d.dueDateFull,
-          paidThisMonth,
-          missedMonths,
-          debtType: d.debtType,
-        },
-      );
+    for (const info of infos) {
+      const d = info.debt;
+      const debtId = info.id;
+      const status = getReminderStatus(info);
       if (!status?.urgent) continue;
 
       const key = notifiedKey(debtId, today);
@@ -58,7 +39,9 @@ TaskManager.defineTask(TASK_NAME, async () => {
       await Notifications.scheduleNotificationAsync({
         content: {
           title: `⏰ ${d.name} — ${status.label}`,
-          body: `Cicilan ${formatCurrency(d.monthlyInstallment)} belum dibayar`,
+          body: d.monthlyInstallment > 0
+            ? `Cicilan ${formatCurrency(d.monthlyInstallment)} belum dibayar`
+            : `Sisa ${formatCurrency(info.remaining)} belum dibayar`,
           sound: true,
         },
         trigger: null,
@@ -83,4 +66,19 @@ export async function registerDebtReminderBackgroundTask() {
   const alreadyRegistered = await TaskManager.isTaskRegisteredAsync(TASK_NAME);
   if (alreadyRegistered) return;
   await BackgroundTask.registerTaskAsync(TASK_NAME, { minimumInterval: 360 });
+}
+
+/** Background tasks from removed features — unregister so the OS stops waking a task with no definition. */
+const LEGACY_TASK_NAMES = ['motivation-quote-check'];
+
+export async function unregisterLegacyBackgroundTasks() {
+  for (const name of LEGACY_TASK_NAMES) {
+    try {
+      if (await TaskManager.isTaskRegisteredAsync(name)) {
+        await BackgroundTask.unregisterTaskAsync(name);
+      }
+    } catch {
+      // Best effort — nothing to clean up on fresh installs.
+    }
+  }
 }

@@ -1,40 +1,31 @@
 export { IncomeModel } from './IncomeModel';
 export { ExpenseModel } from './ExpenseModel';
 export { DebtModel } from './DebtModel';
-export { DebtPaymentModel } from './DebtPaymentModel';
-export { SavingModel } from './SavingModel';
-export { SavingHistoryModel } from './SavingHistoryModel';
 export { InvestmentModel } from './InvestmentModel';
 export { PhysicalAssetModel } from './PhysicalAssetModel';
 export { CategoryModel } from './CategoryModel';
-export { FinancialScoreModel } from './FinancialScoreModel';
 export { PassiveIncomeModel } from './PassiveIncomeModel';
-export { FinancialMilestoneModel } from './FinancialMilestoneModel';
+export { AccountModel } from './AccountModel';
+export { TransferModel } from './TransferModel';
 
 import { IncomeModel } from './IncomeModel';
 import { ExpenseModel } from './ExpenseModel';
 import { DebtModel } from './DebtModel';
-import { DebtPaymentModel } from './DebtPaymentModel';
-import { SavingModel } from './SavingModel';
-import { SavingHistoryModel } from './SavingHistoryModel';
 import { InvestmentModel } from './InvestmentModel';
 import { PhysicalAssetModel } from './PhysicalAssetModel';
 import { CategoryModel } from './CategoryModel';
-import { FinancialScoreModel } from './FinancialScoreModel';
 import { PassiveIncomeModel } from './PassiveIncomeModel';
-import { FinancialMilestoneModel } from './FinancialMilestoneModel';
+import { AccountModel } from './AccountModel';
+import { TransferModel } from './TransferModel';
 
 export const ALL_MODELS = [
   IncomeModel,
   ExpenseModel,
   DebtModel,
-  DebtPaymentModel,
-  SavingModel,
-  SavingHistoryModel,
   InvestmentModel,
   PhysicalAssetModel,
   CategoryModel,
-  FinancialScoreModel,
   PassiveIncomeModel,
-  FinancialMilestoneModel,
+  AccountModel,
+  TransferModel,
 ];

@@ -1,57 +1,36 @@
 import { Platform } from 'react-native';
+import { createMMKV } from 'react-native-mmkv';
+import { reloadAppAsync } from 'expo';
+import { PALETTES, DEFAULT_THEME_ID, type ThemeId, type ThemeColors } from './palettes';
 
 // ─── Colors ──────────────────────────────────────────────────────────────────
+// Palet dibaca sekali saat app start (sinkron dari MMKV). Style dibuat di level
+// modul, jadi ganti tema = simpan pilihan lalu reload app (lihat setThemeId).
 
-export const COLORS = {
-  // Brand — matched to index.html accent (#1d9e75)
-  primary: '#1d9e75',
-  secondary: '#0891b2',
+const themeStorage = createMMKV({ id: 'dompetku-theme' });
+const THEME_KEY = 'theme_id';
 
-  // Finance categories
-  income: '#1d9e75',
-  expense: '#e24b4a',
-  debt: '#ef9f27',
-  savings: '#185fa5',
-  investment: '#6d28d9',
-  asset: '#0891b2',
+function readThemeId(): ThemeId {
+  try {
+    const saved = themeStorage.getString(THEME_KEY);
+    if (saved && saved in PALETTES) return saved as ThemeId;
+  } catch {}
+  return DEFAULT_THEME_ID;
+}
 
-  // Background layers — light mode matching index.html
-  background: '#f0f2f5',
-  surface: '#ffffff',
-  card: '#ffffff',
+export const THEME_ID: ThemeId = readThemeId();
 
-  // Text — dark navy like index.html --text/#1a2b45
-  text: '#1a2b45',
-  textSecondary: '#6b7280',
-  textMuted: '#9ca3af',
+export const COLORS: ThemeColors = { ...PALETTES[THEME_ID].colors };
 
-  // UI
-  border: '#e5e7eb',
+export type ColorKey = keyof ThemeColors;
 
-  // Topbar / header — dark navy like index.html --dark
-  topbar: '#1a2b45',
+export async function setThemeId(id: ThemeId) {
+  themeStorage.set(THEME_KEY, id);
+  await reloadAppAsync('Ganti tema');
+}
 
-  // Input background — warm like index.html --input
-  inputBg: '#fffbeb',
-
-  // Subtle section bg
-  subtleBg: '#f5f5f3',
-
-  // Light tints for text on dark backgrounds
-  incomeLight: '#6ee7b7',
-  expenseLight: '#fca5a5',
-
-  // Card backgrounds for semantic states
-  successBg: '#f0fdf4',
-  successBorder: '#d1fae5',
-
-  // Semantic
-  success: '#1d9e75',
-  danger: '#e24b4a',
-  warning: '#ef9f27',
-} as const;
-
-export type ColorKey = keyof typeof COLORS;
+export { PALETTES };
+export type { ThemeId, ThemeColors };
 
 // ─── Fonts ───────────────────────────────────────────────────────────────────
 
@@ -101,10 +80,10 @@ export const ICON_SIZES = {
 // ─── Border Radius ───────────────────────────────────────────────────────────
 
 export const RADIUS = {
-  sm: 4,
-  md: 8,
-  lg: 12,
-  xl: 16,
+  sm: 8,
+  md: 14,
+  lg: 20,
+  xl: 26,
   round: 999,
 } as const;
 
@@ -113,22 +92,22 @@ export const RADIUS = {
 export const SHADOWS = {
   card: Platform.select({
     ios: {
-      shadowColor: '#000000',
+      shadowColor: COLORS.shadow,
       shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.25,
-      shadowRadius: 8,
+      shadowOpacity: 0.10,
+      shadowRadius: 12,
     },
     android: {
-      elevation: 4,
+      elevation: 3,
     },
     default: {},
   }),
   sm: Platform.select({
     ios: {
-      shadowColor: '#000000',
+      shadowColor: COLORS.shadow,
       shadowOffset: { width: 0, height: 1 },
-      shadowOpacity: 0.15,
-      shadowRadius: 4,
+      shadowOpacity: 0.08,
+      shadowRadius: 6,
     },
     android: {
       elevation: 2,
@@ -137,13 +116,13 @@ export const SHADOWS = {
   }),
   lg: Platform.select({
     ios: {
-      shadowColor: '#000000',
+      shadowColor: COLORS.shadow,
       shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.35,
-      shadowRadius: 12,
+      shadowOpacity: 0.16,
+      shadowRadius: 18,
     },
     android: {
-      elevation: 8,
+      elevation: 6,
     },
     default: {},
   }),

@@ -16,59 +16,58 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { MaterialIcons } from '@expo/vector-icons';
 import Realm from 'realm';
 
-import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
-import { Text, Button, Input, DateInput, CurrencyInput, BackButton, TransactionSuccessAnimation } from '../../../components/common';
+import { COLORS, FONTS, ICON_SIZES, SPACING, RADIUS } from '../../../theme';
+import {
+  Text,
+  Button,
+  Input,
+  DateInput,
+  CurrencyInput,
+  BackButton,
+  TransactionSuccessAnimation,
+  SavingSuccessAnimation,
+} from '../../../components/common';
 import { ExpenseModel } from '../../../models/ExpenseModel';
+import { CategoryModel } from '../../../models/CategoryModel';
+import { useDebts } from '../../debt/useDebts';
+import { getBalances, mainAccountId } from '../../../services/AllocationService';
+import { AccountPicker } from '../../finance/components/AccountPicker';
+import { useAccounts } from '../../finance/useAccounts';
+import { KIND_META, SPEND_KINDS, isSpendKind, isKeptKind, type SpendKind } from '../../../utils/budget';
+import { formatCurrency } from '../../../utils/currency';
 import { today } from '../../../utils/date';
-import type { CashflowStackParamList } from '../../transaction/types';
+import type { RootStackParamList } from '../../../navigation/types';
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
-type NavProp = NativeStackNavigationProp<CashflowStackParamList, 'ExpenseForm'>;
-type RouteType = RouteProp<CashflowStackParamList, 'ExpenseForm'>;
-
-// ─── Constants ────────────────────────────────────────────────────────────────
-
-const CATEGORIES = [
-  { label: 'Makan & Minum', emoji: '🍜' },
-  { label: 'Transportasi', emoji: '🚗' },
-  { label: 'Belanja', emoji: '🛍️' },
-  { label: 'Tagihan', emoji: '📄' },
-  { label: 'Kesehatan', emoji: '🏥' },
-  { label: 'Hiburan', emoji: '🎬' },
-  { label: 'Pendidikan', emoji: '📚' },
-  { label: 'Rumah', emoji: '🏠' },
-  { label: 'Komunikasi', emoji: '📱' },
-  { label: 'Lainnya', emoji: '💸' },
-];
-
-// ─── Validation ───────────────────────────────────────────────────────────────
+type NavProp = NativeStackNavigationProp<RootStackParamList, 'ExpenseForm'>;
+type RouteType = RouteProp<RootStackParamList, 'ExpenseForm'>;
 
 const schema = z.object({
   amount: z
     .string()
     .min(1, 'Nominal wajib diisi')
     .refine((v) => parseFloat(v.replace(/[^0-9.]/g, '')) > 0, 'Nominal harus lebih dari 0'),
-  category: z.string().min(1, 'Kategori wajib dipilih'),
+  category: z.string().min(1, 'Pilih kategori dulu'),
+  kind: z.enum(['need', 'obligation', 'want', 'saving', 'invest']),
+  fromSavings: z.boolean(),
+  debtId: z.string(),
   date: z.string().min(1, 'Tanggal wajib diisi'),
   note: z.string().optional(),
 });
 
 type FormValues = z.infer<typeof schema>;
 
-// ─── Screen ───────────────────────────────────────────────────────────────────
-
 export function ExpenseFormScreen() {
   const navigation = useNavigation<NavProp>();
   const route = useRoute<RouteType>();
   const realm = useRealm();
-  const { id } = route.params ?? {};
+  const { id, kind: initialKind, debtId: initialDebtId, category: initialCategory } = route.params ?? {};
   const isEdit = Boolean(id);
 
   const allExpenses = useQuery(ExpenseModel);
-  const existingExpense = useMemo(() => {
+  const existing = useMemo(() => {
     if (!id) return null;
     return allExpenses.find((e) => e._id.toHexString() === id) ?? null;
   }, [allExpenses, id]);
@@ -83,46 +82,147 @@ export function ExpenseFormScreen() {
     resolver: zodResolver(schema),
     defaultValues: {
       amount: '',
-      category: '',
+      category: initialCategory ?? '',
+      kind: isSpendKind(initialKind) ? initialKind : 'need',
+      fromSavings: false,
+      debtId: initialDebtId ?? '',
       date: today(),
       note: '',
     },
   });
 
   useEffect(() => {
-    if (existingExpense) {
-      setValue('amount', existingExpense.amount.toString());
-      setValue('category', existingExpense.category);
-      setValue('date', existingExpense.date);
-      setValue('note', existingExpense.note);
+    if (existing) {
+      setValue('amount', existing.amount.toString());
+      setValue('category', existing.category);
+      setValue('kind', isSpendKind(existing.kind) ? existing.kind : 'need');
+      setValue('fromSavings', existing.source === 'savings');
+      setValue('debtId', existing.debtId);
+      setValue('date', existing.date);
+      setValue('note', existing.note);
     }
-  }, [existingExpense, setValue]);
+  }, [existing, setValue]);
 
+  const expenseCategories = useQuery(CategoryModel, (c) => c.filtered('type == "expense"').sorted('createdAt'), []);
   const selectedCategory = watch('category');
 
+  // Kategori dikelompokkan per jenis. Jenis yang dipilih dari filter tampil paling atas.
+  const groups = useMemo(() => {
+    const order = isSpendKind(initialKind)
+      ? [initialKind, ...SPEND_KINDS.filter((k) => k !== initialKind)]
+      : SPEND_KINDS;
+    const items = expenseCategories.map((c) => ({ name: c.name, emoji: c.emoji, kind: isSpendKind(c.kind) ? c.kind : 'need' as SpendKind }));
+    // Kategori transaksi lama yang sudah tidak ada di daftar tetap bisa dipilih saat edit.
+    if (existing && !items.some((c) => c.name === existing.category)) {
+      items.push({ name: existing.category, emoji: '📌', kind: isSpendKind(existing.kind) ? existing.kind : 'need' });
+    }
+    return order.map((k) => ({ kind: k, items: items.filter((c) => c.kind === k) }));
+  }, [expenseCategories, existing, initialKind]);
+
+  const pickCategory = (name: string, k: SpendKind) => {
+    setValue('category', name, { shouldValidate: true });
+    setValue('kind', k);
+  };
+
+  const kind = watch('kind');
+  const fromSavings = watch('fromSavings') && kind !== 'saving';
+  const debtId = watch('debtId');
+
+  // Kewajiban yang bisa dihubungkan: yang belum lunas, plus yang sedang terpilih.
+  const debts = useDebts();
+  const debtOptions = useMemo(
+    () => debts.filter((d) => !d.lunas || d.id === debtId),
+    [debts, debtId],
+  );
+  const pickDebt = (id: string) => {
+    setValue('debtId', id);
+    const d = debts.find((x) => x.id === id);
+    if (d && !watch('amount') && d.debt.monthlyInstallment > 0) {
+      setValue('amount', String(Math.min(d.debt.monthlyInstallment, d.remaining)));
+    }
+  };
+
+  // Dibuka dari halaman kewajiban: isi nominal cicilan sekali di awal.
+  useEffect(() => {
+    if (!existing && initialDebtId) pickDebt(initialDebtId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Saldo yang tersedia, tidak menghitung baris yang sedang diedit.
+  const balances = getBalances(realm);
+  const available = useMemo(() => {
+    let spendable = balances.spendable;
+    let savings = balances.savings;
+    if (existing) {
+      if (existing.source === 'cash') spendable += existing.amount;
+      if (existing.source === 'savings') savings += existing.amount;
+      else if (existing.kind === 'saving') savings -= existing.amount;
+    }
+    return { spendable, savings };
+  }, [balances.spendable, balances.savings, existing]);
+
+  // Pembelian investasi/aset: nominal/kategori/tanggal dikelola dari halamannya.
+  const linkedRef = existing?.assetRef ?? '';
+  const [accountId, setAccountId] = useState(() => existing?.accountId ?? mainAccountId(realm));
+  const savingsPockets = useAccounts().list.filter((a) => a.account.isSavings);
+  // Sisihkan: kantong tabungan tujuan. Baru = kantong tabungan pertama.
+  const [toAccountId, setToAccountId] = useState(() => existing?.toAccountId ?? savingsPockets[0]?.id ?? '');
+
+  const toggleFromSavings = () => {
+    const next = !fromSavings;
+    setValue('fromSavings', next);
+    // Bayar pakai tabungan: ambil dari kantong tabungan kalau ada.
+    if (next && savingsPockets.length && !savingsPockets.some((a) => a.id === accountId)) {
+      setAccountId(savingsPockets[0].id);
+    }
+  };
+
   const savingRef = useRef(false);
-  const [successAmount, setSuccessAmount] = useState<number | null>(null);
+  const [success, setSuccess] = useState<{ amount: number; kind: SpendKind } | null>(null);
 
   const onSubmit = (data: FormValues) => {
     if (savingRef.current) return;
     const amount = parseFloat(data.amount.replace(/[^0-9.]/g, ''));
+    const useSavings = data.fromSavings && data.kind !== 'saving';
+
+    if (useSavings && amount > available.savings) {
+      Alert.alert('Tabungan tidak cukup', `Tabungan kamu ${formatCurrency(available.savings)}.`);
+      return;
+    }
+    if ((data.kind === 'saving' || (data.kind === 'invest' && !useSavings)) && amount > available.spendable) {
+      Alert.alert('Saldo tidak cukup', `Saldo yang bisa dipakai ${formatCurrency(available.spendable)}.`);
+      return;
+    }
+
+    const category = data.category;
+    const source = useSavings ? 'savings' : 'cash';
+    const linkedDebt = data.kind === 'obligation' ? data.debtId : '';
+    const savedTo = data.kind === 'saving' && toAccountId !== accountId ? toAccountId : '';
 
     savingRef.current = true;
     realm.write(() => {
-      if (isEdit && existingExpense) {
-        existingExpense.amount = amount;
-        existingExpense.category = data.category;
-        existingExpense.source = 'cash';
-        existingExpense.savingId = '';
-        existingExpense.date = data.date;
-        existingExpense.note = data.note ?? '';
+      if (isEdit && existing) {
+        existing.amount = amount;
+        existing.kind = data.kind;
+        existing.category = category;
+        existing.source = source;
+        existing.savingId = '';
+        existing.debtId = linkedDebt;
+        existing.accountId = accountId;
+        existing.toAccountId = savedTo;
+        existing.date = data.date;
+        existing.note = data.note ?? '';
       } else {
         realm.create(ExpenseModel, {
           _id: new Realm.BSON.ObjectId(),
           amount,
-          category: data.category,
-          source: 'cash',
+          kind: data.kind,
+          category,
+          source,
           savingId: '',
+          debtId: linkedDebt,
+          accountId,
+          toAccountId: savedTo,
           date: data.date,
           note: data.note ?? '',
           createdAt: new Date(),
@@ -133,20 +233,20 @@ export function ExpenseFormScreen() {
     if (isEdit) {
       navigation.goBack();
     } else {
-      setSuccessAmount(amount);
+      setSuccess({ amount, kind: data.kind });
     }
   };
 
   const handleDelete = () => {
-    Alert.alert('Hapus Pengeluaran', 'Yakin ingin menghapus pengeluaran ini?', [
+    Alert.alert('Hapus catatan', 'Yakin ingin menghapus catatan ini?', [
       { text: 'Batal', style: 'cancel' },
       {
         text: 'Hapus',
         style: 'destructive',
         onPress: () => {
-          if (existingExpense) {
+          if (existing) {
             realm.write(() => {
-              realm.delete(existingExpense);
+              realm.delete(existing);
             });
           }
           navigation.goBack();
@@ -159,87 +259,176 @@ export function ExpenseFormScreen() {
     <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
 
-      {/* Header */}
       <View style={styles.header}>
         <BackButton onPress={() => navigation.goBack()} />
       </View>
 
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      >
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <ScrollView
           style={styles.scroll}
           contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
         >
-          {/* Amount */}
+          {linkedRef ? (
+            <View style={styles.linkedCard}>
+              <View style={styles.linkedHead}>
+                <MaterialIcons name={KIND_META.invest.icon} size={ICON_SIZES.md} color={COLORS.invest} />
+                <Text style={styles.linkedTitle}>{existing?.category} · {formatCurrency(existing?.amount ?? 0)}</Text>
+              </View>
+              <Text style={styles.linkedText}>
+                Dicatat otomatis dari halaman {linkedRef.startsWith('asset:') ? 'Aset' : 'Investasi'}. Nominal, kategori,
+                dan tanggal ikut data di sana. Di sini kamu cuma bisa ganti kantongnya.
+              </Text>
+              <TouchableOpacity
+                onPress={() => navigation.navigate(linkedRef.startsWith('asset:') ? 'Assets' : 'Investments')}
+                hitSlop={8}
+              >
+                <Text style={styles.manageLink}>Buka {linkedRef.startsWith('asset:') ? 'Aset' : 'Investasi'}</Text>
+              </TouchableOpacity>
+            </View>
+          ) : (
+          <>
           <Controller
             control={control}
             name="amount"
             render={({ field: { onChange, value } }) => (
-              <CurrencyInput
-                label="Nominal"
-                value={value}
-                onChangeText={onChange}
-                error={errors.amount?.message}
-              />
+              <CurrencyInput label="Nominal" value={value} onChangeText={onChange} error={errors.amount?.message} />
             )}
           />
 
-          {/* Category Chips */}
+          {/* Kategori, dikelompokkan per jenis */}
           <View style={styles.fieldGroup}>
-            <Text style={styles.fieldLabel}>Kategori</Text>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.chipsRow}
-            >
-              {CATEGORIES.map((cat) => {
-                const isSelected = selectedCategory === cat.label;
-                return (
-                  <TouchableOpacity
-                    key={cat.label}
-                    onPress={() => setValue('category', cat.label, { shouldValidate: true })}
-                    style={[styles.chip, isSelected && styles.chipSelected]}
-                    activeOpacity={0.7}
-                  >
-                    <Text style={styles.chipEmoji}>{cat.emoji}</Text>
-                    <Text style={[styles.chipLabel, isSelected ? styles.chipLabelSelected : null]}>
-                      {cat.label}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </ScrollView>
-            {errors.category && (
-              <Text style={styles.errorText}>{errors.category.message}</Text>
-            )}
+            <View style={styles.categoryHead}>
+              <Text style={styles.fieldLabel}>Kategori</Text>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('Categories')}
+                hitSlop={8}
+              >
+                <Text style={styles.manageLink}>Atur kategori</Text>
+              </TouchableOpacity>
+            </View>
+            {groups.map((g) => {
+              if (!g.items.length) return null;
+              const m = KIND_META[g.kind];
+              return (
+                <View key={g.kind} style={styles.group}>
+                  <View style={styles.groupHead}>
+                    <MaterialIcons name={m.icon} size={ICON_SIZES.sm} color={m.color} />
+                    <Text style={styles.groupLabel}>{m.label}</Text>
+                  </View>
+                  <View style={styles.chipWrap}>
+                    {g.items.map((c) => {
+                      const active = selectedCategory === c.name;
+                      return (
+                        <TouchableOpacity
+                          key={c.name}
+                          onPress={() => pickCategory(c.name, c.kind)}
+                          style={[styles.chip, active && { borderColor: m.color, backgroundColor: m.color + '1A' }]}
+                          activeOpacity={0.7}
+                          accessibilityRole="radio"
+                          accessibilityState={{ selected: active }}
+                        >
+                          <Text style={styles.chipEmoji}>{c.emoji}</Text>
+                          <Text style={[styles.chipLabel, active && styles.chipLabelActive]}>{c.name}</Text>
+                        </TouchableOpacity>
+                      );
+                    })}
+                  </View>
+                  {/* Hubungkan ke kewajiban: pembayarannya mengurangi sisa utang */}
+                  {g.kind === 'obligation' && kind === 'obligation' && debtOptions.length > 0 && (
+            <View style={styles.debtPicker}>
+              <Text style={styles.debtLabel}>Untuk kewajiban</Text>
+              <View style={styles.chipWrap}>
+                {[{ id: '', label: 'Tidak terkait' }, ...debtOptions.map((d) => ({ id: d.id, label: d.debt.name }))].map((o) => {
+                  const active = debtId === o.id;
+                  return (
+                    <TouchableOpacity
+                      key={o.id || 'none'}
+                      onPress={() => pickDebt(o.id)}
+                      style={[styles.chip, active && { borderColor: COLORS.obligation, backgroundColor: COLORS.obligation + '1A' }]}
+                      activeOpacity={0.7}
+                      accessibilityRole="radio"
+                      accessibilityState={{ selected: active }}
+                    >
+                      <Text style={[styles.chipLabel, active && styles.chipLabelActive]}>{o.label}</Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+              {debtId ? (
+                <Text style={styles.debtHint}>
+                  Sisa {formatCurrency(debts.find((d) => d.id === debtId)?.remaining ?? 0)} akan berkurang.
+                </Text>
+              ) : null}
+            </View>
+                  )}
+                </View>
+              );
+            })}
+            {errors.category && <Text style={styles.errorText}>{errors.category.message}</Text>}
           </View>
+          </>
+          )}
 
-          {/* Date */}
+          {/* Sumber dana */}
+          {linkedRef ? (
+            <AccountPicker label="Dibayar dari" value={accountId} onChange={setAccountId} />
+          ) : kind === 'saving' ? (
+            <>
+              <AccountPicker label="Diambil dari" value={accountId} onChange={setAccountId} />
+              <AccountPicker
+                label="Simpan ke"
+                onlySavings
+                value={toAccountId}
+                onChange={setToAccountId}
+                exclude={accountId}
+                noneLabel="Tetap di kantong ini"
+              />
+              <Text style={styles.balanceHint}>
+                Disisihkan dari saldo bisa dipakai ({formatCurrency(available.spendable)}).
+              </Text>
+            </>
+          ) : (
+            <>
+            <AccountPicker label="Dibayar dari" value={accountId} onChange={setAccountId} />
+            <TouchableOpacity
+              style={styles.toggleRow}
+              onPress={toggleFromSavings}
+              activeOpacity={0.7}
+              accessibilityRole="checkbox"
+              accessibilityState={{ checked: fromSavings }}
+            >
+              <MaterialIcons
+                name={fromSavings ? 'check-box' : 'check-box-outline-blank'}
+                size={ICON_SIZES.lg}
+                color={fromSavings ? COLORS.primary : COLORS.textMuted}
+              />
+              <View style={{ flex: 1 }}>
+                <Text style={styles.toggleLabel}>Bayar pakai tabungan</Text>
+                <Text style={styles.toggleSub}>Tabungan kamu {formatCurrency(available.savings)}</Text>
+              </View>
+            </TouchableOpacity>
+            </>
+          )}
+
+          {!linkedRef && (
+          <>
           <Controller
             control={control}
             name="date"
             render={({ field: { onChange, value } }) => (
-              <DateInput
-                label="Tanggal"
-                value={value}
-                onChange={onChange}
-                error={errors.date?.message}
-              />
+              <DateInput label="Tanggal" value={value} onChange={onChange} error={errors.date?.message} />
             )}
           />
 
-          {/* Note */}
           <Controller
             control={control}
             name="note"
             render={({ field: { onChange, value } }) => (
               <Input
                 label="Catatan (opsional)"
-                placeholder="Tambah catatan..."
+                placeholder={kind === 'saving' ? 'Contoh: dana darurat' : kind === 'invest' ? 'Contoh: beli reksa dana' : 'Contoh: makan siang'}
                 value={value}
                 onChangeText={onChange}
                 multiline
@@ -248,21 +437,20 @@ export function ExpenseFormScreen() {
               />
             )}
           />
+          </>
+          )}
 
-          {/* Save */}
           <Button
-            title={isEdit ? 'Simpan Perubahan' : 'Simpan Pengeluaran'}
+            title={isEdit ? 'Simpan perubahan' : 'Simpan'}
             onPress={handleSubmit(onSubmit)}
-            variant="danger"
             loading={isSubmitting}
             fullWidth
             style={styles.saveBtn}
           />
 
-          {/* Delete */}
-          {isEdit && (
+          {isEdit && !linkedRef && (
             <Button
-              title="Hapus Pengeluaran"
+              title="Hapus"
               onPress={handleDelete}
               variant="ghost"
               fullWidth
@@ -274,22 +462,33 @@ export function ExpenseFormScreen() {
       </KeyboardAvoidingView>
 
       <TransactionSuccessAnimation
-        visible={successAmount !== null}
-        amount={successAmount ?? 0}
+        visible={success !== null && !isKeptKind(success.kind)}
+        amount={success?.amount ?? 0}
         kind="expense"
+        onFinish={() => navigation.goBack()}
+      />
+      <SavingSuccessAnimation
+        visible={success !== null && isKeptKind(success.kind)}
+        amount={success?.amount ?? 0}
+        type="deposit"
         onFinish={() => navigation.goBack()}
       />
     </SafeAreaView>
   );
 }
 
-// ─── Styles ───────────────────────────────────────────────────────────────────
-
 const styles = StyleSheet.create({
-  safe: {
-    flex: 1,
-    backgroundColor: COLORS.background,
+  linkedCard: {
+    backgroundColor: COLORS.invest + '14',
+    borderRadius: RADIUS.lg,
+    padding: SPACING.lg,
+    marginBottom: SPACING.lg,
+    gap: SPACING.sm,
   },
+  linkedHead: { flexDirection: 'row', alignItems: 'center', gap: SPACING.sm },
+  linkedTitle: { flex: 1, fontSize: FONTS.md, fontWeight: '700', color: COLORS.text },
+  linkedText: { fontSize: FONTS.sm, color: COLORS.textSecondary, lineHeight: 20 },
+  safe: { flex: 1, backgroundColor: COLORS.background },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -298,59 +497,52 @@ const styles = StyleSheet.create({
     paddingVertical: SPACING.lg,
   },
   scroll: { flex: 1, backgroundColor: COLORS.background },
-  scrollContent: {
-    padding: SPACING.xl,
-    paddingBottom: SPACING.xxxl,
-  },
-  fieldGroup: {
-    marginBottom: SPACING.md,
-  },
+  scrollContent: { padding: SPACING.xl, paddingBottom: SPACING.xxxl },
+  fieldGroup: { marginBottom: SPACING.lg },
   fieldLabel: {
     fontSize: FONTS.sm,
     color: COLORS.textSecondary,
     marginBottom: SPACING.sm,
     fontWeight: '500',
   },
-  chipsRow: {
-    gap: SPACING.sm,
-    paddingRight: SPACING.xl,
-  },
+  categoryHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' },
+  manageLink: { fontSize: FONTS.sm, fontWeight: '600', color: COLORS.primary },
+  group: { marginBottom: SPACING.md },
+  groupHead: { flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: SPACING.sm },
+  groupLabel: { fontSize: FONTS.sm, fontWeight: '700', color: COLORS.text },
+  chipWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: SPACING.sm },
   chip: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: SPACING.xs,
+    gap: 6,
     paddingVertical: SPACING.sm,
     paddingHorizontal: SPACING.md,
     borderRadius: RADIUS.round,
     backgroundColor: COLORS.surface,
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderColor: COLORS.border,
   },
-  chipSelected: {
-    backgroundColor: COLORS.expense,
-    borderColor: COLORS.expense,
+  chipEmoji: { fontSize: FONTS.md },
+  chipLabel: { fontSize: FONTS.sm, fontWeight: '500', color: COLORS.textSecondary },
+  chipLabelActive: { color: COLORS.text, fontWeight: '700' },
+  errorText: { fontSize: FONTS.sm, color: COLORS.danger, marginTop: SPACING.xs },
+  debtPicker: { marginTop: SPACING.md, padding: SPACING.md, borderRadius: RADIUS.md, backgroundColor: COLORS.subtleBg },
+  debtLabel: { fontSize: FONTS.sm, fontWeight: '600', color: COLORS.text, marginBottom: SPACING.sm },
+  debtHint: { fontSize: FONTS.sm, color: COLORS.textSecondary, marginTop: SPACING.sm },
+  balanceHint: { fontSize: FONTS.sm, color: COLORS.textSecondary, marginTop: -SPACING.xs, marginBottom: SPACING.lg },
+  toggleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: SPACING.md,
+    padding: SPACING.md,
+    borderRadius: RADIUS.md,
+    backgroundColor: COLORS.surface,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    marginBottom: SPACING.lg,
   },
-  chipEmoji: {
-    fontSize: FONTS.md,
-  },
-  chipLabel: {
-    fontSize: FONTS.sm,
-    color: COLORS.textSecondary,
-    fontWeight: '500',
-  },
-  chipLabelSelected: {
-    color: '#FFFFFF',
-  },
-  errorText: {
-    fontSize: FONTS.sm,
-    color: COLORS.danger,
-    marginTop: SPACING.xs,
-  },
-  saveBtn: {
-    marginBottom: SPACING.md,
-  },
-  deleteBtn: {
-    borderColor: COLORS.danger,
-    marginBottom: SPACING.md,
-  },
+  toggleLabel: { fontSize: FONTS.md, fontWeight: '600', color: COLORS.text },
+  toggleSub: { fontSize: FONTS.sm, color: COLORS.textSecondary, marginTop: 2 },
+  saveBtn: { marginBottom: SPACING.md },
+  deleteBtn: { marginBottom: SPACING.md },
 });

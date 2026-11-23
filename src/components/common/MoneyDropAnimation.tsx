@@ -137,7 +137,7 @@ export function MoneyDropAnimation({ visible, amount, title, accentColor, icon, 
             </Animated.View>
 
             <Animated.View style={[styles.checkBadge, isAcross && styles.checkBadgeAcross, checkStyle]}>
-              <MaterialIcons name="check" size={ICON_SIZES.sm} color="#ffffff" />
+              <MaterialIcons name="check" size={ICON_SIZES.sm} color={COLORS.onPrimary} />
             </Animated.View>
           </View>
           <Animated.View style={textStyle}>
@@ -218,7 +218,7 @@ function Coin({
 const styles = StyleSheet.create({
   backdrop: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.45)',
+    backgroundColor: COLORS.overlay,
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -1,0 +1,52 @@
+{
+  "name": "ForgeOS Project",
+  "created": "2026-10-08T14:03:23.980707175Z",
+  "lang": "en",
+  "stages": {
+    "BUILD": "PENDING",
+    "BUSINESS_DOMAIN": "PENDING",
+    "COMPLETENESS_GAP_ANALYSIS": "PENDING",
+    "DOMAIN_ANALYSIS": "PENDING",
+    "FLOW_ANALYSIS": "PENDING",
+    "GLOBAL_TECHNICAL_DESIGN": "PENDING",
+    "PHASE": "PENDING",
+    "PRD": "PENDING",
+    "REQUIREMENT": "PENDING",
+    "REQUIREMENT_BASELINE": "PENDING",
+    "TASK": "PENDING",
+    "UAT": "PENDING",
+    "UX_DESIGN": "PENDING",
+    "VERIFY": "PENDING"
+  },
+  "requirements": null,
+  "domain": null,
+  "flows": null,
+  "gaps": null,
+  "design": {
+    "sections": {},
+    "module_design": null,
+    "frozen": false
+  },
+  "ux": {
+    "frozen": false
+  },
+  "uat": {
+    "frozen": false
+  },
+  "business_domains": null,
+  "phases": null,
+  "tasks": null,
+  "changes": null,
+  "trace": null,
+  "governance": {
+    "mode": "full"
+  },
+  "technology": {
+    "discovery": {},
+    "decision": {},
+    "stack": {}
+  },
+  "agents": {},
+  "counters": {},
+  "routing_thresholds": {}
+}

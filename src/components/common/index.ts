@@ -11,7 +11,6 @@ export { ProgressBar } from './ProgressBar';
 export { FAB } from './FAB';
 export { MoneyDropAnimation } from './MoneyDropAnimation';
 export { SavingSuccessAnimation } from './SavingSuccessAnimation';
-export { DebtPaymentSuccessAnimation } from './DebtPaymentSuccessAnimation';
 export { TransactionSuccessAnimation } from './TransactionSuccessAnimation';
 export { AssetSuccessAnimation } from './AssetSuccessAnimation';
 export { InvestmentSuccessAnimation } from './InvestmentSuccessAnimation';

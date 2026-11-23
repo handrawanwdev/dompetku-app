@@ -13,7 +13,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useQuery, useRealm, useObject } from '@realm/react';
+import { useRealm, useObject } from '@realm/react';
 import Realm from 'realm';
 
 import { COLORS, FONTS, ICON_SIZES, SPACING, RADIUS } from '../../../theme';
@@ -22,7 +22,6 @@ import { BackButton } from '../../../components/common/BackButton';
 import { CurrencyInput } from '../../../components/common/CurrencyInput';
 import { AssetSuccessAnimation } from '../../../components/common/AssetSuccessAnimation';
 import { PhysicalAssetModel } from '../../../models/PhysicalAssetModel';
-import { SavingModel } from '../../../models/SavingModel';
 import { formatCurrency, parseCurrency } from '../../../utils/currency';
 import { formatDate, today } from '../../../utils/date';
 import { routeSaleProceeds } from '../../../services/AllocationService';
@@ -35,11 +34,8 @@ export function PhysicalAssetSellScreen({ navigation, route }: Props) {
   const { id } = route.params;
   const realm = useRealm();
   const asset = useObject(PhysicalAssetModel, new Realm.BSON.ObjectId(id));
-  const savings = useQuery(SavingModel);
 
   const [sellPriceInput, setSellPriceInput] = useState('');
-  const [destination, setDestination] = useState<'cash' | 'savings'>('cash');
-  const [savingId, setSavingId] = useState('');
   const [successAmount, setSuccessAmount] = useState<number | null>(null);
 
   if (!asset) {
@@ -60,21 +56,11 @@ export function PhysicalAssetSellScreen({ navigation, route }: Props) {
       Alert.alert('Validasi', 'Isi harga jual');
       return;
     }
-    if (destination === 'savings' && !savingId) {
-      Alert.alert('Validasi', 'Pilih pos tabungan tujuan');
-      return;
-    }
 
     const date = today();
     const name = asset.name;
     realm.write(() => {
-      const result = routeSaleProceeds(realm, {
-        destination, savingId, amount: sellPrice, profit: sellProfit, assetName: name, date,
-      });
-      if (!result.ok) {
-        Alert.alert('Validasi', result.error);
-        return;
-      }
+      routeSaleProceeds(realm, { amount: sellPrice, profit: sellProfit, assetName: name, date });
       asset.sold = true;
       asset.sellPrice = sellPrice;
       asset.sellDate = date;
@@ -110,47 +96,14 @@ export function PhysicalAssetSellScreen({ navigation, route }: Props) {
           />
 
           {sellPrice > 0 && (
-            <View style={[styles.profitBox, { backgroundColor: sellProfit >= 0 ? '#d1fae5' : '#fee2e2' }]}>
-              <Text style={[styles.profitText, { color: sellProfit >= 0 ? '#065f46' : '#991b1b' }]}>
+            <View style={[styles.profitBox, { backgroundColor: sellProfit >= 0 ? COLORS.successBg : COLORS.dangerBg }]}>
+              <Text style={[styles.profitText, { color: sellProfit >= 0 ? COLORS.successText : COLORS.dangerText }]}>
                 {sellProfit >= 0 ? '🟢 Untung: +' : '🔴 Rugi: '}{formatCurrency(Math.abs(sellProfit))}
               </Text>
             </View>
           )}
 
-          <Text style={styles.fieldLabel}>Hasil Jual Masuk Ke</Text>
-          <View style={styles.destRow}>
-            <TouchableOpacity
-              style={[styles.destOption, destination === 'cash' && styles.destOptionActive]}
-              onPress={() => setDestination('cash')}
-            >
-              <Text style={[styles.destText, destination === 'cash' && styles.destTextActive]}>💵 Kas Bebas</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.destOption, destination === 'savings' && styles.destOptionActive]}
-              onPress={() => setDestination('savings')}
-            >
-              <Text style={[styles.destText, destination === 'savings' && styles.destTextActive]}>🏦 Tabungan</Text>
-            </TouchableOpacity>
-          </View>
-
-          {destination === 'savings' && (
-            <View style={styles.savingPickerWrap}>
-              {savings.length === 0 ? (
-                <Text style={styles.emptyPickerText}>Belum ada pos tabungan.</Text>
-              ) : (
-                savings.map((s) => (
-                  <TouchableOpacity
-                    key={s._id.toHexString()}
-                    style={[styles.savingItem, s._id.toHexString() === savingId && styles.savingItemActive]}
-                    onPress={() => setSavingId(s._id.toHexString())}
-                  >
-                    <Text style={styles.savingName}>{s.emoji} {s.name}</Text>
-                    {s._id.toHexString() === savingId && <Text style={{ color: COLORS.primary }}>✓</Text>}
-                  </TouchableOpacity>
-                ))
-              )}
-            </View>
-          )}
+          <Text style={styles.destHint}>Hasil jual otomatis masuk ke saldo.</Text>
 
           <Button title="Jual Sekarang" onPress={confirmSell} fullWidth style={styles.saveBtn} />
         </ScrollView>
@@ -188,22 +141,6 @@ const styles = StyleSheet.create({
   fieldLabel: { fontSize: FONTS.sm, color: COLORS.textSecondary, marginBottom: SPACING.xs, fontWeight: '500', marginTop: SPACING.sm },
   profitBox: { borderRadius: RADIUS.md, padding: SPACING.md, marginTop: SPACING.sm },
   profitText: { fontSize: FONTS.sm, fontWeight: '700' },
-  destRow: { flexDirection: 'row', gap: SPACING.sm },
-  destOption: {
-    flex: 1, paddingVertical: SPACING.sm, borderRadius: RADIUS.md,
-    borderWidth: 1.5, borderColor: COLORS.border, alignItems: 'center',
-  },
-  destOptionActive: { borderColor: COLORS.primary, backgroundColor: COLORS.primary + '18' },
-  destText: { fontSize: FONTS.sm, fontWeight: '600', color: COLORS.textSecondary },
-  destTextActive: { color: COLORS.primary },
-  savingPickerWrap: { marginTop: SPACING.sm },
-  savingItem: {
-    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
-    padding: SPACING.md, borderRadius: RADIUS.md, marginBottom: SPACING.sm,
-    borderWidth: 1, borderColor: COLORS.border,
-  },
-  savingItemActive: { borderColor: COLORS.primary, backgroundColor: COLORS.primary + '11' },
-  savingName: { fontSize: FONTS.md, color: COLORS.text },
-  emptyPickerText: { fontSize: FONTS.sm, color: COLORS.textSecondary, textAlign: 'center', padding: SPACING.md },
+  destHint: { fontSize: FONTS.sm, color: COLORS.textSecondary, marginTop: SPACING.md },
   saveBtn: { marginTop: SPACING.lg },
 });

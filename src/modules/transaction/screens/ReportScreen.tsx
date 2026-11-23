@@ -11,6 +11,43 @@ import { GroupedBarChart } from '../../../components/charts/GroupedBarChart';
 import { IncomeModel } from '../../../models/IncomeModel';
 import { ExpenseModel } from '../../../models/ExpenseModel';
 import { formatCurrency, formatCompact } from '../../../utils/currency';
+import { MaterialIcons } from '@expo/vector-icons';
+import { KIND_META, SPEND_KINDS, isSpendKind, type SpendKind } from '../../../utils/budget';
+
+/** Total uang keluar per jenis. Semua jenis selalu ada (termasuk yang Rp0). */
+function kindBreakdown(rows: Iterable<{ kind: string; amount: number }>) {
+  const map = Object.fromEntries(SPEND_KINDS.map((k) => [k, 0])) as Record<SpendKind, number>;
+  for (const r of rows) map[isSpendKind(r.kind) ? r.kind : 'need'] += r.amount;
+  return SPEND_KINDS.map((kind) => ({ kind, amount: map[kind] }));
+}
+
+function KindBarList({ items, total }: { items: { kind: SpendKind; amount: number }[]; total: number }) {
+  return (
+    <View>
+      {items.map((item, idx) => {
+        const m = KIND_META[item.kind];
+        const pct = total > 0 ? (item.amount / total) * 100 : 0;
+        return (
+          <View key={item.kind} style={[styles.catRow, idx > 0 && { marginTop: SPACING.sm }]}>
+            <View style={styles.catInfo}>
+              <MaterialIcons name={m.icon} size={16} color={m.color} />
+              <Text style={styles.catName} numberOfLines={1}>{m.label}</Text>
+            </View>
+            <View style={styles.catBarWrap}>
+              <View style={styles.catBarTrack}>
+                <View style={[styles.catBarFill, { width: `${pct}%` as any, backgroundColor: m.color }]} />
+              </View>
+            </View>
+            <View style={styles.catAmountWrap}>
+              <Text style={[styles.catAmount, item.amount === 0 && { color: COLORS.textMuted }]}>{formatCompact(item.amount)}</Text>
+              <Text style={styles.catPct}>{pct.toFixed(0)}%</Text>
+            </View>
+          </View>
+        );
+      })}
+    </View>
+  );
+}
 
 type Mode = 'bulanan' | 'tahunan';
 
@@ -67,8 +104,8 @@ export function ReportScreen() {
   const [monthCursor, setMonthCursor] = useState(() => dayjs());
   const [yearCursor, setYearCursor] = useState(() => dayjs().year());
 
-  const incomes = useQuery(IncomeModel);
-  const expenses = useQuery(ExpenseModel);
+  const incomes = useQuery(IncomeModel, (c) => c.filtered('isInternal == false'), []);
+  const expenses = useQuery(ExpenseModel, (c) => c.filtered('isInternal == false'), []);
 
   const monthly = useMemo(() => {
     const monthStart = monthCursor.startOf('month').format('YYYY-MM-DD');
@@ -80,7 +117,7 @@ export function ReportScreen() {
     const totalExpense = mExpenses.reduce((s, e) => s + e.amount, 0);
 
     const incomeByCategory = categoryBreakdown([...mIncomes].map(i => ({ category: i.category, amount: i.amount })));
-    const expenseByCategory = categoryBreakdown([...mExpenses].map(e => ({ category: e.category, amount: e.amount })));
+    const expenseByKind = kindBreakdown(mExpenses);
 
     return {
       label: monthCursor.format('MMMM YYYY'),
@@ -88,7 +125,7 @@ export function ReportScreen() {
       totalExpense,
       net: totalIncome - totalExpense,
       incomeByCategory,
-      expenseByCategory,
+      expenseByKind,
       count: mIncomes.length + mExpenses.length,
     };
   }, [incomes, expenses, monthCursor]);
@@ -110,7 +147,7 @@ export function ReportScreen() {
 
     const totalIncome = months.reduce((s, m) => s + m.income, 0);
     const totalExpense = months.reduce((s, m) => s + m.expense, 0);
-    const expenseByCategory = categoryBreakdown([...yExpenses].map(e => ({ category: e.category, amount: e.amount })));
+    const expenseByKind = kindBreakdown(yExpenses);
 
     return {
       months,
@@ -119,7 +156,7 @@ export function ReportScreen() {
       net: totalIncome - totalExpense,
       avgIncome: totalIncome / 12,
       avgExpense: totalExpense / 12,
-      expenseByCategory,
+      expenseByKind,
       count: yIncomes.length + yExpenses.length,
     };
   }, [incomes, expenses, yearCursor]);
@@ -159,17 +196,17 @@ export function ReportScreen() {
             </View>
 
             {monthly.count === 0 ? (
-              <EmptyState emoji="📊" title="Belum ada transaksi" subtitle="Tidak ada data untuk bulan ini" />
+              <EmptyState emoji="📊" title="Belum ada transaksi" subtitle="Bulan ini belum ada yang dicatat." />
             ) : (
               <>
                 <View style={styles.summaryGrid}>
-                  <SummaryBox label="Masuk" value={formatCompact(monthly.totalIncome)} color="#065f46" bg="#d1fae5" />
-                  <SummaryBox label="Keluar" value={formatCompact(monthly.totalExpense)} color="#991b1b" bg="#fee2e2" />
+                  <SummaryBox label="Masuk" value={formatCompact(monthly.totalIncome)} color={COLORS.successText} bg={COLORS.successBg} />
+                  <SummaryBox label="Keluar" value={formatCompact(monthly.totalExpense)} color={COLORS.dangerText} bg={COLORS.dangerBg} />
                   <SummaryBox
                     label="Net"
                     value={`${monthly.net >= 0 ? '+' : ''}${formatCompact(monthly.net)}`}
-                    color={monthly.net >= 0 ? '#1e40af' : '#991b1b'}
-                    bg={monthly.net >= 0 ? '#dbeafe' : '#fee2e2'}
+                    color={monthly.net >= 0 ? COLORS.infoText : COLORS.dangerText}
+                    bg={monthly.net >= 0 ? COLORS.infoBg : COLORS.dangerBg}
                   />
                 </View>
 
@@ -178,9 +215,9 @@ export function ReportScreen() {
                   <CategoryBarList items={monthly.incomeByCategory} total={monthly.totalIncome} color={COLORS.income} />
                 </Card>
 
-                <Text style={styles.sectionTitle}>🛒 Pengeluaran per Kategori</Text>
+                <Text style={styles.sectionTitle}>🛒 Uang keluar per jenis</Text>
                 <Card padding={SPACING.md}>
-                  <CategoryBarList items={monthly.expenseByCategory} total={monthly.totalExpense} color={COLORS.expense} />
+                  <KindBarList items={monthly.expenseByKind} total={monthly.totalExpense} />
                 </Card>
               </>
             )}
@@ -199,17 +236,17 @@ export function ReportScreen() {
             </View>
 
             {yearly.count === 0 ? (
-              <EmptyState emoji="📊" title="Belum ada transaksi" subtitle="Tidak ada data untuk tahun ini" />
+              <EmptyState emoji="📊" title="Belum ada transaksi" subtitle="Tahun ini belum ada yang dicatat." />
             ) : (
               <>
                 <View style={styles.summaryGrid}>
-                  <SummaryBox label="Total Masuk" value={formatCompact(yearly.totalIncome)} sub={`avg ${formatCompact(yearly.avgIncome)}/bln`} color="#065f46" bg="#d1fae5" />
-                  <SummaryBox label="Total Keluar" value={formatCompact(yearly.totalExpense)} sub={`avg ${formatCompact(yearly.avgExpense)}/bln`} color="#991b1b" bg="#fee2e2" />
+                  <SummaryBox label="Total Masuk" value={formatCompact(yearly.totalIncome)} sub={`avg ${formatCompact(yearly.avgIncome)}/bln`} color={COLORS.successText} bg={COLORS.successBg} />
+                  <SummaryBox label="Total Keluar" value={formatCompact(yearly.totalExpense)} sub={`avg ${formatCompact(yearly.avgExpense)}/bln`} color={COLORS.dangerText} bg={COLORS.dangerBg} />
                   <SummaryBox
                     label="Net Cashflow"
                     value={`${yearly.net >= 0 ? '+' : ''}${formatCompact(yearly.net)}`}
-                    color={yearly.net >= 0 ? '#1e40af' : '#991b1b'}
-                    bg={yearly.net >= 0 ? '#dbeafe' : '#fee2e2'}
+                    color={yearly.net >= 0 ? COLORS.infoText : COLORS.dangerText}
+                    bg={yearly.net >= 0 ? COLORS.infoBg : COLORS.dangerBg}
                   />
                 </View>
 
@@ -218,9 +255,9 @@ export function ReportScreen() {
                   <GroupedBarChart data={yearly.months} height={180} />
                 </Card>
 
-                <Text style={styles.sectionTitle}>🛒 Pengeluaran per Kategori (Setahun)</Text>
+                <Text style={styles.sectionTitle}>🛒 Uang keluar per jenis (setahun)</Text>
                 <Card padding={SPACING.md}>
-                  <CategoryBarList items={yearly.expenseByCategory} total={yearly.totalExpense} color={COLORS.expense} />
+                  <KindBarList items={yearly.expenseByKind} total={yearly.totalExpense} />
                 </Card>
               </>
             )}

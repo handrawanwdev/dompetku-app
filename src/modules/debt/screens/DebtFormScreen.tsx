@@ -1,239 +1,84 @@
-import React, { useEffect, useMemo, useRef } from 'react';
-import {
-  View,
-  ScrollView,
-  TouchableOpacity,
-  StyleSheet,
-  StatusBar,
-  Alert,
-  KeyboardAvoidingView,
-  Platform,
-} from 'react-native';
+import React, { useEffect, useMemo, useState } from 'react';
+import { View, ScrollView, StyleSheet, StatusBar, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useRealm, useQuery } from '@realm/react';
-import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useForm, Controller } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useRealm, useObject } from '@realm/react';
 import Realm from 'realm';
 
-import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
-import { Text, Button, Input, DateInput, CurrencyInput, BackButton } from '../../../components/common';
-import { DebtModel, DebtType } from '../../../models/DebtModel';
+import { COLORS, FONTS, SPACING } from '../../../theme';
+import { Text, Button, Input, CurrencyInput, BackButton } from '../../../components/common';
+import { DebtModel } from '../../../models/DebtModel';
+import { ExpenseModel } from '../../../models/ExpenseModel';
 import { today } from '../../../utils/date';
-import type { DebtStackParamList } from './DebtListScreen';
+import type { DebtStackParamList } from '../types';
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+type Props = NativeStackScreenProps<DebtStackParamList, 'DebtForm'>;
 
-type NavProp = NativeStackNavigationProp<DebtStackParamList, 'DebtForm'>;
-type RouteType = RouteProp<DebtStackParamList, 'DebtForm'>;
+const toNumber = (v: string) => parseFloat(v.replace(/[^0-9.]/g, '')) || 0;
 
-// ─── Kategori: Utang vs Tagihan Rutin ────────────────────────────────────────
-
-type Category = 'utang' | 'tagihan';
-
-const CATEGORY_OPTIONS: Array<{ value: Category; label: string; emoji: string }> = [
-  { value: 'utang', label: 'Utang', emoji: '💳' },
-  { value: 'tagihan', label: 'Tagihan Rutin', emoji: '🔁' },
-];
-
-function categoryOf(debtType: DebtType): Category {
-  return debtType === 'tagihan_rutin' ? 'tagihan' : 'utang';
-}
-
-// ─── Debt Type Options (sub-jenis Utang) ─────────────────────────────────────
-
-const DEBT_TYPES: Array<{ value: DebtType; label: string; hint: string }> = [
-  { value: 'tanpa_tenor', label: 'Tanpa Tenor', hint: 'Gak ada tanggal jatuh tempo, dibayar kapan aja. Contoh: pinjam teman, keluarga.' },
-  { value: 'berjangka', label: 'Berjangka', hint: 'Ada satu tanggal jatuh tempo pelunasan. Contoh: pinjaman bank, koperasi.' },
-  { value: 'cicilan', label: 'Cicilan', hint: 'Dibayar berkala tiap bulan sampai lunas. Contoh: motor, mobil, HP, KPR.' },
-  { value: 'revolving', label: 'Revolving', hint: 'Limit bisa dipakai lagi setelah dibayar. Contoh: kartu kredit, paylater.' },
-];
-
-const TAGIHAN_HINT = 'Muncul berkala tiap bulan, nominal bisa beda-beda. Contoh: listrik, internet, BPJS, sewa, langganan.';
-
-const HAS_TOTAL_AMOUNT: DebtType[] = ['tanpa_tenor', 'berjangka', 'cicilan', 'revolving'];
-const HAS_DUE_DATE: DebtType[] = ['cicilan', 'revolving', 'tagihan_rutin'];
-
-// ─── Validation ───────────────────────────────────────────────────────────────
-
-const schema = z
-  .object({
-    name: z.string().min(1, 'Nama hutang wajib diisi'),
-    lender: z.string().min(1, 'Pemberi hutang wajib diisi'),
-    debtType: z.enum(['tanpa_tenor', 'berjangka', 'cicilan', 'revolving', 'tagihan_rutin']),
-    totalAmount: z.string(),
-    monthlyInstallment: z.string(),
-    remainingMonth: z.string(),
-    dueDate: z.string(),
-    dueDateFull: z.string(),
-    currentBalance: z.string(),
-    startDate: z.string().min(1, 'Tanggal mulai wajib diisi'),
-    note: z.string().optional(),
-  })
-  .superRefine((data, ctx) => {
-    const totalNum = parseFloat(data.totalAmount.replace(/[^0-9.]/g, ''));
-    const monthlyNum = parseFloat(data.monthlyInstallment.replace(/[^0-9.]/g, ''));
-    const remNum = parseInt(data.remainingMonth, 10);
-    const dueDateNum = parseInt(data.dueDate, 10);
-    const label = data.debtType === 'revolving' ? 'Limit' : 'Jumlah';
-
-    if (HAS_TOTAL_AMOUNT.includes(data.debtType) && (!data.totalAmount || !(totalNum > 0))) {
-      ctx.addIssue({ code: z.ZodIssueCode.custom, message: `${label} harus lebih dari 0`, path: ['totalAmount'] });
-    }
-    if (data.debtType === 'berjangka' && !data.dueDateFull) {
-      ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Tanggal jatuh tempo wajib diisi', path: ['dueDateFull'] });
-    }
-    if (data.debtType === 'cicilan') {
-      if (!data.monthlyInstallment || !(monthlyNum > 0)) {
-        ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Cicilan harus lebih dari 0', path: ['monthlyInstallment'] });
-      }
-      if (!data.remainingMonth || !(remNum > 0)) {
-        ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Sisa bulan harus lebih dari 0', path: ['remainingMonth'] });
-      }
-    }
-    if (HAS_DUE_DATE.includes(data.debtType) && (!data.dueDate || !(dueDateNum >= 1 && dueDateNum <= 31))) {
-      ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Masukkan tanggal 1-31', path: ['dueDate'] });
-    }
-  });
-
-type FormValues = z.infer<typeof schema>;
-
-// ─── Screen ───────────────────────────────────────────────────────────────────
-
-export function DebtFormScreen() {
-  const navigation = useNavigation<NavProp>();
-  const route = useRoute<RouteType>();
+export function DebtFormScreen({ navigation, route }: Props) {
+  const { id } = route.params ?? {};
   const realm = useRealm();
-  const { id, presetType } = route.params ?? {};
-  const isEdit = Boolean(id);
+  const key = useMemo(() => (id ? new Realm.BSON.ObjectId(id) : new Realm.BSON.ObjectId()), [id]);
+  const existing = useObject(DebtModel, key);
+  const isEdit = Boolean(id && existing);
 
-  const allDebts = useQuery(DebtModel);
-  const existingDebt = useMemo(() => {
-    if (!id) return null;
-    return allDebts.find((d) => d._id.toHexString() === id) ?? null;
-  }, [allDebts, id]);
-
-  const {
-    control,
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { errors, isSubmitting },
-  } = useForm<FormValues>({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      name: '',
-      lender: '',
-      debtType: presetType ?? 'cicilan',
-      totalAmount: '',
-      monthlyInstallment: '',
-      remainingMonth: '',
-      dueDate: '',
-      dueDateFull: '',
-      currentBalance: '',
-      startDate: today(),
-      note: '',
-    },
-  });
-
-  const debtType = watch('debtType');
-  const category = categoryOf(debtType);
-  const activeType = DEBT_TYPES.find((t) => t.value === debtType) ?? DEBT_TYPES[2];
-
-  const selectCategory = (next: Category) => {
-    if (next === 'tagihan') {
-      setValue('debtType', 'tagihan_rutin');
-    } else if (category === 'tagihan') {
-      setValue('debtType', 'cicilan');
-    }
-  };
+  const [name, setName] = useState('');
+  const [total, setTotal] = useState('');
+  const [paidBefore, setPaidBefore] = useState('');
+  const [installment, setInstallment] = useState('');
+  const [dueDate, setDueDate] = useState('');
+  const [note, setNote] = useState('');
+  const [errors, setErrors] = useState<{ name?: string; total?: string; dueDate?: string }>({});
 
   useEffect(() => {
-    if (existingDebt) {
-      setValue('name', existingDebt.name);
-      setValue('lender', existingDebt.lender);
-      setValue('debtType', existingDebt.debtType);
-      setValue('totalAmount', existingDebt.totalAmount.toString());
-      setValue('monthlyInstallment', existingDebt.monthlyInstallment.toString());
-      setValue('remainingMonth', existingDebt.remainingMonth.toString());
-      setValue('dueDate', existingDebt.dueDate.toString());
-      setValue('dueDateFull', existingDebt.dueDateFull);
-      setValue('currentBalance', existingDebt.currentBalance.toString());
-      setValue('startDate', existingDebt.startDate);
-      setValue('note', existingDebt.note);
-    }
-  }, [existingDebt, setValue]);
+    if (!existing || !id) return;
+    setName(existing.name);
+    setTotal(String(existing.totalAmount));
+    setPaidBefore(existing.paidBefore ? String(existing.paidBefore) : '');
+    setInstallment(existing.monthlyInstallment ? String(existing.monthlyInstallment) : '');
+    setDueDate(existing.dueDate ? String(existing.dueDate) : '');
+    setNote(existing.note);
+  }, [existing, id]);
 
-  const savingRef = useRef(false);
+  const handleSave = () => {
+    const next: typeof errors = {};
+    const day = dueDate ? parseInt(dueDate, 10) : 0;
+    if (!name.trim()) next.name = 'Isi nama dulu';
+    if (toNumber(total) <= 0) next.total = 'Isi total yang harus dibayar';
+    if (dueDate && (!day || day < 1 || day > 31)) next.dueDate = 'Tanggal 1 sampai 31';
+    setErrors(next);
+    if (Object.keys(next).length) return;
 
-  const onSubmit = (data: FormValues) => {
-    if (savingRef.current) return;
-    const totalAmount = HAS_TOTAL_AMOUNT.includes(data.debtType)
-      ? parseFloat(data.totalAmount.replace(/[^0-9.]/g, '')) || 0
-      : 0;
-    const monthlyInstallment = data.monthlyInstallment
-      ? parseFloat(data.monthlyInstallment.replace(/[^0-9.]/g, '')) || 0
-      : 0;
-    const remainingMonth = data.debtType === 'cicilan' ? parseInt(data.remainingMonth, 10) || 0 : 0;
-    const dueDate = HAS_DUE_DATE.includes(data.debtType) ? parseInt(data.dueDate, 10) || 0 : 0;
-    const dueDateFull = data.debtType === 'berjangka' ? data.dueDateFull : '';
-    const currentBalance = data.debtType === 'revolving'
-      ? Math.min(totalAmount, parseFloat(data.currentBalance.replace(/[^0-9.]/g, '')) || 0)
-      : 0;
-
-    savingRef.current = true;
     realm.write(() => {
-      if (isEdit && existingDebt) {
-        existingDebt.name = data.name;
-        existingDebt.lender = data.lender;
-        existingDebt.debtType = data.debtType;
-        existingDebt.totalAmount = totalAmount;
-        existingDebt.monthlyInstallment = monthlyInstallment;
-        existingDebt.remainingMonth = remainingMonth;
-        existingDebt.dueDate = dueDate;
-        existingDebt.dueDateFull = dueDateFull;
-        existingDebt.currentBalance = currentBalance;
-        existingDebt.startDate = data.startDate;
-        existingDebt.note = data.note ?? '';
-      } else {
-        realm.create(DebtModel, {
-          _id: new Realm.BSON.ObjectId(),
-          name: data.name,
-          lender: data.lender,
-          debtType: data.debtType,
-          totalAmount,
-          monthlyInstallment,
-          remainingMonth,
-          dueDate,
-          dueDateFull,
-          currentBalance,
-          startDate: data.startDate,
-          note: data.note ?? '',
-          isActive: true,
-          createdAt: new Date(),
-        });
-      }
+      const data = {
+        name: name.trim(),
+        totalAmount: toNumber(total),
+        paidBefore: toNumber(paidBefore),
+        monthlyInstallment: toNumber(installment),
+        dueDate: day,
+        note: note.trim(),
+      };
+      if (isEdit && existing) Object.assign(existing, data);
+      else realm.create(DebtModel, { ...data, startDate: today() });
     });
-
     navigation.goBack();
   };
 
   const handleDelete = () => {
-    const noun = category === 'tagihan' ? 'tagihan' : 'utang';
-    Alert.alert(`Nonaktifkan ${noun === 'tagihan' ? 'Tagihan' : 'Utang'}`, `Yakin ingin menonaktifkan ${noun} ini?`, [
+    if (!existing) return;
+    Alert.alert('Hapus catatan utang', `Hapus "${existing.name}"? Transaksi pembayarannya tetap ada di riwayat.`, [
       { text: 'Batal', style: 'cancel' },
       {
         text: 'Hapus',
         style: 'destructive',
         onPress: () => {
-          if (existingDebt) {
-            realm.write(() => {
-              existingDebt.isActive = false;
-            });
-          }
-          navigation.goBack();
+          const debtId = existing._id.toHexString();
+          realm.write(() => {
+            for (const e of realm.objects(ExpenseModel).filtered('debtId == $0', debtId)) e.debtId = '';
+            realm.delete(existing);
+          });
+          navigation.popToTop();
         },
       },
     ]);
@@ -242,254 +87,44 @@ export function DebtFormScreen() {
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
-
-      {/* Header */}
       <View style={styles.header}>
         <BackButton onPress={() => navigation.goBack()} />
+        <Text style={styles.title}>{isEdit ? 'Ubah cicilan/utang' : 'Cicilan atau utang baru'}</Text>
       </View>
 
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      >
-        <ScrollView
-          style={styles.scroll}
-          contentContainerStyle={styles.scrollContent}
-          showsVerticalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled"
-        >
-          {/* Name */}
-          <Controller
-            control={control}
-            name="name"
-            render={({ field: { onChange, value } }) => (
-              <Input
-                label="Nama"
-                placeholder={category === 'tagihan' ? 'contoh: Listrik Rumah' : 'contoh: KPR Bank BCA'}
-                value={value}
-                onChangeText={onChange}
-                error={errors.name?.message}
-              />
-            )}
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
+          <Input
+            label="Nama"
+            placeholder="Contoh: Cicilan motor, Kartu kredit BCA"
+            value={name}
+            onChangeText={setName}
+            error={errors.name}
           />
+          <CurrencyInput label="Total yang harus dibayar" value={total} onChangeText={setTotal} error={errors.total} />
+          <CurrencyInput label="Sudah dibayar sebelumnya (opsional)" value={paidBefore} onChangeText={setPaidBefore} />
+          <Text style={styles.hint}>Isi kalau sebagian sudah dibayar sebelum mulai pakai app.</Text>
 
-          {/* Lender */}
-          <Controller
-            control={control}
-            name="lender"
-            render={({ field: { onChange, value } }) => (
-              <Input
-                label={category === 'tagihan' ? 'Penyedia / Penagih' : 'Pemberi Hutang / Kreditur'}
-                placeholder={category === 'tagihan' ? 'contoh: PLN, Indihome, BPJS' : 'contoh: Bank BCA'}
-                value={value}
-                onChangeText={onChange}
-                error={errors.lender?.message}
-              />
-            )}
+          <CurrencyInput label="Cicilan per bulan (opsional)" value={installment} onChangeText={setInstallment} />
+          <Input
+            label="Tanggal jatuh tempo tiap bulan (opsional)"
+            placeholder="1-31"
+            keyboardType="number-pad"
+            maxLength={2}
+            value={dueDate}
+            onChangeText={(v) => setDueDate(v.replace(/[^0-9]/g, ''))}
+            error={errors.dueDate}
           />
+          <Input label="Catatan (opsional)" value={note} onChangeText={setNote} />
 
-          {/* Kategori: Utang vs Tagihan Rutin */}
-          <View style={styles.fieldGroup}>
-            <Text style={styles.fieldLabel}>Kategori Kewajiban</Text>
-            <View style={styles.categoryRow}>
-              {CATEGORY_OPTIONS.map((c) => {
-                const isSelected = category === c.value;
-                return (
-                  <TouchableOpacity
-                    key={c.value}
-                    onPress={() => selectCategory(c.value)}
-                    style={[styles.categoryOption, isSelected && styles.categoryOptionActive]}
-                    activeOpacity={0.7}
-                  >
-                    <Text style={styles.categoryEmoji}>{c.emoji}</Text>
-                    <Text style={[styles.categoryLabel, isSelected && styles.categoryLabelActive]}>{c.label}</Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-          </View>
-
-          {/* Jenis Utang — cuma tampil kalau kategori Utang */}
-          {category === 'utang' && (
-            <View style={styles.fieldGroup}>
-              <Text style={styles.fieldLabel}>Jenis Utang</Text>
-              {DEBT_TYPES.map((t) => {
-                const isSelected = debtType === t.value;
-                return (
-                  <TouchableOpacity
-                    key={t.value}
-                    onPress={() => setValue('debtType', t.value)}
-                    style={[styles.typeOption, isSelected && styles.typeOptionActive]}
-                    activeOpacity={0.7}
-                  >
-                    <View style={[styles.radioCircle, isSelected && styles.radioCircleActive]} />
-                    <Text style={[styles.typeLabel, isSelected && styles.typeLabelActive]}>{t.label}</Text>
-                  </TouchableOpacity>
-                );
-              })}
-              <Text style={styles.typeHint}>{activeType.hint}</Text>
-            </View>
-          )}
-          {category === 'tagihan' && (
-            <Text style={styles.typeHint}>{TAGIHAN_HINT}</Text>
-          )}
-
-          {/* Total Amount / Limit — tanpa_tenor, berjangka, cicilan, revolving */}
-          {HAS_TOTAL_AMOUNT.includes(debtType) && (
-            <Controller
-              control={control}
-              name="totalAmount"
-              render={({ field: { onChange, value } }) => (
-                <CurrencyInput
-                  label={debtType === 'revolving' ? 'Limit Kredit' : 'Jumlah Hutang'}
-                  value={value}
-                  onChangeText={onChange}
-                  error={errors.totalAmount?.message}
-                />
-              )}
-            />
-          )}
-
-          {/* Current Balance — revolving only */}
-          {debtType === 'revolving' && (
-            <Controller
-              control={control}
-              name="currentBalance"
-              render={({ field: { onChange, value } }) => (
-                <CurrencyInput
-                  label="Saldo Terpakai Saat Ini (opsional)"
-                  value={value}
-                  onChangeText={onChange}
-                />
-              )}
-            />
-          )}
-
-          {/* Monthly Installment — cicilan (required), revolving/tagihan_rutin (estimate) */}
-          {debtType !== 'tanpa_tenor' && debtType !== 'berjangka' && (
-            <Controller
-              control={control}
-              name="monthlyInstallment"
-              render={({ field: { onChange, value } }) => (
-                <CurrencyInput
-                  label={debtType === 'cicilan' ? 'Cicilan Per Bulan' : 'Estimasi Tagihan/Bulan (opsional)'}
-                  value={value}
-                  onChangeText={onChange}
-                  error={errors.monthlyInstallment?.message}
-                />
-              )}
-            />
-          )}
-
-          {/* Remaining Month (cicilan only) & Due Date row */}
-          {HAS_DUE_DATE.includes(debtType) && (
-            <View style={styles.rowFields}>
-              {debtType === 'cicilan' && (
-                <>
-                  <View style={styles.halfField}>
-                    <Controller
-                      control={control}
-                      name="remainingMonth"
-                      render={({ field: { onChange, value } }) => (
-                        <Input
-                          label="Sisa Bulan"
-                          placeholder="0"
-                          keyboardType="numeric"
-                          value={value}
-                          onChangeText={onChange}
-                          suffix="bln"
-                          error={errors.remainingMonth?.message}
-                        />
-                      )}
-                    />
-                  </View>
-                  <View style={styles.fieldSpacer} />
-                </>
-              )}
-              <View style={styles.halfField}>
-                <Controller
-                  control={control}
-                  name="dueDate"
-                  render={({ field: { onChange, value } }) => (
-                    <Input
-                      label="Tgl Jatuh Tempo"
-                      placeholder="1-31"
-                      keyboardType="numeric"
-                      value={value}
-                      onChangeText={onChange}
-                      prefix="Tgl"
-                      error={errors.dueDate?.message}
-                    />
-                  )}
-                />
-              </View>
-            </View>
-          )}
-
-          {/* Due Date Full — berjangka only */}
-          {debtType === 'berjangka' && (
-            <Controller
-              control={control}
-              name="dueDateFull"
-              render={({ field: { onChange, value } }) => (
-                <DateInput
-                  label="Tanggal Jatuh Tempo"
-                  value={value}
-                  onChange={onChange}
-                  error={errors.dueDateFull?.message}
-                />
-              )}
-            />
-          )}
-
-          {/* Start Date */}
-          <Controller
-            control={control}
-            name="startDate"
-            render={({ field: { onChange, value } }) => (
-              <DateInput
-                label="Tanggal Mulai"
-                value={value}
-                onChange={onChange}
-                error={errors.startDate?.message}
-              />
-            )}
-          />
-
-          {/* Note */}
-          <Controller
-            control={control}
-            name="note"
-            render={({ field: { onChange, value } }) => (
-              <Input
-                label="Catatan (opsional)"
-                placeholder="Tambah catatan..."
-                value={value}
-                onChangeText={onChange}
-                multiline
-                numberOfLines={3}
-                style={{ height: 72, textAlignVertical: 'top' }}
-              />
-            )}
-          />
-
-          {/* Save */}
-          <Button
-            title={isEdit ? 'Simpan Perubahan' : category === 'tagihan' ? 'Simpan Tagihan' : 'Simpan Utang'}
-            onPress={handleSubmit(onSubmit)}
-            loading={isSubmitting}
-            fullWidth
-            style={styles.saveBtn}
-          />
-
-          {/* Delete */}
+          <Button title={isEdit ? 'Simpan perubahan' : 'Simpan'} onPress={handleSave} fullWidth style={styles.saveBtn} />
           {isEdit && (
             <Button
-              title={category === 'tagihan' ? 'Nonaktifkan Tagihan' : 'Nonaktifkan Utang'}
+              title="Hapus"
               onPress={handleDelete}
-              variant="danger"
+              variant="ghost"
               fullWidth
-              style={styles.deleteBtn}
+              textStyle={{ color: COLORS.danger }}
             />
           )}
         </ScrollView>
@@ -498,119 +133,17 @@ export function DebtFormScreen() {
   );
 }
 
-// ─── Styles ───────────────────────────────────────────────────────────────────
-
 const styles = StyleSheet.create({
-  safe: {
-    flex: 1,
-    backgroundColor: COLORS.background,
-  },
+  safe: { flex: 1, backgroundColor: COLORS.background },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: COLORS.background,
-    paddingHorizontal: SPACING.lg,
-    paddingVertical: SPACING.lg,
-  },
-  scroll: { flex: 1, backgroundColor: COLORS.background },
-  scrollContent: {
-    padding: SPACING.xl,
-    paddingBottom: SPACING.xxxl,
-  },
-  rowFields: {
-    flexDirection: 'row',
-  },
-  halfField: {
-    flex: 1,
-  },
-  fieldSpacer: {
-    width: SPACING.md,
-  },
-  fieldGroup: {
-    marginBottom: SPACING.md,
-  },
-  fieldLabel: {
-    fontSize: FONTS.sm,
-    color: COLORS.textSecondary,
-    marginBottom: SPACING.sm,
-    fontWeight: '500',
-  },
-  categoryRow: {
-    flexDirection: 'row',
     gap: SPACING.md,
+    paddingHorizontal: SPACING.lg,
+    paddingVertical: SPACING.md,
   },
-  categoryOption: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: SPACING.sm,
-    paddingVertical: SPACING.lg,
-    borderRadius: RADIUS.md,
-    backgroundColor: COLORS.surface,
-    borderWidth: 1.5,
-    borderColor: COLORS.border,
-  },
-  categoryOptionActive: {
-    borderColor: COLORS.debt,
-    backgroundColor: COLORS.debt + '18',
-  },
-  categoryEmoji: {
-    fontSize: 18,
-  },
-  categoryLabel: {
-    fontSize: FONTS.md,
-    fontWeight: '600',
-    color: COLORS.textSecondary,
-  },
-  categoryLabelActive: {
-    color: COLORS.debt,
-    fontWeight: '700',
-  },
-  typeOption: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: SPACING.sm,
-    padding: SPACING.md,
-    borderRadius: RADIUS.md,
-    backgroundColor: COLORS.surface,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-    marginBottom: SPACING.sm,
-  },
-  typeOptionActive: {
-    borderColor: COLORS.debt,
-    backgroundColor: COLORS.debt + '18',
-  },
-  radioCircle: {
-    width: 18,
-    height: 18,
-    borderRadius: RADIUS.round,
-    borderWidth: 2,
-    borderColor: COLORS.border,
-  },
-  radioCircleActive: {
-    borderColor: COLORS.debt,
-    backgroundColor: COLORS.debt,
-  },
-  typeLabel: {
-    fontSize: FONTS.md,
-    fontWeight: '500',
-    color: COLORS.textSecondary,
-  },
-  typeLabelActive: {
-    color: COLORS.debt,
-    fontWeight: '700',
-  },
-  typeHint: {
-    fontSize: FONTS.xs,
-    color: COLORS.textMuted,
-    marginTop: SPACING.xs,
-  },
-  saveBtn: {
-    marginBottom: SPACING.md,
-  },
-  deleteBtn: {
-    marginBottom: SPACING.md,
-  },
+  title: { fontSize: FONTS.lg, fontWeight: '700', color: COLORS.text },
+  content: { padding: SPACING.xl, paddingBottom: SPACING.xxxl },
+  hint: { fontSize: FONTS.xs, color: COLORS.textMuted, marginTop: -SPACING.sm, marginBottom: SPACING.md },
+  saveBtn: { marginTop: SPACING.md, marginBottom: SPACING.sm },
 });

@@ -10,7 +10,7 @@ interface DateInputProps {
   error?: string;
 }
 
-const WEEKDAYS = ['M', 'S', 'S', 'R', 'K', 'J', 'S'];
+const WEEKDAYS = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
 const MONTH_NAMES = [
   'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
   'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember',
@@ -165,28 +165,39 @@ export function DateInput({ label, value, onChange, error }: DateInputProps) {
                   ))}
                 </View>
 
-                <View style={styles.grid}>
-                  {days.map((d, i) => {
-                    if (!d) return <View key={i} style={styles.dayCell} />;
-                    const isSelected = d.format('YYYY-MM-DD') === selected.format('YYYY-MM-DD');
-                    const isToday = d.format('YYYY-MM-DD') === dayjs().format('YYYY-MM-DD');
-                    return (
-                      <TouchableOpacity
-                        key={i}
-                        style={[styles.dayCell, isSelected && styles.dayCellSelected]}
-                        onPress={() => pick(d)}
-                      >
-                        <Text style={[
-                          styles.dayText,
-                          isToday && !isSelected && styles.dayTextToday,
-                          isSelected && styles.dayTextSelected,
-                        ]}>
-                          {d.date()}
-                        </Text>
-                      </TouchableOpacity>
-                    );
-                  })}
-                </View>
+                {/* Dibagi per minggu (7 kolom pasti) — wrap persentase 100/7 bisa
+                    meleset jadi 6 kolom di Android, bikin tanggal geser hari. */}
+                {Array.from({ length: Math.ceil(days.length / 7) }, (_, w) => days.slice(w * 7, w * 7 + 7)).map((week, w) => (
+                  <View key={w} style={styles.weekRowDays}>
+                    {Array.from({ length: 7 }, (_, i) => week[i] ?? null).map((d, i) => {
+                      if (!d) return <View key={i} style={styles.dayCell} />;
+                      const isSelected = Boolean(value) && d.format('YYYY-MM-DD') === selected.format('YYYY-MM-DD');
+                      const isToday = d.format('YYYY-MM-DD') === dayjs().format('YYYY-MM-DD');
+                      return (
+                        <TouchableOpacity
+                          key={i}
+                          style={styles.dayCell}
+                          onPress={() => pick(d)}
+                          accessibilityRole="button"
+                          accessibilityState={{ selected: isSelected }}
+                          accessibilityLabel={d.format('D MMMM YYYY')}
+                        >
+                          <View style={[styles.dayCircle, isSelected && styles.dayCircleSelected]}>
+                            <Text
+                              style={[
+                                styles.dayText,
+                                isToday && !isSelected && styles.dayTextToday,
+                                isSelected && styles.dayTextSelected,
+                              ]}
+                            >
+                              {d.date()}
+                            </Text>
+                          </View>
+                        </TouchableOpacity>
+                      );
+                    })}
+                  </View>
+                ))}
 
                 <TouchableOpacity style={styles.todayBtn} onPress={() => pick(dayjs())}>
                   <Text style={styles.todayBtnText}>Hari ini</Text>
@@ -229,7 +240,7 @@ const styles = StyleSheet.create({
 
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: COLORS.overlay,
     justifyContent: 'center',
     alignItems: 'center',
     padding: SPACING.xl,
@@ -265,27 +276,24 @@ const styles = StyleSheet.create({
     color: COLORS.textMuted,
     fontWeight: '600',
   },
-  grid: { flexDirection: 'row', flexWrap: 'wrap' },
+  weekRowDays: { flexDirection: 'row' },
   dayCell: {
-    width: `${100 / 7}%`,
-    aspectRatio: 1,
+    flex: 1,
+    height: 44,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  dayCellSelected: {},
+  dayCircle: {
+    width: 36,
+    height: 36,
+    borderRadius: RADIUS.round,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  dayCircleSelected: { backgroundColor: COLORS.primary },
   dayText: { fontSize: FONTS.md, color: COLORS.text },
   dayTextToday: { color: COLORS.primary, fontWeight: '700' },
-  dayTextSelected: {
-    color: '#ffffff',
-    fontWeight: '700',
-    backgroundColor: COLORS.primary,
-    width: 32,
-    height: 32,
-    borderRadius: RADIUS.round,
-    textAlign: 'center',
-    lineHeight: 32,
-    overflow: 'hidden',
-  },
+  dayTextSelected: { color: COLORS.onPrimary, fontWeight: '700' },
   todayBtn: { marginTop: SPACING.md, alignItems: 'center', paddingVertical: SPACING.sm },
   todayBtnText: { color: COLORS.primary, fontWeight: '600', fontSize: FONTS.sm },
 
@@ -300,7 +308,7 @@ const styles = StyleSheet.create({
   },
   yearChipActive: { backgroundColor: COLORS.primary },
   yearChipText: { fontSize: FONTS.sm, fontWeight: '600', color: COLORS.text },
-  yearChipTextActive: { color: '#ffffff' },
+  yearChipTextActive: { color: COLORS.onPrimary },
 
   monthGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: SPACING.xs },
   monthCell: {
@@ -312,5 +320,5 @@ const styles = StyleSheet.create({
   },
   monthCellActive: { backgroundColor: COLORS.primary },
   monthCellText: { fontSize: FONTS.sm, fontWeight: '600', color: COLORS.text },
-  monthCellTextActive: { color: '#ffffff' },
+  monthCellTextActive: { color: COLORS.onPrimary },
 });

@@ -4,7 +4,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Card, Text } from "../../../components/common";
 import { COLORS, FONTS, ICON_SIZES, RADIUS, SPACING } from "../../../theme";
 import type { DebtModel } from "../../../models/DebtModel";
-import type { ReminderStatus } from "../../../utils/finance";
+import type { ReminderStatus } from "../../../utils/debt";
 
 type Reminder = { debt: DebtModel; status: ReminderStatus };
 
@@ -57,7 +57,7 @@ export function ObligationsCard({ urgent, normal, onPress }: Props) {
         )}
 
         <View style={styles.tapHintRow}>
-          <Text style={styles.tapHint}>Tap untuk lihat semua</Text>
+          <Text style={styles.tapHint}>Lihat semua</Text>
           <MaterialIcons name="chevron-right" size={ICON_SIZES.xs} color={COLORS.textMuted} />
         </View>
       </Card>

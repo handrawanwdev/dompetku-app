@@ -13,22 +13,20 @@ export function SectionTitle({ icon, children }: Props) {
   if (!icon) return <Text style={styles.title}>{children}</Text>;
   return (
     <View style={styles.row}>
-      <MaterialIcons name={icon} size={ICON_SIZES.xs} color={COLORS.textMuted} />
+      <MaterialIcons name={icon} size={ICON_SIZES.sm} color={COLORS.primary} />
       <Text style={[styles.title, styles.titleInRow]}>{children}</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  row: { flexDirection: "row", alignItems: "center", gap: SPACING.xs, marginTop: SPACING.md, marginBottom: SPACING.sm },
+  row: { flexDirection: "row", alignItems: "center", gap: SPACING.sm, marginTop: SPACING.xl, marginBottom: SPACING.sm },
   title: {
-    fontSize: FONTS.xs,
+    fontSize: FONTS.lg,
     fontWeight: "700",
-    color: COLORS.textMuted,
+    color: COLORS.text,
     marginBottom: SPACING.sm,
-    marginTop: SPACING.md,
-    textTransform: "uppercase",
-    letterSpacing: 0.7,
+    marginTop: SPACING.xl,
   },
   titleInRow: { marginTop: 0, marginBottom: 0 },
 });

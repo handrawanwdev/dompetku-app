@@ -8,6 +8,7 @@ import {
   StatusBar,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { BackButton } from '../../../components/common/BackButton';
 import { useQuery } from '@realm/react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
@@ -68,6 +69,11 @@ export function PhysicalAssetListScreen() {
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
+
+      <View style={styles.topBar}>
+        <BackButton onPress={() => navigation.goBack()} />
+        <Text style={styles.topTitle}>Aset</Text>
+      </View>
 
       {/* Header */}
       <View style={styles.header}>
@@ -137,7 +143,7 @@ export function PhysicalAssetListScreen() {
             </Card>
           );
         }}
-        ListEmptyComponent={<EmptyState emoji="🏠" title="Belum ada aset fisik" subtitle="Tap + untuk mencatat aset fisik kamu" />}
+        ListEmptyComponent={<EmptyState emoji="🏠" title="Belum ada aset fisik" subtitle="Punya motor, laptop, atau barang berharga lain? Catat di sini." />}
         ListFooterComponent={
           soldAssets.length > 0 ? (
             <View style={styles.soldSection}>
@@ -176,6 +182,8 @@ function DetailItem({ label, value, color }: { label: string; value: string; col
 }
 
 const styles = StyleSheet.create({
+  topBar: { flexDirection: 'row', alignItems: 'center', gap: SPACING.md, paddingHorizontal: SPACING.lg, paddingTop: SPACING.sm },
+  topTitle: { fontSize: FONTS.lg, fontWeight: '700', color: COLORS.text },
   safe: { flex: 1, backgroundColor: COLORS.background },
   header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: SPACING.lg, paddingBottom: SPACING.md },
   totalLabel: { fontSize: FONTS.sm, fontWeight: '600', color: COLORS.textSecondary },

@@ -6,6 +6,8 @@ export class CategoryModel extends Realm.Object<CategoryModel> {
   /** 'income' | 'expense' */
   type!: string;
   emoji!: string;
+  /** Khusus type 'expense': 'need' | 'obligation' | 'want' | 'saving'. */
+  kind!: string;
   createdAt!: Date;
 
   static schema: ObjectSchema = {
@@ -16,6 +18,7 @@ export class CategoryModel extends Realm.Object<CategoryModel> {
       name: 'string',
       type: 'string',
       emoji: { type: 'string', default: '📌' },
+      kind: { type: 'string', default: '' },
       createdAt: { type: 'date', default: () => new Date() },
     },
   };

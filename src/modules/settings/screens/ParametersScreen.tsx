@@ -41,7 +41,7 @@ export function ParametersScreen() {
     const days = parseInt(workingDays);
 
     if (isNaN(ratio) || ratio < 1 || ratio > 100) {
-      Alert.alert('Error', 'Batas rasio hutang harus antara 1-100%');
+      Alert.alert('Error', 'Batas cicilan harus antara 1-100%');
       return;
     }
     if (isNaN(days) || days < 1 || days > 31) {
@@ -64,11 +64,11 @@ export function ParametersScreen() {
         contentContainerStyle={styles.content}
         keyboardShouldPersistTaps="handled"
       >
-        <Text style={styles.header}>Parameter</Text>
+        <Text style={styles.header}>Batas cicilan</Text>
 
         <Card padding={SPACING.lg}>
           <Input
-            label="Batas Rasio Hutang (%)"
+            label="Batas cicilan (% dari pemasukan)"
             value={debtRatioLimit}
             onChangeText={setDebtRatioLimit}
             keyboardType="numeric"
@@ -76,7 +76,7 @@ export function ParametersScreen() {
             placeholder="30"
           />
           <Text style={styles.hint}>
-            Rekomendasi: maksimal 30% dari pendapatan bulanan
+            Idealnya total cicilan nggak lebih dari 30% gaji.
           </Text>
 
           <View style={{ height: SPACING.lg }} />
@@ -97,7 +97,7 @@ export function ParametersScreen() {
         <Card padding={SPACING.lg} style={{ marginTop: SPACING.lg }}>
           <Text style={styles.label}>Hari Libur Mingguan</Text>
           <Text style={styles.dayHint}>
-            Pilih hari yang tidak dihitung sebagai hari kerja. Target harian cicilan akan menyesuaikan.
+            Hari yang kamu pilih nggak dihitung hari kerja. Target nabung harian buat cicilan ikut menyesuaikan.
           </Text>
           <View style={styles.dayRow}>
             {DAY_LABELS.map((label, idx) => {

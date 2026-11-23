@@ -5,7 +5,7 @@ import { Text } from "../../../components/common";
 import { COLORS, FONTS, ICON_SIZES, RADIUS, SPACING } from "../../../theme";
 import { formatCompact } from "../../../utils/currency";
 import type { DebtModel } from "../../../models/DebtModel";
-import type { ReminderStatus } from "../../../utils/finance";
+import type { ReminderStatus } from "../../../utils/debt";
 import { SectionTitle } from "./SectionTitle";
 
 type Reminder = { debt: DebtModel; status: ReminderStatus };
@@ -104,12 +104,12 @@ const styles = StyleSheet.create({
   plainName: { fontSize: FONTS.sm, fontWeight: "600", color: COLORS.text },
   plainSub: { fontSize: FONTS.xs, color: COLORS.textMuted, marginTop: 1 },
   tagBlue: {
-    backgroundColor: "#dbeafe",
+    backgroundColor: COLORS.infoBg,
     paddingHorizontal: SPACING.sm,
     paddingVertical: 2,
     borderRadius: RADIUS.round,
   },
-  tagBlueText: { fontSize: FONTS.xs, fontWeight: "700", color: "#1e40af" },
+  tagBlueText: { fontSize: FONTS.xs, fontWeight: "700", color: COLORS.infoText },
 
   paidLabel: {
     fontSize: FONTS.xs,

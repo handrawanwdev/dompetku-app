@@ -1,0 +1,530 @@
+{
+  "overall": 99,
+  "dimensions": {
+    "ai_slop": 100,
+    "composition": 100,
+    "density": 100,
+    "hierarchy": 92,
+    "navigation": 100,
+    "reference": 100,
+    "responsive": 100,
+    "spacing": 100,
+    "theme": 100
+  },
+  "pages": [
+    {
+      "page_id": "PAGE-001",
+      "overall": 99,
+      "dimensions": {
+        "ai_slop": 100,
+        "composition": 100,
+        "density": 100,
+        "hierarchy": 90,
+        "navigation": 100,
+        "reference": 100,
+        "responsive": 100,
+        "spacing": 100,
+        "theme": 100
+      },
+      "metrics": {
+        "nested_surfaces": 0,
+        "primary_actions": 1,
+        "stats": 3
+      }
+    },
+    {
+      "page_id": "PAGE-002",
+      "overall": 99,
+      "dimensions": {
+        "ai_slop": 100,
+        "composition": 100,
+        "density": 100,
+        "hierarchy": 90,
+        "navigation": 100,
+        "reference": 100,
+        "responsive": 100,
+        "spacing": 100,
+        "theme": 100
+      },
+      "metrics": {
+        "nested_surfaces": 0,
+        "primary_actions": 1
+      }
+    },
+    {
+      "page_id": "PAGE-003",
+      "overall": 99,
+      "dimensions": {
+        "ai_slop": 100,
+        "composition": 100,
+        "density": 100,
+        "hierarchy": 90,
+        "navigation": 100,
+        "reference": 100,
+        "responsive": 100,
+        "spacing": 100,
+        "theme": 100
+      },
+      "metrics": {
+        "nested_surfaces": 0,
+        "primary_actions": 1,
+        "stats": 3
+      }
+    },
+    {
+      "page_id": "PAGE-004",
+      "overall": 99,
+      "dimensions": {
+        "ai_slop": 100,
+        "composition": 100,
+        "density": 100,
+        "hierarchy": 90,
+        "navigation": 100,
+        "reference": 100,
+        "responsive": 100,
+        "spacing": 100,
+        "theme": 100
+      },
+      "metrics": {
+        "nested_surfaces": 0,
+        "primary_actions": 1
+      }
+    },
+    {
+      "page_id": "PAGE-005",
+      "overall": 99,
+      "dimensions": {
+        "ai_slop": 100,
+        "composition": 100,
+        "density": 100,
+        "hierarchy": 90,
+        "navigation": 100,
+        "reference": 100,
+        "responsive": 100,
+        "spacing": 100,
+        "theme": 100
+      },
+      "metrics": {
+        "nested_surfaces": 0,
+        "primary_actions": 1
+      }
+    },
+    {
+      "page_id": "PAGE-006",
+      "overall": 99,
+      "dimensions": {
+        "ai_slop": 100,
+        "composition": 100,
+        "density": 100,
+        "hierarchy": 90,
+        "navigation": 100,
+        "reference": 100,
+        "responsive": 100,
+        "spacing": 100,
+        "theme": 100
+      },
+      "metrics": {
+        "nested_surfaces": 0,
+        "primary_actions": 1,
+        "stats": 3
+      }
+    },
+    {
+      "page_id": "PAGE-007",
+      "overall": 99,
+      "dimensions": {
+        "ai_slop": 100,
+        "composition": 100,
+        "density": 100,
+        "hierarchy": 90,
+        "navigation": 100,
+        "reference": 100,
+        "responsive": 100,
+        "spacing": 100,
+        "theme": 100
+      },
+      "metrics": {
+        "nested_surfaces": 0,
+        "primary_actions": 1
+      }
+    },
+    {
+      "page_id": "PAGE-008",
+      "overall": 99,
+      "dimensions": {
+        "ai_slop": 100,
+        "composition": 100,
+        "density": 100,
+        "hierarchy": 90,
+        "navigation": 100,
+        "reference": 100,
+        "responsive": 100,
+        "spacing": 100,
+        "theme": 100
+      },
+      "metrics": {
+        "nested_surfaces": 0,
+        "primary_actions": 1,
+        "stats": 3
+      }
+    },
+    {
+      "page_id": "PAGE-009",
+      "overall": 99,
+      "dimensions": {
+        "ai_slop": 100,
+        "composition": 100,
+        "density": 100,
+        "hierarchy": 90,
+        "navigation": 100,
+        "reference": 100,
+        "responsive": 100,
+        "spacing": 100,
+        "theme": 100
+      },
+      "metrics": {
+        "nested_surfaces": 0,
+        "primary_actions": 1
+      }
+    },
+    {
+      "page_id": "PAGE-010",
+      "overall": 99,
+      "dimensions": {
+        "ai_slop": 100,
+        "composition": 100,
+        "density": 100,
+        "hierarchy": 90,
+        "navigation": 100,
+        "reference": 100,
+        "responsive": 100,
+        "spacing": 100,
+        "theme": 100
+      },
+      "metrics": {
+        "nested_surfaces": 0,
+        "primary_actions": 1
+      }
+    },
+    {
+      "page_id": "PAGE-011",
+      "overall": 100,
+      "dimensions": {
+        "ai_slop": 100,
+        "composition": 100,
+        "density": 100,
+        "hierarchy": 100,
+        "navigation": 100,
+        "reference": 100,
+        "responsive": 100,
+        "spacing": 100,
+        "theme": 100
+      },
+      "metrics": {
+        "nested_surfaces": 0
+      }
+    },
+    {
+      "page_id": "PAGE-012",
+      "overall": 99,
+      "dimensions": {
+        "ai_slop": 100,
+        "composition": 100,
+        "density": 100,
+        "hierarchy": 90,
+        "navigation": 100,
+        "reference": 100,
+        "responsive": 100,
+        "spacing": 100,
+        "theme": 100
+      },
+      "metrics": {
+        "nested_surfaces": 0
+      }
+    },
+    {
+      "page_id": "PAGE-013",
+      "overall": 99,
+      "dimensions": {
+        "ai_slop": 100,
+        "composition": 100,
+        "density": 100,
+        "hierarchy": 90,
+        "navigation": 100,
+        "reference": 100,
+        "responsive": 100,
+        "spacing": 100,
+        "theme": 100
+      },
+      "metrics": {
+        "nested_surfaces": 0,
+        "primary_actions": 1
+      }
+    },
+    {
+      "page_id": "PAGE-014",
+      "overall": 100,
+      "dimensions": {
+        "ai_slop": 100,
+        "composition": 100,
+        "density": 100,
+        "hierarchy": 100,
+        "navigation": 100,
+        "reference": 100,
+        "responsive": 100,
+        "spacing": 100,
+        "theme": 100
+      },
+      "metrics": {
+        "nested_surfaces": 0
+      }
+    },
+    {
+      "page_id": "PAGE-015",
+      "overall": 100,
+      "dimensions": {
+        "ai_slop": 100,
+        "composition": 100,
+        "density": 100,
+        "hierarchy": 100,
+        "navigation": 100,
+        "reference": 100,
+        "responsive": 100,
+        "spacing": 100,
+        "theme": 100
+      },
+      "metrics": {
+        "nested_surfaces": 0
+      }
+    },
+    {
+      "page_id": "PAGE-016",
+      "overall": 99,
+      "dimensions": {
+        "ai_slop": 100,
+        "composition": 100,
+        "density": 100,
+        "hierarchy": 90,
+        "navigation": 100,
+        "reference": 100,
+        "responsive": 100,
+        "spacing": 100,
+        "theme": 100
+      },
+      "metrics": {
+        "nested_surfaces": 0
+      }
+    },
+    {
+      "page_id": "PAGE-017",
+      "overall": 99,
+      "dimensions": {
+        "ai_slop": 100,
+        "composition": 100,
+        "density": 100,
+        "hierarchy": 90,
+        "navigation": 100,
+        "reference": 100,
+        "responsive": 100,
+        "spacing": 100,
+        "theme": 100
+      },
+      "metrics": {
+        "nested_surfaces": 0,
+        "primary_actions": 1
+      }
+    },
+    {
+      "page_id": "PAGE-018",
+      "overall": 100,
+      "dimensions": {
+        "ai_slop": 100,
+        "composition": 100,
+        "density": 100,
+        "hierarchy": 100,
+        "navigation": 100,
+        "reference": 100,
+        "responsive": 100,
+        "spacing": 100,
+        "theme": 100
+      },
+      "metrics": {
+        "nested_surfaces": 0
+      }
+    }
+  ],
+  "findings": [
+    {
+      "page_id": "PAGE-001",
+      "severity": "minor",
+      "problem": "Konten pendukung \"warning\" tampil sebelum fokus utama \"budgets\".",
+      "why": "urutan baca harus mengikuti prioritas informasi",
+      "fix": "Pindahkan \"warning\" setelah \"budgets\", atau ke kolom samping.",
+      "category": "hierarchy",
+      "component": "warning",
+      "device": "mobile",
+      "source": "lint",
+      "rule": "support_before_primary"
+    },
+    {
+      "page_id": "PAGE-002",
+      "severity": "minor",
+      "problem": "Konten pendukung \"rules-note\" tampil sebelum fokus utama \"budget-form\".",
+      "why": "urutan baca harus mengikuti prioritas informasi",
+      "fix": "Pindahkan \"rules-note\" setelah \"budget-form\", atau ke kolom samping.",
+      "category": "hierarchy",
+      "component": "rules-note",
+      "device": "mobile",
+      "source": "lint",
+      "rule": "support_before_primary"
+    },
+    {
+      "page_id": "PAGE-003",
+      "severity": "minor",
+      "problem": "Konten pendukung \"status-text\" tampil sebelum fokus utama \"rincian-list\".",
+      "why": "urutan baca harus mengikuti prioritas informasi",
+      "fix": "Pindahkan \"status-text\" setelah \"rincian-list\", atau ke kolom samping.",
+      "category": "hierarchy",
+      "component": "status-text",
+      "device": "mobile",
+      "source": "lint",
+      "rule": "support_before_primary"
+    },
+    {
+      "page_id": "PAGE-004",
+      "severity": "minor",
+      "problem": "Konten pendukung \"page-note\" tampil sebelum fokus utama \"periods\".",
+      "why": "urutan baca harus mengikuti prioritas informasi",
+      "fix": "Pindahkan \"page-note\" setelah \"periods\", atau ke kolom samping.",
+      "category": "hierarchy",
+      "component": "page-note",
+      "device": "mobile",
+      "source": "lint",
+      "rule": "support_before_primary"
+    },
+    {
+      "page_id": "PAGE-005",
+      "severity": "minor",
+      "problem": "Konten pendukung \"title\" tampil sebelum fokus utama \"compare-table\".",
+      "why": "urutan baca harus mengikuti prioritas informasi",
+      "fix": "Pindahkan \"title\" setelah \"compare-table\", atau ke kolom samping.",
+      "category": "hierarchy",
+      "component": "title",
+      "device": "mobile",
+      "source": "lint",
+      "rule": "support_before_primary"
+    },
+    {
+      "page_id": "PAGE-006",
+      "severity": "minor",
+      "problem": "Konten pendukung \"warning\" tampil sebelum fokus utama \"budgets\".",
+      "why": "urutan baca harus mengikuti prioritas informasi",
+      "fix": "Pindahkan \"warning\" setelah \"budgets\", atau ke kolom samping.",
+      "category": "hierarchy",
+      "component": "warning",
+      "device": "mobile",
+      "source": "lint",
+      "rule": "support_before_primary"
+    },
+    {
+      "page_id": "PAGE-007",
+      "severity": "minor",
+      "problem": "Konten pendukung \"rules-note\" tampil sebelum fokus utama \"budget-form\".",
+      "why": "urutan baca harus mengikuti prioritas informasi",
+      "fix": "Pindahkan \"rules-note\" setelah \"budget-form\", atau ke kolom samping.",
+      "category": "hierarchy",
+      "component": "rules-note",
+      "device": "mobile",
+      "source": "lint",
+      "rule": "support_before_primary"
+    },
+    {
+      "page_id": "PAGE-008",
+      "severity": "minor",
+      "problem": "Konten pendukung \"status-text\" tampil sebelum fokus utama \"rincian-list\".",
+      "why": "urutan baca harus mengikuti prioritas informasi",
+      "fix": "Pindahkan \"status-text\" setelah \"rincian-list\", atau ke kolom samping.",
+      "category": "hierarchy",
+      "component": "status-text",
+      "device": "mobile",
+      "source": "lint",
+      "rule": "support_before_primary"
+    },
+    {
+      "page_id": "PAGE-009",
+      "severity": "minor",
+      "problem": "Konten pendukung \"page-note\" tampil sebelum fokus utama \"periods\".",
+      "why": "urutan baca harus mengikuti prioritas informasi",
+      "fix": "Pindahkan \"page-note\" setelah \"periods\", atau ke kolom samping.",
+      "category": "hierarchy",
+      "component": "page-note",
+      "device": "mobile",
+      "source": "lint",
+      "rule": "support_before_primary"
+    },
+    {
+      "page_id": "PAGE-010",
+      "severity": "minor",
+      "problem": "Konten pendukung \"title\" tampil sebelum fokus utama \"compare-table\".",
+      "why": "urutan baca harus mengikuti prioritas informasi",
+      "fix": "Pindahkan \"title\" setelah \"compare-table\", atau ke kolom samping.",
+      "category": "hierarchy",
+      "component": "title",
+      "device": "mobile",
+      "source": "lint",
+      "rule": "support_before_primary"
+    },
+    {
+      "page_id": "PAGE-012",
+      "severity": "minor",
+      "problem": "Konten pendukung \"note\" tampil sebelum fokus utama \"entries\".",
+      "why": "urutan baca harus mengikuti prioritas informasi",
+      "fix": "Pindahkan \"note\" setelah \"entries\", atau ke kolom samping.",
+      "category": "hierarchy",
+      "component": "note",
+      "device": "mobile",
+      "source": "lint",
+      "rule": "support_before_primary"
+    },
+    {
+      "page_id": "PAGE-013",
+      "severity": "minor",
+      "problem": "Konten pendukung \"note\" tampil sebelum fokus utama \"open-anggaran\".",
+      "why": "urutan baca harus mengikuti prioritas informasi",
+      "fix": "Pindahkan \"note\" setelah \"open-anggaran\", atau ke kolom samping.",
+      "category": "hierarchy",
+      "component": "note",
+      "device": "mobile",
+      "source": "lint",
+      "rule": "support_before_primary"
+    },
+    {
+      "page_id": "PAGE-016",
+      "severity": "minor",
+      "problem": "Konten pendukung \"note\" tampil sebelum fokus utama \"entries\".",
+      "why": "urutan baca harus mengikuti prioritas informasi",
+      "fix": "Pindahkan \"note\" setelah \"entries\", atau ke kolom samping.",
+      "category": "hierarchy",
+      "component": "note",
+      "device": "mobile",
+      "source": "lint",
+      "rule": "support_before_primary"
+    },
+    {
+      "page_id": "PAGE-017",
+      "severity": "minor",
+      "problem": "Konten pendukung \"note\" tampil sebelum fokus utama \"open-anggaran\".",
+      "why": "urutan baca harus mengikuti prioritas informasi",
+      "fix": "Pindahkan \"note\" setelah \"open-anggaran\", atau ke kolom samping.",
+      "category": "hierarchy",
+      "component": "note",
+      "device": "mobile",
+      "source": "lint",
+      "rule": "support_before_primary"
+    }
+  ],
+  "confidence": "medium",
+  "decision": "pass",
+  "recommendation": "Lolos gate; temuan minor bisa diperbaiki saat revisi berikutnya.",
+  "measured_at": "2026-10-10T01:15:04.037944469Z"
+}

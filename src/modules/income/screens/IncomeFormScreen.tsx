@@ -22,12 +22,14 @@ import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
 import { Text, Button, Input, DateInput, CurrencyInput, BackButton, TransactionSuccessAnimation } from '../../../components/common';
 import { IncomeModel } from '../../../models/IncomeModel';
 import { today } from '../../../utils/date';
-import type { CashflowStackParamList } from '../../transaction/types';
+import { mainAccountId } from '../../../services/AllocationService';
+import { AccountPicker } from '../../finance/components/AccountPicker';
+import type { RootStackParamList } from '../../../navigation/types';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type NavProp = NativeStackNavigationProp<CashflowStackParamList, 'IncomeForm'>;
-type RouteType = RouteProp<CashflowStackParamList, 'IncomeForm'>;
+type NavProp = NativeStackNavigationProp<RootStackParamList, 'IncomeForm'>;
+type RouteType = RouteProp<RootStackParamList, 'IncomeForm'>;
 
 // ─── Categories ───────────────────────────────────────────────────────────────
 
@@ -98,6 +100,8 @@ export function IncomeFormScreen() {
     }
   }, [existingIncome, setValue]);
 
+  const [accountId, setAccountId] = useState(() => existingIncome?.accountId ?? mainAccountId(realm));
+
   const savingRef = useRef(false);
   const [successAmount, setSuccessAmount] = useState<number | null>(null);
 
@@ -118,6 +122,7 @@ export function IncomeFormScreen() {
         existingIncome.allocationDebtId = '';
         existingIncome.allocationSavingId = '';
         existingIncome.type = data.type;
+        existingIncome.accountId = accountId;
       } else {
         realm.create(IncomeModel, {
           _id: new Realm.BSON.ObjectId(),
@@ -131,6 +136,7 @@ export function IncomeFormScreen() {
           allocationDebtId: '',
           allocationSavingId: '',
           type: data.type,
+          accountId,
           createdAt: new Date(),
         });
       }
@@ -195,6 +201,8 @@ export function IncomeFormScreen() {
               />
             )}
           />
+
+          <AccountPicker label="Masuk ke" value={accountId} onChange={setAccountId} />
 
           {/* Category Chips */}
           <View style={styles.fieldGroup}>
@@ -269,7 +277,7 @@ export function IncomeFormScreen() {
             render={({ field: { onChange, value } }) => (
               <Input
                 label="Catatan (opsional)"
-                placeholder="Tambah catatan..."
+                placeholder="Contoh: bonus akhir tahun"
                 value={value}
                 onChangeText={onChange}
                 multiline
@@ -367,7 +375,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   chipLabelSelected: {
-    color: '#FFFFFF',
+    color: COLORS.onPrimary,
   },
   typeRow: {
     flexDirection: 'row',

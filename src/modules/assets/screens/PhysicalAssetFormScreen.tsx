@@ -25,6 +25,10 @@ import { CurrencyInput } from '../../../components/common/CurrencyInput';
 import { AssetSuccessAnimation } from '../../../components/common/AssetSuccessAnimation';
 import { PhysicalAssetModel } from '../../../models/PhysicalAssetModel';
 import { today } from '../../../utils/date';
+import { formatCurrency } from '../../../utils/currency';
+import { ExpenseModel } from '../../../models/ExpenseModel';
+import { syncPurchaseExpense } from '../../../services/AllocationService';
+import { PurchaseToggle } from '../../../components/common/PurchaseToggle';
 import { AssetsStackParamList } from './PhysicalAssetListScreen';
 
 const CATEGORIES = [
@@ -58,6 +62,11 @@ export function PhysicalAssetFormScreen({ navigation, route }: Props) {
   const [residualValue, setResidualValue] = useState(existing?.residualValue?.toString() ?? '0');
   const [note, setNote] = useState(existing?.note ?? '');
 
+  // Data lama yang belum punya catatan uang keluar bisa disusulkan dari sini.
+  const linked = existing
+    ? realm.objects(ExpenseModel).filtered('assetRef == $0', `asset:${existing._id.toHexString()}`).length > 0
+    : false;
+  const [recordPurchase, setRecordPurchase] = useState(!existing);
   const savingRef = useRef(false);
   const [successAmount, setSuccessAmount] = useState<number | null>(null);
 
@@ -72,7 +81,9 @@ export function PhysicalAssetFormScreen({ navigation, route }: Props) {
 
     savingRef.current = true;
     realm.write(() => {
+      const purchase = { amount: pp, date: purchaseDate, category: 'Aset', note: `Beli ${name.trim()}` };
       if (existing) {
+        syncPurchaseExpense(realm, `asset:${existing._id.toHexString()}`, purchase, recordPurchase);
         existing.category = category;
         existing.name = name;
         existing.purchasePrice = pp;
@@ -81,7 +92,8 @@ export function PhysicalAssetFormScreen({ navigation, route }: Props) {
         existing.residualValue = rv;
         existing.note = note;
       } else {
-        realm.create(PhysicalAssetModel, { category, name, purchasePrice: pp, purchaseDate, usefulLife: ul, residualValue: rv, note });
+        const created = realm.create(PhysicalAssetModel, { category, name, purchasePrice: pp, purchaseDate, usefulLife: ul, residualValue: rv, note });
+        if (recordPurchase) syncPurchaseExpense(realm, `asset:${created._id.toHexString()}`, purchase, true);
       }
     });
 
@@ -94,9 +106,19 @@ export function PhysicalAssetFormScreen({ navigation, route }: Props) {
 
   const handleDelete = () => {
     if (!existing) return;
-    Alert.alert('Hapus', `Hapus aset "${existing.name}"?`, [
+    Alert.alert('Hapus', `Hapus aset "${existing.name}"? Catatan uang keluar pembeliannya ikut dihapus.`, [
       { text: 'Batal', style: 'cancel' },
-      { text: 'Hapus', style: 'destructive', onPress: () => { realm.write(() => realm.delete(existing)); navigation.goBack(); } },
+      {
+        text: 'Hapus',
+        style: 'destructive',
+        onPress: () => {
+          realm.write(() => {
+            syncPurchaseExpense(realm, `asset:${existing._id.toHexString()}`, null, false);
+            realm.delete(existing);
+          });
+          navigation.goBack();
+        },
+      },
     ]);
   };
 
@@ -129,8 +151,16 @@ export function PhysicalAssetFormScreen({ navigation, route }: Props) {
           <DateInput label="Tanggal Beli" value={purchaseDate} onChange={setPurchaseDate} />
           <Field label="Masa Manfaat (tahun)" value={usefulLife} onChange={setUsefulLife} keyboardType="numeric" placeholder="5" />
           <CurrencyInput label="Nilai Sisa" value={residualValue} onChangeText={setResidualValue} />
-          <Field label="Catatan (opsional)" value={note} onChange={setNote} placeholder="..." multiline />
+          <Field label="Catatan (opsional)" value={note} onChange={setNote} placeholder="Contoh: beli bekas, garansi sampai 2027" multiline />
         </Card>
+
+        {!linked && (
+          <PurchaseToggle
+            value={recordPurchase}
+            onChange={setRecordPurchase}
+            amountLabel={formatCurrency(parseFloat(purchasePrice) || 0)}
+          />
+        )}
 
         <Button title={editId ? 'Simpan Perubahan' : 'Tambah Aset'} onPress={handleSave} fullWidth style={{ marginTop: SPACING.xl }} />
         {editId && <Button title="Hapus Aset" onPress={handleDelete} variant="danger" fullWidth style={{ marginTop: SPACING.sm }} />}

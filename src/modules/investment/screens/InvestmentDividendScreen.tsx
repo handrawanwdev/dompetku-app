@@ -14,6 +14,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRealm, useObject } from '@realm/react';
+import { mainAccountId } from '../../../services/AllocationService';
 import Realm from 'realm';
 
 import { COLORS, FONTS, ICON_SIZES, SPACING } from '../../../theme';
@@ -75,6 +76,7 @@ export function InvestmentDividendScreen({ navigation, route }: Props) {
         date: today(),
         note: `Dividen ${investment.name}`,
         type: 'passive',
+        accountId: mainAccountId(realm),
       });
     });
     setSuccessAmount(dividendAmount);
@@ -120,7 +122,7 @@ export function InvestmentDividendScreen({ navigation, route }: Props) {
           </View>
 
           <Text style={styles.dividendHint}>
-            Dicatat sebagai sumber passive income "Dividen {investment.name}" — bisa diedit di menu Passive Income.
+            Nanti tercatat sebagai pemasukan pasif "Dividen {investment.name}". Kalau mau ubah, buka menu Passive Income.
           </Text>
 
           <Button title="Simpan" onPress={confirmDividend} fullWidth style={styles.saveBtn} />

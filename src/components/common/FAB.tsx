@@ -1,7 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, ViewStyle } from 'react-native';
+import { StyleSheet, TouchableOpacity, ViewStyle } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { RADIUS, SPACING } from '../../theme';
+import { COLORS, RADIUS, SPACING } from '../../theme';
 
 function lighten(hex: string, amount: number): string {
   const n = parseInt(hex.replace('#', ''), 16);
@@ -33,7 +34,7 @@ export function FAB({ color, onPress, style }: Props) {
         end={{ x: 1, y: 1 }}
         style={styles.gradient}
       >
-        <Text style={styles.icon}>+</Text>
+        <MaterialIcons name="add" size={28} color={COLORS.onPrimary} />
       </LinearGradient>
     </TouchableOpacity>
   );
@@ -48,10 +49,10 @@ const styles = StyleSheet.create({
     height: 56,
     borderRadius: RADIUS.round,
     elevation: 8,
-    shadowColor: '#000',
+    shadowColor: COLORS.shadow,
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
+    shadowOpacity: 0.25,
+    shadowRadius: 12,
   },
   gradient: {
     flex: 1,
@@ -59,5 +60,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  icon: { fontSize: 28, color: '#fff', lineHeight: 32, fontWeight: '400' },
 });

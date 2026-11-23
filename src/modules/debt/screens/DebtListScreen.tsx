@@ -1,728 +1,146 @@
-import React, { useMemo, useCallback } from 'react';
-import {
-  View,
-  FlatList,
-  TouchableOpacity,
-  StyleSheet,
-  StatusBar,
-  ListRenderItemInfo,
-} from 'react-native';
+import React, { useMemo } from 'react';
+import { View, ScrollView, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useQuery } from '@realm/react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 
-import { COLORS, FONTS, SPACING, RADIUS } from '../../../theme';
-import { Card, Text, EmptyState, AmountDisplay, ProgressBar, FAB } from '../../../components/common';
-import { DebtModel } from '../../../models/DebtModel';
-import { DebtPaymentModel } from '../../../models/DebtPaymentModel';
-import { IncomeModel } from '../../../models/IncomeModel';
-import { ExpenseModel } from '../../../models/ExpenseModel';
-import { formatCurrency, formatCompact } from '../../../utils/currency';
-import { startOfMonth } from '../../../utils/date';
-import { getReminderStatus, getKewajibanBulanIni, getDebtFreedomStatus, getMonthlyPaymentState, type ReminderStatus } from '../../../utils/finance';
-import { useSettingsStore } from '../../../store/settingsStore';
-import { getKasBebasBalance } from '../../../services/AllocationService';
-import { useRealm } from '@realm/react';
+import { COLORS, FONTS, SPACING, RADIUS, SHADOWS } from '../../../theme';
+import { Text, EmptyState, ProgressBar, FAB, BackButton } from '../../../components/common';
+import { formatCurrency } from '../../../utils/currency';
+import { getReminderStatus, type DebtInfo } from '../../../utils/debt';
+import type { DebtModel } from '../../../models/DebtModel';
+import { useDebts } from '../useDebts';
+import type { DebtStackParamList } from '../types';
 
-// ─── Navigation Types ─────────────────────────────────────────────────────────
-
-export type DebtStackParamList = {
-  DebtList: undefined;
-  DebtForm: { id?: string; presetType?: DebtModel['debtType'] };
-  DebtDetail: { id: string };
-  DebtPayment: { debtId: string; mode: 'payment' | 'usage' };
-};
+export type { DebtStackParamList };
 
 type NavProp = NativeStackNavigationProp<DebtStackParamList>;
 
-// ─── Debt Item ────────────────────────────────────────────────────────────────
-
-const DEBT_TYPE_BADGE: Record<string, string> = {
-  tanpa_tenor: '🤝 Tanpa tenor',
-  berjangka: '📆 Berjangka',
-  revolving: '🔁 Revolving',
-  tagihan_rutin: '🔁 Tagihan rutin',
-};
-
-interface DebtItemProps {
-  item: DebtModel;
-  remaining: number;
-  reminder: ReminderStatus | null;
-  onPress: () => void;
-}
-
-function DebtItem({ item, remaining, reminder, onPress }: DebtItemProps) {
-  const urgent = reminder?.urgent ?? false;
-  const isCicilan = item.debtType === 'cicilan';
-  const isRevolving = item.debtType === 'revolving';
-
-  const progress = isCicilan
-    ? (item.totalAmount > 0 ? Math.min(((item.totalAmount - remaining) / item.totalAmount) * 100, 100) : 0)
-    : isRevolving
-      ? (item.totalAmount > 0 ? Math.min((item.currentBalance / item.totalAmount) * 100, 100) : 0)
-      : 0;
-  const showProgress = isCicilan || isRevolving;
+function DebtItem({ info, onPress }: { info: DebtInfo<DebtModel>; onPress: () => void }) {
+  const { debt } = info;
+  const status = getReminderStatus(info);
+  const sub = [
+    debt.monthlyInstallment > 0 ? `${formatCurrency(debt.monthlyInstallment)}/bln` : 'Bayar bebas',
+    info.monthsLeft ? `±${info.monthsLeft} bln lagi` : null,
+  ].filter(Boolean).join(' · ');
 
   return (
-    <TouchableOpacity onPress={onPress} activeOpacity={0.7} style={styles.itemContainer}>
-      <View style={styles.itemHeader}>
-        <View style={styles.itemHeaderLeft}>
-          <Text style={styles.itemName}>{item.name}</Text>
-          <Text style={styles.itemLender}>{item.lender}</Text>
-        </View>
-        {reminder && (
-          <View style={[styles.statusBadge, { backgroundColor: reminder.bg }]}>
-            <Text style={[styles.statusText, { color: reminder.color }]} numberOfLines={1}>
-              {reminder.tier === 'lunas' ? 'LUNAS' : reminder.tier.toUpperCase()}
-            </Text>
+    <TouchableOpacity style={styles.item} onPress={onPress} activeOpacity={0.7}>
+      <View style={styles.itemHead}>
+        <Text style={styles.itemName} numberOfLines={1}>{debt.name}</Text>
+        {info.lunas ? (
+          <View style={[styles.badge, { backgroundColor: COLORS.successBg }]}>
+            <Text style={[styles.badgeText, { color: COLORS.successText }]}>Lunas</Text>
           </View>
-        )}
-      </View>
-
-      {showProgress ? (
-        <ProgressBar
-          progress={progress}
-          color={urgent ? COLORS.danger : COLORS.debt}
-          height={6}
-          style={styles.progressBar}
-        />
-      ) : DEBT_TYPE_BADGE[item.debtType] ? (
-        <Text style={styles.noTenorBadge}>{DEBT_TYPE_BADGE[item.debtType]}</Text>
-      ) : null}
-
-      <View style={styles.itemFooter}>
-        {item.debtType === 'revolving' ? (
-          <>
-            <View style={styles.itemStat}>
-              <Text style={styles.itemStatLabel}>Limit</Text>
-              <AmountDisplay amount={item.totalAmount} size="sm" style={{ color: COLORS.text }} />
-            </View>
-            <View style={styles.itemStat}>
-              <Text style={styles.itemStatLabel}>Terpakai</Text>
-              <AmountDisplay amount={item.currentBalance} size="sm" style={{ color: COLORS.debt }} />
-            </View>
-            <View style={styles.itemStat}>
-              <Text style={styles.itemStatLabel}>Tgl Tagihan</Text>
-              <Text style={styles.itemStatValue}>Tgl {item.dueDate}</Text>
-            </View>
-          </>
-        ) : item.debtType === 'tagihan_rutin' ? (
-          <>
-            {item.monthlyInstallment > 0 && (
-              <View style={styles.itemStat}>
-                <Text style={styles.itemStatLabel}>Estimasi/Bulan</Text>
-                <Text style={styles.itemStatValue}>{formatCurrency(item.monthlyInstallment)}</Text>
-              </View>
-            )}
-            <View style={styles.itemStat}>
-              <Text style={styles.itemStatLabel}>Tgl Tagihan</Text>
-              <Text style={styles.itemStatValue}>Tgl {item.dueDate}</Text>
-            </View>
-          </>
-        ) : item.debtType === 'berjangka' ? (
-          <>
-            <View style={styles.itemStat}>
-              <Text style={styles.itemStatLabel}>Jatuh Tempo</Text>
-              <Text style={styles.itemStatValue}>{item.dueDateFull}</Text>
-            </View>
-            <View style={styles.itemStat}>
-              <Text style={styles.itemStatLabel}>Sisa</Text>
-              <AmountDisplay amount={remaining} size="sm" style={{ color: COLORS.debt }} />
-            </View>
-          </>
-        ) : item.debtType === 'tanpa_tenor' ? (
-          <View style={styles.itemStat}>
-            <Text style={styles.itemStatLabel}>Sisa Hutang</Text>
-            <AmountDisplay amount={remaining} size="sm" style={{ color: COLORS.debt }} />
+        ) : status ? (
+          <View style={[styles.badge, { backgroundColor: status.bg }]}>
+            <Text style={[styles.badgeText, { color: status.color }]}>{status.label}</Text>
           </View>
-        ) : (
-          <>
-            <View style={styles.itemStat}>
-              <Text style={styles.itemStatLabel}>Cicilan/Bulan</Text>
-              <Text style={styles.itemStatValue}>{formatCurrency(item.monthlyInstallment)}</Text>
-            </View>
-            <View style={styles.itemStat}>
-              <Text style={styles.itemStatLabel}>Sisa Bulan</Text>
-              <Text style={styles.itemStatValue}>{item.remainingMonth} bln</Text>
-            </View>
-            <View style={styles.itemStat}>
-              <Text style={styles.itemStatLabel}>Tanggal Bayar</Text>
-              <Text style={styles.itemStatValue}>Tgl {item.dueDate}</Text>
-            </View>
-            <View style={styles.itemStat}>
-              <Text style={styles.itemStatLabel}>Sisa</Text>
-              <AmountDisplay amount={remaining} size="sm" style={{ color: COLORS.debt }} />
-            </View>
-          </>
-        )}
+        ) : null}
       </View>
-
-      {item.extraPaid > 0 && (
-        <Text style={styles.extraPaidText}>💰 {formatCurrency(item.extraPaid)} ekstra dibayar</Text>
+      {!info.lunas && (
+        <>
+          <Text style={styles.itemRemaining}>Sisa {formatCurrency(info.remaining)}</Text>
+          <ProgressBar progress={info.progress} color={COLORS.obligation} style={{ marginTop: SPACING.sm }} />
+          <Text style={styles.itemSub}>{sub}</Text>
+        </>
       )}
     </TouchableOpacity>
   );
 }
 
-// ─── Screen ───────────────────────────────────────────────────────────────────
-
-type ObligationFilter = 'all' | 'debt' | 'bills';
-
 export function DebtListScreen() {
   const navigation = useNavigation<NavProp>();
-  const realm = useRealm();
-  const { settings } = useSettingsStore();
-  const [obligationFilter, setObligationFilter] = React.useState<ObligationFilter>('all');
-  const allDebts = useQuery(DebtModel).filtered('isActive == true').sorted('createdAt', true);
-  const allDebtsEver = useQuery(DebtModel);
-  const debtPayments = useQuery(DebtPaymentModel);
-  const incomes = useQuery(IncomeModel);
-  const expenses = useQuery(ExpenseModel);
-  const monthStart = startOfMonth();
+  const debts = useDebts();
 
-  const totalPaidByDebt = useMemo(() => {
-    const map = new Map<string, number>();
-    for (const p of debtPayments) {
-      map.set(p.debtId, (map.get(p.debtId) ?? 0) + p.amount);
-    }
-    return map;
-  }, [debtPayments]);
+  const active = debts.filter((d) => !d.lunas);
+  const done = debts.filter((d) => d.lunas);
 
-  const remainingFor = useCallback((d: DebtModel) => {
-    if (d.debtType === 'cicilan') return d.monthlyInstallment * d.remainingMonth;
-    if (d.debtType === 'revolving') return d.currentBalance;
-    if (d.debtType === 'tanpa_tenor' || d.debtType === 'berjangka') {
-      const paid = totalPaidByDebt.get(d._id.toHexString()) ?? 0;
-      return Math.max(0, d.totalAmount - paid);
-    }
-    return 0; // tagihan_rutin — no fixed total
-  }, [totalPaidByDebt]);
-
-  const displayedDebts = useMemo(() => {
-    if (obligationFilter === 'bills') return allDebts.filtered("debtType == 'tagihan_rutin'");
-    if (obligationFilter === 'debt') return allDebts.filtered("debtType != 'tagihan_rutin'");
-    return allDebts;
-  }, [allDebts, obligationFilter]);
-
-  // Ringkasan ikut filter aktif (Semua/Utang/Tagihan) — biar angka yang
-  // ditampilkan selalu sesuai dengan apa yang lagi dilihat user di list.
   const summary = useMemo(() => {
-    let totalRemaining = 0;
-    let totalMonthly = 0;
-    for (const d of displayedDebts) {
-      totalRemaining += remainingFor(d);
-      totalMonthly += d.monthlyInstallment;
-    }
-    return { totalRemaining, totalMonthly, count: displayedDebts.length };
-  }, [displayedDebts, remainingFor]);
-
-  const debtInputs = useMemo(() => displayedDebts.map((d) => {
-    const debtId = d._id.toHexString();
-    const { paidThisMonth, missedMonths } = getMonthlyPaymentState({
-      debtType: d.debtType,
-      startDate: d.startDate,
-      dueDate: d.dueDate,
-      remainingMonth: d.remainingMonth,
-      paymentsCount: debtPayments.filtered('debtId == $0', debtId).length,
-      hasPaymentThisMonth: debtPayments.filtered('debtId == $0 AND date >= $1', debtId, monthStart).length > 0,
-    });
+    const withInstallment = active.filter((d) => d.debt.monthlyInstallment > 0);
     return {
-      id: d._id.toHexString(),
-      name: d.name,
-      monthlyInstallment: d.monthlyInstallment,
-      remainingMonth: d.remainingMonth,
-      dueDate: d.dueDate,
-      dueDateFull: d.dueDateFull,
-      paidThisMonth,
-      missedMonths,
-      debtType: d.debtType,
+      remaining: active.reduce((s, d) => s + d.remaining, 0),
+      perMonth: withInstallment.reduce((s, d) => s + Math.min(d.debt.monthlyInstallment, d.remaining), 0),
+      paidCount: withInstallment.filter((d) => d.paidThisMonth).length,
+      dueCount: withInstallment.length,
     };
-  }), [displayedDebts, debtPayments, monthStart]);
+  }, [active]);
 
-  const reminderMap = useMemo(() => {
-    const map = new Map<string, ReminderStatus>();
-    for (const input of debtInputs) {
-      const status = getReminderStatus(input);
-      if (status) map.set(input.id, status);
-    }
-    return map;
-  }, [debtInputs]);
-
-  const cashNow = useMemo(() => getKasBebasBalance(realm), [realm, incomes, expenses]);
-
-  const kewajiban = useMemo(
-    () => getKewajibanBulanIni(debtInputs, cashNow, settings.hariLibur ?? [0]),
-    [debtInputs, cashNow, settings.hariLibur],
-  );
-
-  const debtFreedom = useMemo(
-    () => getDebtFreedomStatus(allDebtsEver.filter((d) => d.debtType === 'cicilan').map((d) => ({
-      totalAmount: d.totalAmount, monthlyInstallment: d.monthlyInstallment, remainingMonth: d.remainingMonth,
-    }))),
-    [allDebtsEver],
-  );
-
-  const renderItem = useCallback(
-    ({ item }: ListRenderItemInfo<DebtModel>) => (
-      <DebtItem
-        item={item}
-        remaining={remainingFor(item)}
-        reminder={reminderMap.get(item._id.toHexString()) ?? null}
-        onPress={() => navigation.navigate('DebtDetail', { id: item._id.toHexString() })}
-      />
-    ),
-    [navigation, reminderMap, remainingFor],
-  );
-
-  const keyExtractor = useCallback((item: DebtModel) => item._id.toHexString(), []);
-
-  const [showDailyTarget, setShowDailyTarget] = React.useState(false);
-
-  const filterNoun = obligationFilter === 'bills' ? 'Tagihan' : obligationFilter === 'debt' ? 'Utang' : 'Kewajiban';
-  const filterNounLower = filterNoun.toLowerCase();
+  const open = (id: string) => navigation.navigate('DebtDetail', { id });
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
-
-      {/* Body (light bg, no gaps exposing the dark root behind it) */}
-      <View style={styles.body}>
-
-      {/* Obligation Filter: Semua / Utang / Tagihan — mengontrol semua yang di bawahnya */}
-      <View style={styles.filterRow}>
-        {(['all', 'debt', 'bills'] as ObligationFilter[]).map((f) => {
-          const isActive = obligationFilter === f;
-          const label = f === 'all' ? 'Semua' : f === 'debt' ? 'Utang' : 'Tagihan';
-          return (
-            <TouchableOpacity
-              key={f}
-              onPress={() => setObligationFilter(f)}
-              style={[styles.filterChip, isActive && styles.filterChipActive]}
-              activeOpacity={0.7}
-            >
-              <Text style={[styles.filterChipText, isActive && styles.filterChipTextActive]}>{label}</Text>
-            </TouchableOpacity>
-          );
-        })}
+      <View style={styles.header}>
+        <BackButton onPress={() => navigation.goBack()} />
+        <Text style={styles.title}>Cicilan & utang</Text>
       </View>
-
-      {/* Ringkasan — satu card, angka ikut filter aktif */}
-      {summary.count > 0 && (
-        <View style={styles.summaryWrapper}>
-          <Card style={styles.summaryCard}>
-            <Text style={styles.cardTitle}>Ringkasan {filterNoun}</Text>
-
-            <View style={styles.summaryRow}>
-              <View style={styles.summaryItem}>
-                <Text style={styles.summaryLabel}>Sisa {filterNoun}</Text>
-                <AmountDisplay amount={summary.totalRemaining} size="sm" style={{ color: COLORS.debt }} />
-              </View>
-              <View style={styles.summaryDivider} />
-              <View style={styles.summaryItem}>
-                <Text style={styles.summaryLabel}>Per Bulan</Text>
-                <AmountDisplay amount={summary.totalMonthly} size="sm" style={{ color: COLORS.warning }} />
-              </View>
-              <View style={styles.summaryDivider} />
-              <View style={styles.summaryItem}>
-                <Text style={styles.summaryLabel}>Jumlah</Text>
-                <Text style={styles.summaryCount}>{summary.count} item</Text>
-              </View>
-            </View>
-
-            {/* Bulan Ini / Bulan Depan */}
-            <View style={styles.divider} />
-            <View style={styles.kewajibanGrid}>
-              <View style={[styles.kewajibanBox, { backgroundColor: '#fee2e2' }]}>
-                <Text style={[styles.kewajibanMonthLabel, { color: '#991b1b' }]} numberOfLines={1}>{kewajiban.bulanIniLabel}</Text>
-                <Text style={[styles.kewajibanAmount, { color: COLORS.warning }]}>{formatCompact(kewajiban.totalBulanIni)}</Text>
-                <Text style={[styles.kewajibanSub, { color: '#991b1b' }]}>Wajib bulan ini</Text>
-                {kewajiban.totalBelumBayar > 0 && (
-                  <View style={styles.kewajibanRow}>
-                    <Text style={styles.kewajibanRowLabel}>⏳ Belum dibayar</Text>
-                    <Text style={[styles.kewajibanRowValue, { color: COLORS.warning }]}>{formatCompact(kewajiban.totalBelumBayar)}</Text>
-                  </View>
-                )}
-                {kewajiban.totalSudahBayar > 0 && (
-                  <View style={styles.kewajibanRow}>
-                    <Text style={styles.kewajibanRowLabel}>✅ Sudah dibayar</Text>
-                    <Text style={[styles.kewajibanRowValue, { color: '#065f46' }]}>{formatCompact(kewajiban.totalSudahBayar)}</Text>
-                  </View>
-                )}
-              </View>
-              <View style={[styles.kewajibanBox, { backgroundColor: '#fef3c7' }]}>
-                <Text style={[styles.kewajibanMonthLabel, { color: '#92400e' }]} numberOfLines={1}>{kewajiban.bulanDepanLabel}</Text>
-                <Text style={[styles.kewajibanAmount, { color: '#ef9f27' }]}>{formatCompact(kewajiban.totalBulanDepan)}</Text>
-                <Text style={[styles.kewajibanSub, { color: '#92400e' }]}>Estimasi bulan depan</Text>
-              </View>
-            </View>
-
-            {/* Progress Cicilan Tetap — cuma cicilan, disembunyikan saat filter Tagihan */}
-            {obligationFilter !== 'bills' && debtFreedom.totalDebt > 0 && (
-              <>
-                <View style={styles.divider} />
-                <View style={styles.freedomRow}>
-                  <Text style={styles.freedomLabel}>📉 Progress Cicilan Tetap</Text>
-                  <Text style={styles.freedomPct}>{debtFreedom.progressPct.toFixed(0)}%</Text>
-                </View>
-                <ProgressBar progress={debtFreedom.progressPct} color={COLORS.income} height={6} style={{ marginTop: SPACING.xs }} />
-                <Text style={styles.freedomHint}>
-                  {formatCompact(debtFreedom.totalPaid)} lunas dari {formatCompact(debtFreedom.totalDebt)} · Estimasi bebas: <Text style={styles.bold}>{debtFreedom.estimatedFreedomLabel}</Text>
-                </Text>
-              </>
-            )}
-
-            {/* Target Harian — progressive disclosure */}
-            <View style={styles.divider} />
-            <TouchableOpacity
-              style={styles.disclosureRow}
-              onPress={() => setShowDailyTarget((v) => !v)}
-              activeOpacity={0.7}
-            >
-              <Text style={styles.disclosureText}>
-                🎯 Kumpulkan <Text style={styles.bold}>{formatCompact(kewajiban.targetPerHariKerja)}</Text>/hari kerja
+      {debts.length === 0 ? (
+        <EmptyState
+          emoji="🧾"
+          title="Belum ada cicilan atau utang"
+          subtitle="Catat cicilan, kartu kredit, atau utang supaya sisanya terpantau."
+        />
+      ) : (
+        <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+          <View style={styles.summary}>
+            <Text style={styles.summaryLabel}>Sisa utang</Text>
+            <Text style={styles.summaryAmount}>{formatCurrency(summary.remaining)}</Text>
+            {summary.dueCount > 0 && (
+              <Text style={styles.summarySub}>
+                Cicilan {formatCurrency(summary.perMonth)}/bln · sudah bayar {summary.paidCount} dari {summary.dueCount} bulan ini
               </Text>
-              <Text style={styles.disclosureArrow}>{showDailyTarget ? '▲' : '▼'}</Text>
-            </TouchableOpacity>
-            {showDailyTarget && (
-              <View style={styles.kewajibanTargetBox}>
-                <View style={styles.kewajibanTargetGrid}>
-                  <View style={styles.kewajibanTargetItem}>
-                    <Text style={styles.kewajibanTargetLabel}>Target/hari kerja</Text>
-                    <Text style={[styles.kewajibanTargetValue, { color: COLORS.savings }]}>{formatCompact(kewajiban.targetPerHariKerja)}</Text>
-                  </View>
-                  <View style={styles.kewajibanTargetItem}>
-                    <Text style={styles.kewajibanTargetLabel}>Target/hari sisa</Text>
-                    <Text style={[styles.kewajibanTargetValue, { color: COLORS.savings }]}>{formatCompact(kewajiban.targetPerHariSisa)}</Text>
-                  </View>
-                </View>
-                <Text style={styles.kewajibanInfoText}>
-                  🗓️ Bulan ini: <Text style={styles.bold}>{kewajiban.workingDaysInMonth} hari kerja</Text>
-                  {' · Libur: '}<Text style={styles.bold}>{kewajiban.hariLiburLabel}</Text>
-                  {' · Sisa: '}<Text style={styles.bold}>{kewajiban.workingDaysRemaining} hari</Text>
-                </Text>
-              </View>
             )}
-          </Card>
-        </View>
+          </View>
+
+          {active.map((d) => (
+            <DebtItem key={d.id} info={d} onPress={() => open(d.id)} />
+          ))}
+
+          {done.length > 0 && (
+            <>
+              <Text style={styles.sectionTitle}>Sudah lunas</Text>
+              {done.map((d) => (
+                <DebtItem key={d.id} info={d} onPress={() => open(d.id)} />
+              ))}
+            </>
+          )}
+        </ScrollView>
       )}
 
-      {/* List */}
-      <FlatList
-        data={displayedDebts as unknown as DebtModel[]}
-        renderItem={renderItem}
-        keyExtractor={keyExtractor}
-        contentContainerStyle={styles.listContent}
-        showsVerticalScrollIndicator={false}
-        ListEmptyComponent={
-          <EmptyState
-            emoji="🏦"
-            title={`Belum ada ${filterNounLower}`}
-            subtitle={`Tap tombol + untuk mencatat ${filterNounLower}`}
-          />
-        }
-      />
-      </View>
-
-      {/* FAB */}
-      <FAB
-        color={COLORS.debt}
-        onPress={() =>
-          navigation.navigate('DebtForm', {
-            presetType: obligationFilter === 'bills' ? 'tagihan_rutin' : undefined,
-          })
-        }
-      />
+      <FAB color={COLORS.primary} onPress={() => navigation.navigate('DebtForm', {})} />
     </SafeAreaView>
   );
 }
 
-// ─── Styles ───────────────────────────────────────────────────────────────────
-
 const styles = StyleSheet.create({
-  safe: {
-    flex: 1,
-    backgroundColor: COLORS.background,
-  },
-  body: {
-    flex: 1,
-    backgroundColor: COLORS.background,
-  },
-  summaryWrapper: {
-    paddingHorizontal: SPACING.xl,
-    paddingTop: SPACING.lg,
-    marginBottom: SPACING.md,
-  },
-  summaryCard: {
-    padding: SPACING.lg,
-  },
-  summaryRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  summaryItem: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  summaryLabel: {
-    fontSize: FONTS.xs,
-    color: COLORS.textSecondary,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-    marginBottom: SPACING.xs,
-  },
-  summaryCount: {
-    fontSize: FONTS.sm,
-    fontWeight: '700',
-    color: COLORS.text,
-  },
-  summaryDivider: {
-    width: 1,
-    height: 36,
-    backgroundColor: COLORS.border,
-    marginHorizontal: SPACING.sm,
-  },
-  listContent: {
-    paddingHorizontal: SPACING.xl,
-    paddingBottom: 100,
-    flexGrow: 1,
-  },
-  filterRow: {
-    flexDirection: 'row',
-    paddingHorizontal: SPACING.xl,
-    gap: SPACING.sm,
-    marginTop: SPACING.md,
-    marginBottom: SPACING.md,
-  },
-  filterChip: {
-    paddingVertical: 6,
-    paddingHorizontal: SPACING.md,
-    borderRadius: RADIUS.round,
+  safe: { flex: 1, backgroundColor: COLORS.background },
+  header: { flexDirection: 'row', alignItems: 'center', gap: SPACING.md, paddingHorizontal: SPACING.lg, paddingVertical: SPACING.md },
+  title: { fontSize: FONTS.lg, fontWeight: '700', color: COLORS.text },
+  content: { padding: SPACING.lg, paddingTop: 0, paddingBottom: 120 },
+  summary: {
     backgroundColor: COLORS.surface,
-    borderWidth: 1,
-    borderColor: COLORS.border,
+    borderRadius: RADIUS.xl,
+    padding: SPACING.xl,
+    marginBottom: SPACING.lg,
+    ...SHADOWS.sm,
   },
-  filterChipActive: {
-    backgroundColor: COLORS.debt,
-    borderColor: COLORS.debt,
-  },
-  filterChipText: {
-    fontSize: FONTS.sm,
-    color: COLORS.textSecondary,
-    fontWeight: '600',
-  },
-  filterChipTextActive: {
-    color: '#FFFFFF',
-  },
-  itemContainer: {
+  summaryLabel: { fontSize: FONTS.sm, fontWeight: '600', color: COLORS.textSecondary },
+  summaryAmount: { fontSize: FONTS.xxl, fontWeight: '800', color: COLORS.text, marginTop: SPACING.xs },
+  summarySub: { fontSize: FONTS.sm, color: COLORS.textSecondary, marginTop: SPACING.sm },
+  sectionTitle: { fontSize: FONTS.lg, fontWeight: '700', color: COLORS.text, marginTop: SPACING.lg, marginBottom: SPACING.sm },
+  item: {
     backgroundColor: COLORS.card,
     borderRadius: RADIUS.lg,
-    padding: SPACING.md,
-    marginBottom: SPACING.sm,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-  },
-  itemHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginBottom: SPACING.sm,
-  },
-  itemHeaderLeft: {
-    flex: 1,
-    marginRight: SPACING.sm,
-  },
-  itemName: {
-    fontSize: FONTS.md,
-    fontWeight: '600',
-    color: COLORS.text,
-  },
-  itemLender: {
-    fontSize: FONTS.sm,
-    color: COLORS.textSecondary,
-    marginTop: 2,
-  },
-  statusBadge: {
-    paddingHorizontal: SPACING.sm,
-    paddingVertical: 3,
-    borderRadius: RADIUS.sm,
-    maxWidth: 110,
-  },
-  statusText: {
-    fontSize: FONTS.xs,
-    fontWeight: '700',
-    letterSpacing: 0.5,
-  },
-  progressBar: {
-    marginBottom: SPACING.md,
-  },
-  noTenorBadge: {
-    fontSize: FONTS.xs,
-    color: COLORS.debt,
-    fontWeight: '600',
-    marginBottom: SPACING.md,
-  },
-  itemFooter: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  extraPaidText: {
-    fontSize: FONTS.xs,
-    color: COLORS.savings,
-    marginTop: SPACING.sm,
-    paddingTop: SPACING.sm,
-    borderTopWidth: 1,
-    borderTopColor: COLORS.border,
-  },
-  itemStat: {
-    alignItems: 'center',
-    flex: 1,
-  },
-  itemStatLabel: {
-    fontSize: FONTS.xs,
-    color: COLORS.textMuted,
-    marginBottom: 2,
-  },
-  itemStatValue: {
-    fontSize: FONTS.sm,
-    fontWeight: '600',
-    color: COLORS.text,
-  },
-  kewajibanCard: {
     padding: SPACING.lg,
-    marginBottom: SPACING.md,
-  },
-  debtFreedomCard: {
-    marginBottom: SPACING.md,
-  },
-  debtFreedomRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  debtFreedomValue: {
-    fontSize: FONTS.lg,
-    fontWeight: '700',
-    color: COLORS.text,
-    marginTop: 2,
-  },
-  cardTitle: {
-    fontSize: FONTS.md,
-    fontWeight: '700',
-    color: COLORS.text,
-    marginBottom: SPACING.md,
-  },
-  divider: {
-    height: 1,
-    backgroundColor: COLORS.border,
-    marginVertical: SPACING.md,
-  },
-  freedomRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  freedomLabel: {
-    fontSize: FONTS.sm,
-    fontWeight: '600',
-    color: COLORS.text,
-  },
-  freedomPct: {
-    fontSize: FONTS.md,
-    fontWeight: '700',
-    color: COLORS.income,
-  },
-  freedomHint: {
-    fontSize: FONTS.xs,
-    color: COLORS.textMuted,
-    marginTop: SPACING.xs,
-  },
-  disclosureRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  disclosureText: {
-    fontSize: FONTS.sm,
-    color: COLORS.text,
-  },
-  disclosureArrow: {
-    fontSize: FONTS.sm,
-    color: COLORS.textMuted,
-  },
-  kewajibanGrid: {
-    flexDirection: 'row',
-    gap: SPACING.sm,
-    marginBottom: SPACING.md,
-  },
-  kewajibanBox: {
-    flex: 1,
-    borderRadius: RADIUS.md,
-    padding: SPACING.md,
-  },
-  kewajibanMonthLabel: {
-    fontSize: FONTS.xs,
-    fontWeight: '700',
-    textTransform: 'uppercase',
-    marginBottom: 4,
-  },
-  kewajibanAmount: {
-    fontSize: FONTS.lg,
-    fontWeight: '700',
-  },
-  kewajibanSub: {
-    fontSize: FONTS.xs,
-    marginTop: 1,
-  },
-  kewajibanRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: SPACING.xs,
-    paddingTop: SPACING.xs,
-    borderTopWidth: 1,
-    borderTopColor: 'rgba(0,0,0,0.08)',
-  },
-  kewajibanRowLabel: {
-    fontSize: FONTS.xs,
-    color: COLORS.textMuted,
-  },
-  kewajibanRowValue: {
-    fontSize: FONTS.sm,
-    fontWeight: '700',
-  },
-  kewajibanInfoText: {
-    fontSize: FONTS.xs,
-    color: COLORS.savings,
-    marginTop: SPACING.sm,
-  },
-  bold: {
-    fontWeight: '700',
-  },
-  kewajibanTargetBox: {
-    backgroundColor: COLORS.subtleBg,
-    borderRadius: RADIUS.md,
-    padding: SPACING.md,
-    marginTop: SPACING.sm,
-  },
-  kewajibanTargetGrid: {
-    flexDirection: 'row',
-    gap: SPACING.sm,
-  },
-  kewajibanTargetItem: {
-    flex: 1,
-    backgroundColor: COLORS.card,
-    borderRadius: RADIUS.sm,
-    padding: SPACING.sm,
+    marginBottom: SPACING.sm,
     borderWidth: 1,
     borderColor: COLORS.border,
   },
-  kewajibanTargetLabel: {
-    fontSize: FONTS.xs,
-    color: COLORS.textMuted,
-    textTransform: 'uppercase',
-  },
-  kewajibanTargetValue: {
-    fontSize: FONTS.lg,
-    fontWeight: '700',
-    marginTop: 2,
-  },
+  itemHead: { flexDirection: 'row', alignItems: 'center', gap: SPACING.sm },
+  itemName: { flex: 1, fontSize: FONTS.md, fontWeight: '700', color: COLORS.text },
+  badge: { paddingHorizontal: SPACING.sm, paddingVertical: 3, borderRadius: RADIUS.round },
+  badgeText: { fontSize: FONTS.xs, fontWeight: '700' },
+  itemRemaining: { fontSize: FONTS.lg, fontWeight: '700', color: COLORS.text, marginTop: SPACING.sm },
+  itemSub: { fontSize: FONTS.sm, color: COLORS.textSecondary, marginTop: SPACING.sm },
 });

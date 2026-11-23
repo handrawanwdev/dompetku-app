@@ -91,12 +91,12 @@ export function PassiveIncomeListScreen() {
           <EmptyState
             emoji="💎"
             title="Belum ada passive income"
-            subtitle="Tap + untuk mencatat dividen, sewa properti, royalti, atau yield pertama kamu"
+            subtitle="Dividen, uang sewa, royalti, semua yang masuk tanpa kamu kerja."
           />
         }
       />
 
-      <FAB color={COLORS.savings} onPress={() => navigation.navigate('PassiveIncomeForm', {})} />
+      <FAB color={COLORS.primary} onPress={() => navigation.navigate('PassiveIncomeForm', {})} />
     </SafeAreaView>
   );
 }

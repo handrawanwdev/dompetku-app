@@ -148,8 +148,14 @@ export interface AppSettings {
   currency: string;
   /** Weekday indices (0=Minggu..6=Sabtu) excluded from working-day pacing calcs (default [0]) */
   hariLibur: number[];
-  /** SavingModel._id (hex) designated as the "dana darurat" pos for the Emergency Fund module */
-  emergencyFundSavingId?: string;
+  /** Nama panggilan di profil & sapaan dashboard. */
+  displayName?: string;
+  /** Urutan id menu utama di dashboard (lihat navigation/menu.ts). */
+  menuItems?: string[];
+  /** Tanggal lahir user (YYYY-MM-DD) untuk ucapan & pengingat ulang tahun. */
+  birthday?: string;
+  /** Tahun saat kartu ulang tahun di dashboard ditutup user. */
+  birthdayCardHiddenYear?: number;
 }
 
 export interface DashboardSummary {

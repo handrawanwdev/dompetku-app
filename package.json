@@ -32,7 +32,6 @@
     "react-native-screens": "4.25.2",
     "react-native-svg": "15.15.4",
     "realm": "^20.2.0",
-    "victory-native": "^41.26.0",
     "zod": "^4.4.3",
     "zustand": "^5.0.14"
   },

@@ -1,0 +1,2794 @@
+[
+  {
+    "time": "2026-10-09T17:58:45.334667132Z",
+    "revision": 0,
+    "page": "PAGE-001",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-001",
+        "severity": "minor",
+        "problem": "Konten pendukung \"warning\" tampil sebelum fokus utama \"budgets\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"warning\" setelah \"budgets\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "warning",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-09T17:58:45.334667132Z",
+    "revision": 0,
+    "page": "PAGE-002",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-002",
+        "severity": "minor",
+        "problem": "Konten pendukung \"rules-note\" tampil sebelum fokus utama \"budget-form\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"rules-note\" setelah \"budget-form\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "rules-note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-09T17:58:45.334667132Z",
+    "revision": 0,
+    "page": "PAGE-003",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-003",
+        "severity": "minor",
+        "problem": "Konten pendukung \"status-text\" tampil sebelum fokus utama \"rincian-list\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"status-text\" setelah \"rincian-list\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "status-text",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-09T17:58:45.334667132Z",
+    "revision": 0,
+    "page": "PAGE-004",
+    "overall": 98,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 90,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-004",
+        "severity": "minor",
+        "problem": "Konten pendukung \"page-note\" tampil sebelum fokus utama \"periods\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"page-note\" setelah \"periods\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "page-note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      },
+      {
+        "page_id": "PAGE-004",
+        "severity": "minor",
+        "problem": "Layout list di luar pola template Finance Overview (dashboard, sections)",
+        "why": "template Finance Overview: total di atas detail, angka rata kanan dengan mata uang, status transaksi jelas",
+        "fix": "Pakai dashboard bila tugas halaman mengizinkan.",
+        "category": "template",
+        "source": "lint",
+        "rule": "template_layout"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-09T17:58:45.334667132Z",
+    "revision": 0,
+    "page": "PAGE-005",
+    "overall": 96,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 65,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "revision_required",
+    "findings": [
+      {
+        "page_id": "PAGE-005",
+        "severity": "minor",
+        "problem": "Konten pendukung \"title\" tampil sebelum fokus utama \"compare-table\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"title\" setelah \"compare-table\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "title",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      },
+      {
+        "page_id": "PAGE-005",
+        "severity": "major",
+        "problem": "Aksi utama \"Tampilkan\" tidak punya titik fokus visual.",
+        "why": "satu workflow butuh satu aksi fokus",
+        "fix": "Beri emphasis action.primary pada tombol \"Tampilkan\".",
+        "category": "hierarchy",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "no_primary_focal"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-09T17:58:45.334667132Z",
+    "revision": 0,
+    "page": "PAGE-006",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-006",
+        "severity": "minor",
+        "problem": "Konten pendukung \"warning\" tampil sebelum fokus utama \"budgets\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"warning\" setelah \"budgets\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "warning",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-09T17:58:45.334667132Z",
+    "revision": 0,
+    "page": "PAGE-007",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-007",
+        "severity": "minor",
+        "problem": "Konten pendukung \"rules-note\" tampil sebelum fokus utama \"budget-form\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"rules-note\" setelah \"budget-form\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "rules-note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-09T17:58:45.334667132Z",
+    "revision": 0,
+    "page": "PAGE-008",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-008",
+        "severity": "minor",
+        "problem": "Konten pendukung \"status-text\" tampil sebelum fokus utama \"rincian-list\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"status-text\" setelah \"rincian-list\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "status-text",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-09T17:58:45.334667132Z",
+    "revision": 0,
+    "page": "PAGE-009",
+    "overall": 98,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 90,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-009",
+        "severity": "minor",
+        "problem": "Konten pendukung \"page-note\" tampil sebelum fokus utama \"periods\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"page-note\" setelah \"periods\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "page-note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      },
+      {
+        "page_id": "PAGE-009",
+        "severity": "minor",
+        "problem": "Layout list di luar pola template Finance Overview (dashboard, sections)",
+        "why": "template Finance Overview: total di atas detail, angka rata kanan dengan mata uang, status transaksi jelas",
+        "fix": "Pakai dashboard bila tugas halaman mengizinkan.",
+        "category": "template",
+        "source": "lint",
+        "rule": "template_layout"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-09T17:58:45.334667132Z",
+    "revision": 0,
+    "page": "PAGE-010",
+    "overall": 96,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 65,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "revision_required",
+    "findings": [
+      {
+        "page_id": "PAGE-010",
+        "severity": "minor",
+        "problem": "Konten pendukung \"title\" tampil sebelum fokus utama \"compare-table\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"title\" setelah \"compare-table\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "title",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      },
+      {
+        "page_id": "PAGE-010",
+        "severity": "major",
+        "problem": "Aksi utama \"Tampilkan\" tidak punya titik fokus visual.",
+        "why": "satu workflow butuh satu aksi fokus",
+        "fix": "Beri emphasis action.primary pada tombol \"Tampilkan\".",
+        "category": "hierarchy",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "no_primary_focal"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-09T18:04:19.411646399Z",
+    "revision": 0,
+    "page": "PAGE-001",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-001",
+        "severity": "minor",
+        "problem": "Konten pendukung \"warning\" tampil sebelum fokus utama \"budgets\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"warning\" setelah \"budgets\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "warning",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-09T18:04:19.411646399Z",
+    "revision": 0,
+    "page": "PAGE-002",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-002",
+        "severity": "minor",
+        "problem": "Konten pendukung \"rules-note\" tampil sebelum fokus utama \"budget-form\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"rules-note\" setelah \"budget-form\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "rules-note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-09T18:04:19.411646399Z",
+    "revision": 0,
+    "page": "PAGE-003",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-003",
+        "severity": "minor",
+        "problem": "Konten pendukung \"status-text\" tampil sebelum fokus utama \"rincian-list\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"status-text\" setelah \"rincian-list\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "status-text",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-09T18:04:19.411646399Z",
+    "revision": 0,
+    "page": "PAGE-004",
+    "overall": 98,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 90,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-004",
+        "severity": "minor",
+        "problem": "Konten pendukung \"page-note\" tampil sebelum fokus utama \"periods\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"page-note\" setelah \"periods\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "page-note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      },
+      {
+        "page_id": "PAGE-004",
+        "severity": "minor",
+        "problem": "Layout list di luar pola template Finance Overview (dashboard, sections)",
+        "why": "template Finance Overview: total di atas detail, angka rata kanan dengan mata uang, status transaksi jelas",
+        "fix": "Pakai dashboard bila tugas halaman mengizinkan.",
+        "category": "template",
+        "source": "lint",
+        "rule": "template_layout"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-09T18:04:19.411646399Z",
+    "revision": 0,
+    "page": "PAGE-005",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-005",
+        "severity": "minor",
+        "problem": "Konten pendukung \"title\" tampil sebelum fokus utama \"compare-table\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"title\" setelah \"compare-table\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "title",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-09T18:04:19.411646399Z",
+    "revision": 0,
+    "page": "PAGE-006",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-006",
+        "severity": "minor",
+        "problem": "Konten pendukung \"warning\" tampil sebelum fokus utama \"budgets\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"warning\" setelah \"budgets\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "warning",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-09T18:04:19.411646399Z",
+    "revision": 0,
+    "page": "PAGE-007",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-007",
+        "severity": "minor",
+        "problem": "Konten pendukung \"rules-note\" tampil sebelum fokus utama \"budget-form\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"rules-note\" setelah \"budget-form\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "rules-note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-09T18:04:19.411646399Z",
+    "revision": 0,
+    "page": "PAGE-008",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-008",
+        "severity": "minor",
+        "problem": "Konten pendukung \"status-text\" tampil sebelum fokus utama \"rincian-list\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"status-text\" setelah \"rincian-list\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "status-text",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-09T18:04:19.411646399Z",
+    "revision": 0,
+    "page": "PAGE-009",
+    "overall": 98,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 90,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-009",
+        "severity": "minor",
+        "problem": "Konten pendukung \"page-note\" tampil sebelum fokus utama \"periods\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"page-note\" setelah \"periods\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "page-note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      },
+      {
+        "page_id": "PAGE-009",
+        "severity": "minor",
+        "problem": "Layout list di luar pola template Finance Overview (dashboard, sections)",
+        "why": "template Finance Overview: total di atas detail, angka rata kanan dengan mata uang, status transaksi jelas",
+        "fix": "Pakai dashboard bila tugas halaman mengizinkan.",
+        "category": "template",
+        "source": "lint",
+        "rule": "template_layout"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-09T18:04:19.411646399Z",
+    "revision": 0,
+    "page": "PAGE-010",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-010",
+        "severity": "minor",
+        "problem": "Konten pendukung \"title\" tampil sebelum fokus utama \"compare-table\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"title\" setelah \"compare-table\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "title",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-09T18:08:06.743600515Z",
+    "revision": 0,
+    "round": 2,
+    "page": "PAGE-001",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-001",
+        "severity": "minor",
+        "problem": "Konten pendukung \"warning\" tampil sebelum fokus utama \"budgets\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"warning\" setelah \"budgets\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "warning",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-09T18:08:06.743600515Z",
+    "revision": 0,
+    "round": 2,
+    "page": "PAGE-002",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-002",
+        "severity": "minor",
+        "problem": "Konten pendukung \"rules-note\" tampil sebelum fokus utama \"budget-form\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"rules-note\" setelah \"budget-form\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "rules-note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-09T18:08:06.743600515Z",
+    "revision": 0,
+    "round": 2,
+    "page": "PAGE-003",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-003",
+        "severity": "minor",
+        "problem": "Konten pendukung \"status-text\" tampil sebelum fokus utama \"rincian-list\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"status-text\" setelah \"rincian-list\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "status-text",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-09T18:08:06.743600515Z",
+    "revision": 0,
+    "round": 2,
+    "page": "PAGE-004",
+    "overall": 98,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 90,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-004",
+        "severity": "minor",
+        "problem": "Konten pendukung \"page-note\" tampil sebelum fokus utama \"periods\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"page-note\" setelah \"periods\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "page-note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      },
+      {
+        "page_id": "PAGE-004",
+        "severity": "minor",
+        "problem": "Layout list di luar pola template Finance Overview (dashboard, sections)",
+        "why": "template Finance Overview: total di atas detail, angka rata kanan dengan mata uang, status transaksi jelas",
+        "fix": "Pakai dashboard bila tugas halaman mengizinkan.",
+        "category": "template",
+        "source": "lint",
+        "rule": "template_layout"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-09T18:08:06.743600515Z",
+    "revision": 0,
+    "round": 2,
+    "page": "PAGE-005",
+    "devices": [
+      "mobile"
+    ],
+    "overall": 94,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 90,
+      "density": 80,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 90,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-005",
+        "severity": "minor",
+        "problem": "Konten pendukung \"title\" tampil sebelum fokus utama \"compare-table\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"title\" setelah \"compare-table\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "title",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      },
+      {
+        "page_id": "PAGE-005",
+        "severity": "minor",
+        "problem": "Baris keempat Hiburan tertutup tab bar. Viewport hanya menampilkan Makan \u0026 Minum, Transportasi, dan Tagihan.",
+        "why": "Daftar banding terpotong di tepi bawah; tidak ada isyarat gulir.",
+        "impact": "Pemilik tidak membaca selisih Hiburan di layar pertama.",
+        "fix": "Hapus heading grup 'Periode' yang mengulang label form agar tinggi form turun, dan biarkan baris terakhir daftar tidak tertutup penuh oleh tab.",
+        "category": "overflow",
+        "component": "compare-table",
+        "device": "mobile"
+      },
+      {
+        "page_id": "PAGE-005",
+        "severity": "minor",
+        "problem": "Setiap kartu merangkai Batas A, Realisasi A, Batas B, Realisasi B, dan Selisih jadi satu paragraf patah baris. Selisih di ujung teks. Kolom sisa tidak ada.",
+        "why": "Ponsel minta daftar kategori + selisih; purpose minta batas, realisasi, sisa, dan selisih yang bisa dibanding.",
+        "impact": "Banding A vs B per kategori lambat dan sisa harus dihitung sendiri.",
+        "fix": "Ubah item daftar: nama kategori + selisih menonjol, lalu batas/realisasi/sisa A dan B di baris terpisah, bukan satu kalimat.",
+        "category": "density",
+        "component": "compare-table",
+        "device": "mobile"
+      },
+      {
+        "page_id": "PAGE-005",
+        "severity": "minor",
+        "problem": "Select Periode A dan Periode B masih placeholder 'Pilih Periode A/B' sementara daftar sudah penuh angka.",
+        "why": "Dua periodKey wajib sebelum angka tampil.",
+        "impact": "Pemilik tidak tahu bulan mana yang dibanding.",
+        "fix": "Isi kedua select dengan periodKey tertutup yang berbeda pada state hasil, atau kosongkan daftar sampai Tampilkan.",
+        "category": "state",
+        "component": "compare-form",
+        "device": "mobile"
+      },
+      {
+        "page_id": "PAGE-005",
+        "severity": "minor",
+        "problem": "Teks 'Pilih periode', heading grup 'Periode', lalu label 'Periode A' dan 'Periode B' bertumpuk tiga lapis.",
+        "why": "Heading grup mengulang label form dan menambah tinggi di density comfortable.",
+        "impact": "Form mendorong daftar banding ke bawah sampai satu kategori terpotong.",
+        "fix": "Hapus grup '# Periode'; taruh field Periode A dan Periode B langsung di bawah label form.",
+        "category": "density",
+        "component": "compare-form",
+        "device": "mobile"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-09T18:08:06.743600515Z",
+    "revision": 0,
+    "round": 2,
+    "page": "PAGE-006",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-006",
+        "severity": "minor",
+        "problem": "Konten pendukung \"warning\" tampil sebelum fokus utama \"budgets\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"warning\" setelah \"budgets\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "warning",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-09T18:08:06.743600515Z",
+    "revision": 0,
+    "round": 2,
+    "page": "PAGE-007",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-007",
+        "severity": "minor",
+        "problem": "Konten pendukung \"rules-note\" tampil sebelum fokus utama \"budget-form\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"rules-note\" setelah \"budget-form\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "rules-note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-09T18:08:06.743600515Z",
+    "revision": 0,
+    "round": 2,
+    "page": "PAGE-008",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-008",
+        "severity": "minor",
+        "problem": "Konten pendukung \"status-text\" tampil sebelum fokus utama \"rincian-list\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"status-text\" setelah \"rincian-list\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "status-text",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-09T18:08:06.743600515Z",
+    "revision": 0,
+    "round": 2,
+    "page": "PAGE-009",
+    "overall": 98,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 90,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-009",
+        "severity": "minor",
+        "problem": "Konten pendukung \"page-note\" tampil sebelum fokus utama \"periods\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"page-note\" setelah \"periods\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "page-note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      },
+      {
+        "page_id": "PAGE-009",
+        "severity": "minor",
+        "problem": "Layout list di luar pola template Finance Overview (dashboard, sections)",
+        "why": "template Finance Overview: total di atas detail, angka rata kanan dengan mata uang, status transaksi jelas",
+        "fix": "Pakai dashboard bila tugas halaman mengizinkan.",
+        "category": "template",
+        "source": "lint",
+        "rule": "template_layout"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-09T18:08:06.743600515Z",
+    "revision": 0,
+    "round": 2,
+    "page": "PAGE-010",
+    "devices": [
+      "mobile"
+    ],
+    "overall": 94,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 90,
+      "density": 80,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 90,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-010",
+        "severity": "minor",
+        "problem": "Konten pendukung \"title\" tampil sebelum fokus utama \"compare-table\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"title\" setelah \"compare-table\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "title",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      },
+      {
+        "page_id": "PAGE-010",
+        "severity": "minor",
+        "problem": "Baris keempat Hiburan tertutup tab bar. Viewport hanya menampilkan Makan \u0026 Minum, Transportasi, dan Tagihan.",
+        "why": "Daftar banding terpotong di tepi bawah; tidak ada isyarat gulir.",
+        "impact": "Pemilik tidak membaca selisih Hiburan di layar pertama.",
+        "fix": "Hapus heading grup 'Periode' yang mengulang label form agar tinggi form turun, dan biarkan baris terakhir daftar tidak tertutup penuh oleh tab.",
+        "category": "overflow",
+        "component": "compare-table",
+        "device": "mobile"
+      },
+      {
+        "page_id": "PAGE-010",
+        "severity": "minor",
+        "problem": "Setiap kartu merangkai Batas A, Realisasi A, Batas B, Realisasi B, dan Selisih jadi satu paragraf patah baris. Selisih di ujung teks. Kolom sisa tidak ada.",
+        "why": "Ponsel minta daftar kategori + selisih; purpose minta batas, realisasi, sisa, dan selisih yang bisa dibanding.",
+        "impact": "Banding A vs B per kategori lambat dan sisa harus dihitung sendiri.",
+        "fix": "Ubah item daftar: nama kategori + selisih menonjol, lalu batas/realisasi/sisa A dan B di baris terpisah, bukan satu kalimat.",
+        "category": "density",
+        "component": "compare-table",
+        "device": "mobile"
+      },
+      {
+        "page_id": "PAGE-010",
+        "severity": "minor",
+        "problem": "Select Periode A dan Periode B masih placeholder 'Pilih Periode A/B' sementara daftar sudah penuh angka.",
+        "why": "Dua periodKey wajib sebelum angka tampil.",
+        "impact": "Pemilik tidak tahu bulan mana yang dibanding.",
+        "fix": "Isi kedua select dengan periodKey tertutup yang berbeda pada state hasil, atau kosongkan daftar sampai Tampilkan.",
+        "category": "state",
+        "component": "compare-form",
+        "device": "mobile"
+      },
+      {
+        "page_id": "PAGE-010",
+        "severity": "minor",
+        "problem": "Teks 'Pilih periode', heading grup 'Periode', lalu label 'Periode A' dan 'Periode B' bertumpuk tiga lapis.",
+        "why": "Heading grup mengulang label form dan menambah tinggi di density comfortable.",
+        "impact": "Form mendorong daftar banding ke bawah sampai satu kategori terpotong.",
+        "fix": "Hapus grup '# Periode'; taruh field Periode A dan Periode B langsung di bawah label form.",
+        "category": "density",
+        "component": "compare-form",
+        "device": "mobile"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:04:40.307471747Z",
+    "revision": 1,
+    "page": "PAGE-001",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-001",
+        "severity": "minor",
+        "problem": "Konten pendukung \"warning\" tampil sebelum fokus utama \"budgets\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"warning\" setelah \"budgets\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "warning",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:04:40.307471747Z",
+    "revision": 1,
+    "page": "PAGE-002",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-002",
+        "severity": "minor",
+        "problem": "Konten pendukung \"rules-note\" tampil sebelum fokus utama \"budget-form\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"rules-note\" setelah \"budget-form\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "rules-note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:04:40.307471747Z",
+    "revision": 1,
+    "page": "PAGE-003",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-003",
+        "severity": "minor",
+        "problem": "Konten pendukung \"status-text\" tampil sebelum fokus utama \"rincian-list\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"status-text\" setelah \"rincian-list\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "status-text",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:04:40.307471747Z",
+    "revision": 1,
+    "page": "PAGE-004",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-004",
+        "severity": "minor",
+        "problem": "Konten pendukung \"page-note\" tampil sebelum fokus utama \"periods\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"page-note\" setelah \"periods\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "page-note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:04:40.307471747Z",
+    "revision": 1,
+    "page": "PAGE-005",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-005",
+        "severity": "minor",
+        "problem": "Konten pendukung \"title\" tampil sebelum fokus utama \"compare-table\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"title\" setelah \"compare-table\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "title",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:04:40.307471747Z",
+    "revision": 1,
+    "page": "PAGE-006",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-006",
+        "severity": "minor",
+        "problem": "Konten pendukung \"warning\" tampil sebelum fokus utama \"budgets\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"warning\" setelah \"budgets\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "warning",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:04:40.307471747Z",
+    "revision": 1,
+    "page": "PAGE-007",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-007",
+        "severity": "minor",
+        "problem": "Konten pendukung \"rules-note\" tampil sebelum fokus utama \"budget-form\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"rules-note\" setelah \"budget-form\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "rules-note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:04:40.307471747Z",
+    "revision": 1,
+    "page": "PAGE-008",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-008",
+        "severity": "minor",
+        "problem": "Konten pendukung \"status-text\" tampil sebelum fokus utama \"rincian-list\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"status-text\" setelah \"rincian-list\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "status-text",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:04:40.307471747Z",
+    "revision": 1,
+    "page": "PAGE-009",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-009",
+        "severity": "minor",
+        "problem": "Konten pendukung \"page-note\" tampil sebelum fokus utama \"periods\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"page-note\" setelah \"periods\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "page-note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:04:40.307471747Z",
+    "revision": 1,
+    "page": "PAGE-010",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-010",
+        "severity": "minor",
+        "problem": "Konten pendukung \"title\" tampil sebelum fokus utama \"compare-table\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"title\" setelah \"compare-table\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "title",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:04:40.307471747Z",
+    "revision": 1,
+    "page": "PAGE-011",
+    "overall": 100,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 100,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass"
+  },
+  {
+    "time": "2026-10-10T01:04:40.307471747Z",
+    "revision": 1,
+    "page": "PAGE-012",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-012",
+        "severity": "minor",
+        "problem": "Konten pendukung \"note\" tampil sebelum fokus utama \"entries\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"note\" setelah \"entries\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:04:40.307471747Z",
+    "revision": 1,
+    "page": "PAGE-013",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-013",
+        "severity": "minor",
+        "problem": "Konten pendukung \"note\" tampil sebelum fokus utama \"open-anggaran\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"note\" setelah \"open-anggaran\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:04:40.307471747Z",
+    "revision": 1,
+    "page": "PAGE-014",
+    "overall": 100,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 100,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass"
+  },
+  {
+    "time": "2026-10-10T01:04:40.307471747Z",
+    "revision": 1,
+    "page": "PAGE-015",
+    "overall": 100,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 100,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass"
+  },
+  {
+    "time": "2026-10-10T01:04:40.307471747Z",
+    "revision": 1,
+    "page": "PAGE-016",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-016",
+        "severity": "minor",
+        "problem": "Konten pendukung \"note\" tampil sebelum fokus utama \"entries\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"note\" setelah \"entries\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:04:40.307471747Z",
+    "revision": 1,
+    "page": "PAGE-017",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-017",
+        "severity": "minor",
+        "problem": "Konten pendukung \"note\" tampil sebelum fokus utama \"open-anggaran\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"note\" setelah \"open-anggaran\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:04:40.307471747Z",
+    "revision": 1,
+    "page": "PAGE-018",
+    "overall": 100,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 100,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass"
+  },
+  {
+    "time": "2026-10-10T01:06:43.438083923Z",
+    "revision": 1,
+    "round": 1,
+    "page": "PAGE-001",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-001",
+        "severity": "minor",
+        "problem": "Konten pendukung \"warning\" tampil sebelum fokus utama \"budgets\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"warning\" setelah \"budgets\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "warning",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:06:43.438083923Z",
+    "revision": 1,
+    "round": 1,
+    "page": "PAGE-002",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-002",
+        "severity": "minor",
+        "problem": "Konten pendukung \"rules-note\" tampil sebelum fokus utama \"budget-form\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"rules-note\" setelah \"budget-form\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "rules-note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:06:43.438083923Z",
+    "revision": 1,
+    "round": 1,
+    "page": "PAGE-003",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-003",
+        "severity": "minor",
+        "problem": "Konten pendukung \"status-text\" tampil sebelum fokus utama \"rincian-list\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"status-text\" setelah \"rincian-list\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "status-text",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:06:43.438083923Z",
+    "revision": 1,
+    "round": 1,
+    "page": "PAGE-004",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-004",
+        "severity": "minor",
+        "problem": "Konten pendukung \"page-note\" tampil sebelum fokus utama \"periods\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"page-note\" setelah \"periods\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "page-note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:06:43.438083923Z",
+    "revision": 1,
+    "round": 1,
+    "page": "PAGE-005",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-005",
+        "severity": "minor",
+        "problem": "Konten pendukung \"title\" tampil sebelum fokus utama \"compare-table\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"title\" setelah \"compare-table\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "title",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:06:43.438083923Z",
+    "revision": 1,
+    "round": 1,
+    "page": "PAGE-006",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-006",
+        "severity": "minor",
+        "problem": "Konten pendukung \"warning\" tampil sebelum fokus utama \"budgets\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"warning\" setelah \"budgets\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "warning",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:06:43.438083923Z",
+    "revision": 1,
+    "round": 1,
+    "page": "PAGE-007",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-007",
+        "severity": "minor",
+        "problem": "Konten pendukung \"rules-note\" tampil sebelum fokus utama \"budget-form\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"rules-note\" setelah \"budget-form\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "rules-note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:06:43.438083923Z",
+    "revision": 1,
+    "round": 1,
+    "page": "PAGE-008",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-008",
+        "severity": "minor",
+        "problem": "Konten pendukung \"status-text\" tampil sebelum fokus utama \"rincian-list\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"status-text\" setelah \"rincian-list\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "status-text",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:06:43.438083923Z",
+    "revision": 1,
+    "round": 1,
+    "page": "PAGE-009",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-009",
+        "severity": "minor",
+        "problem": "Konten pendukung \"page-note\" tampil sebelum fokus utama \"periods\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"page-note\" setelah \"periods\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "page-note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:06:43.438083923Z",
+    "revision": 1,
+    "round": 1,
+    "page": "PAGE-010",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-010",
+        "severity": "minor",
+        "problem": "Konten pendukung \"title\" tampil sebelum fokus utama \"compare-table\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"title\" setelah \"compare-table\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "title",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:06:43.438083923Z",
+    "revision": 1,
+    "round": 1,
+    "page": "PAGE-011",
+    "devices": [
+      "mobile"
+    ],
+    "overall": 100,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 100,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass"
+  },
+  {
+    "time": "2026-10-10T01:06:43.438083923Z",
+    "revision": 1,
+    "round": 1,
+    "page": "PAGE-012",
+    "devices": [
+      "mobile"
+    ],
+    "overall": 98,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 80,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-012",
+        "severity": "minor",
+        "problem": "Konten pendukung \"note\" tampil sebelum fokus utama \"entries\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"note\" setelah \"entries\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      },
+      {
+        "page_id": "PAGE-012",
+        "severity": "minor",
+        "problem": "Teks syarat kelayakan tampil di atas daftar \"Pengeluaran konsumsi\". Urutan layar: judul, catatan, lalu list.",
+        "why": "INTENT hierarchy adalah Tab Transaksi → contoh pengeluaran → catatan kelayakan. PLAN primary_focus adalah entries; supporting note tidak boleh mendahului fokus.",
+        "impact": "Pengguna baca aturan dulu, baru contoh transaksi yang jadi tugas utama tab ini.",
+        "fix": "Pindahkan komponen note setelah entries.",
+        "category": "hierarchy",
+        "component": "note",
+        "device": "mobile"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:06:43.438083923Z",
+    "revision": 1,
+    "round": 1,
+    "page": "PAGE-013",
+    "devices": [
+      "mobile"
+    ],
+    "overall": 98,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 80,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-013",
+        "severity": "minor",
+        "problem": "Konten pendukung \"note\" tampil sebelum fokus utama \"open-anggaran\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"note\" setelah \"open-anggaran\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      },
+      {
+        "page_id": "PAGE-013",
+        "severity": "minor",
+        "problem": "Paragraf \"Tab Keuangan: Kas, Tabungan…\" tampil di atas tombol utama \"Anggaran\". Tombol kecil di bawah catatan, bukan di atas.",
+        "why": "INTENT minta tombol utama di atas. PLAN primary_focus adalah open-anggaran; supporting note tampil sebelum fokus.",
+        "impact": "Tugas buka Anggaran tertutup teks pendukung; CTA tidak dibaca dulu.",
+        "fix": "Pindahkan komponen note setelah open-anggaran.",
+        "category": "hierarchy",
+        "component": "note",
+        "device": "mobile"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:06:43.438083923Z",
+    "revision": 1,
+    "round": 1,
+    "page": "PAGE-014",
+    "devices": [
+      "mobile"
+    ],
+    "overall": 100,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 100,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass"
+  },
+  {
+    "time": "2026-10-10T01:06:43.438083923Z",
+    "revision": 1,
+    "round": 1,
+    "page": "PAGE-015",
+    "devices": [
+      "mobile"
+    ],
+    "overall": 100,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 100,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass"
+  },
+  {
+    "time": "2026-10-10T01:06:43.438083923Z",
+    "revision": 1,
+    "round": 1,
+    "page": "PAGE-016",
+    "devices": [
+      "mobile"
+    ],
+    "overall": 98,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 80,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-016",
+        "severity": "minor",
+        "problem": "Konten pendukung \"note\" tampil sebelum fokus utama \"entries\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"note\" setelah \"entries\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      },
+      {
+        "page_id": "PAGE-016",
+        "severity": "minor",
+        "problem": "Teks syarat kelayakan tampil di atas daftar \"Pengeluaran konsumsi\". Urutan layar: judul, catatan, lalu list.",
+        "why": "INTENT hierarchy adalah Tab Transaksi → contoh pengeluaran → catatan kelayakan. PLAN primary_focus adalah entries.",
+        "impact": "Pengguna baca aturan dulu, baru contoh transaksi yang jadi tugas utama tab ini.",
+        "fix": "Pindahkan komponen note setelah entries.",
+        "category": "hierarchy",
+        "component": "note",
+        "device": "mobile"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:06:43.438083923Z",
+    "revision": 1,
+    "round": 1,
+    "page": "PAGE-017",
+    "devices": [
+      "mobile"
+    ],
+    "overall": 98,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 80,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-017",
+        "severity": "minor",
+        "problem": "Konten pendukung \"note\" tampil sebelum fokus utama \"open-anggaran\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"note\" setelah \"open-anggaran\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      },
+      {
+        "page_id": "PAGE-017",
+        "severity": "minor",
+        "problem": "Paragraf \"Tab Keuangan: Kas, Tabungan…\" tampil di atas tombol utama \"Anggaran\". Tombol kecil di bawah catatan, bukan di atas.",
+        "why": "INTENT minta tombol utama di atas. PLAN primary_focus adalah open-anggaran.",
+        "impact": "Tugas buka Anggaran tertutup teks pendukung; CTA tidak dibaca dulu.",
+        "fix": "Pindahkan komponen note setelah open-anggaran.",
+        "category": "hierarchy",
+        "component": "note",
+        "device": "mobile"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:06:43.438083923Z",
+    "revision": 1,
+    "round": 1,
+    "page": "PAGE-018",
+    "devices": [
+      "mobile"
+    ],
+    "overall": 100,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 100,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass"
+  },
+  {
+    "time": "2026-10-10T01:15:04.037944469Z",
+    "revision": 1,
+    "page": "PAGE-001",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-001",
+        "severity": "minor",
+        "problem": "Konten pendukung \"warning\" tampil sebelum fokus utama \"budgets\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"warning\" setelah \"budgets\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "warning",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:15:04.037944469Z",
+    "revision": 1,
+    "page": "PAGE-002",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-002",
+        "severity": "minor",
+        "problem": "Konten pendukung \"rules-note\" tampil sebelum fokus utama \"budget-form\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"rules-note\" setelah \"budget-form\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "rules-note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:15:04.037944469Z",
+    "revision": 1,
+    "page": "PAGE-003",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-003",
+        "severity": "minor",
+        "problem": "Konten pendukung \"status-text\" tampil sebelum fokus utama \"rincian-list\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"status-text\" setelah \"rincian-list\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "status-text",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:15:04.037944469Z",
+    "revision": 1,
+    "page": "PAGE-004",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-004",
+        "severity": "minor",
+        "problem": "Konten pendukung \"page-note\" tampil sebelum fokus utama \"periods\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"page-note\" setelah \"periods\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "page-note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:15:04.037944469Z",
+    "revision": 1,
+    "page": "PAGE-005",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-005",
+        "severity": "minor",
+        "problem": "Konten pendukung \"title\" tampil sebelum fokus utama \"compare-table\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"title\" setelah \"compare-table\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "title",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:15:04.037944469Z",
+    "revision": 1,
+    "page": "PAGE-006",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-006",
+        "severity": "minor",
+        "problem": "Konten pendukung \"warning\" tampil sebelum fokus utama \"budgets\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"warning\" setelah \"budgets\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "warning",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:15:04.037944469Z",
+    "revision": 1,
+    "page": "PAGE-007",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-007",
+        "severity": "minor",
+        "problem": "Konten pendukung \"rules-note\" tampil sebelum fokus utama \"budget-form\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"rules-note\" setelah \"budget-form\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "rules-note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:15:04.037944469Z",
+    "revision": 1,
+    "page": "PAGE-008",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-008",
+        "severity": "minor",
+        "problem": "Konten pendukung \"status-text\" tampil sebelum fokus utama \"rincian-list\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"status-text\" setelah \"rincian-list\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "status-text",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:15:04.037944469Z",
+    "revision": 1,
+    "page": "PAGE-009",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-009",
+        "severity": "minor",
+        "problem": "Konten pendukung \"page-note\" tampil sebelum fokus utama \"periods\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"page-note\" setelah \"periods\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "page-note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:15:04.037944469Z",
+    "revision": 1,
+    "page": "PAGE-010",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-010",
+        "severity": "minor",
+        "problem": "Konten pendukung \"title\" tampil sebelum fokus utama \"compare-table\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"title\" setelah \"compare-table\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "title",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:15:04.037944469Z",
+    "revision": 1,
+    "page": "PAGE-011",
+    "overall": 100,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 100,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass"
+  },
+  {
+    "time": "2026-10-10T01:15:04.037944469Z",
+    "revision": 1,
+    "page": "PAGE-012",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-012",
+        "severity": "minor",
+        "problem": "Konten pendukung \"note\" tampil sebelum fokus utama \"entries\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"note\" setelah \"entries\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:15:04.037944469Z",
+    "revision": 1,
+    "page": "PAGE-013",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-013",
+        "severity": "minor",
+        "problem": "Konten pendukung \"note\" tampil sebelum fokus utama \"open-anggaran\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"note\" setelah \"open-anggaran\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:15:04.037944469Z",
+    "revision": 1,
+    "page": "PAGE-014",
+    "overall": 100,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 100,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass"
+  },
+  {
+    "time": "2026-10-10T01:15:04.037944469Z",
+    "revision": 1,
+    "page": "PAGE-015",
+    "overall": 100,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 100,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass"
+  },
+  {
+    "time": "2026-10-10T01:15:04.037944469Z",
+    "revision": 1,
+    "page": "PAGE-016",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-016",
+        "severity": "minor",
+        "problem": "Konten pendukung \"note\" tampil sebelum fokus utama \"entries\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"note\" setelah \"entries\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:15:04.037944469Z",
+    "revision": 1,
+    "page": "PAGE-017",
+    "overall": 99,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 90,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass",
+    "findings": [
+      {
+        "page_id": "PAGE-017",
+        "severity": "minor",
+        "problem": "Konten pendukung \"note\" tampil sebelum fokus utama \"open-anggaran\".",
+        "why": "urutan baca harus mengikuti prioritas informasi",
+        "fix": "Pindahkan \"note\" setelah \"open-anggaran\", atau ke kolom samping.",
+        "category": "hierarchy",
+        "component": "note",
+        "device": "mobile",
+        "source": "lint",
+        "rule": "support_before_primary"
+      }
+    ]
+  },
+  {
+    "time": "2026-10-10T01:15:04.037944469Z",
+    "revision": 1,
+    "page": "PAGE-018",
+    "overall": 100,
+    "dimensions": {
+      "ai_slop": 100,
+      "composition": 100,
+      "density": 100,
+      "hierarchy": 100,
+      "navigation": 100,
+      "reference": 100,
+      "responsive": 100,
+      "spacing": 100,
+      "theme": 100
+    },
+    "decision": "pass"
+  }
+]

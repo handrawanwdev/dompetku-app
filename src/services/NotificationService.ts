@@ -4,6 +4,8 @@ import { formatCurrency } from '../utils/currency';
 
 /** Fixed local times reminders fire at when nothing has been recorded yet today. */
 const DAILY_REMINDER_HOURS = [10, 15, 20];
+/** Jam ucapan & pengingat ulang tahun. */
+const BIRTHDAY_HOUR = 8;
 /** Local hour debt due-date reminders fire at. */
 const DEBT_REMINDER_HOUR = 9;
 
@@ -42,81 +44,43 @@ async function scheduleAt(identifier: string, date: Date, title: string, body: s
   });
 }
 
-export type DebtTypeForNotification = 'tanpa_tenor' | 'berjangka' | 'cicilan' | 'revolving' | 'tagihan_rutin';
-
 export interface DebtReminderInput {
   id: string;
   name: string;
   monthlyInstallment: number;
-  remainingMonth: number;
-  /** Day of month (1–31) — cicilan/revolving/tagihan_rutin's recurring due date. */
+  /** Tanggal jatuh tempo tiap bulan (1–31); 0 = tanpa pengingat. */
   dueDate: number;
-  /** YYYY-MM-DD — berjangka's single fixed maturity date. */
-  dueDateFull: string;
-  debtType: DebtTypeForNotification;
-  /** A DebtPayment already exists for the current cycle (this month for
-   * cicilan/revolving/tagihan_rutin, or the debt is already inactive/paid
-   * off for berjangka) — when true, H-7 and due-date notifications for this
-   * cycle are skipped entirely, so a paid debt never nags again this month. */
+  /** Sudah ada pembayaran bulan ini — pengingat bulan ini dilewati. */
   paidThisMonth: boolean;
 }
 
-/** (Re)schedules H-7 and due-date reminders for every active debt. Call after any debt is created/edited/paid. */
+/** (Re)schedules H-7 and due-date reminders for every unpaid debt with a due date. */
 export async function refreshDebtReminders(debts: DebtReminderInput[]) {
   await cancelByPrefix('debt-');
   const now = dayjs();
 
   for (const debt of debts) {
-    if (debt.debtType === 'tanpa_tenor') continue;
-    if (debt.paidThisMonth) continue;
+    if (!debt.dueDate || debt.paidThisMonth) continue;
 
-    if (debt.debtType === 'berjangka') {
-      if (!debt.dueDateFull) continue;
-      const occurrence = dayjs(debt.dueDateFull).hour(DEBT_REMINDER_HOUR).minute(0).second(0);
-      const h7 = occurrence.subtract(7, 'day');
-
-      if (h7.isAfter(now)) {
-        await scheduleAt(
-          `debt-${debt.id}-h7`,
-          h7.toDate(),
-          `⏰ ${debt.name} jatuh tempo 7 hari lagi`,
-          `Hutang ${formatCurrency(debt.monthlyInstallment)} jatuh tempo ${occurrence.format('D MMM YYYY')}`,
-        );
-      }
-      if (occurrence.isAfter(now)) {
-        await scheduleAt(
-          `debt-${debt.id}-due`,
-          occurrence.toDate(),
-          `🔴 ${debt.name} jatuh tempo hari ini!`,
-          `Hutang jatuh tempo sekarang`,
-        );
-      }
-      continue;
-    }
-
-    if (debt.debtType === 'cicilan' && debt.remainingMonth <= 0) continue;
-
-    const occurrence = dayjs().date(debt.dueDate).hour(DEBT_REMINDER_HOUR).minute(0).second(0);
-    // dayjs rolls over into the next month when dueDate exceeds the days in that month (e.g. 31 in Feb) — skip the mismatch
-    if (occurrence.date() !== debt.dueDate) continue;
-
+    const occurrence = dayjs().date(Math.min(debt.dueDate, dayjs().daysInMonth())).hour(DEBT_REMINDER_HOUR).minute(0).second(0);
     const monthKey = occurrence.format('YYYY-MM');
     const h7 = occurrence.subtract(7, 'day');
+    const amount = debt.monthlyInstallment > 0 ? `${formatCurrency(debt.monthlyInstallment)} ` : '';
 
     if (h7.isAfter(now)) {
       await scheduleAt(
         `debt-${debt.id}-${monthKey}-h7`,
         h7.toDate(),
         `⏰ ${debt.name} jatuh tempo 7 hari lagi`,
-        `Cicilan ${formatCurrency(debt.monthlyInstallment)} jatuh tempo tanggal ${debt.dueDate} (${occurrence.format('D MMM YYYY')})`,
+        `Bayar ${amount}sebelum ${occurrence.format('D MMM')}`,
       );
     }
     if (occurrence.isAfter(now)) {
       await scheduleAt(
         `debt-${debt.id}-${monthKey}-due`,
         occurrence.toDate(),
-        `🔴 ${debt.name} jatuh tempo hari ini!`,
-        `Cicilan ${formatCurrency(debt.monthlyInstallment)} jatuh tempo sekarang`,
+        `🔴 ${debt.name} jatuh tempo hari ini`,
+        `Bayar ${amount}hari ini`,
       );
     }
   }
@@ -152,4 +116,51 @@ export async function refreshDailyReminders(recordedToday: boolean) {
       'Yuk catat pemasukan atau pengeluaran hari ini di Dompetku',
     );
   }
+}
+
+/**
+ * Pengingat tahunan: H-7 (ajak menyisihkan uang buat merayakan) dan ucapan
+ * pagi hari di hari ulang tahun. Panggil tiap kali tanggal lahir/nama berubah.
+ */
+export async function refreshBirthdayReminders(birthday: string | undefined, name: string | undefined) {
+  await cancelByPrefix('birthday-');
+  if (!birthday) return;
+  const b = dayjs(birthday);
+  if (!b.isValid()) return;
+
+  // Pakai tahun bukan kabisat: 29 Feb jadi 28 Feb, supaya tetap muncul tiap tahun.
+  const day = dayjs(new Date(2001, b.month(), Math.min(b.date(), b.month() === 1 ? 28 : b.date())));
+  const before = day.subtract(7, 'day');
+  const sapaan = name ? `, ${name}` : '';
+
+  await Notifications.scheduleNotificationAsync({
+    identifier: 'birthday-h7',
+    content: {
+      title: 'Seminggu lagi ulang tahunmu 🎉',
+      body: 'Mau mulai sisihkan sedikit buat merayakannya? Biar senangnya nggak bikin dompet kaget.',
+      sound: true,
+    },
+    trigger: {
+      type: Notifications.SchedulableTriggerInputTypes.YEARLY,
+      month: before.month(),
+      day: before.date(),
+      hour: BIRTHDAY_HOUR + 1,
+      minute: 0,
+    },
+  });
+  await Notifications.scheduleNotificationAsync({
+    identifier: 'birthday-day',
+    content: {
+      title: `Selamat ulang tahun${sapaan}! 🎂`,
+      body: 'Semoga tahun ini penuh rezeki, sehat, dan bahagia. Hari ini jangan lupa senyum, ya.',
+      sound: true,
+    },
+    trigger: {
+      type: Notifications.SchedulableTriggerInputTypes.YEARLY,
+      month: day.month(),
+      day: day.date(),
+      hour: BIRTHDAY_HOUR,
+      minute: 0,
+    },
+  });
 }

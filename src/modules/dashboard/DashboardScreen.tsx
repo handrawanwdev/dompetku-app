@@ -7,23 +7,16 @@ import { Text } from "../../components/common";
 import { formatDate } from "../../utils/date";
 import { useDashboardData } from "./hooks/useDashboardData";
 import {
-  FreedomCard,
-  MotivationCard,
   NetWorthCard,
   DebtRatioCard,
   ObligationsCard,
   SummaryGrid,
-  FinancialInsightsCard,
-  GoalProgressCard,
+  BudgetSplitCard,
+  MainMenuCard,
+  BirthdayCard,
   RemindersBell,
   RemindersModal,
-  NeracaCard,
-  Cashflow30dCard,
-  Cashflow12mCard,
-  RoadmapCard,
-  SuggestionsCard,
-  LevelDetailModal,
-  AiDetailModal,
+  CashflowCalendarCard,
 } from "./components";
 
 export function DashboardScreen() {
@@ -36,7 +29,7 @@ export function DashboardScreen() {
 
       <View style={styles.topbar}>
         <View>
-          <Text style={styles.topbarSub}>{d.monthLabel}</Text>
+          <Text style={styles.topbarSub}>{d.settings.displayName ? `Hai, ${d.settings.displayName}` : d.monthLabel}</Text>
           <Text style={styles.topbarDate}>{formatDate(d.now.toDate(), "DD MMM YYYY")}</Text>
         </View>
         <RemindersBell count={reminderCount} onPress={() => d.setShowReminders(true)} />
@@ -47,11 +40,29 @@ export function DashboardScreen() {
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
+        {/* Ucapan / pengingat ulang tahun (hanya muncul menjelang & di hari H) */}
+        <BirthdayCard />
+
         {/* Net Worth + Income vs Expense bulan ini — angka paling dicari, paling atas */}
         <NetWorthCard summary={d.summary} />
 
+        {/* Menu utama: pintasan ke halaman lain, bisa diatur */}
+        <MainMenuCard />
+
+        {/* Porsi tiap jenis uang keluar vs targetnya */}
+        <BudgetSplitCard income={d.summary.monthlyIncome} byKind={d.summary.byKind} />
+
         {/* Cash / Savings / Investment / Debt — posisi keuangan sekilas */}
         <SummaryGrid summary={d.summary} />
+
+        {/* Seberapa berat cicilan dibanding pemasukan */}
+        <DebtRatioCard
+          totalDebt={d.summary.totalDebt}
+          debtRatio={d.summary.debtRatio}
+          debtRatioLimit={d.settings.debtRatioLimit}
+          monthlyInstallment={d.summary.monthlyInstallment}
+          monthlyIncome={d.summary.monthlyIncome}
+        />
 
         {/* Debt/Obligations detail + Upcoming payment */}
         <ObligationsCard
@@ -60,54 +71,9 @@ export function DashboardScreen() {
           onPress={() => d.setShowReminders(true)}
         />
 
-        {/* Kondisi keuangan gimana — melengkapi 4 pilar inti sampai sini */}
-        <FreedomCard
-          score={d.financialScore}
-          level={d.financialLevel}
-          nextLevel={d.nextFinancialLevel}
-          scoreGap={d.scoreGap}
-          onPress={() => d.setShowLevelDetail(true)}
-        />
-
-        {/* Bonus, bukan salah satu dari 4 pilar inti */}
-        <GoalProgressCard goal={d.nearestGoal} />
-
-        {/* 1–3 Financial Insights */}
-        <FinancialInsightsCard insights={d.aiReport.insights} onPress={() => d.setShowAiDetail(true)} />
-
-        {/* Detail pendukung — dibaca kalau sempat, bukan sekilas */}
-        <Cashflow30dCard data={d.cashflow30d} />
-
-        <DebtRatioCard
-          totalDebt={d.summary.totalDebt}
-          debtRatio={d.summary.debtRatio}
-          debtRatioLimit={d.settings.debtRatioLimit}
-          monthlyInstallment={d.summary.monthlyInstallment}
-        />
-
-        <RoadmapCard items={d.roadmap} />
-
-        <SuggestionsCard items={d.suggestions} />
-
-        <Cashflow12mCard data={d.cashflow12m} />
-
-        <NeracaCard
-          totalIncomeAllTime={d.neraca.totalIncomeAllTime}
-          investmentCost={d.neraca.investmentCost}
-          totalAset={d.neraca.totalAset}
-          totalDebt={d.summary.totalDebt}
-          kekayaanBersih={d.neraca.kekayaanBersih}
-        />
-
-        <MotivationCard score={d.financialScore} />
+        {/* Kalender masuk/keluar per hari, bulan berjalan */}
+        <CashflowCalendarCard data={d.dailyTotals} />
       </ScrollView>
-
-      <LevelDetailModal
-        visible={d.showLevelDetail}
-        onClose={() => d.setShowLevelDetail(false)}
-        level={d.financialLevel}
-        checklist={d.levelChecklist}
-      />
 
       <RemindersModal
         visible={d.showReminders}
@@ -115,12 +81,6 @@ export function DashboardScreen() {
         urgent={d.urgentReminders}
         normal={d.normalReminders}
         paid={d.paidReminders}
-      />
-
-      <AiDetailModal
-        visible={d.showAiDetail}
-        onClose={() => d.setShowAiDetail(false)}
-        report={d.aiReport}
       />
     </SafeAreaView>
   );
