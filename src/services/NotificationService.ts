@@ -8,6 +8,9 @@ const DAILY_REMINDER_HOURS = [10, 15, 20];
 const BIRTHDAY_HOUR = 8;
 /** Local hour debt due-date reminders fire at. */
 const DEBT_REMINDER_HOUR = 9;
+/** Jam pengingat tagihan buatan user (H-3 dan hari H). */
+const BILL_REMINDER_HOUR = 9;
+const BILL_LEAD_DAYS = 3;
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -27,7 +30,7 @@ export async function requestNotificationPermissions() {
   return result.granted;
 }
 
-async function cancelByPrefix(prefix: string) {
+export async function cancelByPrefix(prefix: string) {
   const scheduled = await Notifications.getAllScheduledNotificationsAsync();
   await Promise.all(
     scheduled
@@ -36,10 +39,10 @@ async function cancelByPrefix(prefix: string) {
   );
 }
 
-async function scheduleAt(identifier: string, date: Date, title: string, body: string) {
+async function scheduleAt(identifier: string, date: Date, title: string, body: string, data?: Record<string, string>) {
   await Notifications.scheduleNotificationAsync({
     identifier,
-    content: { title, body, sound: true },
+    content: { title, body, sound: true, ...(data ? { data } : {}) },
     trigger: { type: Notifications.SchedulableTriggerInputTypes.DATE, date },
   });
 }
@@ -81,6 +84,53 @@ export async function refreshDebtReminders(debts: DebtReminderInput[]) {
         occurrence.toDate(),
         `🔴 ${debt.name} jatuh tempo hari ini`,
         `Bayar ${amount}hari ini`,
+      );
+    }
+  }
+}
+
+export interface BillReminderInput {
+  id: string;
+  title: string;
+  amount: number;
+  /** Jatuh tempo terdekat yang belum dibayar, 'YYYY-MM-DD'. */
+  due: string;
+  /** Periode milik `due` (lihat utils/reminder periodOf). */
+  period: string;
+}
+
+/**
+ * Pengingat tagihan buatan user: H-3 dan hari H jam 09:00, hanya untuk jatuh
+ * tempo terdekat (batas 64 notif terjadwal di iOS). Periode berikutnya
+ * dijadwalkan ulang saat app dibuka atau dari background task.
+ */
+export async function refreshBillReminders(bills: BillReminderInput[]) {
+  await cancelByPrefix('bill-');
+  const now = dayjs();
+
+  for (const b of bills) {
+    const at = dayjs(b.due).hour(BILL_REMINDER_HOUR).minute(0).second(0);
+    const before = at.subtract(BILL_LEAD_DAYS, 'day');
+    const amount = b.amount > 0 ? `${formatCurrency(b.amount)} ` : '';
+    // Dibaca saat notif diketuk: buka form uang keluar yang sudah terisi.
+    const data = { billId: b.id, billPeriod: b.period };
+
+    if (before.isAfter(now)) {
+      await scheduleAt(
+        `bill-${b.id}-${b.period}-h${BILL_LEAD_DAYS}`,
+        before.toDate(),
+        `⏰ ${b.title} jatuh tempo ${BILL_LEAD_DAYS} hari lagi`,
+        `Bayar ${amount}sebelum ${at.format('D MMM')}`,
+        data,
+      );
+    }
+    if (at.isAfter(now)) {
+      await scheduleAt(
+        `bill-${b.id}-${b.period}-due`,
+        at.toDate(),
+        `🔴 ${b.title} jatuh tempo hari ini`,
+        `Bayar ${amount}hari ini. Ketuk untuk mencatat.`,
+        data,
       );
     }
   }
@@ -152,7 +202,7 @@ export async function refreshBirthdayReminders(birthday: string | undefined, nam
     identifier: 'birthday-day',
     content: {
       title: `Selamat ulang tahun${sapaan}! 🎂`,
-      body: 'Semoga tahun ini penuh rezeki, sehat, dan bahagia. Hari ini jangan lupa senyum, ya.',
+      body: 'Ada kado kecil yang menunggumu di Dompetku. Buka, yuk!',
       sound: true,
     },
     trigger: {

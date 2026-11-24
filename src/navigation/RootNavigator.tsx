@@ -21,6 +21,7 @@ import { AppLockScreen } from '../modules/settings/screens/AppLockScreen';
 import { PinFlowScreen } from '../modules/settings/screens/PinFlowScreen';
 import { DebtNavigator } from '../modules/debt/DebtNavigator';
 import { GoalNavigator } from '../modules/goal/GoalNavigator';
+import { ReminderNavigator } from '../modules/reminder/ReminderNavigator';
 import { InvestmentNavigator } from '../modules/investment/InvestmentNavigator';
 import { AssetsNavigator } from '../modules/assets/AssetsNavigator';
 import { AccountFormScreen } from '../modules/finance/screens/AccountFormScreen';
@@ -48,6 +49,7 @@ export function RootNavigator() {
       <Stack.Screen name="Recurring" component={PassiveIncomeNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="Debts" component={DebtNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="Goals" component={GoalNavigator} options={{ headerShown: false }} />
+      <Stack.Screen name="Reminders" component={ReminderNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="AccountDetail" component={AccountDetailScreen} options={{ headerShown: false }} />
       <Stack.Screen name="AccountForm" component={AccountFormScreen} options={{ headerShown: false }} />
       <Stack.Screen name="TransferForm" component={TransferFormScreen} options={{ headerShown: false }} />

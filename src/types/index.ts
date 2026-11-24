@@ -170,7 +170,15 @@ export interface AppSettings {
   birthday?: string;
   /** Tahun saat kartu ulang tahun di dashboard ditutup user. */
   birthdayCardHiddenYear?: number;
+  /** Tahun ulang tahun yang kejutannya sudah dibuka (lihat modules/birthday). */
+  birthdaySurpriseSeenYear?: number;
+  /** Notifikasi per jenis. undefined = nyala. Ulang tahun selalu nyala, tidak bisa dimatikan. */
+  notifDaily?: boolean;
+  notifDebt?: boolean;
+  notifBills?: boolean;
 }
+
+export type NotifSettingKey = 'notifDaily' | 'notifDebt' | 'notifBills';
 
 export interface DashboardSummary {
   cash: number;

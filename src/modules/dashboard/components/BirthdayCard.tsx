@@ -6,11 +6,13 @@ import { COLORS, FONTS, ICON_SIZES, RADIUS, SPACING } from '../../../theme';
 import { useSettingsStore } from '../../../store/settingsStore';
 import { birthdayWish, getBirthdayInfo } from '../../../utils/birthday';
 import { useRootNavigation } from '../../../navigation/types';
+import { useBirthdaySurprise } from '../../birthday/BirthdaySurprise';
 
 /** Muncul seminggu menjelang ulang tahun, lalu jadi kartu ucapan di hari H. */
 export function BirthdayCard() {
   const nav = useRootNavigation();
   const { settings, updateSettings } = useSettingsStore();
+  const openSurprise = useBirthdaySurprise((s) => s.open);
   const info = getBirthdayInfo(settings.birthday);
   const year = new Date().getFullYear();
 
@@ -31,6 +33,10 @@ export function BirthdayCard() {
           {name ? `, ${name}` : ''}!
         </Text>
         <Text style={styles.todayBody}>{birthdayWish(year)}</Text>
+        <TouchableOpacity style={styles.replayBtn} onPress={openSurprise} activeOpacity={0.8}>
+          <MaterialIcons name="card-giftcard" size={ICON_SIZES.sm} color={COLORS.primary} />
+          <Text style={styles.replayText}>Buka kadonya lagi</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -81,6 +87,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: SPACING.sm,
   },
+  replayBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: SPACING.xs,
+    backgroundColor: COLORS.surface,
+    borderRadius: RADIUS.round,
+    paddingHorizontal: SPACING.lg,
+    paddingVertical: SPACING.sm,
+    marginTop: SPACING.lg,
+  },
+  replayText: { fontSize: FONTS.sm, fontWeight: '700', color: COLORS.primary },
   soon: {
     flexDirection: 'row',
     alignItems: 'flex-start',

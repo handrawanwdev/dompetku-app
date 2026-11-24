@@ -20,6 +20,7 @@ import { PassiveIncomeModel } from '../../../models/PassiveIncomeModel';
 import { AccountModel } from '../../../models/AccountModel';
 import { TransferModel } from '../../../models/TransferModel';
 import { GoalModel } from '../../../models/GoalModel';
+import { ReminderModel } from '../../../models/ReminderModel';
 import { isSpendKind, kindFromLegacyCategory } from '../../../utils/budget';
 import { today } from '../../../utils/date';
 import { normalizeExpenseCategories } from '../../../services/CategoryService';
@@ -66,11 +67,12 @@ export function DataScreen() {
   const accounts = useQuery(AccountModel);
   const transfers = useQuery(TransferModel);
   const goals = useQuery(GoalModel);
+  const reminders = useQuery(ReminderModel);
 
   const handleExport = async () => {
     try {
       const data = {
-        version: 5,
+        version: 6,
         exportDate: new Date().toISOString(),
         incomes: incomes.map(i => ({ ...i, _id: i._id.toHexString() })),
         expenses: expenses.map(e => ({ ...e, _id: e._id.toHexString() })),
@@ -82,6 +84,7 @@ export function DataScreen() {
         accounts: accounts.map(a => ({ ...a, _id: a._id.toHexString() })),
         transfers: transfers.map(t => ({ ...t, _id: t._id.toHexString() })),
         goals: goals.map(g => ({ ...g, _id: g._id.toHexString() })),
+        reminders: reminders.map(r => ({ ...r, _id: r._id.toHexString() })),
       };
 
       const filename = `dompetku_backup_${new Date().toISOString().split('T')[0]}.json`;
@@ -208,6 +211,18 @@ export function DataScreen() {
                     accountId: item.accountId ?? '',
                     doneAt: item.doneAt ?? '',
                     note: item.note ?? '',
+                    createdAt: new Date(item.createdAt),
+                  });
+                });
+                data.reminders?.forEach((item: any) => {
+                  realm.create(ReminderModel, {
+                    _id: new Realm.BSON.ObjectId(item._id),
+                    title: item.title,
+                    amount: item.amount ?? 0,
+                    categoryName: item.categoryName ?? '',
+                    repeat: item.repeat ?? 'monthly',
+                    dueDate: item.dueDate,
+                    lastDonePeriod: item.lastDonePeriod ?? '',
                     createdAt: new Date(item.createdAt),
                   });
                 });

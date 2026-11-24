@@ -8,6 +8,7 @@ export { PassiveIncomeModel } from './PassiveIncomeModel';
 export { AccountModel } from './AccountModel';
 export { TransferModel } from './TransferModel';
 export { GoalModel } from './GoalModel';
+export { ReminderModel } from './ReminderModel';
 
 import { IncomeModel } from './IncomeModel';
 import { ExpenseModel } from './ExpenseModel';
@@ -19,6 +20,7 @@ import { PassiveIncomeModel } from './PassiveIncomeModel';
 import { AccountModel } from './AccountModel';
 import { TransferModel } from './TransferModel';
 import { GoalModel } from './GoalModel';
+import { ReminderModel } from './ReminderModel';
 
 export const ALL_MODELS = [
   IncomeModel,
@@ -31,4 +33,5 @@ export const ALL_MODELS = [
   AccountModel,
   TransferModel,
   GoalModel,
+  ReminderModel,
 ];

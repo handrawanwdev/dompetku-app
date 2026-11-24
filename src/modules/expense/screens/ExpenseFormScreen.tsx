@@ -32,6 +32,8 @@ import {
 } from '../../../components/common';
 import { ExpenseModel } from '../../../models/ExpenseModel';
 import { CategoryModel } from '../../../models/CategoryModel';
+import { ReminderModel } from '../../../models/ReminderModel';
+import { markReminderDone } from '../../../services/ReminderService';
 import { useDebts } from '../../debt/useDebts';
 import { useGoals } from '../../goal/useGoals';
 import { goalAvailable, syncGoalStatus } from '../../../services/GoalService';
@@ -72,6 +74,8 @@ export function ExpenseFormScreen() {
     category: initialCategory,
     goalId: initialGoalId,
     fromSavings: initialFromSavings,
+    billId,
+    billPeriod,
   } = route.params ?? {};
   const isEdit = Boolean(id);
 
@@ -154,6 +158,18 @@ export function ExpenseFormScreen() {
   // Dibuka dari halaman kewajiban: isi nominal cicilan sekali di awal.
   useEffect(() => {
     if (!existing && initialDebtId) pickDebt(initialDebtId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Dibuka dari pengingat tagihan (daftar atau notif): isi nominal, kategori, catatan.
+  useEffect(() => {
+    if (existing || !billId || !Realm.BSON.ObjectId.isValid(billId)) return;
+    const bill = realm.objectForPrimaryKey(ReminderModel, new Realm.BSON.ObjectId(billId));
+    if (!bill) return;
+    if (bill.amount > 0) setValue('amount', String(bill.amount));
+    const cat = expenseCategories.find((c) => c.name === bill.categoryName);
+    if (cat) pickCategory(cat.name, isSpendKind(cat.kind) ? cat.kind : 'need');
+    setValue('note', bill.title);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -324,6 +340,7 @@ export function ExpenseFormScreen() {
           createdAt: new Date(),
         });
       }
+      if (!isEdit && billId && billPeriod) markReminderDone(realm, billId, billPeriod);
       if (prevGoal && prevGoal !== linkedGoal) syncGoalStatus(realm, prevGoal);
       if (syncGoalStatus(realm, linkedGoal)) {
         reachedRef.current = goals.find((g) => g.id === linkedGoal)?.goal.name ?? '';

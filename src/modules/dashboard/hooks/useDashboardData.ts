@@ -4,20 +4,18 @@ import dayjs from "dayjs";
 
 import { IncomeModel } from "../../../models/IncomeModel";
 import { ExpenseModel } from "../../../models/ExpenseModel";
-import { DebtModel } from "../../../models/DebtModel";
 import { InvestmentModel } from "../../../models/InvestmentModel";
 import { PhysicalAssetModel } from "../../../models/PhysicalAssetModel";
 import { PassiveIncomeModel } from "../../../models/PassiveIncomeModel";
 import { startOfMonth, endOfMonth } from "../../../utils/date";
 import { calcDepreciation } from "../../../utils/finance";
-import { getReminderStatus, type ReminderStatus } from "../../../utils/debt";
+import { getReminderStatus } from "../../../utils/debt";
 import { useDebts } from "../../debt/useDebts";
 import { useSettingsStore } from "../../../store/settingsStore";
 import { isSpendKind, type SpendKind } from "../../../utils/budget";
-import {
-  refreshDebtReminders,
-  refreshDailyReminders,
-} from "../../../services/NotificationService";
+import { refreshAllReminders } from "../../../services/ReminderScheduler";
+import { useReminders } from "../../reminder/useReminders";
+import type { DueItem } from "../../../utils/reminder";
 import { getBalances, getUntrackedInvestment } from "../../../services/AllocationService";
 import { runPassiveIncomeSchedule } from "../../../services/PassiveIncomeScheduler";
 import { EXCLUDE_NON_EARNED, LOAN_CATEGORY, OPENING_CATEGORY } from "../../../utils/journal";
@@ -44,25 +42,10 @@ export function useDashboardData() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [realm]);
 
+  const reminders = useReminders();
   useEffect(() => {
-    refreshDebtReminders(
-      activeDebts.map((d) => ({
-        id: d.id,
-        name: d.debt.name,
-        monthlyInstallment: d.debt.monthlyInstallment,
-        dueDate: d.debt.dueDate,
-        paidThisMonth: d.paidThisMonth,
-      })),
-    );
-  }, [activeDebts]);
-
-  useEffect(() => {
-    const today = dayjs().format("YYYY-MM-DD");
-    const recordedToday =
-      incomes.filtered("date == $0", today).length > 0 ||
-      expenses.filtered("date == $0", today).length > 0;
-    refreshDailyReminders(recordedToday);
-  }, [incomes, expenses]);
+    refreshAllReminders(realm);
+  }, [realm, incomes, expenses, debtInfos, reminders, settings]);
 
   const now = dayjs();
   const monthStart = startOfMonth();
@@ -193,30 +176,28 @@ export function useDashboardData() {
     prevMonthEnd,
   ]);
 
-  // Debt reminder tiers (lunas / hari-ini / mendesak / segera / aman)
-  const debtReminders = useMemo(
-    () =>
-      activeDebts
-        .map((d) => ({ debt: d.debt, status: getReminderStatus(d) }))
-        .filter((x): x is { debt: DebtModel; status: ReminderStatus } => x.status !== null),
-    [activeDebts],
-  );
+  // Pengingat pembayaran: kewajiban + tagihan buatan user, tier lunas / hari-ini / mendesak / segera / aman.
+  const dueItems = useMemo(() => {
+    const items: DueItem[] = [];
+    for (const d of activeDebts) {
+      const status = getReminderStatus(d);
+      if (status) items.push({ key: `debt-${d.id}`, source: "debt", name: d.debt.name, amount: d.debt.monthlyInstallment, status });
+    }
+    for (const r of reminders) {
+      if (!r.status) continue;
+      // Tagihan yang masih jauh tidak ikut; yang sudah dibayar cuma kalau jatuh temponya bulan ini.
+      const show = r.paidCurrent ? r.currentInThisMonth : r.status.daysUntil <= 7;
+      if (show) items.push({ key: `bill-${r.id}`, source: "bill", name: r.reminder.title, amount: r.reminder.amount, status: r.status });
+    }
+    return items.sort((a, b) => a.status.daysUntil - b.status.daysUntil);
+  }, [activeDebts, reminders]);
 
-  const urgentReminders = useMemo(
-    () => debtReminders.filter((r) => r.status.urgent),
-    [debtReminders],
-  );
+  const urgentReminders = useMemo(() => dueItems.filter((r) => r.status.urgent), [dueItems]);
   const normalReminders = useMemo(
-    () =>
-      debtReminders.filter(
-        (r) => !r.status.urgent && r.status.tier !== "lunas",
-      ),
-    [debtReminders],
+    () => dueItems.filter((r) => !r.status.urgent && r.status.tier !== "lunas"),
+    [dueItems],
   );
-  const paidReminders = useMemo(
-    () => debtReminders.filter((r) => r.status.tier === "lunas"),
-    [debtReminders],
-  );
+  const paidReminders = useMemo(() => dueItems.filter((r) => r.status.tier === "lunas"), [dueItems]);
 
   const monthLabel = now.format("MMMM YYYY");
 

@@ -19,7 +19,8 @@ export const realmConfig: Realm.Configuration = {
   // v22: Goal (target tabungan) + Expense.goalId. Goal tanpa saldo sendiri;
   // progres dihitung dari transaksi yang ditandai. Default '' cukup.
   // v23: Account.subName (keterangan opsional kantong). Default '' cukup.
-  schemaVersion: 23,
+  // v24: Reminder (pengingat tagihan buatan user). Tabel baru, tanpa migrasi.
+  schemaVersion: 24,
   onFirstOpen: (realm) => {
     ensureDefaultExpenseCategories(realm);
   },

@@ -9,6 +9,7 @@ export type MenuId =
   | 'wallet'
   | 'debts'
   | 'goals'
+  | 'reminders'
   | 'investments'
   | 'assets'
   | 'report'
@@ -35,6 +36,7 @@ export const MENU_ITEMS: Record<MenuId, MenuItem> = {
   transactions: { label: 'Riwayat', hint: 'Semua catatan masuk dan keluar', icon: 'history', color: COLORS.primary, open: (n) => n.navigate('Tabs', { screen: 'Transaction' }) },
   wallet: { label: 'Dompet', hint: 'Saldo dan tabungan kamu sekarang', icon: 'account-balance-wallet', color: COLORS.primary, open: (n) => n.navigate('Tabs', { screen: 'Wallet' }) },
   debts: { label: 'Cicilan & utang', hint: 'Pantau sisa utang dan jatuh tempo', icon: 'credit-card', color: COLORS.obligation, open: (n) => n.navigate('Debts') },
+  reminders: { label: 'Pengingat', hint: 'Tagihan rutin seperti listrik, BPJS, atau langganan', icon: 'notifications-active', color: COLORS.obligation, open: (n) => n.navigate('Reminders') },
   goals: { label: 'Goal', hint: 'Target tabungan dan progresnya', icon: 'flag', color: COLORS.saving, open: (n) => n.navigate('Goals') },
   investments: { label: 'Investasi', hint: 'Saham, reksa dana, emas, dan lainnya', icon: 'trending-up', color: COLORS.invest, open: (n) => n.navigate('Investments') },
   assets: { label: 'Aset', hint: 'Barang berharga dan nilainya sekarang', icon: 'diamond', color: COLORS.asset, open: (n) => n.navigate('Assets') },
@@ -55,7 +57,7 @@ const HIDDEN: MenuId[] = SHOW_INVESTMENT_AND_ASSETS ? [] : ['investments', 'asse
 
 export const ALL_MENU_IDS = (Object.keys(MENU_ITEMS) as MenuId[]).filter((id) => !HIDDEN.includes(id));
 
-export const DEFAULT_MENU: MenuId[] = ['expense', 'income', 'debts', 'investments', 'assets', 'report', 'categories', 'theme'];
+export const DEFAULT_MENU: MenuId[] = ['expense', 'income', 'debts', 'reminders', 'investments', 'assets', 'report', 'theme'];
 
 /** Buang id yang sudah tidak dikenal (mis. menu lama yang dihapus). */
 export function sanitizeMenu(ids: unknown): MenuId[] {

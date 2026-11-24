@@ -3,10 +3,9 @@ import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Card, Text } from "../../../components/common";
 import { COLORS, FONTS, ICON_SIZES, RADIUS, SPACING } from "../../../theme";
-import type { DebtModel } from "../../../models/DebtModel";
-import type { ReminderStatus } from "../../../utils/debt";
+import type { DueItem } from "../../../utils/reminder";
 
-type Reminder = { debt: DebtModel; status: ReminderStatus };
+type Reminder = DueItem;
 
 interface Props {
   urgent: Reminder[];
@@ -31,7 +30,7 @@ export function ObligationsCard({ urgent, normal, onPress }: Props) {
         <View style={styles.header}>
           <View style={styles.titleRow}>
             <MaterialIcons name="receipt-long" size={ICON_SIZES.sm} color={COLORS.text} />
-            <Text style={styles.title}>Kewajiban</Text>
+            <Text style={styles.title}>Tagihan & cicilan</Text>
           </View>
           {hasUrgent ? (
             <View style={[styles.badge, { backgroundColor: COLORS.danger + "22" }]}>
@@ -49,7 +48,7 @@ export function ObligationsCard({ urgent, normal, onPress }: Props) {
 
         {nearest && (
           <View style={styles.nearestRow}>
-            <Text style={styles.nearestName} numberOfLines={1}>{nearest.debt.name}</Text>
+            <Text style={styles.nearestName} numberOfLines={1}>{nearest.name}</Text>
             <Text style={[styles.nearestStatus, { color: nearest.status.color }]} numberOfLines={1}>
               {nearest.status.label}
             </Text>

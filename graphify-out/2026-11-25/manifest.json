@@ -42,9 +42,9 @@
     "semantic_hash": ""
   },
   "src/app/AppProviders.tsx": {
-    "mtime": 1795542273.80273,
-    "seen": 1795542355.0369806,
-    "ast_hash": "8048aed3bb47a13bd1c876d7003b30d7",
+    "mtime": 1795543590.3007183,
+    "seen": 1795543672.8315039,
+    "ast_hash": "c1e76a5c710a993a3ec1437f2d6a2e97",
     "semantic_hash": ""
   },
   "src/components/charts/GroupedBarChart.tsx": {
@@ -138,9 +138,9 @@
     "semantic_hash": ""
   },
   "src/database/realm.ts": {
-    "mtime": 1795541354.7863235,
-    "seen": 1795541361.8029885,
-    "ast_hash": "75365922e292c7dbf9dcf2f10e37678d",
+    "mtime": 1795543337.9185178,
+    "seen": 1795543672.8315318,
+    "ast_hash": "15a8d0555fe76e29f0a23462268bb5ee",
     "semantic_hash": ""
   },
   "src/models/CategoryModel.ts": {
@@ -186,9 +186,9 @@
     "semantic_hash": ""
   },
   "src/models/index.ts": {
-    "mtime": 1795539404.3390093,
-    "seen": 1795539435.0098903,
-    "ast_hash": "6f0200d391dca8274b66300dcce3e3b2",
+    "mtime": 1795543337.9183447,
+    "seen": 1795543672.8315468,
+    "ast_hash": "17b4007634ef2f50c53de88e3fba3799",
     "semantic_hash": ""
   },
   "src/modules/assets/AssetsNavigator.tsx": {
@@ -210,9 +210,9 @@
     "semantic_hash": ""
   },
   "src/modules/dashboard/DashboardScreen.tsx": {
-    "mtime": 1795540698.3171635,
-    "seen": 1795540705.3770752,
-    "ast_hash": "d5d242c9a5842e4f8e38513ebe9c06a6",
+    "mtime": 1795543562.0796795,
+    "seen": 1795543672.8315527,
+    "ast_hash": "fff24baed670058afc2fc5818fe90597",
     "semantic_hash": ""
   },
   "src/modules/dashboard/components/DebtRatioCard.tsx": {
@@ -228,9 +228,9 @@
     "semantic_hash": ""
   },
   "src/modules/dashboard/components/RemindersSection.tsx": {
-    "mtime": 1795541054.1441453,
-    "seen": 1795541084.6053421,
-    "ast_hash": "705331ace8ab025dfea5ce0f7574e1de",
+    "mtime": 1795543554.9224818,
+    "seen": 1795543672.8315654,
+    "ast_hash": "f890f33189202c3f94b58eb7a2a681d2",
     "semantic_hash": ""
   },
   "src/modules/dashboard/components/SectionTitle.tsx": {
@@ -252,9 +252,9 @@
     "semantic_hash": ""
   },
   "src/modules/dashboard/hooks/useDashboardData.ts": {
-    "mtime": 1795540698.3168201,
-    "seen": 1795540705.3770936,
-    "ast_hash": "7b1d3629e98066c5048446b2c3017a95",
+    "mtime": 1795543447.9605196,
+    "seen": 1795543672.8315692,
+    "ast_hash": "5ffe0e59429c9dae05cfdcad932f39a6",
     "semantic_hash": ""
   },
   "src/modules/debt/DebtNavigator.tsx": {
@@ -282,9 +282,9 @@
     "semantic_hash": ""
   },
   "src/modules/expense/screens/ExpenseFormScreen.tsx": {
-    "mtime": 1795541054.144586,
-    "seen": 1795541084.6053555,
-    "ast_hash": "c88e592e3aa4d974a1255134689b2758",
+    "mtime": 1795543541.5033424,
+    "seen": 1795543672.8315783,
+    "ast_hash": "9308c0e323c2bf9149cd8dbf9637ecc0",
     "semantic_hash": ""
   },
   "src/modules/income/screens/IncomeFormScreen.tsx": {
@@ -396,9 +396,9 @@
     "semantic_hash": ""
   },
   "src/services/NotificationService.ts": {
-    "mtime": 1795454962.8962255,
-    "seen": 1795455012.2345796,
-    "ast_hash": "9ad7536d592f3adff3cfc7ca2476f57b",
+    "mtime": 1795543409.8623037,
+    "seen": 1795543672.8316422,
+    "ast_hash": "dca19942a659bd2b7853a4f2f611f5b5",
     "semantic_hash": ""
   },
   "src/services/PassiveIncomeScheduler.ts": {
@@ -426,9 +426,9 @@
     "semantic_hash": ""
   },
   "src/types/index.ts": {
-    "mtime": 1795541568.711322,
-    "seen": 1795541653.304988,
-    "ast_hash": "377c29748d158542b419f0726287ed7a",
+    "mtime": 1795543423.7938077,
+    "seen": 1795543672.8316503,
+    "ast_hash": "b4b46129959450dc13bfc564319031df",
     "semantic_hash": ""
   },
   "src/utils/currency.ts": {
@@ -509,12 +509,6 @@
     "ast_hash": "30f71b12447a19365cfd9ed94895c14b",
     "semantic_hash": ""
   },
-  "error-project.txt": {
-    "mtime": 1782755859.8616726,
-    "seen": 1795450128.0575233,
-    "ast_hash": "38190cbd679f482f4e3c9f134ef40a7c",
-    "semantic_hash": ""
-  },
   "index.html": {
     "mtime": 1782749318.604954,
     "seen": 1795450128.0575247,
@@ -576,15 +570,15 @@
     "semantic_hash": ""
   },
   "src/modules/dashboard/components/RemindersModal.tsx": {
-    "mtime": 1795453813.1057293,
-    "seen": 1795454046.3914654,
-    "ast_hash": "bcca4ff58e79a372762523596c5a3caf",
+    "mtime": 1795543554.922649,
+    "seen": 1795543672.8315642,
+    "ast_hash": "f31e6265a3c4abac9824d90c2e07afa9",
     "semantic_hash": ""
   },
   "src/services/DebtReminderBackgroundTask.ts": {
-    "mtime": 1795453836.3014212,
-    "seen": 1795454046.3915167,
-    "ast_hash": "4a1d3811aa6fbaf5b6f00d9b5c4d6032",
+    "mtime": 1795543435.0563622,
+    "seen": 1795543672.8316379,
+    "ast_hash": "9335f627d44c1bc71b561f69b09d8e77",
     "semantic_hash": ""
   },
   "src/modules/assets/screens/PhysicalAssetSellScreen.tsx": {
@@ -618,9 +612,9 @@
     "semantic_hash": ""
   },
   "src/modules/dashboard/components/ObligationsCard.tsx": {
-    "mtime": 1795453813.1054604,
-    "seen": 1795454046.3914635,
-    "ast_hash": "db120acc2bcc6678922d196e0c0fedf2",
+    "mtime": 1795543562.079507,
+    "seen": 1795543672.831562,
+    "ast_hash": "93aff4e82dfc09acbd2826934b675898",
     "semantic_hash": ""
   },
   "src/components/common/SavingSuccessAnimation.tsx": {
@@ -816,9 +810,9 @@
     "semantic_hash": ""
   },
   "src/theme/palettes.ts": {
-    "mtime": 1795455302.9317048,
-    "seen": 1795455485.9120858,
-    "ast_hash": "19e9c485ea57ac59d41e637c75eb5a11",
+    "mtime": 1795542743.1269882,
+    "seen": 1795542749.4925544,
+    "ast_hash": "eedda6af2f922fee8ad2cac7ce95d1bc",
     "semantic_hash": ""
   },
   "src/modules/dashboard/components/CashflowCalendarCard.tsx": {
@@ -858,9 +852,9 @@
     "semantic_hash": ""
   },
   "src/utils/debt.ts": {
-    "mtime": 1795541054.146876,
-    "seen": 1795541084.6054192,
-    "ast_hash": "a761df8f6bca73c46d4077b4633740dd",
+    "mtime": 1795543348.6931698,
+    "seen": 1795543672.831655,
+    "ast_hash": "9edf7faa43f1cae465f88e2dea7b10ec",
     "semantic_hash": ""
   },
   "src/modules/dashboard/components/MainMenuCard.tsx": {
@@ -882,9 +876,9 @@
     "semantic_hash": ""
   },
   "src/modules/settings/screens/DataScreen.tsx": {
-    "mtime": 1795542273.8028796,
-    "seen": 1795542355.037097,
-    "ast_hash": "7b65ebaf32f048900eb745fe8bb60ee7",
+    "mtime": 1795543615.8979757,
+    "seen": 1795543672.8316152,
+    "ast_hash": "155498f30ab0018133cb753b4bcdd9ba",
     "semantic_hash": ""
   },
   "src/modules/settings/screens/ProfileScreen.tsx": {
@@ -900,21 +894,21 @@
     "semantic_hash": ""
   },
   "src/navigation/RootNavigator.tsx": {
-    "mtime": 1795542332.8999946,
-    "seen": 1795542355.0371134,
-    "ast_hash": "26b43aa404b95bc8e679d3fde30f7beb",
+    "mtime": 1795543523.69423,
+    "seen": 1795543672.83163,
+    "ast_hash": "3f3f8a5eeaa9c2df937b0d380f4ae6bd",
     "semantic_hash": ""
   },
   "src/navigation/menu.ts": {
-    "mtime": 1795541054.1466544,
-    "seen": 1795541084.605399,
-    "ast_hash": "fc71c5f6612b56916350ca0404227ac8",
+    "mtime": 1795543531.1765766,
+    "seen": 1795543672.831631,
+    "ast_hash": "e7424f8fc64e3f98e39a491e74ceace0",
     "semantic_hash": ""
   },
   "src/navigation/types.ts": {
-    "mtime": 1795542332.899814,
-    "seen": 1795542355.0371158,
-    "ast_hash": "c8b4d52a4f4d2f9bf56a82ef8fec93d2",
+    "mtime": 1795543523.6940897,
+    "seen": 1795543672.8316321,
+    "ast_hash": "a11fd5d9cd62cc885dad53ea6f66fd1d",
     "semantic_hash": ""
   },
   "src/modules/dashboard/components/BirthdayCard.tsx": {
@@ -1062,9 +1056,9 @@
     "semantic_hash": ""
   },
   "src/modules/settings/screens/SettingsScreen.tsx": {
-    "mtime": 1795542347.7806058,
-    "seen": 1795542355.0371046,
-    "ast_hash": "2830aadd02d447dc13674a58b83a54b6",
+    "mtime": 1795543604.6675513,
+    "seen": 1795543672.8316226,
+    "ast_hash": "cd4b5b58a0f39a4a03b2959b5082eca2",
     "semantic_hash": ""
   },
   "src/modules/settings/profile.ts": {
@@ -1107,6 +1101,72 @@
     "mtime": 1795542141.9515374,
     "seen": 1795542355.037143,
     "ast_hash": "4f8aff4fa55f8695a783ba0b46935d81",
+    "semantic_hash": ""
+  },
+  "info.txt": {
+    "mtime": 1795542413.7963827,
+    "seen": 1795542749.4925787,
+    "ast_hash": "72d3b0749e4099d3d395a56604dd68ab",
+    "semantic_hash": ""
+  },
+  "src/models/ReminderModel.ts": {
+    "mtime": 1795543337.4860766,
+    "seen": 1795543672.831544,
+    "ast_hash": "92a2b45b3f6766afcb81a9d67f5ff412",
+    "semantic_hash": ""
+  },
+  "src/modules/reminder/NotifPermissionBanner.tsx": {
+    "mtime": 1795543466.4098568,
+    "seen": 1795543672.8316042,
+    "ast_hash": "d41b5301d90930f4464971e7122aa406",
+    "semantic_hash": ""
+  },
+  "src/modules/reminder/ReminderNavigator.tsx": {
+    "mtime": 1795543453.6566882,
+    "seen": 1795543672.8316052,
+    "ast_hash": "39bfbcbcfcab713a469112794aed8d18",
+    "semantic_hash": ""
+  },
+  "src/modules/reminder/screens/ReminderFormScreen.tsx": {
+    "mtime": 1795543514.8133183,
+    "seen": 1795543672.831606,
+    "ast_hash": "6e0597df4d3093e9f86b0bf5d170ba1b",
+    "semantic_hash": ""
+  },
+  "src/modules/reminder/screens/ReminderListScreen.tsx": {
+    "mtime": 1795543490.1221519,
+    "seen": 1795543672.8316069,
+    "ast_hash": "ad8c4de3822ae41832e2c0d2de9205b5",
+    "semantic_hash": ""
+  },
+  "src/modules/reminder/types.ts": {
+    "mtime": 1795543453.6558435,
+    "seen": 1795543672.8316076,
+    "ast_hash": "95cf1ccedb0f69996c97e9ff548cc5c3",
+    "semantic_hash": ""
+  },
+  "src/modules/reminder/useReminders.ts": {
+    "mtime": 1795543453.654811,
+    "seen": 1795543672.8316085,
+    "ast_hash": "54f434c89c7e44a6e6ce7d19f6026e0d",
+    "semantic_hash": ""
+  },
+  "src/services/ReminderScheduler.ts": {
+    "mtime": 1795543428.9581392,
+    "seen": 1795543672.8316438,
+    "ast_hash": "445992801189691a2760f0a6ca4b24e4",
+    "semantic_hash": ""
+  },
+  "src/services/ReminderService.ts": {
+    "mtime": 1795543466.4088614,
+    "seen": 1795543672.8316448,
+    "ast_hash": "facdcc3abd11b56945f6872b92a4f7dc",
+    "semantic_hash": ""
+  },
+  "src/utils/reminder.ts": {
+    "mtime": 1795543404.5849128,
+    "seen": 1795543672.8316588,
+    "ast_hash": "b52c577d8e071ddd9e099a9a7e1320b8",
     "semantic_hash": ""
   }
 }

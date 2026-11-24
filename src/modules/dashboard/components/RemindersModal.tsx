@@ -3,10 +3,9 @@ import { Modal, ScrollView, StyleSheet, TouchableOpacity, View } from "react-nat
 import { Text } from "../../../components/common";
 import { COLORS, FONTS, RADIUS, SPACING } from "../../../theme";
 import { RemindersSection } from "./RemindersSection";
-import type { DebtModel } from "../../../models/DebtModel";
-import type { ReminderStatus } from "../../../utils/debt";
+import type { DueItem } from "../../../utils/reminder";
 
-type Reminder = { debt: DebtModel; status: ReminderStatus };
+type Reminder = DueItem;
 
 interface Props {
   visible: boolean;
@@ -14,9 +13,11 @@ interface Props {
   urgent: Reminder[];
   normal: Reminder[];
   paid: Reminder[];
+  /** Buka halaman pengingat tagihan. */
+  onManage: () => void;
 }
 
-export function RemindersModal({ visible, onClose, urgent, normal, paid }: Props) {
+export function RemindersModal({ visible, onClose, urgent, normal, paid, onManage }: Props) {
   const isEmpty = urgent.length === 0 && normal.length === 0 && paid.length === 0;
 
   return (
@@ -31,6 +32,10 @@ export function RemindersModal({ visible, onClose, urgent, normal, paid }: Props
               <RemindersSection urgent={urgent} normal={normal} paid={paid} />
             </ScrollView>
           )}
+
+          <TouchableOpacity style={styles.manage} onPress={onManage} hitSlop={8}>
+            <Text style={styles.manageText}>Atur pengingat tagihan</Text>
+          </TouchableOpacity>
 
           <TouchableOpacity style={styles.close} onPress={onClose}>
             <Text style={styles.closeText}>Tutup</Text>
@@ -64,6 +69,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingVertical: SPACING.xl,
   },
+  manage: { marginTop: SPACING.lg, alignItems: "center" },
+  manageText: { fontSize: FONTS.sm, fontWeight: "700", color: COLORS.primary },
   close: {
     marginTop: SPACING.lg,
     paddingVertical: SPACING.md,

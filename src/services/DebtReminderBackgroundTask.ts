@@ -9,9 +9,11 @@ import { DebtModel } from '../models/DebtModel';
 import { ExpenseModel } from '../models/ExpenseModel';
 import { buildDebtInfos, getReminderStatus } from '../utils/debt';
 import { formatCurrency } from '../utils/currency';
-import { storage } from '../storage/mmkv';
+import { getSettings, storage } from '../storage/mmkv';
+import { isNotifOn, refreshAllReminders } from './ReminderScheduler';
 
-const TASK_NAME = 'debt-payment-reminder-check';
+/** Cek utang mendesak + jadwalkan ulang semua pengingat (periode berikutnya) walau app jarang dibuka. */
+const TASK_NAME = 'reminder-check';
 
 function notifiedKey(debtId: string, day: string) {
   return `debt-bg-notified:${debtId}:${day}`;
@@ -21,6 +23,9 @@ TaskManager.defineTask(TASK_NAME, async () => {
   let realm: Realm | null = null;
   try {
     realm = await Realm.open(realmConfig);
+    await refreshAllReminders(realm);
+    if (!isNotifOn(getSettings() ?? {}, 'notifDebt')) return BackgroundTask.BackgroundTaskResult.Success;
+
     const today = dayjs().format('YYYY-MM-DD');
     const infos = buildDebtInfos(
       realm.objects(DebtModel),
@@ -51,7 +56,7 @@ TaskManager.defineTask(TASK_NAME, async () => {
 
     return BackgroundTask.BackgroundTaskResult.Success;
   } catch (error) {
-    console.error('debt-payment-reminder-check failed', error);
+    console.error(`${TASK_NAME} failed`, error);
     return BackgroundTask.BackgroundTaskResult.Failed;
   }
   // No realm.close() here — Expo can run this task in the same JS context as
@@ -61,7 +66,7 @@ TaskManager.defineTask(TASK_NAME, async () => {
   // with "Cannot access realm that has been closed".
 });
 
-/** Registers the 6-hourly debt payment check. Call once at app startup. */
+/** Registers the 6-hourly reminder check. Call once at app startup. */
 export async function registerDebtReminderBackgroundTask() {
   const alreadyRegistered = await TaskManager.isTaskRegisteredAsync(TASK_NAME);
   if (alreadyRegistered) return;
@@ -69,7 +74,7 @@ export async function registerDebtReminderBackgroundTask() {
 }
 
 /** Background tasks from removed features — unregister so the OS stops waking a task with no definition. */
-const LEGACY_TASK_NAMES = ['motivation-quote-check'];
+const LEGACY_TASK_NAMES = ['motivation-quote-check', 'debt-payment-reminder-check'];
 
 export async function unregisterLegacyBackgroundTasks() {
   for (const name of LEGACY_TASK_NAMES) {

@@ -42,3 +42,42 @@ const WISHES = [
 export function birthdayWish(year: number = new Date().getFullYear()) {
   return WISHES[year % WISHES.length];
 }
+
+export interface BirthdayCelebration {
+  /** Tahun ulang tahun yang dirayakan (kunci "sudah dibuka"). */
+  year: number;
+  age: number;
+  /** 0 = hari H; >0 = kejutan baru dibuka beberapa hari setelahnya. */
+  daysLate: number;
+  /** Ulang tahun sebelumnya, 'YYYY-MM-DD': awal rekap setahun. */
+  since: string;
+}
+
+/** Kejutan tetap muncul sampai beberapa hari setelah hari H kalau app belum sempat dibuka. */
+export const SURPRISE_GRACE_DAYS = 3;
+
+export function getBirthdayCelebration(
+  birthday: string | undefined,
+  now: Date = new Date(),
+): BirthdayCelebration | null {
+  if (!birthday) return null;
+  const b = dayjs(birthday);
+  if (!b.isValid()) return null;
+  const month = b.month() + 1;
+  const day = b.date();
+  const today = dayjs(now).startOf('day');
+
+  // Cek tahun lalu juga: ulang tahun 31 Des yang baru dibuka 2 Jan.
+  for (const year of [today.year(), today.year() - 1]) {
+    const daysLate = today.diff(birthdayInYear(month, day, year), 'day');
+    if (daysLate >= 0 && daysLate <= SURPRISE_GRACE_DAYS) {
+      return {
+        year,
+        age: year - b.year(),
+        daysLate,
+        since: birthdayInYear(month, day, year - 1).format('YYYY-MM-DD'),
+      };
+    }
+  }
+  return null;
+}

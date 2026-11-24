@@ -4,11 +4,11 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Text } from "../../../components/common";
 import { COLORS, FONTS, ICON_SIZES, RADIUS, SPACING } from "../../../theme";
 import { formatCompact } from "../../../utils/currency";
-import type { DebtModel } from "../../../models/DebtModel";
-import type { ReminderStatus } from "../../../utils/debt";
+import type { DueItem } from "../../../utils/reminder";
 import { SectionTitle } from "./SectionTitle";
 
-type Reminder = { debt: DebtModel; status: ReminderStatus };
+type Reminder = DueItem;
+const amountText = (n: number) => (n > 0 ? formatCompact(n) : "Nominal tidak tentu");
 
 interface Props {
   urgent: Reminder[];
@@ -22,9 +22,9 @@ export function RemindersSection({ urgent, normal, paid }: Props) {
   return (
     <>
       <SectionTitle icon="notifications">Pengingat pembayaran</SectionTitle>
-      {urgent.map(({ debt: d, status }) => (
+      {urgent.map(({ key, name, amount, status }) => (
         <View
-          key={d._id.toHexString()}
+          key={key}
           style={[styles.tierRow, { backgroundColor: status.bg }]}
         >
           <View style={[styles.iconBadge, { backgroundColor: COLORS.card }]}>
@@ -35,20 +35,20 @@ export function RemindersSection({ urgent, normal, paid }: Props) {
               {status.label}
             </Text>
             <Text style={styles.tierSub}>
-              {d.name} — {formatCompact(d.monthlyInstallment)}
+              {name} — {amountText(amount)}
             </Text>
           </View>
         </View>
       ))}
-      {normal.map(({ debt: d, status }) => (
-        <View key={d._id.toHexString()} style={styles.plainRow}>
+      {normal.map(({ key, name, amount, status }) => (
+        <View key={key} style={styles.plainRow}>
           <View style={[styles.iconBadge, { backgroundColor: COLORS.subtleBg }]}>
             <MaterialIcons name="schedule" size={ICON_SIZES.sm} color={COLORS.textSecondary} />
           </View>
           <View style={{ flex: 1 }}>
-            <Text style={styles.plainName}>{d.name}</Text>
+            <Text style={styles.plainName}>{name}</Text>
             <Text style={styles.plainSub}>
-              {status.label} · {formatCompact(d.monthlyInstallment)}
+              {status.label} · {amountText(amount)}
             </Text>
           </View>
           <View style={styles.tagBlue}>
@@ -59,9 +59,9 @@ export function RemindersSection({ urgent, normal, paid }: Props) {
       {paid.length > 0 && (
         <View style={{ marginTop: SPACING.sm }}>
           <Text style={styles.paidLabel}>Sudah dibayar bulan ini</Text>
-          {paid.map(({ debt: d }) => (
-            <View key={d._id.toHexString()} style={styles.paidRow}>
-              <Text style={styles.paidName}>{d.name}</Text>
+          {paid.map(({ key, name }) => (
+            <View key={key} style={styles.paidRow}>
+              <Text style={styles.paidName}>{name}</Text>
               <View style={styles.paidCheckRow}>
                 <MaterialIcons name="check-circle" size={ICON_SIZES.xs} color={COLORS.income} />
                 <Text style={styles.paidCheck}>Lunas</Text>

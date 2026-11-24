@@ -6,6 +6,7 @@ import { COLORS, FONTS, SPACING } from "../../theme";
 import { Text } from "../../components/common";
 import { formatDate } from "../../utils/date";
 import { useDashboardData } from "./hooks/useDashboardData";
+import { useRootNavigation } from "../../navigation/types";
 import {
   NetWorthCard,
   DebtRatioCard,
@@ -22,6 +23,7 @@ import {
 
 export function DashboardScreen() {
   const d = useDashboardData();
+  const nav = useRootNavigation();
   const reminderCount = d.urgentReminders.length + d.normalReminders.length;
 
   return (
@@ -85,6 +87,10 @@ export function DashboardScreen() {
         urgent={d.urgentReminders}
         normal={d.normalReminders}
         paid={d.paidReminders}
+        onManage={() => {
+          d.setShowReminders(false);
+          nav.navigate("Reminders");
+        }}
       />
     </SafeAreaView>
   );

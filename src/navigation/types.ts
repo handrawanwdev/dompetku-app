@@ -3,6 +3,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { SpendKind } from '../utils/budget';
 import type { DebtStackParamList } from '../modules/debt/types';
 import type { GoalStackParamList } from '../modules/goal/types';
+import type { ReminderStackParamList } from '../modules/reminder/types';
 
 export type MainTabParamList = {
   Dashboard: undefined;
@@ -16,10 +17,21 @@ export type RootStackParamList = {
   Tabs: NavigatorScreenParams<MainTabParamList> | undefined;
   Debts: NavigatorScreenParams<DebtStackParamList> | undefined;
   Goals: NavigatorScreenParams<GoalStackParamList> | undefined;
+  Reminders: NavigatorScreenParams<ReminderStackParamList> | undefined;
   Investments: undefined;
   Assets: undefined;
   IncomeForm: { id?: string };
-  ExpenseForm: { id?: string; kind?: SpendKind; debtId?: string; category?: string; goalId?: string; fromSavings?: boolean };
+  ExpenseForm: {
+    id?: string;
+    kind?: SpendKind;
+    debtId?: string;
+    category?: string;
+    goalId?: string;
+    fromSavings?: boolean;
+    /** Dibuka dari pengingat tagihan: prefill + tandai periode ini lunas saat disimpan. */
+    billId?: string;
+    billPeriod?: string;
+  };
   Report: undefined;
   Recurring: undefined;
   Theme: undefined;

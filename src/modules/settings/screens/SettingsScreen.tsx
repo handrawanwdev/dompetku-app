@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { hasPin } from '../../../services/AppLockService';
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Switch } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -9,6 +9,16 @@ import { COLORS, FONTS, ICON_SIZES, SPACING, RADIUS, PALETTES, THEME_ID } from '
 import { Card } from '../../../components/common/Card';
 import { MENU_ITEMS, type MenuId } from '../../../navigation/menu';
 import { useRootNavigation } from '../../../navigation/types';
+import { useSettingsStore } from '../../../store/settingsStore';
+import { isNotifOn } from '../../../services/ReminderScheduler';
+import { NotifPermissionBanner } from '../../reminder/NotifPermissionBanner';
+import type { NotifSettingKey } from '../../../types';
+
+const NOTIF_OPTIONS: { key: NotifSettingKey; label: string; sub: string }[] = [
+  { key: 'notifBills', label: 'Tagihan', sub: '3 hari sebelum dan di hari jatuh tempo' },
+  { key: 'notifDebt', label: 'Cicilan & utang', sub: '7 hari sebelum dan di hari jatuh tempo' },
+  { key: 'notifDaily', label: 'Belum catat hari ini', sub: 'Jam 10, 15, dan 20 kalau belum ada catatan' },
+];
 
 const GROUPS: { title: string; items: MenuId[] }[] = [
   { title: 'Tampilan & aturan', items: ['theme', 'parameters'] },
@@ -45,6 +55,8 @@ export function SettingsScreen() {
   const nav = useRootNavigation();
   const [locked, setLocked] = useState(hasPin());
   useFocusEffect(useCallback(() => setLocked(hasPin()), []));
+  const settings = useSettingsStore((st) => st.settings);
+  const updateSettings = useSettingsStore((st) => st.updateSettings);
 
   return (
     <SafeAreaView style={styles.safe} edges={['bottom']}>
@@ -60,6 +72,28 @@ export function SettingsScreen() {
             trailing={locked ? 'Aktif' : 'Mati'}
             onPress={() => nav.navigate('AppLock')}
           />
+        </Card>
+
+        <Text style={styles.sectionTitle}>Notifikasi</Text>
+        <NotifPermissionBanner />
+        <Card padding={0} style={styles.card}>
+          {NOTIF_OPTIONS.map((o, i) => (
+            <View key={o.key}>
+              {i > 0 && <View style={styles.separatorFull} />}
+              <View style={styles.switchRow}>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.rowLabel}>{o.label}</Text>
+                  <Text style={styles.rowSub}>{o.sub}</Text>
+                </View>
+                <Switch
+                  value={isNotifOn(settings, o.key)}
+                  onValueChange={(v) => updateSettings({ [o.key]: v })}
+                  trackColor={{ true: COLORS.primary }}
+                  accessibilityLabel={`Notifikasi ${o.label}`}
+                />
+              </View>
+            </View>
+          ))}
         </Card>
 
         <Text style={styles.sectionTitle}>Dashboard</Text>
@@ -115,6 +149,9 @@ const styles = StyleSheet.create({
   rowIcon: { width: 36, height: 36, borderRadius: RADIUS.round, alignItems: 'center', justifyContent: 'center' },
   rowLabel: { flex: 1, fontSize: FONTS.md, fontWeight: '500', color: COLORS.text },
   rowTrailing: { fontSize: FONTS.sm, color: COLORS.textSecondary },
+  switchRow: { flexDirection: 'row', alignItems: 'center', gap: SPACING.md, paddingHorizontal: SPACING.lg, paddingVertical: SPACING.md },
+  rowSub: { fontSize: FONTS.xs, color: COLORS.textSecondary, marginTop: 2 },
+  separatorFull: { height: 1, backgroundColor: COLORS.border, marginLeft: SPACING.lg },
   separator: { height: 1, backgroundColor: COLORS.border, marginLeft: SPACING.lg * 2 + 36 },
   footer: { fontSize: FONTS.xs, color: COLORS.textMuted, textAlign: 'center', marginTop: SPACING.xl },
 });

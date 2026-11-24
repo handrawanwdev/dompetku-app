@@ -86,9 +86,16 @@ export function getReminderStatus(
   const lastDay = dayjs(now).daysInMonth();
   const daysUntil = Math.min(dueDate, lastDay) - now.getDate();
 
-  if (info.paidThisMonth) {
-    return { tier: 'lunas', label: 'Sudah bayar bulan ini', color: COLORS.successText, bg: COLORS.successBg, urgent: false, daysUntil };
-  }
+  if (info.paidThisMonth) return paidStatus(daysUntil, 'Sudah bayar bulan ini');
+  return dueStatus(daysUntil, `Jatuh tempo tanggal ${dueDate}`);
+}
+
+export function paidStatus(daysUntil: number, label: string): ReminderStatus {
+  return { tier: 'lunas', label, color: COLORS.successText, bg: COLORS.successBg, urgent: false, daysUntil };
+}
+
+/** Tingkat urgensi dari sisa hari ke jatuh tempo (dipakai utang & pengingat tagihan). */
+export function dueStatus(daysUntil: number, amanLabel: string): ReminderStatus {
   if (daysUntil < 0) {
     return { tier: 'hari-ini', label: `Telat ${Math.abs(daysUntil)} hari`, color: COLORS.dangerText, bg: COLORS.dangerBg, urgent: true, daysUntil };
   }
@@ -101,7 +108,7 @@ export function getReminderStatus(
   if (daysUntil <= 7) {
     return { tier: 'segera', label: `Jatuh tempo ${daysUntil} hari lagi`, color: COLORS.warningText, bg: COLORS.warningSoftBg, urgent: false, daysUntil };
   }
-  return { tier: 'aman', label: `Jatuh tempo tanggal ${dueDate}`, color: COLORS.infoText, bg: COLORS.infoBg, urgent: false, daysUntil };
+  return { tier: 'aman', label: amanLabel, color: COLORS.infoText, bg: COLORS.infoBg, urgent: false, daysUntil };
 }
 
 // ─── Konversi format utang lama (≤ v16) ───────────────────────────────────────
