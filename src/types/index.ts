@@ -1,3 +1,4 @@
+import type { KindTargets } from '../utils/budget';
 // ─── Primitive Types ─────────────────────────────────────────────────────────
 
 export type IncomeCategory = string;
@@ -140,8 +141,9 @@ export interface Category {
 // ─── Settings & Summary ───────────────────────────────────────────────────────
 
 export interface AppSettings {
-  /** Debt-to-income ratio limit as a percentage (default 30) */
-  debtRatioLimit: number;
+  /** Target porsi tiap jenis dari pemasukan bulanan, total 100%.
+   * `obligation` sekaligus jadi batas cicilan sehat di Dashboard. */
+  kindTargets: KindTargets;
   /** Working days per month used for daily rate calculation (default 22) */
   workingDays: number;
   /** Currency code (default 'IDR') */
@@ -150,6 +152,18 @@ export interface AppSettings {
   hariLibur: number[];
   /** Nama panggilan di profil & sapaan dashboard. */
   displayName?: string;
+  /** Kalimat singkat di profil. */
+  bio?: string;
+  /** Nama lengkap. displayName tetap jadi nama panggilan (sapaan dashboard). */
+  fullName?: string;
+  occupation?: string;
+  city?: string;
+  /** Fokus keuangan pilihan user, maks 3 (lihat FINANCIAL_FOCUS). */
+  financialFocus?: string[];
+  /** Emoji avatar. Kosong = inisial nama. */
+  avatarEmoji?: string;
+  /** Key warna tema (ColorKey) untuk latar avatar, supaya ikut ganti tema. */
+  avatarColor?: string;
   /** Urutan id menu utama di dashboard (lihat navigation/menu.ts). */
   menuItems?: string[];
   /** Tanggal lahir user (YYYY-MM-DD) untuk ucapan & pengingat ulang tahun. */

@@ -5,8 +5,8 @@ import { MoneyDropAnimation } from './MoneyDropAnimation';
 export type AssetMoveKind = 'add' | 'sell';
 
 const CONFIG: Record<AssetMoveKind, { title: string; accentColor: string; icon: string }> = {
-  add: { title: 'Aset Ditambahkan!', accentColor: COLORS.asset, icon: '📦' },
-  sell: { title: 'Aset Terjual!', accentColor: COLORS.income, icon: '💰' },
+  add: { title: 'Aset tersimpan', accentColor: COLORS.asset, icon: '📦' },
+  sell: { title: 'Aset terjual', accentColor: COLORS.income, icon: '💰' },
 };
 
 interface Props {

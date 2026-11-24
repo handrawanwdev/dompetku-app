@@ -27,7 +27,7 @@ import { PhysicalAssetModel } from '../../../models/PhysicalAssetModel';
 import { today } from '../../../utils/date';
 import { formatCurrency } from '../../../utils/currency';
 import { ExpenseModel } from '../../../models/ExpenseModel';
-import { syncPurchaseExpense } from '../../../services/AllocationService';
+import { syncPurchaseExpense, deleteLinkedTransactions } from '../../../services/AllocationService';
 import { PurchaseToggle } from '../../../components/common/PurchaseToggle';
 import { AssetsStackParamList } from './PhysicalAssetListScreen';
 
@@ -72,12 +72,12 @@ export function PhysicalAssetFormScreen({ navigation, route }: Props) {
 
   const handleSave = () => {
     if (savingRef.current) return;
-    if (!name.trim()) { Alert.alert('Error', 'Nama aset wajib diisi'); return; }
+    if (!name.trim()) { Alert.alert('Nama belum diisi', 'Kasih nama dulu, misalnya Motor Beat atau MacBook.'); return; }
     const pp = parseFloat(purchasePrice.replace(/[^0-9.]/g, ''));
     const ul = parseInt(usefulLife);
     const rv = parseFloat(residualValue.replace(/[^0-9.]/g, '') || '0');
-    if (!pp) { Alert.alert('Error', 'Harga beli harus diisi'); return; }
-    if (!ul || ul < 1) { Alert.alert('Error', 'Masa manfaat minimal 1 tahun'); return; }
+    if (!pp) { Alert.alert('Harga beli belum diisi', 'Isi harga waktu kamu membelinya.'); return; }
+    if (!ul || ul < 1) { Alert.alert('Masa pakai belum pas', 'Isi minimal 1 tahun.'); return; }
 
     savingRef.current = true;
     realm.write(() => {
@@ -106,14 +106,14 @@ export function PhysicalAssetFormScreen({ navigation, route }: Props) {
 
   const handleDelete = () => {
     if (!existing) return;
-    Alert.alert('Hapus', `Hapus aset "${existing.name}"? Catatan uang keluar pembeliannya ikut dihapus.`, [
+    Alert.alert('Hapus aset', `Hapus "${existing.name}"? Catatan uang keluar pembelian${existing.sold ? ' dan pemasukan hasil jualnya' : 'nya'} ikut dihapus.`, [
       { text: 'Batal', style: 'cancel' },
       {
         text: 'Hapus',
         style: 'destructive',
         onPress: () => {
           realm.write(() => {
-            syncPurchaseExpense(realm, `asset:${existing._id.toHexString()}`, null, false);
+            deleteLinkedTransactions(realm, `asset:${existing._id.toHexString()}`);
             realm.delete(existing);
           });
           navigation.goBack();
@@ -146,11 +146,11 @@ export function PhysicalAssetFormScreen({ navigation, route }: Props) {
         </View>
 
         <Card padding={SPACING.lg} style={{ marginTop: SPACING.md }}>
-          <Field label="Nama Aset" value={name} onChange={setName} placeholder="Misal: MacBook Pro M3" />
-          <CurrencyInput label="Harga Beli" value={purchasePrice} onChangeText={setPurchasePrice} />
-          <DateInput label="Tanggal Beli" value={purchaseDate} onChange={setPurchaseDate} />
-          <Field label="Masa Manfaat (tahun)" value={usefulLife} onChange={setUsefulLife} keyboardType="numeric" placeholder="5" />
-          <CurrencyInput label="Nilai Sisa" value={residualValue} onChangeText={setResidualValue} />
+          <Field label="Nama aset" value={name} onChange={setName} placeholder="Contoh: MacBook Pro M3" />
+          <CurrencyInput label="Harga beli" value={purchasePrice} onChangeText={setPurchasePrice} />
+          <DateInput label="Tanggal beli" value={purchaseDate} onChange={setPurchaseDate} />
+          <Field label="Perkiraan dipakai berapa tahun" value={usefulLife} onChange={setUsefulLife} keyboardType="numeric" placeholder="5" />
+          <CurrencyInput label="Perkiraan nilai jual nanti" value={residualValue} onChangeText={setResidualValue} />
           <Field label="Catatan (opsional)" value={note} onChange={setNote} placeholder="Contoh: beli bekas, garansi sampai 2027" multiline />
         </Card>
 
@@ -162,8 +162,8 @@ export function PhysicalAssetFormScreen({ navigation, route }: Props) {
           />
         )}
 
-        <Button title={editId ? 'Simpan Perubahan' : 'Tambah Aset'} onPress={handleSave} fullWidth style={{ marginTop: SPACING.xl }} />
-        {editId && <Button title="Hapus Aset" onPress={handleDelete} variant="danger" fullWidth style={{ marginTop: SPACING.sm }} />}
+        <Button title={editId ? 'Simpan perubahan' : 'Simpan'} onPress={handleSave} fullWidth style={{ marginTop: SPACING.xl }} />
+        {editId && <Button title="Hapus aset" onPress={handleDelete} variant="danger" fullWidth style={{ marginTop: SPACING.sm }} />}
       </ScrollView>
       </KeyboardAvoidingView>
 

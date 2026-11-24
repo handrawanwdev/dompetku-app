@@ -5,8 +5,10 @@ import { AccountModel } from '../models/AccountModel';
 import { TransferModel } from '../models/TransferModel';
 import { IncomeModel } from '../models/IncomeModel';
 import { ExpenseModel } from '../models/ExpenseModel';
+import { GoalModel } from '../models/GoalModel';
 import { getBalances, mainAccountId } from './AllocationService';
 import { today } from '../utils/date';
+import { OPENING_CATEGORY } from '../utils/journal';
 
 // Kantong = tempat uang berada (BCA, Blu, GoPay, tunai).
 // Saldo kantong = pemasukan ke kantong − uang keluar dari kantong ± pindah saldo.
@@ -21,6 +23,11 @@ export const ACCOUNT_TYPES: Record<AccountType, { label: string; icon: keyof typ
   cash: { label: 'Tunai', icon: 'payments', color: COLORS.saving },
   other: { label: 'Lainnya', icon: 'account-balance-wallet', color: COLORS.primary },
 };
+
+/** Nama kantong untuk teks sebaris: "BCA (Rekening gaji)", atau "BCA" kalau tanpa keterangan. */
+export function accountLabel(a: { name: string; subName?: string }): string {
+  return a.subName ? `${a.name} (${a.subName})` : a.name;
+}
 
 export function accountTypeMeta(type: string) {
   return ACCOUNT_TYPES[(type in ACCOUNT_TYPES ? type : 'other') as AccountType];
@@ -88,8 +95,9 @@ export function setMainAccount(realm: Realm, id: string) {
  * Samakan saldo kantong dengan saldo aslinya. Must run inside realm.write().
  * Naik: ambil dulu dari saldo yang belum masuk kantong, sisanya dicatat sebagai
  * penyesuaian (menambah saldo total). Turun: kelebihannya kembali ke "belum masuk kantong".
+ * isNew = kantong baru: sisanya dicatat sebagai pemasukan "Saldo awal", bukan penyesuaian.
  */
-export function setAccountBalance(realm: Realm, accountId: string, target: number) {
+export function setAccountBalance(realm: Realm, accountId: string, target: number, isNew = false) {
   const balances = getAccountBalances(realm);
   const diff = target - (balances.get(accountId) ?? 0);
   if (Math.abs(diff) < 1) return;
@@ -101,10 +109,29 @@ export function setAccountBalance(realm: Realm, accountId: string, target: numbe
       realm.create(TransferModel, { ...base, fromId: '', toId: accountId, amount: take, note: 'Saldo awal' });
     }
     const rest = diff - take;
-    if (rest >= 1) addAdjustment(realm, accountId, rest);
+    if (rest >= 1) {
+      if (isNew) addOpeningBalance(realm, accountId, rest);
+      else addAdjustment(realm, accountId, rest);
+    }
   } else {
     realm.create(TransferModel, { ...base, fromId: accountId, toId: '', amount: -diff, note: 'Penyesuaian saldo' });
   }
+}
+
+/** Pemasukan "Saldo awal" untuk kantong baru. Must run inside realm.write(). */
+export function addOpeningBalance(realm: Realm, accountId: string, amount: number) {
+  realm.create(IncomeModel, {
+    _id: new Realm.BSON.ObjectId(),
+    date: today(),
+    category: OPENING_CATEGORY,
+    amount,
+    allocationCash: amount,
+    note: '',
+    isInternal: false,
+    type: 'active',
+    accountId,
+    createdAt: new Date(),
+  });
 }
 
 /**
@@ -126,6 +153,7 @@ export function deleteAccount(realm: Realm, account: AccountModel) {
   for (const i of realm.objects(IncomeModel).filtered('accountId == $0', id)) i.accountId = '';
   for (const e of realm.objects(ExpenseModel).filtered('accountId == $0', id)) e.accountId = '';
   for (const e of realm.objects(ExpenseModel).filtered('toAccountId == $0', id)) e.toAccountId = '';
+  for (const g of realm.objects(GoalModel).filtered('accountId == $0', id)) g.accountId = '';
   for (const t of realm.objects(TransferModel).filtered('fromId == $0 OR toId == $0', id)) {
     if (t.fromId === id) t.fromId = '';
     if (t.toId === id) t.toId = '';

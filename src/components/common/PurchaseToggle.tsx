@@ -10,7 +10,8 @@ interface Props {
   amountLabel: string;
 }
 
-/** Opsi mencatat pembelian investasi/aset sebagai uang keluar jenis Investasi. */
+/** Pembelian investasi/aset dicatat sebagai uang keluar jenis Investasi (default aktif).
+ * Off hanya untuk barang yang dibeli sebelum pakai app. */
 export function PurchaseToggle({ value, onChange, amountLabel }: Props) {
   return (
     <TouchableOpacity
@@ -26,11 +27,11 @@ export function PurchaseToggle({ value, onChange, amountLabel }: Props) {
         color={value ? COLORS.primary : COLORS.textMuted}
       />
       <View style={{ flex: 1 }}>
-        <Text style={styles.label}>Catat juga sebagai uang keluar</Text>
-        <Text style={styles.sub}>
+        <Text style={styles.label}>Dibayar pakai saldo di Dompetku</Text>
+        <Text style={[styles.sub, !value && { color: COLORS.warningText }]}>
           {value
-            ? `${amountLabel} dipotong dari saldo, masuk jenis Investasi.`
-            : 'Pilih ini kalau belinya pakai uang yang tercatat di app.'}
+            ? `${amountLabel} dipotong dari saldo dan tercatat di riwayat sebagai uang keluar jenis Investasi.`
+            : 'Tidak memotong saldo dan tidak tercatat di riwayat. Matikan hanya kalau dibeli sebelum pakai Dompetku.'}
         </Text>
       </View>
     </TouchableOpacity>

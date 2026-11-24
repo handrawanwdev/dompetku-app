@@ -31,7 +31,7 @@ export const DEFAULT_EXPENSE_CATEGORIES: { name: string; emoji: string; kind: Sp
   { name: 'Hiburan', emoji: '🎬', kind: 'want' },
   { name: 'Belanja', emoji: '🛍️', kind: 'want' },
   { name: 'Liburan', emoji: '✈️', kind: 'want' },
-  { name: 'Tabungan', emoji: '🐷', kind: 'saving' },
+  { name: 'Tabungan', emoji: '🔒', kind: 'saving' },
   { name: 'Dana Darurat', emoji: '🆘', kind: 'saving' },
   { name: 'Reksa Dana', emoji: '📈', kind: 'invest' },
   { name: 'Saham', emoji: '📊', kind: 'invest' },

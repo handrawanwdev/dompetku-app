@@ -27,7 +27,7 @@ import { InvestmentModel } from '../../../models/InvestmentModel';
 import { today } from '../../../utils/date';
 import { formatCurrency } from '../../../utils/currency';
 import { ExpenseModel } from '../../../models/ExpenseModel';
-import { syncPurchaseExpense, INVESTMENT_CATEGORY } from '../../../services/AllocationService';
+import { syncPurchaseExpense, deleteLinkedTransactions, INVESTMENT_CATEGORY } from '../../../services/AllocationService';
 import { PurchaseToggle } from '../../../components/common/PurchaseToggle';
 import { InvestmentStackParamList } from './InvestmentListScreen';
 
@@ -73,11 +73,11 @@ export function InvestmentFormScreen({ navigation, route }: Props) {
 
   const handleSave = () => {
     if (savingRef.current) return;
-    if (!name.trim()) { Alert.alert('Error', 'Nama investasi wajib diisi'); return; }
+    if (!name.trim()) { Alert.alert('Nama belum diisi', 'Kasih nama dulu, misalnya BBCA atau Emas Antam.'); return; }
     const bp = parseFloat(buyPrice.replace(/[^0-9.]/g, ''));
     const qty = parseFloat(quantity.replace(/[^0-9.]/g, ''));
     const cp = parseFloat(currentPrice.replace(/[^0-9.]/g, ''));
-    if (!bp || !qty || !cp) { Alert.alert('Error', 'Isi semua data harga dengan benar'); return; }
+    if (!bp || !qty || !cp) { Alert.alert('Harga belum lengkap', 'Cek lagi harga beli, jumlah, dan harga sekarang.'); return; }
 
     savingRef.current = true;
     realm.write(() => {
@@ -111,14 +111,14 @@ export function InvestmentFormScreen({ navigation, route }: Props) {
 
   const handleDelete = () => {
     if (!existing) return;
-    Alert.alert('Hapus', `Hapus investasi "${existing.name}"? Catatan uang keluar pembeliannya ikut dihapus.`, [
+    Alert.alert('Hapus investasi', `Hapus "${existing.name}"? Catatan uang keluar pembelian${existing.sold ? ' dan pemasukan hasil jualnya' : 'nya'} ikut dihapus.`, [
       { text: 'Batal', style: 'cancel' },
       {
         text: 'Hapus',
         style: 'destructive',
         onPress: () => {
           realm.write(() => {
-            syncPurchaseExpense(realm, `investment:${existing._id.toHexString()}`, null, false);
+            deleteLinkedTransactions(realm, `investment:${existing._id.toHexString()}`);
             realm.delete(existing);
           });
           navigation.goBack();
@@ -136,7 +136,7 @@ export function InvestmentFormScreen({ navigation, route }: Props) {
         </View>
 
         {/* Type Selector */}
-        <Text style={styles.label}>Jenis Investasi</Text>
+        <Text style={styles.label}>Jenis investasi</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginBottom: SPACING.lg }}>
           {INVESTMENT_TYPES.map(t => (
             <TouchableOpacity
@@ -151,11 +151,11 @@ export function InvestmentFormScreen({ navigation, route }: Props) {
         </ScrollView>
 
         <Card padding={SPACING.lg}>
-          <Field label="Nama" value={name} onChange={setName} placeholder="Misal: BBCA, BTC, Emas 24K" />
-          <CurrencyInput label="Harga Beli per Unit" value={buyPrice} onChangeText={setBuyPrice} />
-          <Field label="Jumlah / Lot" value={quantity} onChange={setQuantity} keyboardType="numeric" placeholder="0" />
-          <CurrencyInput label="Harga Saat Ini per Unit" value={currentPrice} onChangeText={setCurrentPrice} />
-          <DateInput label="Tanggal Beli" value={buyDate} onChange={setBuyDate} />
+          <Field label="Nama" value={name} onChange={setName} placeholder="Contoh: BBCA, BTC, Emas 24K" />
+          <CurrencyInput label="Harga beli per unit" value={buyPrice} onChangeText={setBuyPrice} />
+          <Field label="Jumlah unit atau lot" value={quantity} onChange={setQuantity} keyboardType="numeric" placeholder="0" />
+          <CurrencyInput label="Harga sekarang per unit" value={currentPrice} onChangeText={setCurrentPrice} />
+          <DateInput label="Tanggal beli" value={buyDate} onChange={setBuyDate} />
           <Field label="Catatan (opsional)" value={note} onChange={setNote} placeholder="Contoh: beli pas harga lagi turun" multiline />
         </Card>
 
@@ -167,8 +167,8 @@ export function InvestmentFormScreen({ navigation, route }: Props) {
           />
         )}
 
-        <Button title={editId ? 'Simpan Perubahan' : 'Tambah Investasi'} onPress={handleSave} fullWidth style={{ marginTop: SPACING.xl }} />
-        {editId && <Button title="Hapus Investasi" onPress={handleDelete} variant="danger" fullWidth style={{ marginTop: SPACING.sm }} />}
+        <Button title={editId ? 'Simpan perubahan' : 'Simpan'} onPress={handleSave} fullWidth style={{ marginTop: SPACING.xl }} />
+        {editId && <Button title="Hapus investasi" onPress={handleDelete} variant="danger" fullWidth style={{ marginTop: SPACING.sm }} />}
       </ScrollView>
       </KeyboardAvoidingView>
 

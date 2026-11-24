@@ -21,6 +21,9 @@ export class IncomeModel extends Realm.Object<IncomeModel> {
   type!: string;
   /** AccountModel._id (hex) kantong tujuan. '' = belum ditentukan. */
   accountId!: string;
+  /** Sumber baris otomatis: 'investment:<id>' / 'asset:<id>' = hasil jual,
+   * 'debt:<id>' = uang pinjaman masuk. '' = dicatat manual. */
+  ref!: string;
   createdAt!: Date;
 
   static schema: ObjectSchema = {
@@ -40,6 +43,7 @@ export class IncomeModel extends Realm.Object<IncomeModel> {
       isInternal: { type: 'bool', default: false },
       type: { type: 'string', default: 'active' },
       accountId: { type: 'string', default: '' },
+      ref: { type: 'string', default: '' },
       createdAt: { type: 'date', default: () => new Date() },
     },
   };

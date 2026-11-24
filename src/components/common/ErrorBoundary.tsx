@@ -39,15 +39,15 @@ export class ErrorBoundary extends React.Component<Props, State> {
         <SafeAreaView style={styles.safe}>
           <ScrollView contentContainerStyle={styles.content}>
             <Text style={styles.emoji}>⚠️</Text>
-            <Text style={styles.title}>Aplikasi mengalami error</Text>
+            <Text style={styles.title}>Ups, ada yang macet</Text>
             <Text style={styles.desc}>{this.state.error.message}</Text>
 
             <TouchableOpacity style={styles.button} onPress={this.handleRestart}>
-              <Text style={styles.buttonText}>Coba Lagi</Text>
+              <Text style={styles.buttonText}>Coba lagi</Text>
             </TouchableOpacity>
 
             <Text style={styles.hint}>
-              Detail error-nya sudah disimpan. Kalau mau lihat atau kirim ke developer, buka Profil, lalu Cek masalah.
+              Tenang, data kamu aman. Catatan masalahnya sudah disimpan dan bisa dilihat di Profil, ikon gear, lalu Cek masalah.
             </Text>
           </ScrollView>
         </SafeAreaView>

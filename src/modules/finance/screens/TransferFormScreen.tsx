@@ -8,6 +8,7 @@ import Realm from 'realm';
 import { COLORS, FONTS, SPACING } from '../../../theme';
 import { Text, Button, Input, CurrencyInput, DateInput, BackButton } from '../../../components/common';
 import { TransferModel } from '../../../models/TransferModel';
+import { accountLabel } from '../../../services/AccountService';
 import { formatCurrency } from '../../../utils/currency';
 import { today } from '../../../utils/date';
 import type { RootStackParamList } from '../../../navigation/types';
@@ -44,14 +45,14 @@ export function TransferFormScreen({ navigation, route }: Props) {
       return;
     }
     if (value <= 0) {
-      Alert.alert('Nominal kosong', 'Isi nominal yang dipindah.');
+      Alert.alert('Nominal belum diisi', 'Isi berapa yang mau dipindah.');
       return;
     }
     // Saldo asal, tidak menghitung transfer yang sedang diedit.
     const fromBalance = (byId(fromId)?.balance ?? 0) + (existing && existing.fromId === fromId ? existing.amount : 0)
       - (existing && existing.toId === fromId ? existing.amount : 0);
     if (value > fromBalance) {
-      Alert.alert('Saldo tidak cukup', `Saldo ${byId(fromId)?.account.name ?? ''} ${formatCurrency(fromBalance)}.`);
+      Alert.alert('Saldo tidak cukup', `Saldo ${byId(fromId) ? accountLabel(byId(fromId)!.account) : ''} ${formatCurrency(fromBalance)}.`);
       return;
     }
 

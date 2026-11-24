@@ -56,7 +56,7 @@ export function InvestmentDividendScreen({ navigation, route }: Props) {
 
   const confirmDividend = () => {
     if (!dividendAmount || dividendAmount <= 0) {
-      Alert.alert('Validasi', 'Isi nominal dividen');
+      Alert.alert('Nominal belum diisi', 'Isi dividen yang kamu terima.');
       return;
     }
     realm.write(() => {
@@ -89,7 +89,7 @@ export function InvestmentDividendScreen({ navigation, route }: Props) {
         <BackButton onPress={() => navigation.goBack()} color={COLORS.text} />
         <View style={styles.headerTitleRow}>
           <MaterialIcons name="payments" size={ICON_SIZES.md} color={COLORS.text} />
-          <Text style={styles.headerTitle}>Catat Dividen</Text>
+          <Text style={styles.headerTitle}>Catat dividen</Text>
         </View>
         <View style={{ width: 40 }} />
       </View>
@@ -101,7 +101,7 @@ export function InvestmentDividendScreen({ navigation, route }: Props) {
             <Text style={styles.assetName}>{investment.name}</Text>
           </View>
 
-          <Text style={styles.fieldLabel}>Nominal Dividen</Text>
+          <Text style={styles.fieldLabel}>Nominal dividen</Text>
           <CurrencyInput
             value={dividendAmountInput}
             onChangeText={setDividendAmountInput}
@@ -122,7 +122,7 @@ export function InvestmentDividendScreen({ navigation, route }: Props) {
           </View>
 
           <Text style={styles.dividendHint}>
-            Nanti tercatat sebagai pemasukan pasif "Dividen {investment.name}". Kalau mau ubah, buka menu Passive Income.
+            Nanti tercatat sebagai pemasukan "Dividen {investment.name}". Kalau mau mengubahnya, buka menu Pemasukan rutin.
           </Text>
 
           <Button title="Simpan" onPress={confirmDividend} fullWidth style={styles.saveBtn} />

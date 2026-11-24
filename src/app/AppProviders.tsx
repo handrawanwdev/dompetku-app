@@ -14,6 +14,8 @@ import { registerDebtReminderBackgroundTask } from '../services/DebtReminderBack
 import { unregisterLegacyBackgroundTasks } from '../services/DebtReminderBackgroundTask';
 import { installGlobalErrorHandlers } from '../services/ErrorLogService';
 import { ErrorBoundary } from '../components/common/ErrorBoundary';
+import { AppLockGate } from './AppLockGate';
+import { pauseAutoLock } from '../services/AppLockService';
 
 installGlobalErrorHandlers();
 
@@ -37,6 +39,8 @@ function AppInner() {
 
   useEffect(() => {
     loadSettings();
+    // Dialog izin notifikasi sempat membuat app "keluar"; jangan dianggap ditinggal.
+    pauseAutoLock(10_000);
     requestNotificationPermissions();
     registerDebtReminderBackgroundTask();
     unregisterLegacyBackgroundTasks();
@@ -47,9 +51,11 @@ function AppInner() {
   }, [birthday, displayName]);
 
   return (
-    <NavigationContainer theme={navTheme}>
-      <RootNavigator />
-    </NavigationContainer>
+    <AppLockGate>
+      <NavigationContainer theme={navTheme}>
+        <RootNavigator />
+      </NavigationContainer>
+    </AppLockGate>
   );
 }
 

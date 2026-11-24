@@ -77,7 +77,7 @@ export function PhysicalAssetListScreen() {
 
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.totalLabel}>Nilai Aset Fisik</Text>
+        <Text style={styles.totalLabel}>Nilai semua aset</Text>
         <Text style={[styles.totalValue, { color: COLORS.asset }]}>
           {formatCompact(totalCurrentValue)}
         </Text>
@@ -87,16 +87,16 @@ export function PhysicalAssetListScreen() {
       <Card style={styles.summaryCard} padding={SPACING.lg}>
         <View style={styles.summaryRow}>
           <View style={{ flex: 1 }}>
-            <Text style={styles.summaryLabel}>Harga Beli Total</Text>
+            <Text style={styles.summaryLabel}>Total harga beli</Text>
             <Text style={styles.summaryValue}>{formatCurrency(totalPurchaseValue)}</Text>
           </View>
           <View style={{ flex: 1, alignItems: 'flex-end' }}>
-            <Text style={styles.summaryLabel}>Nilai Sekarang</Text>
+            <Text style={styles.summaryLabel}>Nilai sekarang</Text>
             <Text style={[styles.summaryValue, { color: COLORS.asset }]}>{formatCurrency(totalCurrentValue)}</Text>
           </View>
         </View>
         <View style={styles.depRow}>
-          <Text style={styles.depLabel}>Total Penyusutan</Text>
+          <Text style={styles.depLabel}>Total penyusutan</Text>
           <Text style={[styles.depValue, { color: COLORS.expense }]}>
             -{formatCurrency(totalPurchaseValue - totalCurrentValue)}
           </Text>
@@ -132,9 +132,9 @@ export function PhysicalAssetListScreen() {
                   </View>
                 </View>
                 <View style={styles.assetDetails}>
-                  <DetailItem label="Harga Beli" value={formatCurrency(item.purchasePrice)} />
+                  <DetailItem label="Harga beli" value={formatCurrency(item.purchasePrice)} />
                   <DetailItem label="Penyusutan" value={formatCurrency(depreciation)} color={COLORS.expense} />
-                  <DetailItem label="Sisa Manfaat" value={`${Math.max(0, item.usefulLife - parseFloat(ageYears)).toFixed(0)} th`} />
+                  <DetailItem label="Sisa masa pakai" value={`${Math.max(0, item.usefulLife - parseFloat(ageYears)).toFixed(0)} th`} />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity style={styles.sellBtn} onPress={() => navigation.navigate('PhysicalAssetSell', { id: item._id.toHexString() })}>
@@ -147,7 +147,7 @@ export function PhysicalAssetListScreen() {
         ListFooterComponent={
           soldAssets.length > 0 ? (
             <View style={styles.soldSection}>
-              <Text style={styles.soldTitle}>Riwayat Terjual</Text>
+              <Text style={styles.soldTitle}>Sudah terjual</Text>
               {soldAssets.map((item) => {
                 const realizedPL = item.sellPrice - item.purchasePrice;
                 return (

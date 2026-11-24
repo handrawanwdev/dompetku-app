@@ -33,6 +33,8 @@ import {
 import { ExpenseModel } from '../../../models/ExpenseModel';
 import { CategoryModel } from '../../../models/CategoryModel';
 import { useDebts } from '../../debt/useDebts';
+import { useGoals } from '../../goal/useGoals';
+import { goalAvailable, syncGoalStatus } from '../../../services/GoalService';
 import { getBalances, mainAccountId } from '../../../services/AllocationService';
 import { AccountPicker } from '../../finance/components/AccountPicker';
 import { useAccounts } from '../../finance/useAccounts';
@@ -63,7 +65,14 @@ export function ExpenseFormScreen() {
   const navigation = useNavigation<NavProp>();
   const route = useRoute<RouteType>();
   const realm = useRealm();
-  const { id, kind: initialKind, debtId: initialDebtId, category: initialCategory } = route.params ?? {};
+  const {
+    id,
+    kind: initialKind,
+    debtId: initialDebtId,
+    category: initialCategory,
+    goalId: initialGoalId,
+    fromSavings: initialFromSavings,
+  } = route.params ?? {};
   const isEdit = Boolean(id);
 
   const allExpenses = useQuery(ExpenseModel);
@@ -84,7 +93,7 @@ export function ExpenseFormScreen() {
       amount: '',
       category: initialCategory ?? '',
       kind: isSpendKind(initialKind) ? initialKind : 'need',
-      fromSavings: false,
+      fromSavings: initialFromSavings ?? false,
       debtId: initialDebtId ?? '',
       date: today(),
       note: '',
@@ -163,10 +172,75 @@ export function ExpenseFormScreen() {
 
   // Pembelian investasi/aset: nominal/kategori/tanggal dikelola dari halamannya.
   const linkedRef = existing?.assetRef ?? '';
-  const [accountId, setAccountId] = useState(() => existing?.accountId ?? mainAccountId(realm));
+  // Goal: setoran (jenis Tabungan) atau pemakaian dana (bayar pakai tabungan).
+  const goals = useGoals();
+  const [goalId, setGoalId] = useState(() => existing?.goalId ?? initialGoalId ?? '');
+  const initialGoalPocket = useMemo(
+    () => (existing ? '' : goals.find((g) => g.id === initialGoalId)?.goal.accountId ?? ''),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
+
   const savingsPockets = useAccounts().list.filter((a) => a.account.isSavings);
-  // Sisihkan: kantong tabungan tujuan. Baru = kantong tabungan pertama.
-  const [toAccountId, setToAccountId] = useState(() => existing?.toAccountId ?? savingsPockets[0]?.id ?? '');
+  // Pakai dana goal: ambil dari kantong goal, atau kantong tabungan pertama.
+  const [accountId, setAccountId] = useState(
+    () =>
+      existing?.accountId ??
+      ((initialFromSavings && (initialGoalPocket || savingsPockets[0]?.id)) || mainAccountId(realm)),
+  );
+  // Sisihkan: kantong tabungan tujuan. Baru = kantong goal, lalu kantong tabungan pertama.
+  const [toAccountId, setToAccountId] = useState(
+    () => existing?.toAccountId ?? (initialGoalPocket || savingsPockets[0]?.id || ''),
+  );
+
+  const goalOptions = useMemo(
+    () => goals.filter((g) => g.id === goalId || (kind === 'saving' ? !g.done : g.saved > 0)),
+    [goals, goalId, kind],
+  );
+  const pickGoal = (gid: string) => {
+    setGoalId(gid);
+    const pocket = goals.find((g) => g.id === gid)?.goal.accountId;
+    if (!pocket) return;
+    if (kind === 'saving') {
+      if (pocket !== accountId) setToAccountId(pocket);
+    } else {
+      setAccountId(pocket);
+    }
+  };
+  const goalPicker = (label: string) =>
+    goalOptions.length > 0 && (
+      <View style={styles.goalPicker}>
+        <Text style={styles.debtLabel}>{label}</Text>
+        <View style={styles.chipWrap}>
+          {[{ id: '', label: 'Tidak untuk goal' }, ...goalOptions.map((g) => ({ id: g.id, label: g.goal.name }))].map((o) => {
+            const active = goalId === o.id;
+            return (
+              <TouchableOpacity
+                key={o.id || 'none'}
+                onPress={() => pickGoal(o.id)}
+                style={[styles.chip, active && { borderColor: COLORS.saving, backgroundColor: COLORS.saving + '1A' }]}
+                activeOpacity={0.7}
+                accessibilityRole="radio"
+                accessibilityState={{ selected: active }}
+              >
+                <Text style={[styles.chipLabel, active && styles.chipLabelActive]}>{o.label}</Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+        {goalId ? (() => {
+          const g = goals.find((x) => x.id === goalId);
+          if (!g) return null;
+          return (
+            <Text style={styles.debtHint}>
+              {kind === 'saving'
+                ? `Terkumpul ${formatCurrency(Math.max(g.saved, 0))} dari ${formatCurrency(g.goal.target)}.`
+                : `Dana goal ${formatCurrency(Math.max(g.saved, 0))} akan berkurang.`}
+            </Text>
+          );
+        })() : null}
+      </View>
+    );
 
   const toggleFromSavings = () => {
     const next = !fromSavings;
@@ -179,6 +253,16 @@ export function ExpenseFormScreen() {
 
   const savingRef = useRef(false);
   const [success, setSuccess] = useState<{ amount: number; kind: SpendKind } | null>(null);
+  const reachedRef = useRef('');
+
+  const finish = () => {
+    const reached = reachedRef.current;
+    if (reached) {
+      Alert.alert('Goal tercapai', `Target "${reached}" sudah terkumpul.`);
+      reachedRef.current = '';
+    }
+    navigation.goBack();
+  };
 
   const onSubmit = (data: FormValues) => {
     if (savingRef.current) return;
@@ -198,6 +282,16 @@ export function ExpenseFormScreen() {
     const source = useSavings ? 'savings' : 'cash';
     const linkedDebt = data.kind === 'obligation' ? data.debtId : '';
     const savedTo = data.kind === 'saving' && toAccountId !== accountId ? toAccountId : '';
+    const linkedGoal = data.kind === 'saving' || useSavings ? goalId : '';
+    const prevGoal = existing?.goalId ?? '';
+
+    if (useSavings && linkedGoal) {
+      const left = goalAvailable(realm, linkedGoal, existing?._id.toHexString());
+      if (amount > left) {
+        Alert.alert('Dana goal tidak cukup', `Dana goal ini ${formatCurrency(Math.max(left, 0))}.`);
+        return;
+      }
+    }
 
     savingRef.current = true;
     realm.write(() => {
@@ -210,6 +304,7 @@ export function ExpenseFormScreen() {
         existing.debtId = linkedDebt;
         existing.accountId = accountId;
         existing.toAccountId = savedTo;
+        existing.goalId = linkedGoal;
         existing.date = data.date;
         existing.note = data.note ?? '';
       } else {
@@ -223,30 +318,37 @@ export function ExpenseFormScreen() {
           debtId: linkedDebt,
           accountId,
           toAccountId: savedTo,
+          goalId: linkedGoal,
           date: data.date,
           note: data.note ?? '',
           createdAt: new Date(),
         });
       }
+      if (prevGoal && prevGoal !== linkedGoal) syncGoalStatus(realm, prevGoal);
+      if (syncGoalStatus(realm, linkedGoal)) {
+        reachedRef.current = goals.find((g) => g.id === linkedGoal)?.goal.name ?? '';
+      }
     });
 
     if (isEdit) {
-      navigation.goBack();
+      finish();
     } else {
       setSuccess({ amount, kind: data.kind });
     }
   };
 
   const handleDelete = () => {
-    Alert.alert('Hapus catatan', 'Yakin ingin menghapus catatan ini?', [
+    Alert.alert('Hapus catatan ini?', 'Saldo kamu akan dihitung ulang tanpa catatan ini.', [
       { text: 'Batal', style: 'cancel' },
       {
         text: 'Hapus',
         style: 'destructive',
         onPress: () => {
           if (existing) {
+            const gid = existing.goalId;
             realm.write(() => {
               realm.delete(existing);
+              syncGoalStatus(realm, gid);
             });
           }
           navigation.goBack();
@@ -383,8 +485,9 @@ export function ExpenseFormScreen() {
                 value={toAccountId}
                 onChange={setToAccountId}
                 exclude={accountId}
-                noneLabel="Tetap di kantong ini"
+                noneLabel="Biarkan di kantong ini"
               />
+              {goalPicker('Untuk goal')}
               <Text style={styles.balanceHint}>
                 Disisihkan dari saldo bisa dipakai ({formatCurrency(available.spendable)}).
               </Text>
@@ -409,6 +512,7 @@ export function ExpenseFormScreen() {
                 <Text style={styles.toggleSub}>Tabungan kamu {formatCurrency(available.savings)}</Text>
               </View>
             </TouchableOpacity>
+            {fromSavings && goalPicker('Ambil dari goal')}
             </>
           )}
 
@@ -465,13 +569,13 @@ export function ExpenseFormScreen() {
         visible={success !== null && !isKeptKind(success.kind)}
         amount={success?.amount ?? 0}
         kind="expense"
-        onFinish={() => navigation.goBack()}
+        onFinish={finish}
       />
       <SavingSuccessAnimation
         visible={success !== null && isKeptKind(success.kind)}
         amount={success?.amount ?? 0}
         type="deposit"
-        onFinish={() => navigation.goBack()}
+        onFinish={finish}
       />
     </SafeAreaView>
   );
@@ -528,6 +632,7 @@ const styles = StyleSheet.create({
   errorText: { fontSize: FONTS.sm, color: COLORS.danger, marginTop: SPACING.xs },
   debtPicker: { marginTop: SPACING.md, padding: SPACING.md, borderRadius: RADIUS.md, backgroundColor: COLORS.subtleBg },
   debtLabel: { fontSize: FONTS.sm, fontWeight: '600', color: COLORS.text, marginBottom: SPACING.sm },
+  goalPicker: { marginBottom: SPACING.lg, padding: SPACING.md, borderRadius: RADIUS.md, backgroundColor: COLORS.subtleBg },
   debtHint: { fontSize: FONTS.sm, color: COLORS.textSecondary, marginTop: SPACING.sm },
   balanceHint: { fontSize: FONTS.sm, color: COLORS.textSecondary, marginTop: -SPACING.xs, marginBottom: SPACING.lg },
   toggleRow: {

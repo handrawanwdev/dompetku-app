@@ -15,12 +15,18 @@ import { DataScreen } from '../modules/settings/screens/DataScreen';
 import { DiagnosisScreen } from '../modules/settings/screens/DiagnosisScreen';
 import { DevToolsScreen } from '../modules/settings/screens/DevToolsScreen';
 import { MenuEditScreen } from '../modules/dashboard/screens/MenuEditScreen';
+import { SettingsScreen } from '../modules/settings/screens/SettingsScreen';
+import { ProfileEditScreen } from '../modules/settings/screens/ProfileEditScreen';
+import { AppLockScreen } from '../modules/settings/screens/AppLockScreen';
+import { PinFlowScreen } from '../modules/settings/screens/PinFlowScreen';
 import { DebtNavigator } from '../modules/debt/DebtNavigator';
+import { GoalNavigator } from '../modules/goal/GoalNavigator';
 import { InvestmentNavigator } from '../modules/investment/InvestmentNavigator';
 import { AssetsNavigator } from '../modules/assets/AssetsNavigator';
 import { AccountFormScreen } from '../modules/finance/screens/AccountFormScreen';
 import { AccountDetailScreen } from '../modules/finance/screens/AccountDetailScreen';
 import { TransferFormScreen } from '../modules/finance/screens/TransferFormScreen';
+import { ActivityScreen } from '../modules/finance/screens/ActivityScreen';
 import { SHOW_INVESTMENT_AND_ASSETS } from './menu';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -41,9 +47,11 @@ export function RootNavigator() {
       <Stack.Screen name="ExpenseForm" component={ExpenseFormScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Recurring" component={PassiveIncomeNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="Debts" component={DebtNavigator} options={{ headerShown: false }} />
+      <Stack.Screen name="Goals" component={GoalNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="AccountDetail" component={AccountDetailScreen} options={{ headerShown: false }} />
       <Stack.Screen name="AccountForm" component={AccountFormScreen} options={{ headerShown: false }} />
       <Stack.Screen name="TransferForm" component={TransferFormScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Activity" component={ActivityScreen} options={{ headerShown: false }} />
       {SHOW_INVESTMENT_AND_ASSETS && (
         <>
           <Stack.Screen name="Investments" component={InvestmentNavigator} options={{ headerShown: false }} />
@@ -62,6 +70,10 @@ export function RootNavigator() {
       <Stack.Screen name="Data" component={DataScreen} />
       <Stack.Screen name="Diagnosis" component={DiagnosisScreen} />
       <Stack.Screen name="MenuEdit" component={MenuEditScreen} />
+      <Stack.Screen name="Settings" component={SettingsScreen} />
+      <Stack.Screen name="ProfileEdit" component={ProfileEditScreen} />
+      <Stack.Screen name="AppLock" component={AppLockScreen} />
+      <Stack.Screen name="PinFlow" component={PinFlowScreen} />
       {__DEV__ && <Stack.Screen name="DevTools" component={DevToolsScreen} />}
     </Stack.Navigator>
   );

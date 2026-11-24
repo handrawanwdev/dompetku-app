@@ -5,6 +5,7 @@ import { Card, Text } from "../../../components/common";
 import { COLORS, FONTS, ICON_SIZES, RADIUS, SPACING } from "../../../theme";
 import { formatCurrency } from "../../../utils/currency";
 import { KIND_META, SPEND_KINDS, isKeptKind, type SpendKind } from "../../../utils/budget";
+import { useSettingsStore } from "../../../store/settingsStore";
 import { SectionTitle } from "./SectionTitle";
 
 interface Props {
@@ -14,6 +15,7 @@ interface Props {
 
 export function BudgetSplitCard({ income, byKind }: Props) {
   const hasIncome = income > 0;
+  const targets = useSettingsStore((s) => s.settings.kindTargets);
 
   return (
     <>
@@ -22,9 +24,10 @@ export function BudgetSplitCard({ income, byKind }: Props) {
         {SPEND_KINDS.map((k, idx) => {
           const m = KIND_META[k];
           const amount = byKind[k];
+          const target = targets[k];
           const pct = hasIncome ? (amount / income) * 100 : 0;
-          const over = hasIncome && !isKeptKind(k) && pct > m.target;
-          const short = hasIncome && isKeptKind(k) && pct < m.target;
+          const over = hasIncome && !isKeptKind(k) && pct > target;
+          const short = hasIncome && isKeptKind(k) && pct < target;
 
           return (
             <View key={k} style={[styles.row, idx > 0 && styles.rowGap]}>
@@ -45,10 +48,10 @@ export function BudgetSplitCard({ income, byKind }: Props) {
                         { width: `${Math.min(pct, 100)}%`, backgroundColor: over ? COLORS.expense : m.color },
                       ]}
                     />
-                    <View style={[styles.marker, { left: `${m.target}%` }]} />
+                    <View style={[styles.marker, { left: `${target}%` }]} />
                   </View>
                   <Text style={[styles.caption, over && styles.captionWarn]}>
-                    {pct.toFixed(0)}% dari pemasukan · target {m.target}%
+                    {pct.toFixed(0)}% dari pemasukan · target {target}%
                     {over ? " · lewat target" : short ? " · belum sampai target" : ""}
                   </Text>
                 </>

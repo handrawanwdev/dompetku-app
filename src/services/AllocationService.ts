@@ -3,6 +3,7 @@ import { IncomeModel } from '../models/IncomeModel';
 import { ExpenseModel } from '../models/ExpenseModel';
 import { AccountModel } from '../models/AccountModel';
 import { formatCurrency } from '../utils/currency';
+import { LOAN_CATEGORY, loanRef } from '../utils/journal';
 
 /** Kantong utama untuk transaksi otomatis. '' kalau belum punya kantong. */
 export function mainAccountId(realm: Realm): string {
@@ -54,8 +55,10 @@ export function routeSaleProceeds(realm: Realm, params: {
   profit: number;
   assetName: string;
   date: string;
+  /** 'investment:<id>' / 'asset:<id>' — supaya ikut terhapus bersama datanya. */
+  ref: string;
 }): void {
-  const { amount, profit, assetName, date } = params;
+  const { amount, profit, assetName, date, ref } = params;
   const profitNote = profit >= 0
     ? `profit +${formatCurrency(profit)}`
     : `rugi ${formatCurrency(Math.abs(profit))}`;
@@ -73,8 +76,58 @@ export function routeSaleProceeds(realm: Realm, params: {
     allocationSavingId: '',
     type: 'active',
     accountId: mainAccountId(realm),
+    ref,
     createdAt: new Date(),
   });
+}
+
+/**
+ * Hapus semua transaksi otomatis milik satu investasi/aset (pembelian + hasil jual),
+ * supaya saldo tetap konsisten saat datanya dihapus. Must run inside realm.write().
+ */
+export function deleteLinkedTransactions(realm: Realm, ref: string) {
+  realm.delete(realm.objects(ExpenseModel).filtered('assetRef == $0', ref));
+  realm.delete(realm.objects(IncomeModel).filtered('ref == $0', ref));
+}
+
+/** Uang pinjaman yang masuk ke kantong untuk satu utang. */
+export function getLoanIncome(realm: Realm, debtId: string): IncomeModel | undefined {
+  return realm.objects(IncomeModel).filtered('ref == $0', loanRef(debtId))[0];
+}
+
+/**
+ * Jaga satu pemasukan "Pinjaman masuk" untuk utang yang uangnya diterima tunai/transfer.
+ * `data` null = hapus. Must run inside realm.write().
+ */
+export function syncLoanIncome(
+  realm: Realm,
+  debtId: string,
+  data: { amount: number; accountId: string; date: string; note: string } | null,
+) {
+  const row = getLoanIncome(realm, debtId);
+  if (!data) {
+    if (row) realm.delete(row);
+    return;
+  }
+  if (row) {
+    row.amount = data.amount;
+    row.allocationCash = data.amount;
+    row.accountId = data.accountId;
+    row.note = data.note;
+  } else {
+    realm.create(IncomeModel, {
+      _id: new Realm.BSON.ObjectId(),
+      category: LOAN_CATEGORY,
+      amount: data.amount,
+      allocationCash: data.amount,
+      date: data.date,
+      note: data.note,
+      type: 'active',
+      accountId: data.accountId,
+      ref: loanRef(debtId),
+      createdAt: new Date(),
+    });
+  }
 }
 
 /** Kategori transaksi untuk tiap tipe investasi. */

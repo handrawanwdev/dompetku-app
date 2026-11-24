@@ -203,7 +203,7 @@ export function ReportScreen() {
                   <SummaryBox label="Masuk" value={formatCompact(monthly.totalIncome)} color={COLORS.successText} bg={COLORS.successBg} />
                   <SummaryBox label="Keluar" value={formatCompact(monthly.totalExpense)} color={COLORS.dangerText} bg={COLORS.dangerBg} />
                   <SummaryBox
-                    label="Net"
+                    label="Selisih"
                     value={`${monthly.net >= 0 ? '+' : ''}${formatCompact(monthly.net)}`}
                     color={monthly.net >= 0 ? COLORS.infoText : COLORS.dangerText}
                     bg={monthly.net >= 0 ? COLORS.infoBg : COLORS.dangerBg}
@@ -240,10 +240,10 @@ export function ReportScreen() {
             ) : (
               <>
                 <View style={styles.summaryGrid}>
-                  <SummaryBox label="Total Masuk" value={formatCompact(yearly.totalIncome)} sub={`avg ${formatCompact(yearly.avgIncome)}/bln`} color={COLORS.successText} bg={COLORS.successBg} />
-                  <SummaryBox label="Total Keluar" value={formatCompact(yearly.totalExpense)} sub={`avg ${formatCompact(yearly.avgExpense)}/bln`} color={COLORS.dangerText} bg={COLORS.dangerBg} />
+                  <SummaryBox label="Total masuk" value={formatCompact(yearly.totalIncome)} sub={`rata-rata ${formatCompact(yearly.avgIncome)}/bln`} color={COLORS.successText} bg={COLORS.successBg} />
+                  <SummaryBox label="Total keluar" value={formatCompact(yearly.totalExpense)} sub={`rata-rata ${formatCompact(yearly.avgExpense)}/bln`} color={COLORS.dangerText} bg={COLORS.dangerBg} />
                   <SummaryBox
-                    label="Net Cashflow"
+                    label="Selisih"
                     value={`${yearly.net >= 0 ? '+' : ''}${formatCompact(yearly.net)}`}
                     color={yearly.net >= 0 ? COLORS.infoText : COLORS.dangerText}
                     bg={yearly.net >= 0 ? COLORS.infoBg : COLORS.dangerBg}

@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useRealm, useQuery } from '@realm/react';
 import { MaterialIcons } from '@expo/vector-icons';
 import { COLORS, FONTS, ICON_SIZES, SPACING, RADIUS } from '../../../theme';
+import { useSettingsStore } from '../../../store/settingsStore';
 import { Card } from '../../../components/common/Card';
 import { Button } from '../../../components/common/Button';
 import { EmptyState } from '../../../components/common/EmptyState';
@@ -22,6 +23,7 @@ export function CategoriesScreen() {
   const realm = useRealm();
   const categories = useQuery(CategoryModel);
   const [activeTab, setActiveTab] = useState<CategoryType>('expense');
+  const targets = useSettingsStore((s) => s.settings.kindTargets);
 
   const filtered = categories.filtered('type == $0', activeTab).sorted('name');
 
@@ -87,7 +89,7 @@ export function CategoriesScreen() {
               title="Belum ada kategori"
               subtitle="Bikin sendiri, atau pakai kategori bawaan biar cepat."
             />
-            <Button title="Muat kategori bawaan" onPress={handleSeedDefaults} variant="secondary" style={{ margin: SPACING.lg }} />
+            <Button title="Pakai kategori bawaan" onPress={handleSeedDefaults} variant="secondary" style={{ margin: SPACING.lg }} />
           </View>
         ) : (
           <ScrollView contentContainerStyle={styles.list}>
@@ -103,7 +105,7 @@ export function CategoriesScreen() {
                       <View style={styles.groupHead}>
                         <MaterialIcons name={m.icon} size={ICON_SIZES.sm} color={m.color} />
                         <Text style={styles.groupLabel}>{m.label}</Text>
-                        <Text style={styles.groupTarget}>target {m.target}% pemasukan</Text>
+                        <Text style={styles.groupTarget}>target {targets[k]}% pemasukan</Text>
                       </View>
                       <View style={styles.groupItems}>{items.map(renderItem)}</View>
                     </View>

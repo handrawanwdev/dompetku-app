@@ -2,6 +2,7 @@ import { useNavigation, type NavigatorScreenParams } from '@react-navigation/nat
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { SpendKind } from '../utils/budget';
 import type { DebtStackParamList } from '../modules/debt/types';
+import type { GoalStackParamList } from '../modules/goal/types';
 
 export type MainTabParamList = {
   Dashboard: undefined;
@@ -14,10 +15,11 @@ export type MainTabParamList = {
 export type RootStackParamList = {
   Tabs: NavigatorScreenParams<MainTabParamList> | undefined;
   Debts: NavigatorScreenParams<DebtStackParamList> | undefined;
+  Goals: NavigatorScreenParams<GoalStackParamList> | undefined;
   Investments: undefined;
   Assets: undefined;
   IncomeForm: { id?: string };
-  ExpenseForm: { id?: string; kind?: SpendKind; debtId?: string; category?: string };
+  ExpenseForm: { id?: string; kind?: SpendKind; debtId?: string; category?: string; goalId?: string; fromSavings?: boolean };
   Report: undefined;
   Recurring: undefined;
   Theme: undefined;
@@ -28,9 +30,14 @@ export type RootStackParamList = {
   Diagnosis: undefined;
   DevTools: undefined;
   MenuEdit: undefined;
+  Settings: undefined;
+  ProfileEdit: undefined;
+  AppLock: undefined;
+  PinFlow: { mode: 'create' | 'change' | 'disable' };
   AccountForm: { id?: string; savings?: boolean };
   AccountDetail: { id: string };
   TransferForm: { id?: string; fromId?: string; toId?: string };
+  Activity: undefined;
 };
 
 export type RootNavigation = NativeStackNavigationProp<RootStackParamList>;

@@ -15,7 +15,7 @@ import type { RootStackParamList } from '../../../navigation/types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'CategoryForm'>;
 
-const EMOJI_OPTIONS = ['📌', '🍜', '🚗', '💡', '📶', '🏠', '🏥', '📚', '🏦', '💳', '🤝', '☕', '🎬', '🛍️', '✈️', '🐷', '🆘', '🎁'];
+const EMOJI_OPTIONS = ['📌', '🍜', '🚗', '💡', '📶', '🏠', '🏥', '📚', '🏦', '💳', '🤝', '☕', '🎬', '🛍️', '✈️', '🔒', '🆘', '🎁'];
 
 export function CategoryFormScreen({ navigation, route }: Props) {
   const { type, id } = route.params;

@@ -131,11 +131,102 @@ const berry: ThemeColors = {
   heroMuted: '#FBD9EA',
 };
 
+const mint: ThemeColors = {
+  ...rose,
+  primary: '#1E7466',
+  primaryDark: '#155A4F',
+  primarySoft: '#DDF2EC',
+  secondary: '#7FC8B5',
+  // Hijau pemasukan/tabungan digeser ke hijau daun supaya beda dari teal tema
+  income: '#2F7D32',
+  saving: '#2F7D32',
+  success: '#2F7D32',
+  background: '#F3FAF7',
+  text: '#16332D',
+  textSecondary: '#46655E',
+  textMuted: '#55726B',
+  border: '#D6EBE4',
+  topbar: '#155A4F',
+  inputBg: '#FAFDFC',
+  subtleBg: '#E8F5F0',
+  overlay: 'rgba(22,51,45,0.45)',
+  shadow: '#124A41',
+  heroMuted: '#D3F1E8',
+};
+
+const ocean: ThemeColors = {
+  ...rose,
+  primary: '#2463A8',
+  primaryDark: '#1A4C85',
+  primarySoft: '#DCEAFA',
+  secondary: '#7FB2E5',
+  // Biru kebutuhan/tabungan digeser ke indigo supaya beda dari biru tema
+  need: '#5B55C4',
+  savings: '#5B55C4',
+  background: '#F3F7FC',
+  text: '#142B45',
+  textSecondary: '#475E78',
+  textMuted: '#576E87',
+  border: '#D8E5F3',
+  topbar: '#1A4C85',
+  inputBg: '#FAFCFF',
+  subtleBg: '#E8F0FA',
+  overlay: 'rgba(20,43,69,0.45)',
+  shadow: '#143A66',
+  heroMuted: '#D6E7FB',
+};
+
+const honey: ThemeColors = {
+  ...rose,
+  primary: '#9A5A0E',
+  primaryDark: '#7A4609',
+  primarySoft: '#FBEBD3',
+  secondary: '#E7B568',
+  // Oranye utang/keinginan digeser ke merah bata supaya beda dari amber tema
+  debt: '#B5482A',
+  want: '#B5482A',
+  warning: '#B5482A',
+  background: '#FDF8F0',
+  text: '#3A2A14',
+  textSecondary: '#6B5536',
+  textMuted: '#836B4B',
+  border: '#F1E3CC',
+  topbar: '#7A4609',
+  inputBg: '#FFFDF9',
+  subtleBg: '#FAF0E0',
+  overlay: 'rgba(58,42,20,0.45)',
+  shadow: '#6A3D08',
+  heroMuted: '#FBE7C8',
+};
+
+const slate: ThemeColors = {
+  ...rose,
+  primary: '#3F5573',
+  primaryDark: '#2C3E57',
+  primarySoft: '#E2E8F0',
+  secondary: '#94A6BE',
+  background: '#F5F7FA',
+  text: '#1E2633',
+  textSecondary: '#4F5B6B',
+  textMuted: '#5F6C7E',
+  border: '#E0E5EC',
+  topbar: '#2C3E57',
+  inputBg: '#FBFCFD',
+  subtleBg: '#EDF0F5',
+  overlay: 'rgba(30,38,51,0.45)',
+  shadow: '#1E2A3B',
+  heroMuted: '#DCE4EF',
+};
+
 export const PALETTES = {
   rose: { label: 'Blush & Rose', description: 'Pink lembut, manis', colors: rose as ThemeColors },
   peach: { label: 'Peach & Coral', description: 'Hangat dan ceria', colors: peach },
   lilac: { label: 'Lilac', description: 'Ungu pastel, kalem', colors: lilac },
   berry: { label: 'Berry', description: 'Magenta pekat, berani', colors: berry },
+  mint: { label: 'Mint', description: 'Hijau teal, segar', colors: mint },
+  ocean: { label: 'Ocean', description: 'Biru tenang, rapi', colors: ocean },
+  honey: { label: 'Honey', description: 'Amber hangat, earthy', colors: honey },
+  slate: { label: 'Slate', description: 'Abu kebiruan, netral', colors: slate },
 } as const;
 
 export type ThemeId = keyof typeof PALETTES;

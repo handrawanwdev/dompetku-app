@@ -13,17 +13,25 @@ export function isKeptKind(kind: string) {
   return kind === 'saving' || kind === 'invest';
 }
 
-/** Target porsi dari pemasukan bulanan (total 100%). */
 export const KIND_META: Record<
   SpendKind,
-  { label: string; hint: string; icon: keyof typeof MaterialIcons.glyphMap; color: string; target: number }
+  { label: string; hint: string; icon: keyof typeof MaterialIcons.glyphMap; color: string }
 > = {
-  need: { label: 'Kebutuhan', hint: 'Makan, transport, tagihan, internet', icon: 'home', color: COLORS.need, target: 40 },
-  obligation: { label: 'Kewajiban', hint: 'Cicilan, kartu kredit, utang', icon: 'receipt-long', color: COLORS.obligation, target: 20 },
-  want: { label: 'Keinginan', hint: 'Jajan, hiburan, belanja', icon: 'favorite', color: COLORS.want, target: 15 },
-  saving: { label: 'Tabungan', hint: 'Uang yang kamu sisihkan', icon: 'savings', color: COLORS.saving, target: 15 },
-  invest: { label: 'Investasi', hint: 'Aset untuk pertumbuhan kekayaan', icon: 'trending-up', color: COLORS.invest, target: 10 },
+  need: { label: 'Kebutuhan', hint: 'Makan, transport, tagihan, internet', icon: 'home', color: COLORS.need },
+  obligation: { label: 'Kewajiban', hint: 'Cicilan, kartu kredit, utang', icon: 'receipt-long', color: COLORS.obligation },
+  want: { label: 'Keinginan', hint: 'Jajan, hiburan, belanja', icon: 'favorite', color: COLORS.want },
+  saving: { label: 'Tabungan', hint: 'Uang yang kamu sisihkan buat nanti', icon: 'lock', color: COLORS.saving },
+  invest: { label: 'Investasi', hint: 'Saham, reksa dana, emas', icon: 'trending-up', color: COLORS.invest },
 };
+
+export type KindTargets = Record<SpendKind, number>;
+
+/** Target bawaan porsi tiap jenis dari pemasukan bulanan (total 100%). Bisa diubah di Parameter. */
+export const DEFAULT_KIND_TARGETS: KindTargets = { need: 40, obligation: 20, want: 15, saving: 15, invest: 10 };
+
+export function sumTargets(t: KindTargets): number {
+  return SPEND_KINDS.reduce((s, k) => s + t[k], 0);
+}
 
 export function isSpendKind(v: unknown): v is SpendKind {
   return v === 'need' || v === 'obligation' || v === 'want' || v === 'saving' || v === 'invest';

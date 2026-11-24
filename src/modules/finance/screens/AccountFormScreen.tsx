@@ -12,6 +12,7 @@ import { AccountModel } from '../../../models/AccountModel';
 import {
   ACCOUNT_PRESETS,
   ACCOUNT_TYPES,
+  accountLabel,
   deleteAccount,
   getAccountBalances,
   setAccountBalance,
@@ -38,6 +39,7 @@ export function AccountFormScreen({ navigation, route }: Props) {
   );
 
   const [name, setName] = useState(existing?.name ?? '');
+  const [subName, setSubName] = useState(existing?.subName ?? '');
   const [type, setType] = useState<AccountType>((existing?.type as AccountType) ?? 'bank');
   const [balance, setBalance] = useState(existing ? String(Math.max(0, Math.round(currentBalance))) : '');
   const [isMain, setIsMain] = useState(existing ? existing.isMain : accounts.length === 0 && !savings);
@@ -49,12 +51,22 @@ export function AccountFormScreen({ navigation, route }: Props) {
   const handleSave = () => {
     const trimmed = name.trim();
     if (!trimmed) {
-      Alert.alert('Nama kosong', 'Isi nama kantong dulu, misal BCA atau GoPay.');
+      Alert.alert('Nama belum diisi', 'Isi nama kantong dulu, misal BCA atau GoPay.');
       return;
     }
-    const dup = accounts.some((a) => a.name.toLowerCase() === trimmed.toLowerCase() && (!existing || !a._id.equals(existing._id)));
+    const sub = subName.trim();
+    // Nama boleh sama (mis. dua rekening BCA) asal keterangannya beda.
+    const dup = accounts.some(
+      (a) =>
+        a.name.toLowerCase() === trimmed.toLowerCase() &&
+        (a.subName ?? '').toLowerCase() === sub.toLowerCase() &&
+        (!existing || !a._id.equals(existing._id)),
+    );
     if (dup) {
-      Alert.alert('Sudah ada', `Kantong "${trimmed}" sudah ada.`);
+      Alert.alert(
+        'Sudah ada',
+        `Kantong "${accountLabel({ name: trimmed, subName: sub })}" sudah ada. Tambahkan keterangan supaya bisa dibedakan, misalnya Rekening gaji.`,
+      );
       return;
     }
     const target = parseFloat(balance || '0');
@@ -63,15 +75,16 @@ export function AccountFormScreen({ navigation, route }: Props) {
       let acc = existing;
       if (acc) {
         acc.name = trimmed;
+        acc.subName = sub;
         acc.type = type;
         acc.isSavings = isSavings;
       } else {
-        acc = realm.create(AccountModel, { _id: new Realm.BSON.ObjectId(), name: trimmed, type, isMain: false, isSavings, createdAt: new Date() });
+        acc = realm.create(AccountModel, { _id: new Realm.BSON.ObjectId(), name: trimmed, subName: sub, type, isMain: false, isSavings, createdAt: new Date() });
       }
       const accId = acc._id.toHexString();
       if (isMain) setMainAccount(realm, accId);
       else if (acc.isMain) acc.isMain = false;
-      if (!existing || Math.abs(target - currentBalance) >= 1) setAccountBalance(realm, accId, target);
+      if (!existing || Math.abs(target - currentBalance) >= 1) setAccountBalance(realm, accId, target, !existing);
     });
     navigation.goBack();
   };
@@ -80,7 +93,7 @@ export function AccountFormScreen({ navigation, route }: Props) {
     if (!existing) return;
     Alert.alert(
       'Hapus kantong',
-      `Hapus "${existing.name}"? Transaksinya tetap tersimpan, saldonya (${formatCurrency(currentBalance)}) jadi "belum masuk kantong".`,
+      `Hapus "${accountLabel(existing)}"? Catatan transaksinya tetap aman. Saldonya (${formatCurrency(currentBalance)}) akan ditandai "belum masuk kantong".`,
       [
         { text: 'Batal', style: 'cancel' },
         {
@@ -130,6 +143,13 @@ export function AccountFormScreen({ navigation, route }: Props) {
           )}
 
           <Input label="Nama kantong" placeholder="Contoh: BCA, GoPay, Tunai" value={name} onChangeText={setName} maxLength={24} />
+          <Input
+            label="Keterangan (opsional)"
+            placeholder="Contoh: Rekening gaji, Dana darurat"
+            value={subName}
+            onChangeText={setSubName}
+            maxLength={30}
+          />
 
           <View style={styles.group}>
             <Text style={styles.label}>Jenis</Text>
@@ -162,11 +182,11 @@ export function AccountFormScreen({ navigation, route }: Props) {
           </Text>
 
           <View style={styles.group}>
-            <Text style={styles.label}>Dipakai untuk</Text>
+            <Text style={styles.label}>Kantong ini buat apa?</Text>
             <View style={styles.typeRow}>
               {[
-                { v: false, icon: 'account-balance-wallet' as const, label: 'Harian', sub: 'Belanja, bayar tagihan' },
-                { v: true, icon: 'savings' as const, label: 'Tabungan', sub: 'Uang yang disimpan' },
+                { v: false, icon: 'account-balance-wallet' as const, label: 'Sehari-hari', sub: 'Belanja, makan, bayar tagihan' },
+                { v: true, icon: 'lock' as const, label: 'Tabungan', sub: 'Uang yang disisihkan buat nanti' },
               ].map((o) => {
                 const active = isSavings === o.v;
                 const color = o.v ? COLORS.saving : COLORS.primary;
@@ -204,7 +224,7 @@ export function AccountFormScreen({ navigation, route }: Props) {
             />
             <View style={{ flex: 1 }}>
               <Text style={styles.toggleLabel}>Jadikan kantong utama</Text>
-              <Text style={styles.toggleSub}>Otomatis terpilih saat mencatat uang masuk & keluar</Text>
+              <Text style={styles.toggleSub}>Langsung terpilih tiap kamu mencatat uang masuk atau keluar</Text>
             </View>
           </TouchableOpacity>
 

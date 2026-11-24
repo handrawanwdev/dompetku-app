@@ -55,14 +55,14 @@ export function InvestmentSellScreen({ navigation, route }: Props) {
 
   const confirmSell = () => {
     if (!sellPrice || sellPrice <= 0) {
-      Alert.alert('Validasi', 'Isi harga jual');
+      Alert.alert('Harga jual belum diisi', 'Isi harga yang kamu terima.');
       return;
     }
 
     const date = today();
     const name = investment.name;
     realm.write(() => {
-      routeSaleProceeds(realm, { amount: sellPrice, profit: sellProfit, assetName: name, date });
+      routeSaleProceeds(realm, { amount: sellPrice, profit: sellProfit, assetName: name, date, ref: `investment:${investment._id.toHexString()}` });
       investment.sold = true;
       investment.sellPrice = sellPrice;
       investment.sellDate = date;
@@ -77,7 +77,7 @@ export function InvestmentSellScreen({ navigation, route }: Props) {
         <BackButton onPress={() => navigation.goBack()} color={COLORS.text} />
         <View style={styles.headerTitleRow}>
           <MaterialIcons name="sell" size={ICON_SIZES.md} color={COLORS.text} />
-          <Text style={styles.headerTitle}>Jual Investasi</Text>
+          <Text style={styles.headerTitle}>Jual investasi</Text>
         </View>
         <View style={{ width: 40 }} />
       </View>
@@ -90,7 +90,7 @@ export function InvestmentSellScreen({ navigation, route }: Props) {
             <Text style={styles.assetSub}>Modal beli: {formatCurrency(costBasis)} · {formatDate(investment.buyDate)}</Text>
           </View>
 
-          <Text style={styles.fieldLabel}>Harga Jual</Text>
+          <Text style={styles.fieldLabel}>Harga jual</Text>
           <CurrencyInput
             value={sellPriceInput}
             onChangeText={setSellPriceInput}
@@ -105,9 +105,9 @@ export function InvestmentSellScreen({ navigation, route }: Props) {
             </View>
           )}
 
-          <Text style={styles.destHint}>Hasil jual otomatis masuk ke saldo.</Text>
+          <Text style={styles.destHint}>Uang hasil jualnya langsung masuk ke saldo kamu.</Text>
 
-          <Button title="Jual Sekarang" onPress={confirmSell} fullWidth style={styles.saveBtn} />
+          <Button title="Jual sekarang" onPress={confirmSell} fullWidth style={styles.saveBtn} />
         </ScrollView>
       </KeyboardAvoidingView>
 

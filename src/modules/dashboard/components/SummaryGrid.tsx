@@ -41,7 +41,7 @@ export function SummaryGrid({ summary }: { summary: Summary }) {
   // Investasi tampil kalau ada nilainya. Utang & cicilan ada di kartu Beban cicilan.
   const items: React.ComponentProps<typeof SummaryItem>[] = [
     { label: "Bisa dipakai", value: summary.cash, color: COLORS.primary, icon: "account-balance-wallet" },
-    { label: "Tabungan", value: summary.totalSavings, color: COLORS.saving, icon: "savings" },
+    { label: "Tabungan", value: summary.totalSavings, color: COLORS.saving, icon: "lock" },
     ...(summary.totalInvestment > 0
       ? [{ label: "Investasi", value: summary.totalInvestment, color: COLORS.investment, icon: "trending-up" as const }]
       : []),

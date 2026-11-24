@@ -8,6 +8,7 @@ export type MenuId =
   | 'transactions'
   | 'wallet'
   | 'debts'
+  | 'goals'
   | 'investments'
   | 'assets'
   | 'report'
@@ -34,15 +35,16 @@ export const MENU_ITEMS: Record<MenuId, MenuItem> = {
   transactions: { label: 'Riwayat', hint: 'Semua catatan masuk dan keluar', icon: 'history', color: COLORS.primary, open: (n) => n.navigate('Tabs', { screen: 'Transaction' }) },
   wallet: { label: 'Dompet', hint: 'Saldo dan tabungan kamu sekarang', icon: 'account-balance-wallet', color: COLORS.primary, open: (n) => n.navigate('Tabs', { screen: 'Wallet' }) },
   debts: { label: 'Cicilan & utang', hint: 'Pantau sisa utang dan jatuh tempo', icon: 'credit-card', color: COLORS.obligation, open: (n) => n.navigate('Debts') },
-  investments: { label: 'Investasi', hint: 'Aset untuk pertumbuhan kekayaan', icon: 'trending-up', color: COLORS.invest, open: (n) => n.navigate('Investments') },
+  goals: { label: 'Goal', hint: 'Target tabungan dan progresnya', icon: 'flag', color: COLORS.saving, open: (n) => n.navigate('Goals') },
+  investments: { label: 'Investasi', hint: 'Saham, reksa dana, emas, dan lainnya', icon: 'trending-up', color: COLORS.invest, open: (n) => n.navigate('Investments') },
   assets: { label: 'Aset', hint: 'Barang berharga dan nilainya sekarang', icon: 'diamond', color: COLORS.asset, open: (n) => n.navigate('Assets') },
   report: { label: 'Rekap', hint: 'Ringkasan per bulan dan per tahun', icon: 'insights', color: COLORS.need, open: (n) => n.navigate('Report') },
-  recurring: { label: 'Pemasukan rutin', hint: 'Uang yang masuk otomatis tiap periode', icon: 'event-repeat', color: COLORS.income, open: (n) => n.navigate('Recurring') },
+  recurring: { label: 'Pemasukan rutin', hint: 'Gaji, sewa, atau dividen yang rutin masuk', icon: 'event-repeat', color: COLORS.income, open: (n) => n.navigate('Recurring') },
   categories: { label: 'Kategori', hint: 'Atur kategori dan jenisnya', icon: 'category', color: COLORS.want, open: (n) => n.navigate('Categories') },
-  theme: { label: 'Tema', hint: 'Ganti warna app', icon: 'palette', color: COLORS.primary, open: (n) => n.navigate('Theme') },
-  parameters: { label: 'Batas cicilan', hint: 'Batas aman cicilan dari pemasukan', icon: 'tune', color: COLORS.textSecondary, open: (n) => n.navigate('Parameters') },
+  theme: { label: 'Tema', hint: 'Pilih warna yang kamu suka', icon: 'palette', color: COLORS.primary, open: (n) => n.navigate('Theme') },
+  parameters: { label: 'Target & batas', hint: 'Atur pembagian uang dan batas cicilan', icon: 'tune', color: COLORS.textSecondary, open: (n) => n.navigate('Parameters') },
   data: { label: 'Cadangkan data', hint: 'Simpan atau pulihkan data dari file', icon: 'save-alt', color: COLORS.saving, open: (n) => n.navigate('Data') },
-  diagnosis: { label: 'Cek masalah', hint: 'Lihat catatan error app', icon: 'support', color: COLORS.textSecondary, open: (n) => n.navigate('Diagnosis') },
+  diagnosis: { label: 'Cek masalah', hint: 'Lihat catatan kalau app bermasalah', icon: 'support', color: COLORS.textSecondary, open: (n) => n.navigate('Diagnosis') },
 };
 
 // Ubah ke false untuk menyembunyikan halaman Investasi & Aset. Datanya tetap

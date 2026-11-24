@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Text } from '../../../components/common';
 import { COLORS, FONTS, ICON_SIZES, RADIUS, SPACING } from '../../../theme';
-import { accountTypeMeta } from '../../../services/AccountService';
+import { accountLabel, accountTypeMeta } from '../../../services/AccountService';
 import { formatCurrency } from '../../../utils/currency';
 import { useRootNavigation } from '../../../navigation/types';
 import { useAccounts } from '../useAccounts';
@@ -67,8 +67,9 @@ export function AccountPicker({ label, value, onChange, exclude, onlySavings, no
                   accessibilityRole="radio"
                   accessibilityState={{ selected: active }}
                 >
-                  <MaterialIcons name={a.account.isSavings ? 'savings' : m.icon} size={ICON_SIZES.sm} color={a.account.isSavings ? COLORS.saving : m.color} />
+                  <MaterialIcons name={a.account.isSavings ? 'lock' : m.icon} size={ICON_SIZES.sm} color={a.account.isSavings ? COLORS.saving : m.color} />
                   <Text style={[styles.chipLabel, active && styles.chipLabelActive]}>{a.account.name}</Text>
+                  {a.account.subName ? <Text style={styles.chipSub}>{a.account.subName}</Text> : null}
                 </TouchableOpacity>
               );
             })}
@@ -82,7 +83,7 @@ export function AccountPicker({ label, value, onChange, exclude, onlySavings, no
             </TouchableOpacity>
           </ScrollView>
           {selected && (
-            <Text style={styles.hint}>Saldo {selected.account.name} {formatCurrency(selected.balance)}</Text>
+            <Text style={styles.hint}>Saldo {accountLabel(selected.account)} {formatCurrency(selected.balance)}</Text>
           )}
         </>
       )}
@@ -107,6 +108,7 @@ const styles = StyleSheet.create({
   },
   chipNone: { borderColor: COLORS.textMuted, backgroundColor: COLORS.subtleBg },
   chipLabel: { fontSize: FONTS.sm, color: COLORS.textSecondary, fontWeight: '500' },
+  chipSub: { fontSize: FONTS.xs, color: COLORS.textMuted },
   chipLabelActive: { color: COLORS.text, fontWeight: '700' },
   hint: { fontSize: FONTS.xs, color: COLORS.textMuted, marginTop: SPACING.xs },
   empty: {

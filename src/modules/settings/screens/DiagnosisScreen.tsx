@@ -22,6 +22,7 @@ import {
   buildReportText,
   getDeviceInfo,
 } from '../../../services/ErrorLogService';
+import { pauseAutoLock } from '../../../services/AppLockService';
 
 const SOURCE_LABEL: Record<ErrorLogEntry['source'], string> = {
   render: 'Tampilan (UI)',
@@ -48,17 +49,18 @@ export function DiagnosisScreen() {
       file.write(text);
 
       if (await Sharing.isAvailableAsync()) {
+        pauseAutoLock();
         await Sharing.shareAsync(file.uri, { mimeType: 'text/plain' });
       } else {
         Alert.alert('Laporan Error', text);
       }
     } catch {
-      Alert.alert('Error', 'Gagal membuat laporan error');
+      Alert.alert('Gagal membuat laporan', 'Coba lagi sebentar.');
     }
   };
 
   const handleClear = () => {
-    Alert.alert('Hapus Log Error', 'Semua log error akan dihapus. Lanjutkan?', [
+    Alert.alert('Hapus catatan masalah?', 'Semua catatan masalah akan dihapus.', [
       { text: 'Batal', style: 'cancel' },
       {
         text: 'Hapus',
@@ -77,11 +79,11 @@ export function DiagnosisScreen() {
       <ScrollView style={styles.scroll} contentContainerStyle={styles.content}>
         <Text style={styles.header}>Cek masalah</Text>
 
-        <Text style={styles.sectionTitle}>Info Perangkat</Text>
+        <Text style={styles.sectionTitle}>Info perangkat</Text>
         <Card>
           <Row label="Platform" value={`${device.platform} ${device.osVersion}`} />
           <Row label="Perangkat" value={device.deviceName} />
-          <Row label="Versi App" value={device.appVersion} />
+          <Row label="Versi aplikasi" value={device.appVersion} />
         </Card>
 
         <View style={styles.actionsRow}>
@@ -99,7 +101,7 @@ export function DiagnosisScreen() {
         <Text style={styles.sectionTitle}>Riwayat Error ({logs.length})</Text>
         {logs.length === 0 ? (
           <Card>
-            <Text style={styles.emptyText}>Belum ada error tercatat. Aplikasi berjalan normal.</Text>
+            <Text style={styles.emptyText}>Belum ada masalah tercatat. Semuanya berjalan normal.</Text>
           </Card>
         ) : (
           logs.map((entry) => {

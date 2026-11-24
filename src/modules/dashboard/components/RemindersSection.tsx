@@ -21,7 +21,7 @@ export function RemindersSection({ urgent, normal, paid }: Props) {
 
   return (
     <>
-      <SectionTitle icon="notifications">Pengingat Pembayaran</SectionTitle>
+      <SectionTitle icon="notifications">Pengingat pembayaran</SectionTitle>
       {urgent.map(({ debt: d, status }) => (
         <View
           key={d._id.toHexString()}
@@ -58,7 +58,7 @@ export function RemindersSection({ urgent, normal, paid }: Props) {
       ))}
       {paid.length > 0 && (
         <View style={{ marginTop: SPACING.sm }}>
-          <Text style={styles.paidLabel}>Sudah Dibayar Bulan Ini</Text>
+          <Text style={styles.paidLabel}>Sudah dibayar bulan ini</Text>
           {paid.map(({ debt: d }) => (
             <View key={d._id.toHexString()} style={styles.paidRow}>
               <Text style={styles.paidName}>{d.name}</Text>

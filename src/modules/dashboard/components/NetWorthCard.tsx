@@ -44,15 +44,25 @@ export function NetWorthCard({ summary }: Props) {
         <View style={styles.pill}>
           <View style={styles.pillHead}>
             <MaterialIcons name="south-west" size={ICON_SIZES.xs} color={COLORS.heroMuted} />
-            <Text style={styles.pillLabel}>Pemasukan</Text>
+            <Text style={styles.pillLabel}>Uang masuk</Text>
           </View>
           <Text style={styles.pillValue}>{formatCompact(summary.monthlyIncome)}</Text>
           <Trend value={summary.incomeTrend} goodWhenUp />
+          {summary.openingBalance > 0 && (
+            <Text style={styles.pillNote} numberOfLines={1}>
+              + saldo awal {formatCompact(summary.openingBalance)}
+            </Text>
+          )}
+          {summary.loanIn > 0 && (
+            <Text style={styles.pillNote} numberOfLines={1}>
+              + pinjaman {formatCompact(summary.loanIn)}
+            </Text>
+          )}
         </View>
         <View style={styles.pill}>
           <View style={styles.pillHead}>
             <MaterialIcons name="north-east" size={ICON_SIZES.xs} color={COLORS.heroMuted} />
-            <Text style={styles.pillLabel}>Pengeluaran</Text>
+            <Text style={styles.pillLabel}>Uang keluar</Text>
           </View>
           <Text style={styles.pillValue}>{formatCompact(summary.monthlyExpense)}</Text>
           <Trend value={summary.expenseTrend} goodWhenUp={false} />
@@ -108,6 +118,7 @@ const styles = StyleSheet.create({
   pillHead: { flexDirection: "row", alignItems: "center", gap: 4 },
   pillLabel: { fontSize: FONTS.xs, color: COLORS.heroMuted, fontWeight: "600" },
   pillValue: { fontSize: FONTS.lg, fontWeight: "700", color: COLORS.heroText, marginTop: 4 },
+  pillNote: { fontSize: FONTS.xs, color: COLORS.heroMuted, marginTop: 2 },
   trendRow: { flexDirection: "row", alignItems: "center", gap: 2, marginTop: 4 },
   trend: { fontSize: FONTS.xs, fontWeight: "600" },
   barWrap: { marginTop: SPACING.lg },

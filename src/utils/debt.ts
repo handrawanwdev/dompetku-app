@@ -101,7 +101,7 @@ export function getReminderStatus(
   if (daysUntil <= 7) {
     return { tier: 'segera', label: `Jatuh tempo ${daysUntil} hari lagi`, color: COLORS.warningText, bg: COLORS.warningSoftBg, urgent: false, daysUntil };
   }
-  return { tier: 'aman', label: `Jatuh tempo tgl ${dueDate}`, color: COLORS.infoText, bg: COLORS.infoBg, urgent: false, daysUntil };
+  return { tier: 'aman', label: `Jatuh tempo tanggal ${dueDate}`, color: COLORS.infoText, bg: COLORS.infoBg, urgent: false, daysUntil };
 }
 
 // ─── Konversi format utang lama (≤ v16) ───────────────────────────────────────

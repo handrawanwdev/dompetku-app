@@ -5,9 +5,9 @@ import { MoneyDropAnimation, type MoneyDropMode } from './MoneyDropAnimation';
 export type SavingMoveKind = 'deposit' | 'withdraw' | 'transfer';
 
 const SAVING_CONFIG: Record<SavingMoveKind, { title: string; accentColor: string; mode: MoneyDropMode }> = {
-  deposit: { title: 'Setor Berhasil!', accentColor: COLORS.savings, mode: 'in' },
-  withdraw: { title: 'Tarik Berhasil!', accentColor: COLORS.expense, mode: 'out' },
-  transfer: { title: 'Transfer Berhasil!', accentColor: COLORS.warning, mode: 'across' },
+  deposit: { title: 'Berhasil disisihkan', accentColor: COLORS.savings, mode: 'in' },
+  withdraw: { title: 'Berhasil diambil', accentColor: COLORS.expense, mode: 'out' },
+  transfer: { title: 'Saldo berhasil dipindah', accentColor: COLORS.warning, mode: 'across' },
 };
 
 interface Props {

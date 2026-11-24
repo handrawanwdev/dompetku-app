@@ -21,6 +21,8 @@ export class ExpenseModel extends Realm.Object<ExpenseModel> {
   accountId!: string;
   /** Khusus Sisihkan ke Tabungan: kantong tabungan tujuan. '' = uang tetap di kantong asal. */
   toAccountId!: string;
+  /** GoalModel._id (hex): setoran (kind 'saving') atau pemakaian dana (source 'savings') untuk goal ini. */
+  goalId!: string;
   note!: string;
   /** True for system rows (koreksi saldo tabungan) — hidden from lists & ratio calcs. */
   isInternal!: boolean;
@@ -41,6 +43,7 @@ export class ExpenseModel extends Realm.Object<ExpenseModel> {
       assetRef: { type: 'string', default: '' },
       accountId: { type: 'string', default: '' },
       toAccountId: { type: 'string', default: '' },
+      goalId: { type: 'string', default: '' },
       note: { type: 'string', default: '' },
       isInternal: { type: 'bool', default: false },
       createdAt: { type: 'date', default: () => new Date() },

@@ -13,7 +13,6 @@ import { calcDepreciation } from "../../../utils/finance";
 import { getReminderStatus, type ReminderStatus } from "../../../utils/debt";
 import { useDebts } from "../../debt/useDebts";
 import { useSettingsStore } from "../../../store/settingsStore";
-import type { DailyTotals } from "../components/CashflowCalendarCard";
 import { isSpendKind, type SpendKind } from "../../../utils/budget";
 import {
   refreshDebtReminders,
@@ -21,6 +20,11 @@ import {
 } from "../../../services/NotificationService";
 import { getBalances, getUntrackedInvestment } from "../../../services/AllocationService";
 import { runPassiveIncomeSchedule } from "../../../services/PassiveIncomeScheduler";
+import { EXCLUDE_NON_EARNED, LOAN_CATEGORY, OPENING_CATEGORY } from "../../../utils/journal";
+
+// Pemasukan hasil kerja/usaha: tanpa baris internal, saldo awal, dan uang pinjaman,
+// supaya tren, rasio, dan kalender tidak melonjak.
+const REAL_INCOME = `date >= $0 AND date <= $1 AND isInternal == false AND ${EXCLUDE_NON_EARNED}`;
 
 /** All computed data + local UI state backing the Dashboard screen. */
 export function useDashboardData() {
@@ -64,19 +68,6 @@ export function useDashboardData() {
   const monthStart = startOfMonth();
   const monthEnd = endOfMonth();
 
-  // Total masuk/keluar per hari di bulan berjalan, untuk kalender dashboard
-  const dailyTotals = useMemo(() => {
-    const map: DailyTotals = {};
-    const range = "date >= $0 AND date <= $1 AND isInternal == false";
-    for (const i of incomes.filtered(range, monthStart, monthEnd)) {
-      (map[i.date] ??= { income: 0, expense: 0 }).income += i.amount;
-    }
-    for (const e of expenses.filtered(`${range} AND kind != "saving" AND kind != "invest"`, monthStart, monthEnd)) {
-      (map[e.date] ??= { income: 0, expense: 0 }).expense += e.amount;
-    }
-    return map;
-  }, [incomes, expenses, monthStart, monthEnd]);
-
   const prevMonthStart = useMemo(
     () => dayjs().subtract(1, "month").startOf("month").format("YYYY-MM-DD"),
     [],
@@ -88,8 +79,15 @@ export function useDashboardData() {
 
   const summary = useMemo(() => {
     const monthlyIncome = incomes
-      .filtered("date >= $0 AND date <= $1 AND isInternal == false", monthStart, monthEnd)
+      .filtered(REAL_INCOME, monthStart, monthEnd)
       .reduce((s, i) => s + i.amount, 0);
+
+    const sumCategory = (category: string) =>
+      incomes
+        .filtered("date >= $0 AND date <= $1 AND isInternal == false AND category == $2", monthStart, monthEnd, category)
+        .reduce((s, i) => s + i.amount, 0);
+    const openingBalance = sumCategory(OPENING_CATEGORY);
+    const loanIn = sumCategory(LOAN_CATEGORY);
 
     // Uang keluar bulan ini per jenis. Pengeluaran = kebutuhan + kewajiban + keinginan;
     // tabungan bukan pengeluaran karena uangnya tetap milikmu.
@@ -100,7 +98,7 @@ export function useDashboardData() {
     const monthlyExpense = byKind.need + byKind.obligation + byKind.want;
 
     const prevIncome = incomes
-      .filtered("date >= $0 AND date <= $1 AND isInternal == false", prevMonthStart, prevMonthEnd)
+      .filtered(REAL_INCOME, prevMonthStart, prevMonthEnd)
       .reduce((s, i) => s + i.amount, 0);
 
     const prevExpense = expenses
@@ -170,6 +168,8 @@ export function useDashboardData() {
       totalDebt,
       netWorth,
       monthlyIncome,
+      openingBalance,
+      loanIn,
       monthlyExpense,
       cashflow: monthlyIncome - monthlyExpense,
       debtRatio,
@@ -233,8 +233,6 @@ export function useDashboardData() {
     urgentReminders,
     normalReminders,
     paidReminders,
-
-    dailyTotals,
 
     showReminders,
     setShowReminders,

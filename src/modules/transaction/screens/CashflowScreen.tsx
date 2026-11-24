@@ -28,6 +28,7 @@ import { formatCurrency } from "../../../utils/currency";
 import { formatDate } from "../../../utils/date";
 import { useRootNavigation } from "../../../navigation/types";
 import { KIND_META, SPEND_KINDS, isSpendKind, isKeptKind, type SpendKind } from "../../../utils/budget";
+import { OPENING_CATEGORY, LOAN_CATEGORY, isLockedIncome } from "../../../utils/journal";
 
 
 type ActiveTab = "income" | "expense";
@@ -56,6 +57,8 @@ const INCOME_EMOJIS: Record<string, string> = {
   Investasi: "📈",
   Bisnis: "🏪",
   Lainnya: "💰",
+  [OPENING_CATEGORY]: "🏦",
+  [LOAN_CATEGORY]: "🤝",
 };
 
 
@@ -343,9 +346,11 @@ export function CashflowScreen() {
     ({ item }: ListRenderItemInfo<IncomeModel>) => (
       <IncomeItem
         item={item}
-        onPress={() =>
-          navigation.navigate("IncomeForm", { id: item._id.toHexString() })
-        }
+        onPress={() => {
+          // Saldo awal & pinjaman diubah dari sumbernya, bukan form pemasukan.
+          if (isLockedIncome(item)) return;
+          navigation.navigate("IncomeForm", { id: item._id.toHexString() });
+        }}
       />
     ),
     [navigation],

@@ -150,7 +150,7 @@ export function IncomeFormScreen() {
   };
 
   const handleDelete = () => {
-    Alert.alert('Hapus Pemasukan', 'Yakin ingin menghapus pemasukan ini?', [
+    Alert.alert('Hapus pemasukan', 'Saldo kamu akan dihitung ulang tanpa pemasukan ini.', [
       { text: 'Batal', style: 'cancel' },
       {
         text: 'Hapus',
@@ -289,7 +289,7 @@ export function IncomeFormScreen() {
 
           {/* Save */}
           <Button
-            title={isEdit ? 'Simpan Perubahan' : 'Simpan Pemasukan'}
+            title={isEdit ? 'Simpan perubahan' : 'Simpan'}
             onPress={handleSubmit(onSubmit)}
             loading={isSubmitting}
             fullWidth
@@ -299,7 +299,7 @@ export function IncomeFormScreen() {
           {/* Delete */}
           {isEdit && (
             <Button
-              title="Hapus Pemasukan"
+              title="Hapus pemasukan"
               onPress={handleDelete}
               variant="danger"
               fullWidth

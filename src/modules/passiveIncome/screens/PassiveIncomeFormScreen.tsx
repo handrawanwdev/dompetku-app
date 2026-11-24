@@ -45,7 +45,7 @@ export function PassiveIncomeFormScreen({ navigation, route }: Props) {
 
   const handleSave = () => {
     const amountValue = parseFloat(amount.replace(/[^0-9.]/g, ''));
-    if (!amountValue) { Alert.alert('Error', 'Nominal harus diisi'); return; }
+    if (!amountValue) { Alert.alert('Nominal belum diisi', 'Isi berapa yang biasa kamu terima.'); return; }
 
     realm.write(() => {
       if (existing) {
@@ -62,7 +62,7 @@ export function PassiveIncomeFormScreen({ navigation, route }: Props) {
 
   const handleDelete = () => {
     if (!existing) return;
-    Alert.alert('Hapus', 'Hapus sumber passive income ini?', [
+    Alert.alert('Hapus pemasukan rutin', 'Yakin mau hapus pemasukan rutin ini?', [
       { text: 'Batal', style: 'cancel' },
       { text: 'Hapus', style: 'destructive', onPress: () => { realm.write(() => realm.delete(existing)); navigation.goBack(); } },
     ]);
@@ -111,12 +111,12 @@ export function PassiveIncomeFormScreen({ navigation, route }: Props) {
               style={styles.input}
               value={note}
               onChangeText={setNote}
-              placeholder="Misal: Dividen saham BBCA"
+              placeholder="Contoh: dividen saham BBCA"
               placeholderTextColor={COLORS.textMuted}
             />
           </Card>
 
-          <Button title={editId ? 'Simpan Perubahan' : 'Tambah Passive Income'} onPress={handleSave} fullWidth style={{ marginTop: SPACING.xl }} />
+          <Button title={editId ? 'Simpan perubahan' : 'Simpan'} onPress={handleSave} fullWidth style={{ marginTop: SPACING.xl }} />
           {editId && <Button title="Hapus" onPress={handleDelete} variant="danger" fullWidth style={{ marginTop: SPACING.sm }} />}
         </ScrollView>
       </KeyboardAvoidingView>

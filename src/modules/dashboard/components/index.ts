@@ -10,3 +10,4 @@ export { RemindersModal } from "./RemindersModal";
 export { CashflowCalendarCard } from "./CashflowCalendarCard";
 export { MainMenuCard } from "./MainMenuCard";
 export { BirthdayCard } from "./BirthdayCard";
+export { GoalsCard } from "./GoalsCard";

@@ -19,10 +19,12 @@ import { CategoryModel } from '../../../models/CategoryModel';
 import { PassiveIncomeModel } from '../../../models/PassiveIncomeModel';
 import { AccountModel } from '../../../models/AccountModel';
 import { TransferModel } from '../../../models/TransferModel';
+import { GoalModel } from '../../../models/GoalModel';
 import { isSpendKind, kindFromLegacyCategory } from '../../../utils/budget';
 import { today } from '../../../utils/date';
 import { normalizeExpenseCategories } from '../../../services/CategoryService';
 import { convertLegacyDebt } from '../../../utils/debt';
+import { pauseAutoLock } from '../../../services/AppLockService';
 
 function Row({
   icon,
@@ -63,11 +65,12 @@ export function DataScreen() {
   const passiveIncomes = useQuery(PassiveIncomeModel);
   const accounts = useQuery(AccountModel);
   const transfers = useQuery(TransferModel);
+  const goals = useQuery(GoalModel);
 
   const handleExport = async () => {
     try {
       const data = {
-        version: 4,
+        version: 5,
         exportDate: new Date().toISOString(),
         incomes: incomes.map(i => ({ ...i, _id: i._id.toHexString() })),
         expenses: expenses.map(e => ({ ...e, _id: e._id.toHexString() })),
@@ -78,6 +81,7 @@ export function DataScreen() {
         passiveIncomes: passiveIncomes.map(p => ({ ...p, _id: p._id.toHexString() })),
         accounts: accounts.map(a => ({ ...a, _id: a._id.toHexString() })),
         transfers: transfers.map(t => ({ ...t, _id: t._id.toHexString() })),
+        goals: goals.map(g => ({ ...g, _id: g._id.toHexString() })),
       };
 
       const filename = `dompetku_backup_${new Date().toISOString().split('T')[0]}.json`;
@@ -85,26 +89,28 @@ export function DataScreen() {
       file.write(JSON.stringify(data, null, 2));
 
       if (await Sharing.isAvailableAsync()) {
+        pauseAutoLock();
         await Sharing.shareAsync(file.uri, { mimeType: 'application/json' });
       } else {
-        Alert.alert('Sukses', `Data diekspor`);
+        Alert.alert('File cadangan siap', 'Simpan file-nya di tempat yang aman.');
       }
     } catch (e) {
-      Alert.alert('Error', 'Gagal mengekspor data');
+      Alert.alert('Gagal membuat cadangan', 'Coba lagi sebentar.');
     }
   };
 
   const handleImport = async () => {
     Alert.alert(
-      'Import Data',
-      'Data saat ini akan diganti dengan data dari file backup. Lanjutkan?',
+      'Pulihkan dari file?',
+      'Semua data di HP ini akan diganti dengan isi file cadangan.',
       [
         { text: 'Batal', style: 'cancel' },
         {
-          text: 'Import',
+          text: 'Pulihkan',
           style: 'destructive',
           onPress: async () => {
             try {
+              pauseAutoLock();
               const result = await DocumentPicker.getDocumentAsync({
                 type: 'application/json',
                 copyToCacheDirectory: true,
@@ -191,12 +197,26 @@ export function DataScreen() {
                 data.transfers?.forEach((item: any) => {
                   realm.create(TransferModel, { ...item, _id: new Realm.BSON.ObjectId(item._id), createdAt: new Date(item.createdAt) });
                 });
+                // Ambil field yang dikenal saja (goal skema lama punya savingId/emoji).
+                data.goals?.forEach((item: any) => {
+                  realm.create(GoalModel, {
+                    _id: new Realm.BSON.ObjectId(item._id),
+                    name: item.name,
+                    icon: item.icon ?? 'flag',
+                    target: item.target,
+                    deadline: item.deadline ?? '',
+                    accountId: item.accountId ?? '',
+                    doneAt: item.doneAt ?? '',
+                    note: item.note ?? '',
+                    createdAt: new Date(item.createdAt),
+                  });
+                });
                 normalizeExpenseCategories(realm);
               });
 
-              Alert.alert('Sukses', 'Data berhasil diimport');
+              Alert.alert('Data dipulihkan', 'Semua data dari file cadangan sudah masuk.');
             } catch (e) {
-              Alert.alert('Error', 'Gagal mengimport data. Pastikan file valid.');
+              Alert.alert('File tidak bisa dibaca', 'Pastikan yang dipilih file cadangan dari Dompetku.');
             }
           },
         },
@@ -206,16 +226,16 @@ export function DataScreen() {
 
   const handleReset = () => {
     Alert.alert(
-      'Reset Data',
-      'Semua data akan dihapus permanen. Lanjutkan?',
+      'Hapus semua data?',
+      'Semua catatan akan hilang permanen dan tidak bisa dikembalikan. Buat cadangan dulu kalau ragu.',
       [
         { text: 'Batal', style: 'cancel' },
         {
-          text: 'Reset',
+          text: 'Hapus semua',
           style: 'destructive',
           onPress: () => {
             realm.write(() => realm.deleteAll());
-            Alert.alert('Sukses', 'Data berhasil direset');
+            Alert.alert('Data sudah dihapus', 'Dompetku kembali kosong seperti baru.');
           },
         },
       ]
@@ -226,13 +246,13 @@ export function DataScreen() {
     <SafeAreaView style={styles.safe} edges={['bottom']}>
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.title}>Cadangkan data</Text>
-        <Text style={styles.desc}>Semua data tersimpan di HP ini saja. Simpan file backup secara berkala supaya aman.</Text>
+        <Text style={styles.desc}>Semua data cuma ada di HP ini. Buat cadangan sesekali supaya aman kalau HP hilang atau ganti HP.</Text>
         <Card padding={0}>
-          <Row icon="file-upload" color={COLORS.income} label="Export" sub="Simpan semua data ke file JSON" onPress={handleExport} />
+          <Row icon="file-upload" color={COLORS.income} label="Simpan ke file" sub="Buat file cadangan untuk disimpan di Drive atau dipindah ke HP lain" onPress={handleExport} />
           <View style={styles.separator} />
-          <Row icon="file-download" color={COLORS.need} label="Import" sub="Ganti data dengan file backup" onPress={handleImport} />
+          <Row icon="file-download" color={COLORS.need} label="Pulihkan dari file" sub="Ganti data sekarang dengan isi file cadangan" onPress={handleImport} />
           <View style={styles.separator} />
-          <Row icon="delete-outline" color={COLORS.danger} label="Reset semua data" sub="Hapus permanen, tidak bisa dibatalkan" onPress={handleReset} />
+          <Row icon="delete-outline" color={COLORS.danger} label="Hapus semua data" sub="Hapus permanen, tidak bisa dibatalkan" onPress={handleReset} />
         </Card>
       </ScrollView>
     </SafeAreaView>

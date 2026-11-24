@@ -49,7 +49,7 @@ export function PassiveIncomeListScreen() {
       </View>
 
       <Card style={styles.progressCard} padding={SPACING.lg}>
-        <Text style={styles.progressLabel}>Passive Income / Bulan</Text>
+        <Text style={styles.progressLabel}>Pemasukan rutin per bulan</Text>
         <Text style={styles.progressValue}>{formatCurrency(status.monthlyTotal)}</Text>
         <ProgressBar progress={status.progressPct} color={COLORS.savings} height={10} style={{ marginTop: SPACING.sm }} />
         <View style={styles.progressFooter}>
@@ -90,7 +90,7 @@ export function PassiveIncomeListScreen() {
         ListEmptyComponent={
           <EmptyState
             emoji="💎"
-            title="Belum ada passive income"
+            title="Belum ada pemasukan rutin"
             subtitle="Dividen, uang sewa, royalti, semua yang masuk tanpa kamu kerja."
           />
         }

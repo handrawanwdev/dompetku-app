@@ -5,9 +5,9 @@ import { MoneyDropAnimation } from './MoneyDropAnimation';
 export type InvestmentMoveKind = 'add' | 'sell' | 'dividend';
 
 const CONFIG: Record<InvestmentMoveKind, { title: string; accentColor: string; icon: string }> = {
-  add: { title: 'Investasi Ditambahkan!', accentColor: COLORS.investment, icon: '📈' },
-  sell: { title: 'Investasi Terjual!', accentColor: COLORS.income, icon: '💰' },
-  dividend: { title: 'Dividen Diterima!', accentColor: COLORS.income, icon: '💰' },
+  add: { title: 'Investasi tersimpan', accentColor: COLORS.investment, icon: '📈' },
+  sell: { title: 'Investasi terjual', accentColor: COLORS.income, icon: '💰' },
+  dividend: { title: 'Dividen tercatat', accentColor: COLORS.income, icon: '💰' },
 };
 
 interface Props {

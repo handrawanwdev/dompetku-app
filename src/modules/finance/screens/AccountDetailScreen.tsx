@@ -10,7 +10,8 @@ import { Text, BackButton } from '../../../components/common';
 import { IncomeModel } from '../../../models/IncomeModel';
 import { ExpenseModel } from '../../../models/ExpenseModel';
 import { TransferModel } from '../../../models/TransferModel';
-import { accountTypeMeta } from '../../../services/AccountService';
+import { accountLabel, accountTypeMeta } from '../../../services/AccountService';
+import { isLockedIncome } from '../../../utils/journal';
 import { kindMeta } from '../../../utils/budget';
 import { formatCurrency } from '../../../utils/currency';
 import { formatDate } from '../../../utils/date';
@@ -57,10 +58,10 @@ export function AccountDetailScreen({ navigation, route }: Props) {
         amount: i.allocationCash,
         icon: i.isInternal ? 'tune' : 'south-west',
         color: i.isInternal ? COLORS.textSecondary : COLORS.income,
-        open: i.isInternal ? undefined : () => navigation.navigate('IncomeForm', { id: i._id.toHexString() }),
+        open: isLockedIncome(i) ? undefined : () => navigation.navigate('IncomeForm', { id: i._id.toHexString() }),
       });
     }
-    const name = (aid: string) => (aid ? byId(aid)?.account.name ?? 'kantong terhapus' : 'saldo lain');
+    const name = (aid: string) => (aid ? (byId(aid) ? accountLabel(byId(aid)!.account) : 'kantong terhapus') : 'saldo lain');
     for (const e of [...expenses, ...savedHere]) {
       const m = kindMeta(e.kind);
       const kept = e.kind === 'saving' && e.source !== 'savings';
@@ -83,7 +84,7 @@ export function AccountDetailScreen({ navigation, route }: Props) {
     for (const t of transfers) {
       const incoming = t.toId === id;
       const otherId = incoming ? t.fromId : t.toId;
-      const other = otherId ? byId(otherId)?.account.name ?? 'kantong terhapus' : null;
+      const other = otherId ? (byId(otherId) ? accountLabel(byId(otherId)!.account) : 'kantong terhapus') : null;
       out.push({
         key: 't' + t._id.toHexString(),
         date: t.date,
@@ -128,7 +129,12 @@ export function AccountDetailScreen({ navigation, route }: Props) {
       <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
       <View style={styles.header}>
         <BackButton onPress={() => navigation.goBack()} />
-        <Text style={styles.title} numberOfLines={1}>{info.account.name}</Text>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.title} numberOfLines={1}>{info.account.name}</Text>
+          {info.account.subName ? (
+            <Text style={styles.titleSub} numberOfLines={1}>{info.account.subName}</Text>
+          ) : null}
+        </View>
         <TouchableOpacity
           onPress={() => navigation.navigate('AccountForm', { id })}
           hitSlop={8}
@@ -150,12 +156,12 @@ export function AccountDetailScreen({ navigation, route }: Props) {
               <View style={styles.heroHead}>
                 <View style={[styles.itemIcon, { backgroundColor: (info.account.isSavings ? COLORS.saving : m.color) + '1A' }]}>
                   <MaterialIcons
-                    name={info.account.isSavings ? 'savings' : m.icon}
+                    name={info.account.isSavings ? 'lock' : m.icon}
                     size={ICON_SIZES.md}
                     color={info.account.isSavings ? COLORS.saving : m.color}
                   />
                 </View>
-                <Text style={styles.heroType}>{[m.label, info.account.isSavings ? 'Kantong tabungan' : 'Kantong harian', info.account.isMain ? 'Utama' : '']
+                <Text style={styles.heroType}>{[m.label, info.account.isSavings ? 'Tabungan' : 'Sehari-hari', info.account.isMain ? 'Kantong utama' : '']
                   .filter(Boolean)
                   .join(' · ')}</Text>
               </View>
@@ -164,7 +170,7 @@ export function AccountDetailScreen({ navigation, route }: Props) {
                 {formatCurrency(info.balance)}
               </Text>
               {info.balance < 0 && (
-                <Text style={styles.warn}>Saldo minus. Ketuk ikon pensil untuk menyamakan dengan saldo aslinya.</Text>
+                <Text style={styles.warn}>Saldonya minus, mungkin ada catatan yang kelewat. Ketuk ikon pensil untuk menyamakan dengan saldo aslinya.</Text>
               )}
               <View style={styles.actions}>
                 <Action icon="swap-horiz" label="Pindah saldo" onPress={() => navigation.navigate('TransferForm', { fromId: id })} />
@@ -174,7 +180,7 @@ export function AccountDetailScreen({ navigation, route }: Props) {
             <Text style={styles.section}>Riwayat</Text>
           </>
         }
-        ListEmptyComponent={<Text style={styles.empty}>Belum ada transaksi di kantong ini.</Text>}
+        ListEmptyComponent={<Text style={styles.empty}>Belum ada catatan di kantong ini.</Text>}
       />
     </SafeAreaView>
   );
@@ -192,7 +198,8 @@ function Action({ icon, label, onPress }: { icon: keyof typeof MaterialIcons.gly
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: COLORS.background },
   header: { flexDirection: 'row', alignItems: 'center', gap: SPACING.md, paddingHorizontal: SPACING.lg, paddingVertical: SPACING.md },
-  title: { flex: 1, fontSize: FONTS.lg, fontWeight: '700', color: COLORS.text },
+  title: { fontSize: FONTS.lg, fontWeight: '700', color: COLORS.text },
+  titleSub: { fontSize: FONTS.xs, color: COLORS.textSecondary },
   content: { padding: SPACING.lg, paddingTop: 0, paddingBottom: SPACING.xxxl },
   hero: { backgroundColor: COLORS.surface, borderRadius: RADIUS.xl, padding: SPACING.xl, ...SHADOWS.sm },
   heroHead: { flexDirection: 'row', alignItems: 'center', gap: SPACING.sm, marginBottom: SPACING.md },

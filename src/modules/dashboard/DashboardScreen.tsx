@@ -17,6 +17,7 @@ import {
   RemindersBell,
   RemindersModal,
   CashflowCalendarCard,
+  GoalsCard,
 } from "./components";
 
 export function DashboardScreen() {
@@ -55,11 +56,14 @@ export function DashboardScreen() {
         {/* Cash / Savings / Investment / Debt — posisi keuangan sekilas */}
         <SummaryGrid summary={d.summary} />
 
+        {/* Target tabungan: progres dari setoran yang ditandai goal */}
+        <GoalsCard />
+
         {/* Seberapa berat cicilan dibanding pemasukan */}
         <DebtRatioCard
           totalDebt={d.summary.totalDebt}
           debtRatio={d.summary.debtRatio}
-          debtRatioLimit={d.settings.debtRatioLimit}
+          debtRatioLimit={d.settings.kindTargets.obligation}
           monthlyInstallment={d.summary.monthlyInstallment}
           monthlyIncome={d.summary.monthlyIncome}
         />
@@ -71,8 +75,8 @@ export function DashboardScreen() {
           onPress={() => d.setShowReminders(true)}
         />
 
-        {/* Kalender masuk/keluar per hari, bulan berjalan */}
-        <CashflowCalendarCard data={d.dailyTotals} />
+        {/* Kalender masuk/keluar per hari, bisa ganti bulan & lihat detail hari */}
+        <CashflowCalendarCard />
       </ScrollView>
 
       <RemindersModal

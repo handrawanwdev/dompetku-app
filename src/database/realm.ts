@@ -15,7 +15,11 @@ export const realmConfig: Realm.Configuration = {
   // v17: Kewajiban disederhanakan; pembayarannya = transaksi biasa (Expense.debtId).
   // DebtPayment dihapus.
   // v18: jenis Investasi + Expense.assetRef (pembelian investasi/aset).
-  schemaVersion: 20,
+  // v21: Income.ref (hasil jual investasi/aset, uang pinjaman masuk). Default '' cukup.
+  // v22: Goal (target tabungan) + Expense.goalId. Goal tanpa saldo sendiri;
+  // progres dihitung dari transaksi yang ditandai. Default '' cukup.
+  // v23: Account.subName (keterangan opsional kantong). Default '' cukup.
+  schemaVersion: 23,
   onFirstOpen: (realm) => {
     ensureDefaultExpenseCategories(realm);
   },
@@ -92,6 +96,12 @@ export const realmConfig: Realm.Configuration = {
     if (oldRealm.schemaVersion < 18) {
       // Tambah kategori bawaan jenis Investasi.
       ensureDefaultExpenseCategories(newRealm);
+    }
+    if (oldRealm.schemaVersion < 23) {
+      // Ikon celengan diganti gembok untuk kategori jenis Tabungan.
+      for (const c of newRealm.objects('Category').filtered('emoji == "🐷"') as unknown as Array<{ emoji: string }>) {
+        c.emoji = '🔒';
+      }
     }
     // v19: kantong (Account) + pindah saldo (Transfer). Transaksi lama accountId '' (belum masuk kantong).
     // v20: Account.isSavings + Expense.toAccountId (sisihkan ke kantong tabungan). Default cukup.

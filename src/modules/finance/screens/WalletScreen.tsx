@@ -23,8 +23,8 @@ export function WalletScreen() {
   const saved = list.filter((a) => a.account.isSavings);
   const sum = (xs: typeof list) => xs.reduce((s, a) => s + a.balance, 0);
   const groups = [
-    { key: 'daily', title: 'Kantong harian', icon: 'account-balance-wallet' as const, color: COLORS.primary, items: daily, total: sum(daily) + (showUnassigned ? unassigned : 0) },
-    { key: 'savings', title: 'Kantong tabungan', icon: 'savings' as const, color: COLORS.saving, items: saved, total: sum(saved) },
+    { key: 'daily', title: 'Sehari-hari', icon: 'account-balance-wallet' as const, color: COLORS.primary, items: daily, total: sum(daily) + (showUnassigned ? unassigned : 0) },
+    { key: 'savings', title: 'Tabungan', icon: 'lock' as const, color: COLORS.saving, items: saved, total: sum(saved) },
   ].filter((g) => g.items.length > 0 || g.key === 'savings' || showUnassigned);
 
   const renderPocket = (a: (typeof list)[number], i: number) => {
@@ -49,6 +49,9 @@ export function WalletScreen() {
               </View>
             )}
           </View>
+          {a.account.subName ? (
+            <Text style={styles.sub} numberOfLines={1}>{a.account.subName}</Text>
+          ) : null}
           <Text style={styles.meta}>
             {m.label}
             {share > 0 ? ` · ${Math.round(share * 100)}% dari saldo` : ''}
@@ -85,7 +88,19 @@ export function WalletScreen() {
     <SafeAreaView style={styles.safe} edges={['top']}>
       <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <Text style={styles.title}>Dompet</Text>
+        <View style={styles.titleRow}>
+          <Text style={styles.title}>Dompet</Text>
+          <TouchableOpacity
+            style={styles.historyBtn}
+            onPress={() => nav.navigate('Activity')}
+            hitSlop={8}
+            activeOpacity={0.7}
+            accessibilityLabel="Riwayat semua aktivitas"
+          >
+            <MaterialIcons name="history" size={ICON_SIZES.md} color={COLORS.primary} />
+            <Text style={styles.historyLabel}>Riwayat</Text>
+          </TouchableOpacity>
+        </View>
 
         <View style={styles.hero}>
           <Text style={styles.heroLabel}>Saldo total</Text>
@@ -133,7 +148,7 @@ export function WalletScreen() {
                       </View>
                       <View style={{ flex: 1 }}>
                         <Text style={styles.name}>Tambah kantong tabungan</Text>
-                        <Text style={styles.meta}>Misal Blu atau Jago, tempat uang yang disisihkan</Text>
+                        <Text style={styles.meta}>Contoh Blu atau Jago, tempat menyimpan uang yang disisihkan</Text>
                       </View>
                     </TouchableOpacity>
                   )}
@@ -186,7 +201,18 @@ function HeroAction({
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: COLORS.background },
   content: { padding: SPACING.lg, paddingBottom: SPACING.xxxl },
-  title: { fontSize: FONTS.xxl, fontWeight: '800', color: COLORS.text, marginBottom: SPACING.md },
+  titleRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: SPACING.md },
+  title: { fontSize: FONTS.xxl, fontWeight: '800', color: COLORS.text },
+  historyBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: SPACING.xs,
+    paddingVertical: SPACING.xs,
+    paddingHorizontal: SPACING.md,
+    borderRadius: RADIUS.round,
+    backgroundColor: COLORS.primarySoft,
+  },
+  historyLabel: { fontSize: FONTS.sm, fontWeight: '700', color: COLORS.primary },
   hero: { backgroundColor: COLORS.surface, borderRadius: RADIUS.xl, padding: SPACING.xl, ...SHADOWS.sm },
   heroLabel: { fontSize: FONTS.sm, color: COLORS.textSecondary, fontWeight: '600' },
   heroAmount: { fontSize: FONTS.xxl, fontWeight: '800', color: COLORS.text, marginTop: SPACING.xs },
@@ -220,6 +246,7 @@ const styles = StyleSheet.create({
   name: { fontSize: FONTS.md, fontWeight: '700', color: COLORS.text, flexShrink: 1 },
   badge: { backgroundColor: COLORS.primarySoft, borderRadius: RADIUS.round, paddingHorizontal: 6, paddingVertical: 1 },
   badgeText: { fontSize: FONTS.xs, fontWeight: '700', color: COLORS.primary },
+  sub: { fontSize: FONTS.sm, color: COLORS.textSecondary, marginTop: 1 },
   meta: { fontSize: FONTS.xs, color: COLORS.textSecondary, marginTop: 2 },
   amount: { fontSize: FONTS.md, fontWeight: '700', color: COLORS.text },
   footnote: { fontSize: FONTS.xs, color: COLORS.textMuted, marginTop: SPACING.md, lineHeight: 18 },

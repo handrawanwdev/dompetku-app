@@ -5,8 +5,8 @@ import { MoneyDropAnimation, type MoneyDropMode } from './MoneyDropAnimation';
 export type TransactionKind = 'income' | 'expense';
 
 const CONFIG: Record<TransactionKind, { title: string; accentColor: string; mode: MoneyDropMode }> = {
-  income: { title: 'Pemasukan Tercatat!', accentColor: COLORS.income, mode: 'in' },
-  expense: { title: 'Pengeluaran Tercatat!', accentColor: COLORS.expense, mode: 'out' },
+  income: { title: 'Uang masuk tercatat', accentColor: COLORS.income, mode: 'in' },
+  expense: { title: 'Uang keluar tercatat', accentColor: COLORS.expense, mode: 'out' },
 };
 
 interface Props {

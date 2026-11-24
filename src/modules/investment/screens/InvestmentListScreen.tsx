@@ -81,7 +81,7 @@ export function InvestmentListScreen() {
 
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.totalLabel}>Total Investasi</Text>
+        <Text style={styles.totalLabel}>Total investasi</Text>
         <Text style={[styles.totalValue, { color: COLORS.investment }]}>
           {formatCompact(summary.totalCurrent)}
         </Text>
@@ -93,14 +93,14 @@ export function InvestmentListScreen() {
       <Card style={styles.summaryCard} padding={SPACING.lg}>
         <View style={styles.summaryRow}>
           <SummaryCol label="Modal" value={formatCompact(summary.totalInvested)} color={COLORS.text} />
-          <SummaryCol label="Nilai Saat Ini" value={formatCompact(summary.totalCurrent)} color={COLORS.investment} />
+          <SummaryCol label="Nilai sekarang" value={formatCompact(summary.totalCurrent)} color={COLORS.investment} />
           <SummaryCol
-            label="P&L"
+            label="Untung/rugi"
             value={(summary.totalPL >= 0 ? '+' : '') + formatCompact(summary.totalPL)}
             color={summary.totalPL >= 0 ? COLORS.income : COLORS.expense}
           />
           <SummaryCol
-            label="ROI"
+            label="Imbal hasil"
             value={`${summary.overallROI >= 0 ? '+' : ''}${summary.overallROI.toFixed(1)}%`}
             color={summary.overallROI >= 0 ? COLORS.income : COLORS.expense}
           />
@@ -136,16 +136,16 @@ export function InvestmentListScreen() {
                 <Text style={styles.investName}>{item.name}</Text>
                 <View style={styles.investDetails}>
                   <View>
-                    <Text style={styles.detailLabel}>Qty × Harga Beli</Text>
+                    <Text style={styles.detailLabel}>Jumlah × harga beli</Text>
                     <Text style={styles.detailValue}>{item.quantity} × {formatCompact(item.buyPrice)}</Text>
                   </View>
                   <View style={{ alignItems: 'flex-end' }}>
-                    <Text style={styles.detailLabel}>Nilai Saat Ini</Text>
+                    <Text style={styles.detailLabel}>Nilai sekarang</Text>
                     <Text style={[styles.detailValue, { color: COLORS.investment }]}>{formatCurrency(currentValue)}</Text>
                   </View>
                 </View>
                 <View style={styles.plRow}>
-                  <Text style={styles.plLabel}>P&L</Text>
+                  <Text style={styles.plLabel}>Untung/rugi</Text>
                   <Text style={[styles.plValue, { color: pl >= 0 ? COLORS.income : COLORS.expense }]}>
                     {pl >= 0 ? '+' : ''}{formatCurrency(pl)}
                   </Text>
@@ -168,7 +168,7 @@ export function InvestmentListScreen() {
         ListFooterComponent={
           soldInvestments.length > 0 ? (
             <View style={styles.soldSection}>
-              <Text style={styles.soldTitle}>Riwayat Terjual</Text>
+              <Text style={styles.soldTitle}>Sudah terjual</Text>
               {soldInvestments.map((item) => {
                 const realizedPL = item.sellPrice - item.buyPrice * item.quantity;
                 return (

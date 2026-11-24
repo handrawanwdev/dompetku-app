@@ -4,6 +4,8 @@ import Realm, { ObjectSchema } from 'realm';
 export class AccountModel extends Realm.Object<AccountModel> {
   _id!: Realm.BSON.ObjectId;
   name!: string;
+  /** Keterangan opsional, mis. "Rekening gaji". '' = tidak ada, jangan ditampilkan. */
+  subName!: string;
   /** 'bank' | 'ewallet' | 'cash' | 'other' */
   type!: string;
   /** Kantong utama: dipakai otomatis untuk transaksi baru. */
@@ -18,6 +20,7 @@ export class AccountModel extends Realm.Object<AccountModel> {
     properties: {
       _id: { type: 'objectId', default: () => new Realm.BSON.ObjectId() },
       name: 'string',
+      subName: { type: 'string', default: '' },
       type: { type: 'string', default: 'bank' },
       isMain: { type: 'bool', default: false },
       isSavings: { type: 'bool', default: false },
