@@ -150,7 +150,7 @@ export function Cake({ age, reduceMotion, onBlown }: Props) {
         <Animated.View style={[styles.holdFill, progressStyle]} />
       </View>
       <Pressable onPress={blowAll} hitSlop={10} accessibilityRole="button">
-        <Text style={styles.altText}>Tidak bisa menahan? Ketuk di sini</Text>
+        <Text style={styles.altText}>Mau langsung tiup? Ketuk di sini</Text>
       </Pressable>
     </View>
   );

@@ -42,9 +42,9 @@
     "semantic_hash": ""
   },
   "src/app/AppProviders.tsx": {
-    "mtime": 1795543590.3007183,
-    "seen": 1795543672.8315039,
-    "ast_hash": "c1e76a5c710a993a3ec1437f2d6a2e97",
+    "mtime": 1795544101.9293892,
+    "seen": 1795544136.6822448,
+    "ast_hash": "9b9e7d57c06d762dbce387db4e3a769d",
     "semantic_hash": ""
   },
   "src/components/charts/GroupedBarChart.tsx": {
@@ -396,9 +396,9 @@
     "semantic_hash": ""
   },
   "src/services/NotificationService.ts": {
-    "mtime": 1795543409.8623037,
-    "seen": 1795543672.8316422,
-    "ast_hash": "dca19942a659bd2b7853a4f2f611f5b5",
+    "mtime": 1795543962.5239618,
+    "seen": 1795544136.6823947,
+    "ast_hash": "be2909463fc4492429da6014856cc3d6",
     "semantic_hash": ""
   },
   "src/services/PassiveIncomeScheduler.ts": {
@@ -426,9 +426,9 @@
     "semantic_hash": ""
   },
   "src/types/index.ts": {
-    "mtime": 1795543423.7938077,
-    "seen": 1795543672.8316503,
-    "ast_hash": "b4b46129959450dc13bfc564319031df",
+    "mtime": 1795543962.5234919,
+    "seen": 1795544136.6824033,
+    "ast_hash": "c47d1a333c1e9ec096f771b5aaccd4be",
     "semantic_hash": ""
   },
   "src/utils/currency.ts": {
@@ -912,15 +912,15 @@
     "semantic_hash": ""
   },
   "src/modules/dashboard/components/BirthdayCard.tsx": {
-    "mtime": 1795454994.335323,
-    "seen": 1795455012.2344985,
-    "ast_hash": "d5c7032ddc418e478eea2c6097e6cb3d",
+    "mtime": 1795544101.9367416,
+    "seen": 1795544136.682304,
+    "ast_hash": "31602058fa14e72dde0c57d16cc82ab9",
     "semantic_hash": ""
   },
   "src/utils/birthday.ts": {
-    "mtime": 1795454962.8873558,
-    "seen": 1795455012.2345877,
-    "ast_hash": "415dbecd844cc62971617e7bd6496f57",
+    "mtime": 1795543971.9075468,
+    "seen": 1795544136.6824043,
+    "ast_hash": "36c35f3a63fee0baa2caf6ac4b1becb5",
     "semantic_hash": ""
   },
   "src/components/common/PurchaseToggle.tsx": {
@@ -1056,9 +1056,9 @@
     "semantic_hash": ""
   },
   "src/modules/settings/screens/SettingsScreen.tsx": {
-    "mtime": 1795543604.6675513,
-    "seen": 1795543672.8316226,
-    "ast_hash": "cd4b5b58a0f39a4a03b2959b5082eca2",
+    "mtime": 1795543962.5237885,
+    "seen": 1795544136.6823757,
+    "ast_hash": "115746171772bbb74e8faf16dc58bea4",
     "semantic_hash": ""
   },
   "src/modules/settings/profile.ts": {
@@ -1152,9 +1152,9 @@
     "semantic_hash": ""
   },
   "src/services/ReminderScheduler.ts": {
-    "mtime": 1795543428.9581392,
-    "seen": 1795543672.8316438,
-    "ast_hash": "445992801189691a2760f0a6ca4b24e4",
+    "mtime": 1795543962.523653,
+    "seen": 1795544136.6823967,
+    "ast_hash": "eb16a9dcc3a5418ddb869e060432d0d7",
     "semantic_hash": ""
   },
   "src/services/ReminderService.ts": {
@@ -1167,6 +1167,48 @@
     "mtime": 1795543404.5849128,
     "seen": 1795543672.8316588,
     "ast_hash": "b52c577d8e071ddd9e099a9a7e1320b8",
+    "semantic_hash": ""
+  },
+  "src/modules/birthday/BirthdaySurprise.tsx": {
+    "mtime": 1795544596.758529,
+    "seen": 1795544618.0404348,
+    "ast_hash": "13066231d8948670addebee986aeb232",
+    "semantic_hash": ""
+  },
+  "src/modules/birthday/birthdayRecap.ts": {
+    "mtime": 1795543984.1627185,
+    "seen": 1795544136.682297,
+    "ast_hash": "32494986a131a9142bc19233eb2e52d9",
+    "semantic_hash": ""
+  },
+  "src/modules/birthday/components/BirthdayLetter.tsx": {
+    "mtime": 1795544673.8157115,
+    "seen": 1795544694.6991217,
+    "ast_hash": "9fd88f1e058e3be95fcd861872b61bab",
+    "semantic_hash": ""
+  },
+  "src/modules/birthday/components/Cake.tsx": {
+    "mtime": 1795544587.579984,
+    "seen": 1795544618.0404396,
+    "ast_hash": "6c2ae393212656df45ef0137c4ea639d",
+    "semantic_hash": ""
+  },
+  "src/modules/birthday/components/Confetti.tsx": {
+    "mtime": 1795543998.9432824,
+    "seen": 1795544136.6823003,
+    "ast_hash": "1f94f2e35cc2faff2c5b5e749493fa78",
+    "semantic_hash": ""
+  },
+  "src/modules/birthday/components/GiftBox.tsx": {
+    "mtime": 1795544018.0962827,
+    "seen": 1795544136.6823015,
+    "ast_hash": "fc774445763c7e4a2c60f87dae21f1b1",
+    "semantic_hash": ""
+  },
+  "src/modules/birthday/components/FestiveLabels.tsx": {
+    "mtime": 1795544664.2434695,
+    "seen": 1795544694.699126,
+    "ast_hash": "702e0fa231d824c30926315972f4cc28",
     "semantic_hash": ""
   }
 }

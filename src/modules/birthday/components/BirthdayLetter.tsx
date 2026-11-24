@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
-import Animated, { FadeInDown } from 'react-native-reanimated';
+import Animated, { FadeIn } from 'react-native-reanimated';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import { Text } from '../../../components/common';
@@ -43,7 +43,7 @@ export function BirthdayLetter({ celebration, name, recap, onClose }: Props) {
   const sapaan = name ? `, ${name}` : '';
   const ke = celebration.age > 0 ? ` ke-${celebration.age}` : '';
   let step = 0;
-  const enter = () => FadeInDown.delay(150 + step++ * 140).duration(450);
+  const enter = () => FadeIn.delay(150 + step++ * 140).duration(500);
 
   return (
     <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
@@ -78,9 +78,6 @@ export function BirthdayLetter({ celebration, name, recap, onClose }: Props) {
           <MaterialIcons name="favorite" size={ICON_SIZES.md} color={COLORS.primary} />
           <Text style={styles.closingText}>{closingLine(recap)}</Text>
         </Animated.View>
-        <Animated.Text entering={enter()} style={styles.thanks}>
-          Terima kasih sudah memercayakan catatan keuanganmu ke Dompetku. Kami bangga menemanimu.
-        </Animated.Text>
       </Animated.View>
 
       <Animated.View entering={enter()}>
@@ -117,7 +114,6 @@ const styles = StyleSheet.create({
     marginTop: SPACING.md,
   },
   closingText: { flex: 1, fontSize: FONTS.md, lineHeight: 20, fontWeight: '600', color: COLORS.text },
-  thanks: { fontSize: FONTS.sm, lineHeight: 19, color: COLORS.textSecondary, marginTop: SPACING.md, textAlign: 'center' },
   btn: {
     backgroundColor: COLORS.surface,
     borderRadius: RADIUS.round,

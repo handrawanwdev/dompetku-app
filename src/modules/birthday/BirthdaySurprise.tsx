@@ -8,8 +8,7 @@ import { useRealm } from '@realm/react';
 import dayjs from 'dayjs';
 import { create } from 'zustand';
 
-import { Text } from '../../components/common';
-import { COLORS, FONTS, ICON_SIZES, SPACING } from '../../theme';
+import { COLORS, ICON_SIZES, SPACING } from '../../theme';
 import { useSettingsStore } from '../../store/settingsStore';
 import { getBirthdayCelebration } from '../../utils/birthday';
 import { buildBirthdayRecap } from './birthdayRecap';
@@ -17,6 +16,18 @@ import { GiftBox } from './components/GiftBox';
 import { Cake } from './components/Cake';
 import { Confetti } from './components/Confetti';
 import { BirthdayLetter } from './components/BirthdayLetter';
+import { FestiveHeading, FestiveHint, FestiveKicker } from './components/FestiveLabels';
+
+const GIFT_HINTS = [
+  'Ketuk kadonya, ada kejutan di dalamnya!',
+  'Penasaran isinya? Ayo buka sekarang!',
+  'Kadonya sudah nggak sabar dibuka!',
+];
+const CAKE_HINTS = [
+  'Tahan kuenya, lalu tiup sekuat tenaga!',
+  'Fuuuh! Tahan terus sampai lilinnya padam',
+  'Harapan terbaik butuh tiupan terkuat!',
+];
 
 /** Buka ulang kejutan dari kartu ulang tahun di dashboard. */
 export const useBirthdaySurprise = create<{ replay: boolean; open: () => void; close: () => void }>((set) => ({
@@ -80,8 +91,11 @@ export function BirthdaySurprise({ enabled }: { enabled: boolean }) {
 
           {stage === 'gift' && (
             <Animated.View key="gift" exiting={FadeOut.duration(250)} style={styles.stage}>
-              <Text style={styles.kicker}>{celebration.daysLate > 0 ? 'Masih ada yang tertinggal' : 'Hari ini spesial'}</Text>
-              <Text style={styles.heading}>Ada kado buat kamu{name ? `, ${name}` : ''}</Text>
+              <FestiveKicker
+                text={celebration.daysLate > 0 ? 'Pestanya masih berlanjut' : 'Hari spesialmu telah tiba'}
+                reduceMotion={reduceMotion}
+              />
+              <FestiveHeading>Surprise! Ada kado spesial buat kamu{name ? `, ${name}` : ''}!</FestiveHeading>
               <View style={styles.art}>
                 <GiftBox
                   reduceMotion={reduceMotion}
@@ -91,14 +105,14 @@ export function BirthdaySurprise({ enabled }: { enabled: boolean }) {
                   }}
                 />
               </View>
-              <Text style={styles.hint}>Ketuk kadonya untuk membuka</Text>
+              <FestiveHint icon="touch-app" messages={GIFT_HINTS} reduceMotion={reduceMotion} />
             </Animated.View>
           )}
 
           {stage === 'cake' && (
             <Animated.View key="cake" entering={FadeIn.duration(400)} exiting={FadeOut.duration(250)} style={styles.stage}>
-              <Text style={styles.kicker}>Pejamkan mata sebentar</Text>
-              <Text style={styles.heading}>Ucapkan harapanmu, lalu tiup lilinnya</Text>
+              <FestiveKicker text="Saatnya make a wish" reduceMotion={reduceMotion} />
+              <FestiveHeading>Pejamkan mata, ucapkan harapan terbaikmu, lalu tiup lilinnya!</FestiveHeading>
               <View style={styles.art}>
                 <Cake
                   age={celebration.age}
@@ -109,7 +123,7 @@ export function BirthdaySurprise({ enabled }: { enabled: boolean }) {
                   }}
                 />
               </View>
-              <Text style={styles.hint}>Tahan kuenya untuk meniup</Text>
+              <FestiveHint icon="air" messages={CAKE_HINTS} reduceMotion={reduceMotion} />
             </Animated.View>
           )}
 
@@ -129,21 +143,5 @@ const styles = StyleSheet.create({
   fill: { flex: 1 },
   top: { flexDirection: 'row', justifyContent: 'flex-end', paddingHorizontal: SPACING.lg, paddingTop: SPACING.sm },
   stage: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: SPACING.xl, paddingBottom: SPACING.xxxl },
-  kicker: {
-    fontSize: FONTS.sm,
-    fontWeight: '700',
-    color: COLORS.heroMuted,
-    textTransform: 'uppercase',
-    letterSpacing: 1.2,
-  },
-  heading: {
-    fontSize: FONTS.xxl,
-    lineHeight: 30,
-    fontWeight: '800',
-    color: COLORS.heroText,
-    textAlign: 'center',
-    marginTop: SPACING.sm,
-  },
-  art: { height: 300, alignItems: 'center', justifyContent: 'center' },
-  hint: { fontSize: FONTS.md, color: COLORS.heroMuted, textAlign: 'center' },
+  art: { height: 290, alignItems: 'center', justifyContent: 'center' },
 });

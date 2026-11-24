@@ -1170,9 +1170,9 @@
     "semantic_hash": ""
   },
   "src/modules/birthday/BirthdaySurprise.tsx": {
-    "mtime": 1795544101.9292314,
-    "seen": 1795544136.6822956,
-    "ast_hash": "72e7589e71e5c706c19eed2b4707a38f",
+    "mtime": 1795544596.758529,
+    "seen": 1795544618.0404348,
+    "ast_hash": "13066231d8948670addebee986aeb232",
     "semantic_hash": ""
   },
   "src/modules/birthday/birthdayRecap.ts": {
@@ -1182,15 +1182,15 @@
     "semantic_hash": ""
   },
   "src/modules/birthday/components/BirthdayLetter.tsx": {
-    "mtime": 1795544068.1390593,
-    "seen": 1795544136.6822987,
-    "ast_hash": "c06ce2ffc1834bf74ae52cb1fa7f26bc",
+    "mtime": 1795544755.7460704,
+    "seen": 1795544766.037192,
+    "ast_hash": "b409998c46a7908b93f9b03c72130f5c",
     "semantic_hash": ""
   },
   "src/modules/birthday/components/Cake.tsx": {
-    "mtime": 1795544047.0938709,
-    "seen": 1795544136.6822994,
-    "ast_hash": "cdf91d0e852611a6cad7a1e412af787d",
+    "mtime": 1795544587.579984,
+    "seen": 1795544618.0404396,
+    "ast_hash": "6c2ae393212656df45ef0137c4ea639d",
     "semantic_hash": ""
   },
   "src/modules/birthday/components/Confetti.tsx": {
@@ -1203,6 +1203,12 @@
     "mtime": 1795544018.0962827,
     "seen": 1795544136.6823015,
     "ast_hash": "fc774445763c7e4a2c60f87dae21f1b1",
+    "semantic_hash": ""
+  },
+  "src/modules/birthday/components/FestiveLabels.tsx": {
+    "mtime": 1795544664.2434695,
+    "seen": 1795544694.699126,
+    "ast_hash": "702e0fa231d824c30926315972f4cc28",
     "semantic_hash": ""
   }
 }
