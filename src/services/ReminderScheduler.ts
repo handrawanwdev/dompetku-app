@@ -43,6 +43,7 @@ function snapshot(realm: Realm): Snapshot {
       name: d.debt.name,
       monthlyInstallment: d.debt.monthlyInstallment,
       dueDate: d.debt.dueDate,
+      startDate: d.debt.startDate,
       paidThisMonth: d.paidThisMonth,
     }));
   const bills = buildReminderInfos(realm.objects(ReminderModel)).flatMap((i) =>

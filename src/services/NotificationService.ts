@@ -1,6 +1,7 @@
 import * as Notifications from 'expo-notifications';
 import dayjs from 'dayjs';
 import { formatCurrency } from '../utils/currency';
+import { currentDebtDue, dueInMonth } from '../utils/debt';
 
 /** Fixed local times reminders fire at when nothing has been recorded yet today. */
 const DAILY_REMINDER_HOURS = [10, 15, 20];
@@ -53,39 +54,56 @@ export interface DebtReminderInput {
   monthlyInstallment: number;
   /** Tanggal jatuh tempo tiap bulan (1–31); 0 = tanpa pengingat. */
   dueDate: number;
+  /** Tanggal utang dicatat, 'YYYY-MM-DD'. Jatuh tempo sebelum tanggal ini tidak diingatkan. */
+  startDate?: string;
   /** Sudah ada pembayaran bulan ini — pengingat bulan ini dilewati. */
   paidThisMonth: boolean;
 }
 
-/** (Re)schedules H-7 and due-date reminders for every unpaid debt with a due date. */
+/**
+ * (Re)schedules H-7 and due-date reminders for every unpaid debt with a due date.
+ * Dua jatuh tempo ke depan dijadwalkan sekaligus (yang berjalan + bulan
+ * berikutnya), supaya pengingat bulan depan tetap muncul walau app tidak dibuka
+ * dan background task telat jalan. Utang baru tidak diingatkan untuk tanggal
+ * sebelum dicatat; bulan yang sudah dibayar dilewati.
+ */
 export async function refreshDebtReminders(debts: DebtReminderInput[]) {
   await cancelByPrefix('debt-');
   const now = dayjs();
+  const thisMonth = now.format('YYYY-MM');
 
   for (const debt of debts) {
-    if (!debt.dueDate || debt.paidThisMonth) continue;
+    if (!debt.dueDate) continue;
 
-    const occurrence = dayjs().date(Math.min(debt.dueDate, dayjs().daysInMonth())).hour(DEBT_REMINDER_HOUR).minute(0).second(0);
-    const monthKey = occurrence.format('YYYY-MM');
-    const h7 = occurrence.subtract(7, 'day');
-    const amount = debt.monthlyInstallment > 0 ? `${formatCurrency(debt.monthlyInstallment)} ` : '';
+    const current = currentDebtDue(debt.dueDate, debt.startDate, now.toDate());
+    for (const due of [current, dueInMonth(current.add(1, 'month'), debt.dueDate)]) {
+      if (debt.paidThisMonth && due.format('YYYY-MM') === thisMonth) continue;
+      await scheduleDebtOccurrence(debt, due, now);
+    }
+  }
+}
 
-    if (h7.isAfter(now)) {
-      await scheduleAt(
-        `debt-${debt.id}-${monthKey}-h7`,
-        h7.toDate(),
-        `⏰ ${debt.name} jatuh tempo 7 hari lagi`,
-        `Bayar ${amount}sebelum ${occurrence.format('D MMM')}`,
-      );
-    }
-    if (occurrence.isAfter(now)) {
-      await scheduleAt(
-        `debt-${debt.id}-${monthKey}-due`,
-        occurrence.toDate(),
-        `🔴 ${debt.name} jatuh tempo hari ini`,
-        `Bayar ${amount}hari ini`,
-      );
-    }
+async function scheduleDebtOccurrence(debt: DebtReminderInput, due: dayjs.Dayjs, now: dayjs.Dayjs) {
+  const occurrence = due.hour(DEBT_REMINDER_HOUR).minute(0).second(0);
+  const monthKey = occurrence.format('YYYY-MM');
+  const h7 = occurrence.subtract(7, 'day');
+  const amount = debt.monthlyInstallment > 0 ? `${formatCurrency(debt.monthlyInstallment)} ` : '';
+
+  if (h7.isAfter(now)) {
+    await scheduleAt(
+      `debt-${debt.id}-${monthKey}-h7`,
+      h7.toDate(),
+      `⏰ ${debt.name} jatuh tempo 7 hari lagi`,
+      `Bayar ${amount}sebelum ${occurrence.format('D MMM')}`,
+    );
+  }
+  if (occurrence.isAfter(now)) {
+    await scheduleAt(
+      `debt-${debt.id}-${monthKey}-due`,
+      occurrence.toDate(),
+      `🔴 ${debt.name} jatuh tempo hari ini`,
+      `Bayar ${amount}hari ini`,
+    );
   }
 }
 
