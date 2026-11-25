@@ -154,11 +154,10 @@ export function deleteAccount(realm: Realm, account: AccountModel) {
   for (const e of realm.objects(ExpenseModel).filtered('accountId == $0', id)) e.accountId = '';
   for (const e of realm.objects(ExpenseModel).filtered('toAccountId == $0', id)) e.toAccountId = '';
   for (const g of realm.objects(GoalModel).filtered('accountId == $0', id)) g.accountId = '';
-  for (const t of realm.objects(TransferModel).filtered('fromId == $0 OR toId == $0', id)) {
-    if (t.fromId === id) t.fromId = '';
-    if (t.toId === id) t.toId = '';
-  }
-  realm.delete(realm.objects(TransferModel).filtered('fromId == "" AND toId == ""'));
+  // Saldo awal/penyesuaian kantong ini tidak berarti lagi. Pindah saldo antar kantong tetap
+  // disimpan dengan id aslinya supaya riwayat tetap terbaca "kantong terhapus → GoPay",
+  // bukan berubah jadi "Saldo awal". Id yang sudah tidak ada tidak dihitung di saldo kantong.
+  realm.delete(realm.objects(TransferModel).filtered('(fromId == $0 AND toId == "") OR (toId == $0 AND fromId == "")', id));
   const wasMain = account.isMain;
   realm.delete(account);
   if (wasMain) {

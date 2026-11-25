@@ -8,6 +8,8 @@ export interface DebtLike {
   paidBefore: number;
   monthlyInstallment: number;
   dueDate: number;
+  /** Tanggal utang mulai dicatat, 'YYYY-MM-DD'. */
+  startDate?: string;
 }
 
 export interface DebtPaymentLike {
@@ -75,16 +77,29 @@ export interface ReminderStatus {
   daysUntil: number;
 }
 
-/** Status bulan ini untuk kewajiban yang punya tanggal jatuh tempo. */
+/** Tanggal jatuh tempo di bulan `month`, dipotong ke hari terakhir (mis. 31 → 30 Nov). */
+function dueInMonth(month: dayjs.Dayjs, dueDate: number): dayjs.Dayjs {
+  return month.date(Math.min(dueDate, month.daysInMonth()));
+}
+
+/**
+ * Status bulan ini untuk kewajiban yang punya tanggal jatuh tempo.
+ * Utang yang baru dicatat setelah tanggal jatuh tempo bulan ini belum punya
+ * tagihan bulan ini, jadi yang ditunggu jatuh tempo bulan depan (bukan telat).
+ */
 export function getReminderStatus(
-  info: { lunas: boolean; paidThisMonth: boolean; debt: { dueDate: number } },
+  info: { lunas: boolean; paidThisMonth: boolean; debt: { dueDate: number; startDate?: string } },
   now: Date = new Date(),
 ): ReminderStatus | null {
-  const { dueDate } = info.debt;
+  const { dueDate, startDate } = info.debt;
   if (info.lunas || !dueDate) return null;
 
-  const lastDay = dayjs(now).daysInMonth();
-  const daysUntil = Math.min(dueDate, lastDay) - now.getDate();
+  const today = dayjs(now).startOf('day');
+  let due = dueInMonth(today, dueDate);
+  if (startDate && due.format('YYYY-MM-DD') < startDate) {
+    due = dueInMonth(today.add(1, 'month').startOf('month'), dueDate);
+  }
+  const daysUntil = due.diff(today, 'day');
 
   if (info.paidThisMonth) return paidStatus(daysUntil, 'Sudah bayar bulan ini');
   return dueStatus(daysUntil, `Jatuh tempo tanggal ${dueDate}`);

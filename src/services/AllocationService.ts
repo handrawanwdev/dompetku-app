@@ -2,6 +2,7 @@ import Realm from 'realm';
 import { IncomeModel } from '../models/IncomeModel';
 import { ExpenseModel } from '../models/ExpenseModel';
 import { AccountModel } from '../models/AccountModel';
+import { TransferModel } from '../models/TransferModel';
 import { formatCurrency } from '../utils/currency';
 import { LOAN_CATEGORY, loanRef } from '../utils/journal';
 
@@ -16,20 +17,41 @@ export function mainAccountId(realm: Realm): string {
 // - bisa dipakai = semua pemasukan − uang keluar yang diambil dari saldo
 //   (termasuk yang disisihkan ke Tabungan)
 // - tabungan     = uang yang disisihkan − yang dibayar pakai tabungan
+// - pindah saldo ke kantong tabungan ikut jadi tabungan, pindah keluar dari
+//   kantong tabungan mengurangi tabungan (saldo total tetap)
 // Saldo total = bisa dipakai + tabungan.
 
+/**
+ * Bersih pindah saldo masuk ke kantong tabungan dari kantong harian (atau dari
+ * "belum masuk kantong"), dikurangi yang dipindah keluar. Antar kantong tabungan = 0.
+ */
+export function getSavingsTransferNet(realm: Realm): number {
+  const savingsIds = new Set(
+    realm.objects(AccountModel).filtered('isSavings == true').map((a) => a._id.toHexString()),
+  );
+  if (savingsIds.size === 0) return 0;
+  let net = 0;
+  for (const t of realm.objects(TransferModel)) {
+    const toSavings = savingsIds.has(t.toId);
+    const fromSavings = savingsIds.has(t.fromId);
+    if (toSavings && !fromSavings) net += t.amount;
+    else if (fromSavings && !toSavings) net -= t.amount;
+  }
+  return net;
+}
+
 /** Bagian saldo yang bebas dipakai. */
-export function getSpendableBalance(realm: Realm): number {
+export function getSpendableBalance(realm: Realm, transferNet = getSavingsTransferNet(realm)): number {
   const totalIn = realm.objects(IncomeModel).sum('allocationCash') ?? 0;
   const totalOut = realm.objects(ExpenseModel).filtered('source == "cash"').sum('amount') ?? 0;
-  return totalIn - totalOut;
+  return totalIn - totalOut - transferNet;
 }
 
 /** Bagian saldo yang disisihkan sebagai tabungan. */
-export function getSavingsBalance(realm: Realm): number {
+export function getSavingsBalance(realm: Realm, transferNet = getSavingsTransferNet(realm)): number {
   const saved = realm.objects(ExpenseModel).filtered('kind == "saving" AND source != "savings"').sum('amount') ?? 0;
   const used = realm.objects(ExpenseModel).filtered('source == "savings"').sum('amount') ?? 0;
-  return saved - used;
+  return saved - used + transferNet;
 }
 
 /**
@@ -41,8 +63,9 @@ export function getUntrackedInvestment(realm: Realm): number {
 }
 
 export function getBalances(realm: Realm) {
-  const spendable = getSpendableBalance(realm);
-  const savings = getSavingsBalance(realm);
+  const net = getSavingsTransferNet(realm);
+  const spendable = getSpendableBalance(realm, net);
+  const savings = getSavingsBalance(realm, net);
   return { spendable, savings, total: spendable + savings };
 }
 

@@ -246,8 +246,13 @@ export function ActivityScreen({ navigation }: Props) {
       });
     }
 
+    const isSavingsPocket = (aid: string) => Boolean(byId(aid)?.account.isSavings);
     for (const t of transfers) {
       const between = t.fromId !== '' && t.toId !== '';
+      // Pindah ke/dari kantong tabungan ikut mengubah porsi tabungan, tandai supaya jelas.
+      const toSavings = isSavingsPocket(t.toId) && !isSavingsPocket(t.fromId);
+      const fromSavings = isSavingsPocket(t.fromId) && !isSavingsPocket(t.toId);
+      const kindLabel = toSavings ? 'Masuk tabungan' : fromSavings ? 'Ambil dari tabungan' : 'Pindah saldo';
       const label = between
         ? `${name(t.fromId)} → ${name(t.toId)}`
         : t.fromId === ''
@@ -258,14 +263,15 @@ export function ActivityScreen({ navigation }: Props) {
         date: t.date,
         createdAt: t.createdAt.getTime(),
         label,
-        meta: [between ? 'Pindah saldo' : 'Rapikan kantong', formatDate(t.date), between ? t.note : ''].filter(Boolean).join(' · '),
+        meta: [between ? kindLabel : 'Rapikan kantong', formatDate(t.date), between ? t.note : ''].filter(Boolean).join(' · '),
         delta: 0,
         amount: t.amount,
         icon: between ? 'swap-horiz' : 'tune',
         color: between ? COLORS.primary : COLORS.textSecondary,
-        open: between ? () => navigation.navigate('TransferForm', { id: t._id.toHexString() }) : undefined,
+        // Kantong yang sudah dihapus tidak bisa dipilih lagi di form, jadi catatannya cukup dibaca.
+        open: between && byId(t.fromId) && byId(t.toId) ? () => navigation.navigate('TransferForm', { id: t._id.toHexString() }) : undefined,
         accounts: [t.fromId, t.toId],
-        search: [label, t.note].join(' '),
+        search: [label, t.note, between ? kindLabel : ''].join(' '),
       });
     }
 

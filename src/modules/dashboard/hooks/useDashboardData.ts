@@ -7,6 +7,8 @@ import { ExpenseModel } from "../../../models/ExpenseModel";
 import { InvestmentModel } from "../../../models/InvestmentModel";
 import { PhysicalAssetModel } from "../../../models/PhysicalAssetModel";
 import { PassiveIncomeModel } from "../../../models/PassiveIncomeModel";
+import { TransferModel } from "../../../models/TransferModel";
+import { AccountModel } from "../../../models/AccountModel";
 import { startOfMonth, endOfMonth } from "../../../utils/date";
 import { calcDepreciation } from "../../../utils/finance";
 import { getReminderStatus } from "../../../utils/debt";
@@ -31,6 +33,9 @@ export function useDashboardData() {
 
   const incomes = useQuery(IncomeModel);
   const expenses = useQuery(ExpenseModel);
+  // Pindah saldo ke/dari kantong tabungan mengubah porsi tabungan (getBalances).
+  const transfers = useQuery(TransferModel);
+  const accounts = useQuery(AccountModel);
   const debtInfos = useDebts();
   const activeDebts = useMemo(() => debtInfos.filter((d) => !d.lunas), [debtInfos]);
   const investments = useQuery(InvestmentModel).filtered("sold == false");
@@ -166,6 +171,8 @@ export function useDashboardData() {
   }, [
     incomes,
     expenses,
+    transfers,
+    accounts,
     activeDebts,
     investments,
     physicalAssets,

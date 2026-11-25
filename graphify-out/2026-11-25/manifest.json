@@ -252,9 +252,9 @@
     "semantic_hash": ""
   },
   "src/modules/dashboard/hooks/useDashboardData.ts": {
-    "mtime": 1795543447.9605196,
-    "seen": 1795543672.8315692,
-    "ast_hash": "5ffe0e59429c9dae05cfdcad932f39a6",
+    "mtime": 1795620908.4834275,
+    "seen": 1795620922.4114285,
+    "ast_hash": "4fc688d6f704059a0e8ee26a6fa2fa73",
     "semantic_hash": ""
   },
   "src/modules/debt/DebtNavigator.tsx": {
@@ -360,8 +360,8 @@
     "semantic_hash": ""
   },
   "src/modules/transaction/screens/CashflowScreen.tsx": {
-    "mtime": 1795538557.3348105,
-    "seen": 1795538679.899394,
+    "mtime": 1795620788.9701083,
+    "seen": 1795620832.5129893,
     "ast_hash": "68a20b6049c62859bcc72df2e3db45f1",
     "semantic_hash": ""
   },
@@ -378,9 +378,9 @@
     "semantic_hash": ""
   },
   "src/services/AllocationService.ts": {
-    "mtime": 1795538582.387802,
-    "seen": 1795538679.899402,
-    "ast_hash": "cdeac0ae633e17f00186970b79698084",
+    "mtime": 1795620888.3833508,
+    "seen": 1795620922.4115067,
+    "ast_hash": "612c99a8a473debe0d69f3c20335b7bd",
     "semantic_hash": ""
   },
   "src/services/DevSeeder.ts": {
@@ -948,9 +948,9 @@
     "semantic_hash": ""
   },
   "src/modules/finance/screens/AccountDetailScreen.tsx": {
-    "mtime": 1795541354.762593,
-    "seen": 1795541361.8030405,
-    "ast_hash": "4c46e522cd8b51b09027b4c2edc362be",
+    "mtime": 1795620908.4838884,
+    "seen": 1795620922.4114428,
+    "ast_hash": "5da4ada90529a0748fde74a7ccbe77d3",
     "semantic_hash": ""
   },
   "src/modules/finance/screens/AccountFormScreen.tsx": {
@@ -972,15 +972,15 @@
     "semantic_hash": ""
   },
   "src/services/AccountService.ts": {
-    "mtime": 1795541236.8455572,
-    "seen": 1795541267.7314646,
-    "ast_hash": "6db60b4ebc6c89bf0157c8b53a463bd8",
+    "mtime": 1795620824.5156698,
+    "seen": 1795620832.513003,
+    "ast_hash": "efabc9bdf06e04e4ecd14fecf81b0c20",
     "semantic_hash": ""
   },
   "src/modules/finance/screens/ActivityScreen.tsx": {
-    "mtime": 1795541260.8025181,
-    "seen": 1795541267.7313979,
-    "ast_hash": "6e2c4386f7e34d6bfdc6aeb594ce98a8",
+    "mtime": 1795620908.4837394,
+    "seen": 1795620922.411446,
+    "ast_hash": "3930575c9bd9a2ccfd0d6709a77d376c",
     "semantic_hash": ""
   },
   "src/utils/journal.ts": {
@@ -1182,9 +1182,9 @@
     "semantic_hash": ""
   },
   "src/modules/birthday/components/BirthdayLetter.tsx": {
-    "mtime": 1795544673.8157115,
-    "seen": 1795544694.6991217,
-    "ast_hash": "9fd88f1e058e3be95fcd861872b61bab",
+    "mtime": 1795544755.7460704,
+    "seen": 1795544766.037192,
+    "ast_hash": "b409998c46a7908b93f9b03c72130f5c",
     "semantic_hash": ""
   },
   "src/modules/birthday/components/Cake.tsx": {

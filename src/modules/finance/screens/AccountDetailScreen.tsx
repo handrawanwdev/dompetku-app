@@ -81,6 +81,13 @@ export function AccountDetailScreen({ navigation, route }: Props) {
         open: e.isInternal ? undefined : () => navigation.navigate('ExpenseForm', { id: e._id.toHexString() }),
       });
     }
+    const isSavingsPocket = (aid: string) => Boolean(byId(aid)?.account.isSavings);
+    const transferKind = (from: string, to: string) =>
+      isSavingsPocket(to) && !isSavingsPocket(from)
+        ? 'Masuk tabungan'
+        : isSavingsPocket(from) && !isSavingsPocket(to)
+          ? 'Ambil dari tabungan'
+          : 'Pindah saldo';
     for (const t of transfers) {
       const incoming = t.toId === id;
       const otherId = incoming ? t.fromId : t.toId;
@@ -90,12 +97,12 @@ export function AccountDetailScreen({ navigation, route }: Props) {
         date: t.date,
         createdAt: t.createdAt.getTime(),
         label: other ? (incoming ? `Dari ${other}` : `Ke ${other}`) : t.note || 'Penyesuaian saldo',
-        meta: [other ? 'Pindah saldo' : '', formatDate(t.date), other ? t.note : ''].filter(Boolean).join(' · '),
+        meta: [other ? transferKind(t.fromId, t.toId) : '', formatDate(t.date), other ? t.note : ''].filter(Boolean).join(' · '),
         delta: incoming ? t.amount : -t.amount,
         amount: t.amount,
         icon: other ? 'swap-horiz' : 'tune',
         color: other ? COLORS.primary : COLORS.textSecondary,
-        open: other ? () => navigation.navigate('TransferForm', { id: t._id.toHexString() }) : undefined,
+        open: other && byId(otherId) ? () => navigation.navigate('TransferForm', { id: t._id.toHexString() }) : undefined,
       });
     }
     return out.sort((a, b) => (a.date === b.date ? b.createdAt - a.createdAt : a.date < b.date ? 1 : -1));
