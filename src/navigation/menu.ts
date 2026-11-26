@@ -13,6 +13,7 @@ export type MenuId =
   | 'investments'
   | 'assets'
   | 'report'
+  | 'freedom'
   | 'recurring'
   | 'categories'
   | 'theme'
@@ -41,6 +42,7 @@ export const MENU_ITEMS: Record<MenuId, MenuItem> = {
   investments: { label: 'Investasi', hint: 'Saham, reksa dana, emas, dan lainnya', icon: 'trending-up', color: COLORS.invest, open: (n) => n.navigate('Investments') },
   assets: { label: 'Aset', hint: 'Barang berharga dan nilainya sekarang', icon: 'diamond', color: COLORS.asset, open: (n) => n.navigate('Assets') },
   report: { label: 'Rekap', hint: 'Ringkasan per bulan dan per tahun', icon: 'insights', color: COLORS.need, open: (n) => n.navigate('Report') },
+  freedom: { label: 'Level keuangan', hint: 'Posisimu dari Level 0 sampai 7 dan syarat naik level', icon: 'stairs', color: COLORS.primary, open: (n) => n.navigate('FreedomLevel') },
   recurring: { label: 'Pemasukan rutin', hint: 'Gaji, sewa, atau dividen yang rutin masuk', icon: 'event-repeat', color: COLORS.income, open: (n) => n.navigate('Recurring') },
   categories: { label: 'Kategori', hint: 'Atur kategori dan jenisnya', icon: 'category', color: COLORS.want, open: (n) => n.navigate('Categories') },
   theme: { label: 'Tema', hint: 'Pilih warna yang kamu suka', icon: 'palette', color: COLORS.primary, open: (n) => n.navigate('Theme') },

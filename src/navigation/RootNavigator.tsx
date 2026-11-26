@@ -28,6 +28,7 @@ import { AccountFormScreen } from '../modules/finance/screens/AccountFormScreen'
 import { AccountDetailScreen } from '../modules/finance/screens/AccountDetailScreen';
 import { TransferFormScreen } from '../modules/finance/screens/TransferFormScreen';
 import { ActivityScreen } from '../modules/finance/screens/ActivityScreen';
+import { FreedomLevelScreen } from '../modules/freedom/FreedomLevelScreen';
 import { SHOW_INVESTMENT_AND_ASSETS } from './menu';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -54,6 +55,7 @@ export function RootNavigator() {
       <Stack.Screen name="AccountForm" component={AccountFormScreen} options={{ headerShown: false }} />
       <Stack.Screen name="TransferForm" component={TransferFormScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Activity" component={ActivityScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="FreedomLevel" component={FreedomLevelScreen} options={{ headerShown: false }} />
       {SHOW_INVESTMENT_AND_ASSETS && (
         <>
           <Stack.Screen name="Investments" component={InvestmentNavigator} options={{ headerShown: false }} />

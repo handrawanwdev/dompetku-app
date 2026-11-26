@@ -1,17 +1,17 @@
 # Graph Report - Dompetku  (2026-11-27)
 
 ## Corpus Check
-- 174 files · ~205,307 words
+- 178 files · ~208,205 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 2 file(s) not represented in the graph (top: (none) 2)
 
 ## Summary
-- 1146 nodes · 4072 edges · 65 communities (60 shown, 5 thin omitted)
+- 1169 nodes · 4197 edges · 62 communities (58 shown, 4 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 13 edges (avg confidence: 0.93)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `f50ea432`
+- Built from commit: `541b11e2`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -19,45 +19,46 @@
 - TAD — ForgeOS Project
 - AppLockGate.tsx
 - prd-phase-3-local-financial-ai-assistant.md
-- CategoriesScreen.tsx
-- Card
-- react-native
-- ParametersScreen.tsx
+- types/index.ts
+- Text
+- DebtDetailScreen.tsx
+- settingsStore.ts
 - SPEC — ForgeOS Project
 - expo
 - BirthdaySurprise.tsx
-- @expo/vector-icons
+- useSettingsStore
 - ExpenseFormScreen.tsx
-- RADIUS
+- RemindersSection.tsx
 - theme/index.ts
 - RootNavigator.tsx
-- PhysicalAssetFormScreen.tsx
-- PassiveIncomeListScreen.tsx
+- PhysicalAssetListScreen.tsx
+- freedomLevel.ts
 - dependencies
 - Project Context — Dompetku
 - 9. Modules
 - palettes.ts
-- ReminderFormScreen.tsx
+- realm.ts
 - AccountService.ts
 - dompetku-prd.md
 - package.json
 - formatCurrency
-- BackButton
+- react-native-safe-area-context
+- date.ts
 - Build Lokal — Android SDK Required
 - DiagnosisScreen.tsx
 - tsconfig.json
-- AppProviders.tsx
+- App.tsx
 - 5. Technology Stack
-- Financial Freedom Level System — Implementation Plan
-- Text
+- ICON_SIZES
+- CashflowScreen.tsx
 - 11. Data Models
 - 12. Financial Calculations
-- react
-- GroupedBarChart.tsx
+- currency.ts
+- debt.ts
 - 10. Dashboard Widgets
 - NetWorthCard.tsx
-- CashflowScreen.tsx
-- DateInput.tsx
+- useDashboardData.ts
+- scripts
 - Income Module
 - Settings Module
 - DataScreen.tsx
@@ -65,76 +66,73 @@
 - 15. Future Roadmap
 - 2. Objectives
 - AGENTS.md
-- MoneyDropAnimation.tsx
-- ExpenseModel.ts
+- react
+- AppProviders.tsx
 - ActivityScreen.tsx
-- ProfileScreen.tsx
-- InvestmentListScreen.tsx
+- @expo/vector-icons
+- BackButton
 - WalletScreen.tsx
 - InvestmentFormScreen.tsx
-- GoalService.ts
-- DebtFormScreen.tsx
-- currency.ts
-- @realm/react
-- hashPin
+- TransactionNavigator.tsx
+- PassiveIncomeListScreen.tsx
 - CLAUDE.md
 
 ## God Nodes (most connected - your core abstractions)
-1. `Text()` - 102 edges
-2. `react` - 101 edges
-3. `COLORS` - 94 edges
-4. `react-native` - 85 edges
-5. `FONTS` - 73 edges
-6. `SPACING` - 72 edges
-7. `formatCurrency()` - 69 edges
-8. `RADIUS` - 68 edges
-9. `@expo/vector-icons` - 55 edges
-10. `BackButton()` - 48 edges
+1. `Text()` - 108 edges
+2. `react` - 104 edges
+3. `COLORS` - 96 edges
+4. `react-native` - 87 edges
+5. `FONTS` - 75 edges
+6. `SPACING` - 74 edges
+7. `formatCurrency()` - 74 edges
+8. `RADIUS` - 70 edges
+9. `@expo/vector-icons` - 57 edges
+10. `BackButton()` - 50 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `Realm Models (10 total)` --references--> `CategoryModel`  [INFERRED]
   docs/project-context.md → src/models/CategoryModel.ts
-- `Realm Models (10 total)` --references--> `IncomeModel`  [INFERRED]
-  docs/project-context.md → src/models/IncomeModel.ts
-- `Realm Models (10 total)` --references--> `InvestmentModel`  [INFERRED]
-  docs/project-context.md → src/models/InvestmentModel.ts
-- `Realm Models (10 total)` --references--> `PhysicalAssetModel`  [INFERRED]
-  docs/project-context.md → src/models/PhysicalAssetModel.ts
+- `Realm Models (10 total)` --references--> `ExpenseModel`  [INFERRED]
+  docs/project-context.md → src/models/ExpenseModel.ts
 - `Phase 1 — MVP (must have)` --references--> `DashboardScreen()`  [INFERRED]
   docs/upgrade-system-plan.md → src/modules/dashboard/DashboardScreen.tsx
+- `Phase 1 — MVP (must have)` --references--> `DebtListScreen()`  [INFERRED]
+  docs/upgrade-system-plan.md → src/modules/debt/screens/DebtListScreen.tsx
+- `Phase 1 — MVP (must have)` --references--> `GroupedBarChart()`  [INFERRED]
+  docs/upgrade-system-plan.md → src/components/charts/GroupedBarChart.tsx
 
 ## Import Cycles
 - None detected.
 
-## Communities (65 total, 5 thin omitted)
+## Communities (62 total, 4 thin omitted)
 
 ### Community 0 - "TAD — ForgeOS Project"
 Cohesion: 0.11
 Nodes (17): 10. Infrastructure, 11. Observability, 12. External Integrations, 13. Technology Stack, 14. Deployment Architecture, 15. Technical Decisions, 16. Architecture Constraints, 1. Architecture Overview (+9 more)
 
 ### Community 1 - "AppLockGate.tsx"
-Cohesion: 0.13
-Nodes (38): AppLockGate(), formatWait(), LockScreen(), Mode, styles, Key(), PinPad(), AppLockScreen() (+30 more)
+Cohesion: 0.10
+Nodes (46): AppLockGate(), formatWait(), LockScreen(), Mode, styles, Key(), KEYS, PinPad() (+38 more)
 
 ### Community 2 - "prd-phase-3-local-financial-ai-assistant.md"
 Cohesion: 0.04
 Nodes (47): 10. Financial Score Explanation, 11. Recommendation Engine, 12. AI Financial Card, 13. Smart Financial Suggestion, 14. Data Model, 15. Service Architecture, 16. Main Flow, 17. Performance Requirement (+39 more)
 
-### Community 3 - "CategoriesScreen.tsx"
-Cohesion: 0.05
-Nodes (48): react-native-mmkv, zustand, ASSET_CATEGORIES, DEFAULT_EXPENSE_CATEGORIES, DEFAULT_INCOME_CATEGORIES, GOAL_EMOJIS, INVESTMENT_TYPES, SAVING_EMOJIS (+40 more)
+### Community 3 - "types/index.ts"
+Cohesion: 0.08
+Nodes (25): ASSET_CATEGORIES, DEFAULT_EXPENSE_CATEGORIES, DEFAULT_INCOME_CATEGORIES, GOAL_EMOJIS, INVESTMENT_TYPES, SAVING_EMOJIS, AssetCategory, Category (+17 more)
 
-### Community 4 - "Card"
-Cohesion: 0.12
-Nodes (35): Card(), BirthdayCard(), styles, BudgetSplitCard(), styles, CashflowCalendarCard(), DayEntry, short() (+27 more)
+### Community 4 - "Text"
+Cohesion: 0.15
+Nodes (34): Card(), Text(), BirthdayCard(), styles, BudgetSplitCard(), styles, CashflowCalendarCard(), short() (+26 more)
 
-### Community 5 - "react-native"
-Cohesion: 0.10
-Nodes (20): react-native, AmountDisplayProps, sizes, styles, Props, State, styles, InputProps (+12 more)
+### Community 5 - "DebtDetailScreen.tsx"
+Cohesion: 0.24
+Nodes (13): Stack, DebtDetailScreen(), Props, Row(), styles, DebtItem(), DebtListScreen(), NavProp (+5 more)
 
-### Community 6 - "ParametersScreen.tsx"
-Cohesion: 0.40
-Nodes (5): DAY_LABELS, ParametersScreen(), styles, toInputs(), DEFAULT_KIND_TARGETS
+### Community 6 - "settingsStore.ts"
+Cohesion: 0.21
+Nodes (11): react-native-mmkv, saveSettings(), storage, StorageKeys, DEFAULT_SETTINGS, SettingsState, validTargets(), AppSettings (+3 more)
 
 ### Community 7 - "SPEC — ForgeOS Project"
 Cohesion: 0.17
@@ -146,35 +144,35 @@ Nodes (25): backgroundColor, backgroundImage, foregroundImage, monochromeImage, 
 
 ### Community 9 - "BirthdaySurprise.tsx"
 Cohesion: 0.07
-Nodes (41): react-native-reanimated, BirthdayRecap, buildBirthdayRecap(), closingLine(), BirthdaySurprise(), CAKE_HINTS, GIFT_HINTS, Stage (+33 more)
+Nodes (40): react-native-reanimated, zustand, BirthdayRecap, closingLine(), BirthdaySurprise(), CAKE_HINTS, GIFT_HINTS, Stage (+32 more)
 
-### Community 10 - "@expo/vector-icons"
-Cohesion: 0.22
-Nodes (14): @expo/vector-icons, styles, Tile(), IconBtn(), ItemHead(), MenuEditScreen(), styles, ALL_MENU_IDS (+6 more)
+### Community 10 - "useSettingsStore"
+Cohesion: 0.13
+Nodes (21): styles, IconBtn(), ItemHead(), MenuEditScreen(), styles, CategoriesScreen(), DAY_LABELS, ParametersScreen() (+13 more)
 
 ### Community 11 - "ExpenseFormScreen.tsx"
 Cohesion: 0.13
-Nodes (16): @hookform/resolvers, react-hook-form, zod, FormValues, NavProp, RouteType, schema, styles (+8 more)
+Nodes (22): CategoryModel, Props, FormValues, NavProp, RouteType, schema, styles, CategoryType (+14 more)
 
-### Community 12 - "RADIUS"
-Cohesion: 0.13
-Nodes (14): ProgressBarProps, styles, Props, Reminder, styles, Props, Reminder, styles (+6 more)
+### Community 12 - "RemindersSection.tsx"
+Cohesion: 0.17
+Nodes (10): Props, Reminder, styles, Props, Reminder, styles, Props, Reminder (+2 more)
 
 ### Community 13 - "theme/index.ts"
-Cohesion: 0.14
-Nodes (16): styles, GROUPS, NOTIF_OPTIONS, Row(), SettingsScreen(), styles, styles, ThemeScreen() (+8 more)
+Cohesion: 0.08
+Nodes (37): react-native, CardProps, styles, Props, State, styles, InputProps, styles (+29 more)
 
 ### Community 14 - "RootNavigator.tsx"
-Cohesion: 0.10
-Nodes (24): DebtNavigator(), GoalNavigator(), NotifPermissionBanner(), ReminderNavigator(), Stack, NavProp, ReminderItem(), ReminderListScreen() (+16 more)
+Cohesion: 0.09
+Nodes (32): ReminderModel, ReminderRepeat, AssetsNavigator(), DebtNavigator(), GoalNavigator(), InvestmentNavigator(), NotifPermissionBanner(), ReminderNavigator() (+24 more)
 
-### Community 15 - "PhysicalAssetFormScreen.tsx"
-Cohesion: 0.14
-Nodes (17): EmptyState(), AssetsNavigator(), Stack, CATEGORIES, Field(), fs, NavProp, Props (+9 more)
-
-### Community 16 - "PassiveIncomeListScreen.tsx"
+### Community 15 - "PhysicalAssetListScreen.tsx"
 Cohesion: 0.24
-Nodes (12): PassiveIncomeNavigator(), Stack, categoryMeta(), PassiveIncomeListScreen(), PassiveIncomeStackParamList, styles, endOfMonth(), startOfMonth() (+4 more)
+Nodes (10): @react-navigation/native, @react-navigation/native-stack, Stack, AssetsStackParamList, CATEGORY_EMOJIS, CATEGORY_LABELS, DetailItem(), PhysicalAssetListScreen() (+2 more)
+
+### Community 16 - "freedomLevel.ts"
+Cohesion: 0.23
+Nodes (11): ASSET_RATIO, atLeast(), clamp01(), computeFreedomLevel(), criteriaFor(), Criterion, FIRE_MULTIPLIER, FreedomInput (+3 more)
 
 ### Community 17 - "dependencies"
 Cohesion: 0.06
@@ -192,29 +190,33 @@ Nodes (15): 9. Modules, Dashboard, Dashboard Module, Debt Module, Expense Module
 Cohesion: 0.18
 Nodes (10): berry, DEFAULT_THEME_ID, honey, lilac, mint, ocean, peach, rose (+2 more)
 
-### Community 21 - "ReminderFormScreen.tsx"
-Cohesion: 0.10
-Nodes (29): dayjs, migrateDebtsToV17(), NewExpense, OldDebt, OldPayment, realmConfig, ALL_MODELS, ReminderRepeat (+21 more)
+### Community 21 - "realm.ts"
+Cohesion: 0.23
+Nodes (12): migrateDebtsToV17(), NewExpense, OldDebt, OldPayment, ALL_MODELS, DataScreen(), Row(), ensureDefaultExpenseCategories() (+4 more)
 
 ### Community 22 - "AccountService.ts"
-Cohesion: 0.23
-Nodes (12): Props, styles, ACCOUNT_PRESETS, ACCOUNT_TYPES, AccountType, addOpeningBalance(), deleteAccount(), getMainAccountId (+4 more)
+Cohesion: 0.26
+Nodes (14): AccountFormScreen(), Props, styles, ACCOUNT_PRESETS, ACCOUNT_TYPES, accountLabel(), AccountType, addOpeningBalance() (+6 more)
 
 ### Community 23 - "dompetku-prd.md"
 Cohesion: 0.15
 Nodes (12): 13. Offline First, 14. Performance Requirements, 16. Success Metrics, 1. Overview, 3. Product Goals, 4. Target Users, 6. Application Architecture, 7. Project Structure (+4 more)
 
 ### Community 24 - "package.json"
-Cohesion: 0.08
-Nodes (25): devDependencies, @types/react, typescript, main, name, private, scripts, android (+17 more)
+Cohesion: 0.10
+Nodes (19): devDependencies, @types/react, typescript, main, name, private, version, babel-preset-expo (+11 more)
 
 ### Community 25 - "formatCurrency"
-Cohesion: 0.12
-Nodes (34): react-native-safe-area-context, @react-navigation/native, @react-navigation/native-stack, FAB(), lighten(), ProgressBar(), PhysicalAssetSellScreen(), Stack (+26 more)
+Cohesion: 0.25
+Nodes (15): useAccounts(), Stack, GoalDetailScreen(), Props, Row(), styles, GoalItem(), GoalListScreen() (+7 more)
 
-### Community 26 - "BackButton"
-Cohesion: 0.20
-Nodes (30): BackButton(), Button(), CurrencyInput(), formatThousands(), DateInput(), Input, PurchaseToggle(), PhysicalAssetFormScreen() (+22 more)
+### Community 26 - "react-native-safe-area-context"
+Cohesion: 0.12
+Nodes (32): @hookform/resolvers, react-hook-form, react-native-safe-area-context, zod, Button(), Input, DebtFormScreen(), Props (+24 more)
+
+### Community 27 - "date.ts"
+Cohesion: 0.12
+Nodes (14): dayjs, GoalFormScreen(), Props, styles, toNumber(), buildGoalInfo(), buildGoalInfos(), deleteGoal() (+6 more)
 
 ### Community 28 - "Build Lokal — Android SDK Required"
 Cohesion: 0.20
@@ -228,21 +230,21 @@ Nodes (17): expo-file-system, expo-sharing, DiagnosisScreen(), Row(), SOURCE_LAB
 Cohesion: 0.29
 Nodes (6): expo/tsconfig.base, compilerOptions, paths, strict, extends, include
 
-### Community 31 - "AppProviders.tsx"
-Cohesion: 0.13
-Nodes (16): App(), expo, expo-status-bar, react-native-gesture-handler, AppInner(), AppProviders(), navigationRef, navTheme (+8 more)
+### Community 31 - "App.tsx"
+Cohesion: 0.20
+Nodes (6): App(), expo, expo-status-bar, react-native-gesture-handler, AppProviders(), ErrorBoundary
 
 ### Community 32 - "5. Technology Stack"
 Cohesion: 0.22
 Nodes (9): 5. Technology Stack, Charts, Date, Forms, Framework, Local Database, Navigation, Secure Storage (+1 more)
 
-### Community 33 - "Financial Freedom Level System — Implementation Plan"
-Cohesion: 0.40
-Nodes (4): Dependency graph, Financial Freedom Level System — Implementation Plan, Phase 2 — Nice to have, Phase 3 — Advanced (not planned)
+### Community 33 - "ICON_SIZES"
+Cohesion: 0.36
+Nodes (8): ProgressBar(), styles, CriterionRow(), FreedomLevelScreen(), Line(), styles, useFreedomLevel(), ICON_SIZES
 
-### Community 34 - "Text"
-Cohesion: 0.15
-Nodes (25): AmountDisplay(), AssetSuccessAnimation(), InvestmentSuccessAnimation(), Coin(), MoneyDropAnimation(), SavingSuccessAnimation(), Text(), TransactionSuccessAnimation() (+17 more)
+### Community 34 - "CashflowScreen.tsx"
+Cohesion: 0.12
+Nodes (26): DayHeader(), DaySection, groupByDate(), TxRow(), DayEntry, styles, WEEKDAYS, AccountDetailScreen() (+18 more)
 
 ### Community 35 - "11. Data Models"
 Cohesion: 0.25
@@ -252,13 +254,13 @@ Nodes (8): 11. Data Models, Debt, Expense, Goal, Income, Investment, Physical As
 Cohesion: 0.29
 Nodes (7): 12. Financial Calculations, Cash, Cashflow, Debt Ratio, Goal Progress, Net Worth, Savings
 
-### Community 37 - "react"
-Cohesion: 0.09
-Nodes (29): react, AssetMoveKind, CONFIG, Props, BackButtonProps, styles, ButtonProps, styles (+21 more)
+### Community 37 - "currency.ts"
+Cohesion: 0.15
+Nodes (21): AssetSuccessAnimation(), ButtonProps, styles, CurrencyInput(), CurrencyInputProps, formatThousands(), styles, InvestmentSuccessAnimation() (+13 more)
 
-### Community 38 - "GroupedBarChart.tsx"
-Cohesion: 0.40
-Nodes (4): react-native-svg, GroupedBarChartProps, GroupedDataPoint, styles
+### Community 38 - "debt.ts"
+Cohesion: 0.25
+Nodes (8): buildBirthdayRecap(), buildDebtInfos(), DebtInfo, DebtLike, DebtPaymentLike, LegacyDebt, ReminderTier, toHexString()
 
 ### Community 39 - "10. Dashboard Widgets"
 Cohesion: 0.33
@@ -266,15 +268,15 @@ Nodes (6): 10. Dashboard Widgets, Cashflow, Financial Suggestion, Financial Summ
 
 ### Community 40 - "NetWorthCard.tsx"
 Cohesion: 0.40
-Nodes (4): Props, styles, Summary, Trend()
+Nodes (4): Props, styles, Summary, DashboardData
 
-### Community 41 - "CashflowScreen.tsx"
-Cohesion: 0.16
-Nodes (22): AccountModel, IncomeModel, PassiveIncomeModel, TransferModel, useDashboardData(), AccountInfo, ActiveTab, ChipOption (+14 more)
+### Community 41 - "useDashboardData.ts"
+Cohesion: 0.23
+Nodes (14): @realm/react, AccountModel, ExpenseModel, TransferModel, useDashboardData(), AccountInfo, FreedomLevelData, getBalances() (+6 more)
 
-### Community 42 - "DateInput.tsx"
-Cohesion: 0.29
-Nodes (6): buildCalendarDays(), DateInputProps, MONTH_NAMES, styles, WEEKDAYS, YEAR_RANGE
+### Community 42 - "scripts"
+Cohesion: 0.40
+Nodes (5): scripts, android, ios, start, web
 
 ### Community 43 - "Income Module"
 Cohesion: 0.50
@@ -286,11 +288,11 @@ Nodes (4): Backup, Categories, Parameters, Settings Module
 
 ### Community 45 - "DataScreen.tsx"
 Cohesion: 0.21
-Nodes (13): realm, CategoryModel, InvestmentModel, PhysicalAssetModel, ReminderModel, DataScreen(), Row(), styles (+5 more)
+Nodes (17): Realm Models (10 total), realm, DebtModel, GoalModel, IncomeModel, InvestmentModel, PassiveIncomeModel, PhysicalAssetModel (+9 more)
 
 ### Community 46 - "ReminderScheduler.ts"
-Cohesion: 0.27
-Nodes (17): BillReminderInput, cancelByPrefix(), DAILY_REMINDER_HOURS, DebtReminderInput, refreshBillReminders(), refreshBirthdayReminders(), refreshDailyReminders(), refreshDebtReminders() (+9 more)
+Cohesion: 0.25
+Nodes (18): BillReminderInput, cancelByPrefix(), DAILY_REMINDER_HOURS, DebtReminderInput, refreshBillReminders(), refreshBirthdayReminders(), refreshDailyReminders(), refreshDebtReminders() (+10 more)
 
 ### Community 47 - "15. Future Roadmap"
 Cohesion: 0.67
@@ -300,73 +302,61 @@ Nodes (3): 15. Future Roadmap, Phase 2, Phase 3
 Cohesion: 0.67
 Nodes (3): 2. Objectives, Primary Objectives, Secondary Objectives
 
-### Community 50 - "MoneyDropAnimation.tsx"
-Cohesion: 0.18
-Nodes (10): COINS, MoneyDropMode, Props, styles, Props, SAVING_CONFIG, SavingMoveKind, CONFIG (+2 more)
+### Community 50 - "react"
+Cohesion: 0.07
+Nodes (39): react, AmountDisplay(), AmountDisplayProps, sizes, styles, AssetMoveKind, CONFIG, Props (+31 more)
 
-### Community 51 - "ExpenseModel.ts"
-Cohesion: 0.27
-Nodes (8): Realm Models (10 total), DebtModel, ExpenseModel, GoalModel, useDebts(), LEGACY_TASK_NAMES, buildDebtInfos(), toHexString()
+### Community 51 - "AppProviders.tsx"
+Cohesion: 0.22
+Nodes (12): expo-notifications, AppInner(), navigationRef, navTheme, styles, useOpenFromNotification(), realmConfig, RootNavigator() (+4 more)
 
 ### Community 52 - "ActivityScreen.tsx"
 Cohesion: 0.17
 Nodes (15): ActivityScreen(), DropdownPill(), expenseDelta(), OptionSheet(), PeriodFilter, periodRange(), PERIODS, Props (+7 more)
 
-### Community 53 - "ProfileScreen.tsx"
-Cohesion: 0.10
-Nodes (29): @react-navigation/bottom-tabs, AVATAR_COLORS, AVATAR_EMOJIS, avatarColor(), FINANCIAL_FOCUS, MAX_FOCUS, ProfileAvatar(), styles (+21 more)
+### Community 53 - "@expo/vector-icons"
+Cohesion: 0.22
+Nodes (16): @expo/vector-icons, AVATAR_COLORS, AVATAR_EMOJIS, avatarColor(), FINANCIAL_FOCUS, MAX_FOCUS, ProfileAvatar(), styles (+8 more)
 
-### Community 54 - "InvestmentListScreen.tsx"
-Cohesion: 0.36
-Nodes (7): InvestmentListScreen(), styles, SummaryCol(), TYPE_EMOJIS, TYPE_LABELS, calcProfitLoss(), calcROI()
+### Community 54 - "BackButton"
+Cohesion: 0.13
+Nodes (18): BackButton(), BackButtonProps, styles, InvestmentListScreen(), styles, SummaryCol(), TYPE_EMOJIS, TYPE_LABELS (+10 more)
 
 ### Community 55 - "WalletScreen.tsx"
-Cohesion: 0.29
-Nodes (9): Props, styles, HeroAction(), Legend(), styles, WalletScreen(), useAccounts(), accountTypeMeta() (+1 more)
+Cohesion: 0.33
+Nodes (7): HeroAction(), Legend(), styles, WalletScreen(), Tab, tabStyles, addAdjustment()
 
 ### Community 56 - "InvestmentFormScreen.tsx"
-Cohesion: 0.11
-Nodes (17): CONFIG, InvestmentMoveKind, Props, InvestmentNavigator(), Stack, Props, styles, Field() (+9 more)
+Cohesion: 0.10
+Nodes (27): buildCalendarDays(), DateInput(), DateInputProps, MONTH_NAMES, styles, WEEKDAYS, YEAR_RANGE, PurchaseToggle() (+19 more)
 
-### Community 57 - "GoalService.ts"
-Cohesion: 0.29
-Nodes (9): GoalsCard(), useGoals(), buildGoalInfo(), buildGoalInfos(), GOAL_ICONS, goalAvailable(), goalStatus(), savedFrom() (+1 more)
-
-### Community 58 - "DebtFormScreen.tsx"
+### Community 57 - "TransactionNavigator.tsx"
 Cohesion: 0.50
-Nodes (7): DebtFormScreen(), Props, styles, toNumber(), getLoanIncome(), syncLoanIncome(), loanRef()
+Nodes (3): Stack, TransactionNavigator(), CashflowStackParamList
 
-### Community 59 - "currency.ts"
-Cohesion: 0.25
-Nodes (12): Phase 1 — MVP (must have), GroupedBarChart(), CategoryBarList(), categoryBreakdown(), KindBarList(), kindBreakdown(), Mode, ReportScreen() (+4 more)
-
-### Community 60 - "@realm/react"
-Cohesion: 0.67
-Nodes (3): @realm/react, useReminders(), buildReminderInfos()
-
-### Community 61 - "hashPin"
-Cohesion: 0.50
-Nodes (4): hashPin(), K, sha256(), utf8()
+### Community 59 - "PassiveIncomeListScreen.tsx"
+Cohesion: 0.08
+Nodes (37): Dependency graph, Financial Freedom Level System — Implementation Plan, Phase 1 — MVP (must have), Phase 2 — Nice to have, Phase 3 — Advanced (not planned), expo-linear-gradient, react-native-svg, GroupedBarChart() (+29 more)
 
 ## Knowledge Gaps
 - **7 isolated node(s):** `babel-preset-expo`, `expo-dev-client`, `expo-splash-screen`, `react-native-screens`, `@types/react` (+2 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 521 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **5 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 527 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **4 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `react` connect `react` to `AppLockGate.tsx`, `CategoriesScreen.tsx`, `Card`, `react-native`, `ParametersScreen.tsx`, `BirthdaySurprise.tsx`, `@expo/vector-icons`, `ExpenseFormScreen.tsx`, `RADIUS`, `theme/index.ts`, `RootNavigator.tsx`, `PhysicalAssetFormScreen.tsx`, `PassiveIncomeListScreen.tsx`, `ReminderFormScreen.tsx`, `AccountService.ts`, `package.json`, `formatCurrency`, `BackButton`, `DiagnosisScreen.tsx`, `AppProviders.tsx`, `Text`, `GroupedBarChart.tsx`, `NetWorthCard.tsx`, `CashflowScreen.tsx`, `DateInput.tsx`, `DataScreen.tsx`, `MoneyDropAnimation.tsx`, `ExpenseModel.ts`, `ActivityScreen.tsx`, `ProfileScreen.tsx`, `InvestmentListScreen.tsx`, `WalletScreen.tsx`, `InvestmentFormScreen.tsx`, `DebtFormScreen.tsx`, `currency.ts`, `@realm/react`?**
-  _High betweenness centrality (0.074) - this node is a cross-community bridge._
+- **Why does `react` connect `react` to `AppLockGate.tsx`, `Text`, `DebtDetailScreen.tsx`, `BirthdaySurprise.tsx`, `useSettingsStore`, `ExpenseFormScreen.tsx`, `RemindersSection.tsx`, `theme/index.ts`, `RootNavigator.tsx`, `PhysicalAssetListScreen.tsx`, `AccountService.ts`, `package.json`, `formatCurrency`, `react-native-safe-area-context`, `date.ts`, `DiagnosisScreen.tsx`, `App.tsx`, `ICON_SIZES`, `CashflowScreen.tsx`, `currency.ts`, `NetWorthCard.tsx`, `useDashboardData.ts`, `DataScreen.tsx`, `AppProviders.tsx`, `ActivityScreen.tsx`, `@expo/vector-icons`, `BackButton`, `WalletScreen.tsx`, `InvestmentFormScreen.tsx`, `TransactionNavigator.tsx`, `PassiveIncomeListScreen.tsx`?**
+  _High betweenness centrality (0.079) - this node is a cross-community bridge._
 - **What connects `babel-preset-expo`, `expo-dev-client`, `expo-splash-screen` to the rest of the system?**
   _7 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `TAD — ForgeOS Project` be split into smaller, more focused modules?**
   _Cohesion score 0.1111111111111111 - nodes in this community are weakly interconnected._
 - **Why does `dependencies` connect `dependencies` to `package.json`?**
-  _High betweenness centrality (0.058) - this node is a cross-community bridge._
+  _High betweenness centrality (0.057) - this node is a cross-community bridge._
 - **Should `AppLockGate.tsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.13008130081300814 - nodes in this community are weakly interconnected._
-- **Why does `COLORS` connect `react` to `AppLockGate.tsx`, `CategoriesScreen.tsx`, `Card`, `react-native`, `ParametersScreen.tsx`, `BirthdaySurprise.tsx`, `@expo/vector-icons`, `ExpenseFormScreen.tsx`, `RADIUS`, `theme/index.ts`, `RootNavigator.tsx`, `PhysicalAssetFormScreen.tsx`, `PassiveIncomeListScreen.tsx`, `ReminderFormScreen.tsx`, `AccountService.ts`, `formatCurrency`, `BackButton`, `DiagnosisScreen.tsx`, `AppProviders.tsx`, `Text`, `GroupedBarChart.tsx`, `NetWorthCard.tsx`, `CashflowScreen.tsx`, `DateInput.tsx`, `DataScreen.tsx`, `MoneyDropAnimation.tsx`, `ActivityScreen.tsx`, `ProfileScreen.tsx`, `InvestmentListScreen.tsx`, `WalletScreen.tsx`, `InvestmentFormScreen.tsx`, `GoalService.ts`, `DebtFormScreen.tsx`, `currency.ts`?**
-  _High betweenness centrality (0.047) - this node is a cross-community bridge._
+  _Cohesion score 0.10105580693815988 - nodes in this community are weakly interconnected._
+- **Why does `COLORS` connect `react` to `AppLockGate.tsx`, `Text`, `DebtDetailScreen.tsx`, `BirthdaySurprise.tsx`, `useSettingsStore`, `ExpenseFormScreen.tsx`, `RemindersSection.tsx`, `theme/index.ts`, `RootNavigator.tsx`, `PhysicalAssetListScreen.tsx`, `AccountService.ts`, `formatCurrency`, `react-native-safe-area-context`, `date.ts`, `DiagnosisScreen.tsx`, `ICON_SIZES`, `CashflowScreen.tsx`, `currency.ts`, `debt.ts`, `NetWorthCard.tsx`, `DataScreen.tsx`, `AppProviders.tsx`, `ActivityScreen.tsx`, `@expo/vector-icons`, `BackButton`, `WalletScreen.tsx`, `InvestmentFormScreen.tsx`, `PassiveIncomeListScreen.tsx`?**
+  _High betweenness centrality (0.050) - this node is a cross-community bridge._
 - **Should `prd-phase-3-local-financial-ai-assistant.md` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._

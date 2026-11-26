@@ -19,6 +19,7 @@ import {
   RemindersModal,
   CashflowCalendarCard,
   GoalsCard,
+  FreedomLevelCard,
 } from "./components";
 
 export function DashboardScreen() {
@@ -48,6 +49,9 @@ export function DashboardScreen() {
 
         {/* Net Worth + Income vs Expense bulan ini — angka paling dicari, paling atas */}
         <NetWorthCard summary={d.summary} />
+
+        {/* Level keuangan 0–7 + progres ke level berikutnya */}
+        <FreedomLevelCard />
 
         {/* Menu utama: pintasan ke halaman lain, bisa diatur */}
         <MainMenuCard />

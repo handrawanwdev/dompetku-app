@@ -50,6 +50,7 @@ export type RootStackParamList = {
   AccountDetail: { id: string };
   TransferForm: { id?: string; fromId?: string; toId?: string };
   Activity: undefined;
+  FreedomLevel: undefined;
 };
 
 export type RootNavigation = NativeStackNavigationProp<RootStackParamList>;
