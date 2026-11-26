@@ -6,14 +6,14 @@ import { TransferModel } from '../models/TransferModel';
 import { IncomeModel } from '../models/IncomeModel';
 import { ExpenseModel } from '../models/ExpenseModel';
 import { GoalModel } from '../models/GoalModel';
-import { getBalances, mainAccountId } from './AllocationService';
+import { getAccountBalances, getBalances, mainAccountId } from './AllocationService';
 import { today } from '../utils/date';
 import { OPENING_CATEGORY } from '../utils/journal';
 
 // Kantong = tempat uang berada (BCA, Blu, GoPay, tunai).
 // Saldo kantong = pemasukan ke kantong − uang keluar dari kantong ± pindah saldo.
-// "Sisihkan ke Tabungan" cuma menandai uang, uangnya tetap di kantong yang sama.
-// Saldo total tetap dari AllocationService; selisihnya = "belum masuk kantong".
+// "Sisihkan ke Tabungan" tanpa kantong tujuan cuma menandai uang, uangnya tetap di kantong yang sama.
+// Saldo total & saldo kantong dihitung di AllocationService; selisihnya = "belum masuk kantong".
 
 export type AccountType = 'bank' | 'ewallet' | 'cash' | 'other';
 
@@ -49,38 +49,13 @@ export const ACCOUNT_PRESETS: { name: string; type: AccountType }[] = [
   { name: 'Tunai', type: 'cash' },
 ];
 
-/** Uang keluar yang benar-benar meninggalkan kantong (bukan sekadar disisihkan). */
-const MOVING_EXPENSE = 'accountId != "" AND source != "adjust" AND (kind != "saving" OR source == "savings")';
-
-/** Sisihkan ke Tabungan yang uangnya ditaruh di kantong tabungan. */
-const SAVED_TO_POCKET = 'kind == "saving" AND source != "savings" AND source != "adjust" AND toAccountId != ""';
-
-/** Saldo tiap kantong, key = id hex. */
-export function getAccountBalances(realm: Realm): Map<string, number> {
-  const map = new Map<string, number>();
-  for (const a of realm.objects(AccountModel)) map.set(a._id.toHexString(), 0);
-  const add = (id: string, v: number) => {
-    if (map.has(id)) map.set(id, (map.get(id) ?? 0) + v);
-  };
-  for (const i of realm.objects(IncomeModel).filtered('accountId != ""')) add(i.accountId, i.allocationCash);
-  for (const e of realm.objects(ExpenseModel).filtered(MOVING_EXPENSE)) add(e.accountId, -e.amount);
-  // Sisihkan ke kantong tabungan: uang pindah dari kantong asal ke kantong tabungan.
-  for (const e of realm.objects(ExpenseModel).filtered(SAVED_TO_POCKET)) {
-    add(e.accountId, -e.amount);
-    add(e.toAccountId, e.amount);
-  }
-  for (const t of realm.objects(TransferModel)) {
-    add(t.fromId, -t.amount);
-    add(t.toId, t.amount);
-  }
-  return map;
-}
+export { getAccountBalances };
 
 /** Saldo total yang belum tercatat ada di kantong mana. */
 export function getUnassigned(realm: Realm, balances = getAccountBalances(realm)): number {
   let inPockets = 0;
   balances.forEach((v) => (inPockets += v));
-  return getBalances(realm).total - inPockets;
+  return getBalances(realm, balances).total - inPockets;
 }
 
 /** Kantong utama, atau kantong pertama kalau belum ada yang utama. '' kalau belum punya kantong. */

@@ -29,7 +29,7 @@ export function useAccounts() {
     });
     return {
       list,
-      totals: getBalances(realm),
+      totals: getBalances(realm, balances),
       unassigned: getUnassigned(realm, balances),
       byId: (id: string) => list.find((x) => x.id === id),
     };

@@ -252,9 +252,9 @@
     "semantic_hash": ""
   },
   "src/modules/dashboard/hooks/useDashboardData.ts": {
-    "mtime": 1795620908.4834275,
-    "seen": 1795620922.4114285,
-    "ast_hash": "4fc688d6f704059a0e8ee26a6fa2fa73",
+    "mtime": 1795718226.5028055,
+    "seen": 1795718251.7978168,
+    "ast_hash": "ce1fc11e9179ba3924efb87e8c7c8c15",
     "semantic_hash": ""
   },
   "src/modules/debt/DebtNavigator.tsx": {
@@ -288,9 +288,9 @@
     "semantic_hash": ""
   },
   "src/modules/income/screens/IncomeFormScreen.tsx": {
-    "mtime": 1795541089.953895,
-    "seen": 1795541095.8257787,
-    "ast_hash": "b19ee88b515ec3335803bed364427e76",
+    "mtime": 1795717877.3656745,
+    "seen": 1795717896.5791528,
+    "ast_hash": "dd88bffaed83b55db9dfdba4bdf1d227",
     "semantic_hash": ""
   },
   "src/modules/investment/InvestmentNavigator.tsx": {
@@ -330,9 +330,9 @@
     "semantic_hash": ""
   },
   "src/modules/settings/screens/CategoriesScreen.tsx": {
-    "mtime": 1795541054.1458,
-    "seen": 1795541084.6053822,
-    "ast_hash": "0931146668aa784c86d71fa7d51e45e5",
+    "mtime": 1795717877.365495,
+    "seen": 1795717896.5791707,
+    "ast_hash": "5327cc906b2aa58a660e0875fb2bb8a5",
     "semantic_hash": ""
   },
   "src/modules/settings/screens/DevToolsScreen.tsx": {
@@ -360,9 +360,9 @@
     "semantic_hash": ""
   },
   "src/modules/transaction/screens/CashflowScreen.tsx": {
-    "mtime": 1795716541.535172,
-    "seen": 1795717201.1037679,
-    "ast_hash": "3b762588e45fd36195d542bb63651f5e",
+    "mtime": 1795718214.7524495,
+    "seen": 1795718251.7978754,
+    "ast_hash": "6e0663f10088e76a0bb3d5bf6df17272",
     "semantic_hash": ""
   },
   "src/modules/transaction/types.ts": {
@@ -378,9 +378,9 @@
     "semantic_hash": ""
   },
   "src/services/AllocationService.ts": {
-    "mtime": 1795620888.3833508,
-    "seen": 1795620922.4115067,
-    "ast_hash": "612c99a8a473debe0d69f3c20335b7bd",
+    "mtime": 1795717701.05568,
+    "seen": 1795717814.5622587,
+    "ast_hash": "c6b2a6ddbc2bf133ce2545655cc6a19b",
     "semantic_hash": ""
   },
   "src/services/DevSeeder.ts": {
@@ -606,9 +606,9 @@
     "semantic_hash": ""
   },
   "src/modules/transaction/screens/ReportScreen.tsx": {
-    "mtime": 1795541054.146518,
-    "seen": 1795541084.6053941,
-    "ast_hash": "b955ae273a0d1485dd55a578abe0a170",
+    "mtime": 1795717877.3884928,
+    "seen": 1795717896.5791838,
+    "ast_hash": "e7d743aef825871426cbad99812a313b",
     "semantic_hash": ""
   },
   "src/modules/dashboard/components/ObligationsCard.tsx": {
@@ -870,9 +870,9 @@
     "semantic_hash": ""
   },
   "src/modules/finance/screens/WalletScreen.tsx": {
-    "mtime": 1795716493.8076801,
-    "seen": 1795716511.881147,
-    "ast_hash": "b82f5aceb829194b02f1e2cc15aa699e",
+    "mtime": 1795717728.9036145,
+    "seen": 1795717814.5622056,
+    "ast_hash": "a8c12f190c160047b73458af168deda8",
     "semantic_hash": ""
   },
   "src/modules/settings/screens/DataScreen.tsx": {
@@ -966,15 +966,15 @@
     "semantic_hash": ""
   },
   "src/modules/finance/useAccounts.ts": {
-    "mtime": 1795456177.5972724,
-    "seen": 1795456402.1917496,
-    "ast_hash": "e91430d6f733ca5d2b33bd2539330f0c",
+    "mtime": 1795717711.3306632,
+    "seen": 1795717814.5622072,
+    "ast_hash": "7fb6e9963a0dcfe08f6c5d3baebae94d",
     "semantic_hash": ""
   },
   "src/services/AccountService.ts": {
-    "mtime": 1795620824.5156698,
-    "seen": 1795620832.513003,
-    "ast_hash": "efabc9bdf06e04e4ecd14fecf81b0c20",
+    "mtime": 1795717690.7180595,
+    "seen": 1795717814.5622578,
+    "ast_hash": "99ea63127828a7cea6a121cb0197ba95",
     "semantic_hash": ""
   },
   "src/modules/finance/screens/ActivityScreen.tsx": {

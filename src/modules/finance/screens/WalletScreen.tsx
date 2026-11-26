@@ -22,12 +22,17 @@ export function WalletScreen() {
   const daily = list.filter((a) => !a.account.isSavings);
   const saved = list.filter((a) => a.account.isSavings);
   const sum = (xs: typeof list) => xs.reduce((s, a) => s + a.balance, 0);
+  // Tabungan yang ditandai lewat Sisihkan tapi uangnya masih di kantong harian.
+  // Dihitung di grup Tabungan (bukan Sehari-hari) supaya sama dengan Dashboard.
+  const marked = totals.markedSavings;
+  const showMarked = hasAccounts && Math.abs(marked) >= 1;
+  // Total grup = angka Bisa dipakai & Tabungan di Dashboard (getBalances).
+  const dailyTotal = totals.spendable;
+  const savedTotal = totals.savings;
   const groups = [
-    { key: 'daily', title: 'Sehari-hari', icon: 'account-balance-wallet' as const, color: COLORS.primary, items: daily, total: sum(daily) + (showUnassigned ? unassigned : 0) },
-    { key: 'savings', title: 'Tabungan', icon: 'lock' as const, color: COLORS.saving, items: saved, total: sum(saved) },
-  ].filter((g) => g.items.length > 0 || g.key === 'savings' || showUnassigned);
-  const dailyTotal = groups.find((g) => g.key === 'daily')?.total ?? 0;
-  const savedTotal = groups.find((g) => g.key === 'savings')?.total ?? 0;
+    { key: 'daily', title: 'Sehari-hari', icon: 'account-balance-wallet' as const, color: COLORS.primary, items: daily, total: dailyTotal },
+    { key: 'savings', title: 'Tabungan', icon: 'lock' as const, color: COLORS.saving, items: saved, total: savedTotal },
+  ].filter((g) => g.items.length > 0 || g.key === 'savings' || showUnassigned || showMarked);
 
   const renderPocket = (a: (typeof list)[number], i: number) => {
     const m = accountTypeMeta(a.account.type);
@@ -149,8 +154,25 @@ export function WalletScreen() {
                       <Text style={[styles.amount, { color: COLORS.warningText }]}>{formatCurrency(unassigned)}</Text>
                     </TouchableOpacity>
                   )}
+                  {showMarked && (
+                    <View style={[styles.row, (g.items.length > 0 || (g.key === 'daily' && showUnassigned)) && styles.rowBorder]}>
+                      <View style={[styles.icon, { backgroundColor: COLORS.saving + '1A' }]}>
+                        <MaterialIcons name="bookmark-border" size={ICON_SIZES.md} color={COLORS.saving} />
+                      </View>
+                      <View style={{ flex: 1 }}>
+                        <Text style={styles.name}>{g.key === 'daily' ? 'Sudah disisihkan' : 'Disisihkan di kantong harian'}</Text>
+                        <Text style={styles.meta}>
+                          {g.key === 'daily' ? 'Dihitung sebagai tabungan, bukan bisa dipakai' : 'Uangnya masih di kantong sehari-hari'}
+                        </Text>
+                      </View>
+                      <Text style={[styles.amount, { color: COLORS.textMuted }]}>
+                        {g.key === 'daily' ? '−' : ''}
+                        {formatCurrency(marked)}
+                      </Text>
+                    </View>
+                  )}
                   {g.key === 'savings' && g.items.length === 0 && (
-                    <TouchableOpacity style={styles.row} onPress={() => nav.navigate('AccountForm', { savings: true })} activeOpacity={0.7}>
+                    <TouchableOpacity style={[styles.row, showMarked && styles.rowBorder]} onPress={() => nav.navigate('AccountForm', { savings: true })} activeOpacity={0.7}>
                       <View style={[styles.icon, { backgroundColor: COLORS.saving + '1A' }]}>
                         <MaterialIcons name="add" size={ICON_SIZES.md} color={COLORS.saving} />
                       </View>

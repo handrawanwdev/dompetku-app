@@ -210,7 +210,7 @@ export function ReportScreen() {
                   />
                 </View>
 
-                <Text style={styles.sectionTitle}>💵 Pemasukan per Kategori</Text>
+                <Text style={styles.sectionTitle}>💵 Uang Masuk per Kategori</Text>
                 <Card padding={SPACING.md}>
                   <CategoryBarList items={monthly.incomeByCategory} total={monthly.totalIncome} color={COLORS.income} />
                 </Card>

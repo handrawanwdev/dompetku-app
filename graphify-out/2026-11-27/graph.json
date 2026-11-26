@@ -189,30 +189,17 @@
       "source_location": "L32"
     },
     {
-      "id": "src_services_goalservice_goalinfo",
-      "label": "GoalInfo",
+      "id": "src_navigation_types_rootstackparamlist",
+      "label": "RootStackParamList",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 11,
       "community_name": "ExpenseFormScreen.tsx",
       "file_type": "code",
-      "norm_label": "goalinfo",
-      "source_file": "src/services/GoalService.ts",
-      "source_location": "L38"
-    },
-    {
-      "id": "src_services_goalservice_tagged",
-      "label": "Tagged",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "ExpenseFormScreen.tsx",
-      "file_type": "code",
-      "norm_label": "tagged",
-      "source_file": "src/services/GoalService.ts",
-      "source_location": "L24"
+      "norm_label": "rootstackparamlist",
+      "source_file": "src/navigation/types.ts",
+      "source_location": "L16"
     },
     {
       "id": "src_components_common_progressbar_progressbarprops",
@@ -481,7 +468,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "code",
       "norm_label": "newexpense",
       "source_file": "src/database/realm.ts",
@@ -494,7 +481,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "code",
       "norm_label": "olddebt",
       "source_file": "src/database/realm.ts",
@@ -507,141 +494,11 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "code",
       "norm_label": "oldpayment",
       "source_file": "src/database/realm.ts",
       "source_location": "L113"
-    },
-    {
-      "id": "src_models_accountmodel_accountmodel",
-      "label": "AccountModel",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "accountmodel",
-      "source_file": "src/models/AccountModel.ts",
-      "source_location": "L4"
-    },
-    {
-      "id": "src_models_categorymodel_categorymodel",
-      "label": "CategoryModel",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "categorymodel",
-      "source_file": "src/models/CategoryModel.ts",
-      "source_location": "L3"
-    },
-    {
-      "id": "src_models_debtmodel_debtmodel",
-      "label": "DebtModel",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "debtmodel",
-      "source_file": "src/models/DebtModel.ts",
-      "source_location": "L8"
-    },
-    {
-      "id": "src_models_expensemodel_expensemodel",
-      "label": "ExpenseModel",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "expensemodel",
-      "source_file": "src/models/ExpenseModel.ts",
-      "source_location": "L3"
-    },
-    {
-      "id": "src_models_goalmodel_goalmodel",
-      "label": "GoalModel",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "goalmodel",
-      "source_file": "src/models/GoalModel.ts",
-      "source_location": "L7"
-    },
-    {
-      "id": "src_models_incomemodel_incomemodel",
-      "label": "IncomeModel",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "incomemodel",
-      "source_file": "src/models/IncomeModel.ts",
-      "source_location": "L3"
-    },
-    {
-      "id": "src_models_investmentmodel_investmentmodel",
-      "label": "InvestmentModel",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "investmentmodel",
-      "source_file": "src/models/InvestmentModel.ts",
-      "source_location": "L3"
-    },
-    {
-      "id": "src_models_passiveincomemodel_passiveincomemodel",
-      "label": "PassiveIncomeModel",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "passiveincomemodel",
-      "source_file": "src/models/PassiveIncomeModel.ts",
-      "source_location": "L3"
-    },
-    {
-      "id": "src_models_physicalassetmodel_physicalassetmodel",
-      "label": "PhysicalAssetModel",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "physicalassetmodel",
-      "source_file": "src/models/PhysicalAssetModel.ts",
-      "source_location": "L3"
-    },
-    {
-      "id": "src_models_remindermodel_remindermodel",
-      "label": "ReminderModel",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "remindermodel",
-      "source_file": "src/models/ReminderModel.ts",
-      "source_location": "L10"
     },
     {
       "id": "src_models_remindermodel_reminderrepeat",
@@ -650,37 +507,11 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "code",
       "norm_label": "reminderrepeat",
       "source_file": "src/models/ReminderModel.ts",
       "source_location": "L3"
-    },
-    {
-      "id": "src_models_transfermodel_transfermodel",
-      "label": "TransferModel",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "transfermodel",
-      "source_file": "src/models/TransferModel.ts",
-      "source_location": "L4"
-    },
-    {
-      "id": "src_modules_finance_useaccounts_accountinfo",
-      "label": "AccountInfo",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "accountinfo",
-      "source_file": "src/modules/finance/useAccounts.ts",
-      "source_location": "L10"
     },
     {
       "id": "src_modules_reminder_screens_reminderformscreen_props",
@@ -689,102 +520,11 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "code",
       "norm_label": "props",
       "source_file": "src/modules/reminder/screens/ReminderFormScreen.tsx",
       "source_location": "L17"
-    },
-    {
-      "id": "src_modules_transaction_screens_cashflowscreen_activetab",
-      "label": "ActiveTab",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "activetab",
-      "source_file": "src/modules/transaction/screens/CashflowScreen.tsx",
-      "source_location": "L32"
-    },
-    {
-      "id": "src_modules_transaction_screens_cashflowscreen_chipoption",
-      "label": "ChipOption",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "chipoption",
-      "source_file": "src/modules/transaction/screens/CashflowScreen.tsx",
-      "source_location": "L54"
-    },
-    {
-      "id": "src_modules_transaction_screens_cashflowscreen_item",
-      "label": "Item",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "item",
-      "source_file": "src/modules/transaction/screens/CashflowScreen.tsx",
-      "source_location": "L105"
-    },
-    {
-      "id": "src_modules_transaction_screens_cashflowscreen_section",
-      "label": "Section",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "section",
-      "source_file": "src/modules/transaction/screens/CashflowScreen.tsx",
-      "source_location": "L107"
-    },
-    {
-      "id": "src_services_notificationservice_billreminderinput",
-      "label": "BillReminderInput",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "billreminderinput",
-      "source_file": "src/services/NotificationService.ts",
-      "source_location": "L115"
-    },
-    {
-      "id": "src_services_notificationservice_debtreminderinput",
-      "label": "DebtReminderInput",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "debtreminderinput",
-      "source_file": "src/services/NotificationService.ts",
-      "source_location": "L56"
-    },
-    {
-      "id": "src_services_reminderscheduler_snapshot",
-      "label": "Snapshot",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "snapshot",
-      "source_file": "src/services/ReminderScheduler.ts",
-      "source_location": "L26"
     },
     {
       "id": "src_utils_debt_debtinfo",
@@ -793,7 +533,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "code",
       "norm_label": "debtinfo",
       "source_file": "src/utils/debt.ts",
@@ -806,7 +546,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "code",
       "norm_label": "debtlike",
       "source_file": "src/utils/debt.ts",
@@ -819,7 +559,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "code",
       "norm_label": "debtpaymentlike",
       "source_file": "src/utils/debt.ts",
@@ -832,7 +572,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "code",
       "norm_label": "legacydebt",
       "source_file": "src/utils/debt.ts",
@@ -845,7 +585,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "code",
       "norm_label": "reminderstatus",
       "source_file": "src/utils/debt.ts",
@@ -858,7 +598,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "code",
       "norm_label": "remindertier",
       "source_file": "src/utils/debt.ts",
@@ -871,7 +611,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "code",
       "norm_label": "reminderinfo",
       "source_file": "src/utils/reminder.ts",
@@ -884,7 +624,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "code",
       "norm_label": "reminderlike",
       "source_file": "src/utils/reminder.ts",
@@ -897,7 +637,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 22,
-      "community_name": "AccountFormScreen.tsx",
+      "community_name": "AccountService.ts",
       "file_type": "code",
       "norm_label": "props",
       "source_file": "src/modules/finance/screens/AccountFormScreen.tsx",
@@ -910,7 +650,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 22,
-      "community_name": "AccountFormScreen.tsx",
+      "community_name": "AccountService.ts",
       "file_type": "code",
       "norm_label": "accounttype",
       "source_file": "src/services/AccountService.ts",
@@ -969,19 +709,6 @@
       "source_location": "L20"
     },
     {
-      "id": "src_modules_goal_screens_goalformscreen_props",
-      "label": "Props",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 25,
-      "community_name": "formatCurrency",
-      "file_type": "code",
-      "norm_label": "props",
-      "source_file": "src/modules/goal/screens/GoalFormScreen.tsx",
-      "source_location": "L17"
-    },
-    {
       "id": "src_modules_goal_screens_goallistscreen_navprop",
       "label": "NavProp",
       "_callable": true,
@@ -1008,7 +735,20 @@
       "source_location": "L1"
     },
     {
-      "id": "src_modules_debt_screens_debtformscreen_props",
+      "id": "src_services_goalservice_goalinfo",
+      "label": "GoalInfo",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "formatCurrency",
+      "file_type": "code",
+      "norm_label": "goalinfo",
+      "source_file": "src/services/GoalService.ts",
+      "source_location": "L38"
+    },
+    {
+      "id": "src_modules_finance_screens_transferformscreen_props",
       "label": "Props",
       "_callable": true,
       "_callable_class": true,
@@ -1017,8 +757,21 @@
       "community_name": "BackButton",
       "file_type": "code",
       "norm_label": "props",
-      "source_file": "src/modules/debt/screens/DebtFormScreen.tsx",
-      "source_location": "L20"
+      "source_file": "src/modules/finance/screens/TransferFormScreen.tsx",
+      "source_location": "L18"
+    },
+    {
+      "id": "src_modules_goal_screens_goalformscreen_props",
+      "label": "Props",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 26,
+      "community_name": "BackButton",
+      "file_type": "code",
+      "norm_label": "props",
+      "source_file": "src/modules/goal/screens/GoalFormScreen.tsx",
+      "source_location": "L17"
     },
     {
       "id": "src_services_errorlogservice_errorlogentry",
@@ -1421,7 +1174,7 @@
       "file_type": "code",
       "norm_label": "txrowprops",
       "source_file": "src/components/common/TxList.tsx",
-      "source_location": "L53"
+      "source_location": "L56"
     },
     {
       "id": "src_modules_finance_screens_accountdetailscreen_props",
@@ -1762,6 +1515,123 @@
       "source_location": "L9"
     },
     {
+      "id": "src_models_accountmodel_accountmodel",
+      "label": "AccountModel",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "accountmodel",
+      "source_file": "src/models/AccountModel.ts",
+      "source_location": "L4"
+    },
+    {
+      "id": "src_models_incomemodel_incomemodel",
+      "label": "IncomeModel",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "incomemodel",
+      "source_file": "src/models/IncomeModel.ts",
+      "source_location": "L3"
+    },
+    {
+      "id": "src_models_passiveincomemodel_passiveincomemodel",
+      "label": "PassiveIncomeModel",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "passiveincomemodel",
+      "source_file": "src/models/PassiveIncomeModel.ts",
+      "source_location": "L3"
+    },
+    {
+      "id": "src_models_transfermodel_transfermodel",
+      "label": "TransferModel",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "transfermodel",
+      "source_file": "src/models/TransferModel.ts",
+      "source_location": "L4"
+    },
+    {
+      "id": "src_modules_finance_useaccounts_accountinfo",
+      "label": "AccountInfo",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "accountinfo",
+      "source_file": "src/modules/finance/useAccounts.ts",
+      "source_location": "L10"
+    },
+    {
+      "id": "src_modules_transaction_screens_cashflowscreen_activetab",
+      "label": "ActiveTab",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "activetab",
+      "source_file": "src/modules/transaction/screens/CashflowScreen.tsx",
+      "source_location": "L32"
+    },
+    {
+      "id": "src_modules_transaction_screens_cashflowscreen_chipoption",
+      "label": "ChipOption",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "chipoption",
+      "source_file": "src/modules/transaction/screens/CashflowScreen.tsx",
+      "source_location": "L54"
+    },
+    {
+      "id": "src_modules_transaction_screens_cashflowscreen_item",
+      "label": "Item",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "item",
+      "source_file": "src/modules/transaction/screens/CashflowScreen.tsx",
+      "source_location": "L105"
+    },
+    {
+      "id": "src_modules_transaction_screens_cashflowscreen_section",
+      "label": "Section",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "section",
+      "source_file": "src/modules/transaction/screens/CashflowScreen.tsx",
+      "source_location": "L107"
+    },
+    {
       "id": "src_components_common_dateinput_dateinputprops",
       "label": "DateInputProps",
       "_callable": true,
@@ -1773,6 +1643,97 @@
       "norm_label": "dateinputprops",
       "source_file": "src/components/common/DateInput.tsx",
       "source_location": "L6"
+    },
+    {
+      "id": "src_models_categorymodel_categorymodel",
+      "label": "CategoryModel",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "DataScreen.tsx",
+      "file_type": "code",
+      "norm_label": "categorymodel",
+      "source_file": "src/models/CategoryModel.ts",
+      "source_location": "L3"
+    },
+    {
+      "id": "src_models_investmentmodel_investmentmodel",
+      "label": "InvestmentModel",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "DataScreen.tsx",
+      "file_type": "code",
+      "norm_label": "investmentmodel",
+      "source_file": "src/models/InvestmentModel.ts",
+      "source_location": "L3"
+    },
+    {
+      "id": "src_models_physicalassetmodel_physicalassetmodel",
+      "label": "PhysicalAssetModel",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "DataScreen.tsx",
+      "file_type": "code",
+      "norm_label": "physicalassetmodel",
+      "source_file": "src/models/PhysicalAssetModel.ts",
+      "source_location": "L3"
+    },
+    {
+      "id": "src_models_remindermodel_remindermodel",
+      "label": "ReminderModel",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "DataScreen.tsx",
+      "file_type": "code",
+      "norm_label": "remindermodel",
+      "source_file": "src/models/ReminderModel.ts",
+      "source_location": "L10"
+    },
+    {
+      "id": "src_services_notificationservice_billreminderinput",
+      "label": "BillReminderInput",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "ReminderScheduler.ts",
+      "file_type": "code",
+      "norm_label": "billreminderinput",
+      "source_file": "src/services/NotificationService.ts",
+      "source_location": "L115"
+    },
+    {
+      "id": "src_services_notificationservice_debtreminderinput",
+      "label": "DebtReminderInput",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "ReminderScheduler.ts",
+      "file_type": "code",
+      "norm_label": "debtreminderinput",
+      "source_file": "src/services/NotificationService.ts",
+      "source_location": "L56"
+    },
+    {
+      "id": "src_services_reminderscheduler_snapshot",
+      "label": "Snapshot",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "ReminderScheduler.ts",
+      "file_type": "code",
+      "norm_label": "snapshot",
+      "source_file": "src/services/ReminderScheduler.ts",
+      "source_location": "L26"
     },
     {
       "id": "src_components_common_amountdisplay_amountdisplayprops",
@@ -1957,17 +1918,43 @@
       "source_location": "L5"
     },
     {
-      "id": "src_modules_finance_components_accountpicker_props",
-      "label": "Props",
+      "id": "src_models_debtmodel_debtmodel",
+      "label": "DebtModel",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 52,
-      "community_name": "ActivityScreen.tsx",
+      "community": 51,
+      "community_name": "ExpenseModel.ts",
       "file_type": "code",
-      "norm_label": "props",
-      "source_file": "src/modules/finance/components/AccountPicker.tsx",
-      "source_location": "L11"
+      "norm_label": "debtmodel",
+      "source_file": "src/models/DebtModel.ts",
+      "source_location": "L8"
+    },
+    {
+      "id": "src_models_expensemodel_expensemodel",
+      "label": "ExpenseModel",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "ExpenseModel.ts",
+      "file_type": "code",
+      "norm_label": "expensemodel",
+      "source_file": "src/models/ExpenseModel.ts",
+      "source_location": "L3"
+    },
+    {
+      "id": "src_models_goalmodel_goalmodel",
+      "label": "GoalModel",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "ExpenseModel.ts",
+      "file_type": "code",
+      "norm_label": "goalmodel",
+      "source_file": "src/models/GoalModel.ts",
+      "source_location": "L7"
     },
     {
       "id": "src_modules_finance_screens_activityscreen_periodfilter",
@@ -2048,32 +2035,6 @@
       "source_location": "L42"
     },
     {
-      "id": "src_modules_finance_screens_transferformscreen_props",
-      "label": "Props",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 52,
-      "community_name": "ActivityScreen.tsx",
-      "file_type": "code",
-      "norm_label": "props",
-      "source_file": "src/modules/finance/screens/TransferFormScreen.tsx",
-      "source_location": "L18"
-    },
-    {
-      "id": "src_navigation_types_rootstackparamlist",
-      "label": "RootStackParamList",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 52,
-      "community_name": "ActivityScreen.tsx",
-      "file_type": "code",
-      "norm_label": "rootstackparamlist",
-      "source_file": "src/navigation/types.ts",
-      "source_location": "L16"
-    },
-    {
       "id": "src_modules_transaction_types_cashflowstackparamlist",
       "label": "CashflowStackParamList",
       "_callable": true,
@@ -2111,6 +2072,19 @@
       "norm_label": "colorkey",
       "source_file": "src/theme/index.ts",
       "source_location": "L25"
+    },
+    {
+      "id": "src_modules_finance_components_accountpicker_props",
+      "label": "Props",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 55,
+      "community_name": "WalletScreen.tsx",
+      "file_type": "code",
+      "norm_label": "props",
+      "source_file": "src/modules/finance/components/AccountPicker.tsx",
+      "source_location": "L11"
     },
     {
       "id": "src_components_common_investmentsuccessanimation_investmentmovekind",
@@ -2202,6 +2176,32 @@
       "norm_label": "investmentstackparamlist",
       "source_file": "src/modules/investment/screens/InvestmentListScreen.tsx",
       "source_location": "L26"
+    },
+    {
+      "id": "src_services_goalservice_tagged",
+      "label": "Tagged",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 57,
+      "community_name": "GoalService.ts",
+      "file_type": "code",
+      "norm_label": "tagged",
+      "source_file": "src/services/GoalService.ts",
+      "source_location": "L24"
+    },
+    {
+      "id": "src_modules_debt_screens_debtformscreen_props",
+      "label": "Props",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 58,
+      "community_name": "DebtFormScreen.tsx",
+      "file_type": "code",
+      "norm_label": "props",
+      "source_file": "src/modules/debt/screens/DebtFormScreen.tsx",
+      "source_location": "L20"
     },
     {
       "id": "src_modules_transaction_screens_reportscreen_mode",
@@ -2683,66 +2683,6 @@
       "source_location": "L63"
     },
     {
-      "id": "src_services_goalservice_buildgoalinfo",
-      "label": "buildGoalInfo()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "ExpenseFormScreen.tsx",
-      "file_type": "code",
-      "norm_label": "buildgoalinfo()",
-      "source_file": "src/services/GoalService.ts",
-      "source_location": "L55"
-    },
-    {
-      "id": "src_services_goalservice_buildgoalinfos",
-      "label": "buildGoalInfos()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "ExpenseFormScreen.tsx",
-      "file_type": "code",
-      "norm_label": "buildgoalinfos()",
-      "source_file": "src/services/GoalService.ts",
-      "source_location": "L90"
-    },
-    {
-      "id": "src_services_goalservice_goalavailable",
-      "label": "goalAvailable()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "ExpenseFormScreen.tsx",
-      "file_type": "code",
-      "norm_label": "goalavailable()",
-      "source_file": "src/services/GoalService.ts",
-      "source_location": "L104"
-    },
-    {
-      "id": "src_services_goalservice_savedfrom",
-      "label": "savedFrom()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "ExpenseFormScreen.tsx",
-      "file_type": "code",
-      "norm_label": "savedfrom()",
-      "source_file": "src/services/GoalService.ts",
-      "source_location": "L27"
-    },
-    {
-      "id": "src_services_goalservice_syncgoalstatus",
-      "label": "syncGoalStatus()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "ExpenseFormScreen.tsx",
-      "file_type": "code",
-      "norm_label": "syncgoalstatus()",
-      "source_file": "src/services/GoalService.ts",
-      "source_location": "L115"
-    },
-    {
       "id": "src_utils_budget_iskeptkind",
       "label": "isKeptKind()",
       "_callable": true,
@@ -3192,35 +3132,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "code",
       "norm_label": "migratedebtstov17()",
       "source_file": "src/database/realm.ts",
       "source_location": "L122"
-    },
-    {
-      "id": "src_modules_dashboard_hooks_usedashboarddata_usedashboarddata",
-      "label": "useDashboardData()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "usedashboarddata()",
-      "source_file": "src/modules/dashboard/hooks/useDashboardData.ts",
-      "source_location": "L30"
-    },
-    {
-      "id": "src_modules_debt_usedebts_usedebts",
-      "label": "useDebts()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "usedebts()",
-      "source_file": "src/modules/debt/useDebts.ts",
-      "source_location": "L8"
     },
     {
       "id": "src_modules_reminder_screens_reminderformscreen_tonumber",
@@ -3228,323 +3144,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "code",
       "norm_label": "tonumber()",
       "source_file": "src/modules/reminder/screens/ReminderFormScreen.tsx",
       "source_location": "L19"
-    },
-    {
-      "id": "src_modules_reminder_usereminders_usereminders",
-      "label": "useReminders()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "usereminders()",
-      "source_file": "src/modules/reminder/useReminders.ts",
-      "source_location": "L7"
-    },
-    {
-      "id": "src_modules_settings_screens_datascreen_datascreen",
-      "label": "DataScreen()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "datascreen()",
-      "source_file": "src/modules/settings/screens/DataScreen.tsx",
-      "source_location": "L58"
-    },
-    {
-      "id": "src_modules_settings_screens_datascreen_row",
-      "label": "Row()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "row()",
-      "source_file": "src/modules/settings/screens/DataScreen.tsx",
-      "source_location": "L30"
-    },
-    {
-      "id": "src_services_accountservice_getunassigned",
-      "label": "getUnassigned()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "getunassigned()",
-      "source_file": "src/services/AccountService.ts",
-      "source_location": "L80"
-    },
-    {
-      "id": "src_services_allocationservice_getbalances",
-      "label": "getBalances()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "getbalances()",
-      "source_file": "src/services/AllocationService.ts",
-      "source_location": "L65"
-    },
-    {
-      "id": "src_services_allocationservice_getsavingsbalance",
-      "label": "getSavingsBalance()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "getsavingsbalance()",
-      "source_file": "src/services/AllocationService.ts",
-      "source_location": "L51"
-    },
-    {
-      "id": "src_services_allocationservice_getsavingstransfernet",
-      "label": "getSavingsTransferNet()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "getsavingstransfernet()",
-      "source_file": "src/services/AllocationService.ts",
-      "source_location": "L28"
-    },
-    {
-      "id": "src_services_allocationservice_getspendablebalance",
-      "label": "getSpendableBalance()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "getspendablebalance()",
-      "source_file": "src/services/AllocationService.ts",
-      "source_location": "L44"
-    },
-    {
-      "id": "src_services_allocationservice_getuntrackedinvestment",
-      "label": "getUntrackedInvestment()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "getuntrackedinvestment()",
-      "source_file": "src/services/AllocationService.ts",
-      "source_location": "L61"
-    },
-    {
-      "id": "src_services_categoryservice_normalizeexpensecategories",
-      "label": "normalizeExpenseCategories()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "normalizeexpensecategories()",
-      "source_file": "src/services/CategoryService.ts",
-      "source_location": "L33"
-    },
-    {
-      "id": "src_services_debtreminderbackgroundtask_notifiedkey",
-      "label": "notifiedKey()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "notifiedkey()",
-      "source_file": "src/services/DebtReminderBackgroundTask.ts",
-      "source_location": "L18"
-    },
-    {
-      "id": "src_services_notificationservice_cancelbyprefix",
-      "label": "cancelByPrefix()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "cancelbyprefix()",
-      "source_file": "src/services/NotificationService.ts",
-      "source_location": "L39"
-    },
-    {
-      "id": "src_services_notificationservice_refreshbillreminders",
-      "label": "refreshBillReminders()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "refreshbillreminders()",
-      "source_file": "src/services/NotificationService.ts",
-      "source_location": "L130"
-    },
-    {
-      "id": "src_services_notificationservice_refreshbirthdayreminders",
-      "label": "refreshBirthdayReminders()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "refreshbirthdayreminders()",
-      "source_file": "src/services/NotificationService.ts",
-      "source_location": "L191"
-    },
-    {
-      "id": "src_services_notificationservice_refreshdailyreminders",
-      "label": "refreshDailyReminders()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "refreshdailyreminders()",
-      "source_file": "src/services/NotificationService.ts",
-      "source_location": "L167"
-    },
-    {
-      "id": "src_services_notificationservice_refreshdebtreminders",
-      "label": "refreshDebtReminders()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "refreshdebtreminders()",
-      "source_file": "src/services/NotificationService.ts",
-      "source_location": "L75"
-    },
-    {
-      "id": "src_services_notificationservice_scheduleat",
-      "label": "scheduleAt()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "scheduleat()",
-      "source_file": "src/services/NotificationService.ts",
-      "source_location": "L48"
-    },
-    {
-      "id": "src_services_notificationservice_scheduledebtoccurrence",
-      "label": "scheduleDebtOccurrence()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "scheduledebtoccurrence()",
-      "source_file": "src/services/NotificationService.ts",
-      "source_location": "L91"
-    },
-    {
-      "id": "src_services_passiveincomescheduler_runpassiveincomeschedule",
-      "label": "runPassiveIncomeSchedule()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "runpassiveincomeschedule()",
-      "source_file": "src/services/PassiveIncomeScheduler.ts",
-      "source_location": "L19"
-    },
-    {
-      "id": "src_services_reminderscheduler_apply",
-      "label": "apply()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "apply()",
-      "source_file": "src/services/ReminderScheduler.ts",
-      "source_location": "L69"
-    },
-    {
-      "id": "src_services_reminderscheduler_loop",
-      "label": "loop()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "loop()",
-      "source_file": "src/services/ReminderScheduler.ts",
-      "source_location": "L82"
-    },
-    {
-      "id": "src_services_reminderscheduler_refreshallreminders",
-      "label": "refreshAllReminders()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "refreshallreminders()",
-      "source_file": "src/services/ReminderScheduler.ts",
-      "source_location": "L101"
-    },
-    {
-      "id": "src_storage_mmkv_getsettings",
-      "label": "getSettings()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "getsettings()",
-      "source_file": "src/storage/mmkv.ts",
-      "source_location": "L12"
-    },
-    {
-      "id": "src_utils_budget_isspendkind",
-      "label": "isSpendKind()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "isspendkind()",
-      "source_file": "src/utils/budget.ts",
-      "source_location": "L36"
-    },
-    {
-      "id": "src_utils_budget_kindfromlegacycategory",
-      "label": "kindFromLegacyCategory()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "kindfromlegacycategory()",
-      "source_file": "src/utils/budget.ts",
-      "source_location": "L57"
-    },
-    {
-      "id": "src_utils_debt_builddebtinfos",
-      "label": "buildDebtInfos()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "builddebtinfos()",
-      "source_file": "src/utils/debt.ts",
-      "source_location": "L34"
     },
     {
       "id": "src_utils_debt_convertlegacydebt",
@@ -3552,35 +3156,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "code",
       "norm_label": "convertlegacydebt()",
       "source_file": "src/utils/debt.ts",
       "source_location": "L155"
-    },
-    {
-      "id": "src_utils_debt_currentdebtdue",
-      "label": "currentDebtDue()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "currentdebtdue()",
-      "source_file": "src/utils/debt.ts",
-      "source_location": "L90"
-    },
-    {
-      "id": "src_utils_debt_dueinmonth",
-      "label": "dueInMonth()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "dueinmonth()",
-      "source_file": "src/utils/debt.ts",
-      "source_location": "L81"
     },
     {
       "id": "src_utils_debt_duestatus",
@@ -3588,7 +3168,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "code",
       "norm_label": "duestatus()",
       "source_file": "src/utils/debt.ts",
@@ -3600,7 +3180,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "code",
       "norm_label": "getreminderstatus()",
       "source_file": "src/utils/debt.ts",
@@ -3612,23 +3192,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "code",
       "norm_label": "paidstatus()",
       "source_file": "src/utils/debt.ts",
       "source_location": "L115"
-    },
-    {
-      "id": "src_utils_debt_tohexstring",
-      "label": "toHexString()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "tohexstring()",
-      "source_file": "src/utils/debt.ts",
-      "source_location": "L5"
     },
     {
       "id": "src_utils_reminder_buildreminderinfo",
@@ -3636,23 +3204,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "code",
       "norm_label": "buildreminderinfo()",
       "source_file": "src/utils/reminder.ts",
       "source_location": "L57"
-    },
-    {
-      "id": "src_utils_reminder_buildreminderinfos",
-      "label": "buildReminderInfos()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "buildreminderinfos()",
-      "source_file": "src/utils/reminder.ts",
-      "source_location": "L108"
     },
     {
       "id": "src_utils_reminder_isrepeat",
@@ -3660,7 +3216,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "code",
       "norm_label": "isrepeat()",
       "source_file": "src/utils/reminder.ts",
@@ -3672,7 +3228,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "code",
       "norm_label": "occurrencein()",
       "source_file": "src/utils/reminder.ts",
@@ -3684,7 +3240,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "code",
       "norm_label": "periodof()",
       "source_file": "src/utils/reminder.ts",
@@ -3696,23 +3252,23 @@
       "_callable": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "code",
       "norm_label": "tohexstring()",
       "source_file": "src/utils/reminder.ts",
       "source_location": "L6"
     },
     {
-      "id": "src_modules_finance_screens_accountformscreen_accountformscreen",
-      "label": "AccountFormScreen()",
+      "id": "src_services_accountservice_addopeningbalance",
+      "label": "addOpeningBalance()",
       "_callable": true,
       "_origin": "ast",
       "community": 22,
-      "community_name": "AccountFormScreen.tsx",
+      "community_name": "AccountService.ts",
       "file_type": "code",
-      "norm_label": "accountformscreen()",
-      "source_file": "src/modules/finance/screens/AccountFormScreen.tsx",
-      "source_location": "L28"
+      "norm_label": "addopeningbalance()",
+      "source_file": "src/services/AccountService.ts",
+      "source_location": "L97"
     },
     {
       "id": "src_services_accountservice_deleteaccount",
@@ -3720,23 +3276,35 @@
       "_callable": true,
       "_origin": "ast",
       "community": 22,
-      "community_name": "AccountFormScreen.tsx",
+      "community_name": "AccountService.ts",
       "file_type": "code",
       "norm_label": "deleteaccount()",
       "source_file": "src/services/AccountService.ts",
-      "source_location": "L151"
+      "source_location": "L126"
     },
     {
-      "id": "src_services_accountservice_getaccountbalances",
-      "label": "getAccountBalances()",
+      "id": "src_services_accountservice_getunassigned",
+      "label": "getUnassigned()",
       "_callable": true,
       "_origin": "ast",
       "community": 22,
-      "community_name": "AccountFormScreen.tsx",
+      "community_name": "AccountService.ts",
       "file_type": "code",
-      "norm_label": "getaccountbalances()",
+      "norm_label": "getunassigned()",
       "source_file": "src/services/AccountService.ts",
-      "source_location": "L59"
+      "source_location": "L55"
+    },
+    {
+      "id": "src_services_accountservice_setaccountbalance",
+      "label": "setAccountBalance()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 22,
+      "community_name": "AccountService.ts",
+      "file_type": "code",
+      "norm_label": "setaccountbalance()",
+      "source_file": "src/services/AccountService.ts",
+      "source_location": "L75"
     },
     {
       "id": "src_services_accountservice_setmainaccount",
@@ -3744,23 +3312,23 @@
       "_callable": true,
       "_origin": "ast",
       "community": 22,
-      "community_name": "AccountFormScreen.tsx",
+      "community_name": "AccountService.ts",
       "file_type": "code",
       "norm_label": "setmainaccount()",
       "source_file": "src/services/AccountService.ts",
-      "source_location": "L90"
+      "source_location": "L65"
     },
     {
-      "id": "src_components_common_amountdisplay_amountdisplay",
-      "label": "AmountDisplay()",
+      "id": "src_services_allocationservice_getaccountbalances",
+      "label": "getAccountBalances()",
       "_callable": true,
       "_origin": "ast",
-      "community": 25,
-      "community_name": "formatCurrency",
+      "community": 22,
+      "community_name": "AccountService.ts",
       "file_type": "code",
-      "norm_label": "amountdisplay()",
-      "source_file": "src/components/common/AmountDisplay.tsx",
-      "source_location": "L23"
+      "norm_label": "getaccountbalances()",
+      "source_file": "src/services/AllocationService.ts",
+      "source_location": "L31"
     },
     {
       "id": "src_components_common_fab_fab",
@@ -3799,16 +3367,16 @@
       "source_location": "L12"
     },
     {
-      "id": "src_modules_dashboard_components_goalscard_goalscard",
-      "label": "GoalsCard()",
+      "id": "src_modules_assets_screens_physicalassetsellscreen_physicalassetsellscreen",
+      "label": "PhysicalAssetSellScreen()",
       "_callable": true,
       "_origin": "ast",
       "community": 25,
       "community_name": "formatCurrency",
       "file_type": "code",
-      "norm_label": "goalscard()",
-      "source_file": "src/modules/dashboard/components/GoalsCard.tsx",
-      "source_location": "L15"
+      "norm_label": "physicalassetsellscreen()",
+      "source_file": "src/modules/assets/screens/PhysicalAssetSellScreen.tsx",
+      "source_location": "L33"
     },
     {
       "id": "src_modules_debt_screens_debtdetailscreen_debtdetailscreen",
@@ -3907,28 +3475,28 @@
       "source_location": "L53"
     },
     {
-      "id": "src_modules_goal_usegoals_usegoals",
-      "label": "useGoals()",
+      "id": "src_modules_investment_screens_investmentsellscreen_investmentsellscreen",
+      "label": "InvestmentSellScreen()",
       "_callable": true,
       "_origin": "ast",
       "community": 25,
       "community_name": "formatCurrency",
       "file_type": "code",
-      "norm_label": "usegoals()",
-      "source_file": "src/modules/goal/useGoals.ts",
-      "source_location": "L8"
+      "norm_label": "investmentsellscreen()",
+      "source_file": "src/modules/investment/screens/InvestmentSellScreen.tsx",
+      "source_location": "L34"
     },
     {
-      "id": "src_services_goalservice_goalstatus",
-      "label": "goalStatus()",
+      "id": "src_services_allocationservice_routesaleproceeds",
+      "label": "routeSaleProceeds()",
       "_callable": true,
       "_origin": "ast",
       "community": 25,
       "community_name": "formatCurrency",
       "file_type": "code",
-      "norm_label": "goalstatus()",
-      "source_file": "src/services/GoalService.ts",
-      "source_location": "L95"
+      "norm_label": "routesaleproceeds()",
+      "source_file": "src/services/AllocationService.ts",
+      "source_location": "L101"
     },
     {
       "id": "src_utils_currency_formatcurrency",
@@ -3941,6 +3509,18 @@
       "norm_label": "formatcurrency()",
       "source_file": "src/utils/currency.ts",
       "source_location": "L1"
+    },
+    {
+      "id": "src_utils_currency_parsecurrency",
+      "label": "parseCurrency()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "formatCurrency",
+      "file_type": "code",
+      "norm_label": "parsecurrency()",
+      "source_file": "src/utils/currency.ts",
+      "source_location": "L26"
     },
     {
       "id": "src_utils_date_formatdate",
@@ -4015,18 +3595,6 @@
       "source_location": "L33"
     },
     {
-      "id": "src_components_common_investmentsuccessanimation_investmentsuccessanimation",
-      "label": "InvestmentSuccessAnimation()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 26,
-      "community_name": "BackButton",
-      "file_type": "code",
-      "norm_label": "investmentsuccessanimation()",
-      "source_file": "src/components/common/InvestmentSuccessAnimation.tsx",
-      "source_location": "L21"
-    },
-    {
       "id": "src_components_common_purchasetoggle_purchasetoggle",
       "label": "PurchaseToggle()",
       "_callable": true,
@@ -4039,18 +3607,6 @@
       "source_location": "L15"
     },
     {
-      "id": "src_components_common_transactionsuccessanimation_transactionsuccessanimation",
-      "label": "TransactionSuccessAnimation()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 26,
-      "community_name": "BackButton",
-      "file_type": "code",
-      "norm_label": "transactionsuccessanimation()",
-      "source_file": "src/components/common/TransactionSuccessAnimation.tsx",
-      "source_location": "L20"
-    },
-    {
       "id": "src_modules_assets_screens_physicalassetformscreen_physicalassetformscreen",
       "label": "PhysicalAssetFormScreen()",
       "_callable": true,
@@ -4061,42 +3617,6 @@
       "norm_label": "physicalassetformscreen()",
       "source_file": "src/modules/assets/screens/PhysicalAssetFormScreen.tsx",
       "source_location": "L49"
-    },
-    {
-      "id": "src_modules_assets_screens_physicalassetsellscreen_physicalassetsellscreen",
-      "label": "PhysicalAssetSellScreen()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 26,
-      "community_name": "BackButton",
-      "file_type": "code",
-      "norm_label": "physicalassetsellscreen()",
-      "source_file": "src/modules/assets/screens/PhysicalAssetSellScreen.tsx",
-      "source_location": "L33"
-    },
-    {
-      "id": "src_modules_debt_screens_debtformscreen_debtformscreen",
-      "label": "DebtFormScreen()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 26,
-      "community_name": "BackButton",
-      "file_type": "code",
-      "norm_label": "debtformscreen()",
-      "source_file": "src/modules/debt/screens/DebtFormScreen.tsx",
-      "source_location": "L24"
-    },
-    {
-      "id": "src_modules_debt_screens_debtformscreen_tonumber",
-      "label": "toNumber()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 26,
-      "community_name": "BackButton",
-      "file_type": "code",
-      "norm_label": "tonumber()",
-      "source_file": "src/modules/debt/screens/DebtFormScreen.tsx",
-      "source_location": "L22"
     },
     {
       "id": "src_modules_expense_screens_expenseformscreen_expenseformscreen",
@@ -4121,6 +3641,18 @@
       "norm_label": "accountpicker()",
       "source_file": "src/modules/finance/components/AccountPicker.tsx",
       "source_location": "L24"
+    },
+    {
+      "id": "src_modules_finance_screens_accountformscreen_accountformscreen",
+      "label": "AccountFormScreen()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 26,
+      "community_name": "BackButton",
+      "file_type": "code",
+      "norm_label": "accountformscreen()",
+      "source_file": "src/modules/finance/screens/AccountFormScreen.tsx",
+      "source_location": "L28"
     },
     {
       "id": "src_modules_finance_screens_transferformscreen_transferformscreen",
@@ -4195,18 +3727,6 @@
       "source_location": "L50"
     },
     {
-      "id": "src_modules_investment_screens_investmentsellscreen_investmentsellscreen",
-      "label": "InvestmentSellScreen()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 26,
-      "community_name": "BackButton",
-      "file_type": "code",
-      "norm_label": "investmentsellscreen()",
-      "source_file": "src/modules/investment/screens/InvestmentSellScreen.tsx",
-      "source_location": "L34"
-    },
-    {
       "id": "src_modules_passiveincome_screens_passiveincomeformscreen_passiveincomeformscreen",
       "label": "PassiveIncomeFormScreen()",
       "_callable": true,
@@ -4217,18 +3737,6 @@
       "norm_label": "passiveincomeformscreen()",
       "source_file": "src/modules/passiveIncome/screens/PassiveIncomeFormScreen.tsx",
       "source_location": "L33"
-    },
-    {
-      "id": "src_modules_reminder_screens_reminderformscreen_chip",
-      "label": "Chip()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 26,
-      "community_name": "BackButton",
-      "file_type": "code",
-      "norm_label": "chip()",
-      "source_file": "src/modules/reminder/screens/ReminderFormScreen.tsx",
-      "source_location": "L21"
     },
     {
       "id": "src_modules_reminder_screens_reminderformscreen_reminderformscreen",
@@ -4243,40 +3751,16 @@
       "source_location": "L35"
     },
     {
-      "id": "src_services_accountservice_addadjustment",
-      "label": "addAdjustment()",
+      "id": "src_services_accountservice_accountlabel",
+      "label": "accountLabel()",
       "_callable": true,
       "_origin": "ast",
       "community": 26,
       "community_name": "BackButton",
       "file_type": "code",
-      "norm_label": "addadjustment()",
+      "norm_label": "accountlabel()",
       "source_file": "src/services/AccountService.ts",
-      "source_location": "L141"
-    },
-    {
-      "id": "src_services_accountservice_addopeningbalance",
-      "label": "addOpeningBalance()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 26,
-      "community_name": "BackButton",
-      "file_type": "code",
-      "norm_label": "addopeningbalance()",
-      "source_file": "src/services/AccountService.ts",
-      "source_location": "L122"
-    },
-    {
-      "id": "src_services_accountservice_setaccountbalance",
-      "label": "setAccountBalance()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 26,
-      "community_name": "BackButton",
-      "file_type": "code",
-      "norm_label": "setaccountbalance()",
-      "source_file": "src/services/AccountService.ts",
-      "source_location": "L100"
+      "source_location": "L28"
     },
     {
       "id": "src_services_allocationservice_deletelinkedtransactions",
@@ -4288,19 +3772,7 @@
       "file_type": "code",
       "norm_label": "deletelinkedtransactions()",
       "source_file": "src/services/AllocationService.ts",
-      "source_location": "L111"
-    },
-    {
-      "id": "src_services_allocationservice_getloanincome",
-      "label": "getLoanIncome()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 26,
-      "community_name": "BackButton",
-      "file_type": "code",
-      "norm_label": "getloanincome()",
-      "source_file": "src/services/AllocationService.ts",
-      "source_location": "L117"
+      "source_location": "L136"
     },
     {
       "id": "src_services_allocationservice_mainaccountid",
@@ -4315,30 +3787,6 @@
       "source_location": "L10"
     },
     {
-      "id": "src_services_allocationservice_routesaleproceeds",
-      "label": "routeSaleProceeds()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 26,
-      "community_name": "BackButton",
-      "file_type": "code",
-      "norm_label": "routesaleproceeds()",
-      "source_file": "src/services/AllocationService.ts",
-      "source_location": "L76"
-    },
-    {
-      "id": "src_services_allocationservice_syncloanincome",
-      "label": "syncLoanIncome()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 26,
-      "community_name": "BackButton",
-      "file_type": "code",
-      "norm_label": "syncloanincome()",
-      "source_file": "src/services/AllocationService.ts",
-      "source_location": "L125"
-    },
-    {
       "id": "src_services_allocationservice_syncpurchaseexpense",
       "label": "syncPurchaseExpense()",
       "_callable": true,
@@ -4348,7 +3796,7 @@
       "file_type": "code",
       "norm_label": "syncpurchaseexpense()",
       "source_file": "src/services/AllocationService.ts",
-      "source_location": "L172"
+      "source_location": "L197"
     },
     {
       "id": "src_services_goalservice_deletegoal",
@@ -4363,16 +3811,16 @@
       "source_location": "L130"
     },
     {
-      "id": "src_utils_currency_parsecurrency",
-      "label": "parseCurrency()",
+      "id": "src_services_goalservice_syncgoalstatus",
+      "label": "syncGoalStatus()",
       "_callable": true,
       "_origin": "ast",
       "community": 26,
       "community_name": "BackButton",
       "file_type": "code",
-      "norm_label": "parsecurrency()",
-      "source_file": "src/utils/currency.ts",
-      "source_location": "L26"
+      "norm_label": "syncgoalstatus()",
+      "source_file": "src/services/GoalService.ts",
+      "source_location": "L115"
     },
     {
       "id": "src_utils_date_today",
@@ -4385,18 +3833,6 @@
       "norm_label": "today()",
       "source_file": "src/utils/date.ts",
       "source_location": "L15"
-    },
-    {
-      "id": "src_utils_journal_loanref",
-      "label": "loanRef()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 26,
-      "community_name": "BackButton",
-      "file_type": "code",
-      "norm_label": "loanref()",
-      "source_file": "src/utils/journal.ts",
-      "source_location": "L17"
     },
     {
       "id": "src_utils_date_daysago",
@@ -4831,6 +4267,18 @@
       "source_location": "L30"
     },
     {
+      "id": "src_components_common_amountdisplay_amountdisplay",
+      "label": "AmountDisplay()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 34,
+      "community_name": "Text",
+      "file_type": "code",
+      "norm_label": "amountdisplay()",
+      "source_file": "src/components/common/AmountDisplay.tsx",
+      "source_location": "L23"
+    },
+    {
       "id": "src_components_common_assetsuccessanimation_assetsuccessanimation",
       "label": "AssetSuccessAnimation()",
       "_callable": true,
@@ -4841,6 +4289,18 @@
       "norm_label": "assetsuccessanimation()",
       "source_file": "src/components/common/AssetSuccessAnimation.tsx",
       "source_location": "L20"
+    },
+    {
+      "id": "src_components_common_investmentsuccessanimation_investmentsuccessanimation",
+      "label": "InvestmentSuccessAnimation()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 34,
+      "community_name": "Text",
+      "file_type": "code",
+      "norm_label": "investmentsuccessanimation()",
+      "source_file": "src/components/common/InvestmentSuccessAnimation.tsx",
+      "source_location": "L21"
     },
     {
       "id": "src_components_common_moneydropanimation_coin",
@@ -4891,6 +4351,18 @@
       "source_location": "L30"
     },
     {
+      "id": "src_components_common_transactionsuccessanimation_transactionsuccessanimation",
+      "label": "TransactionSuccessAnimation()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 34,
+      "community_name": "Text",
+      "file_type": "code",
+      "norm_label": "transactionsuccessanimation()",
+      "source_file": "src/components/common/TransactionSuccessAnimation.tsx",
+      "source_location": "L20"
+    },
+    {
       "id": "src_components_common_txlist_dayheader",
       "label": "DayHeader()",
       "_callable": true,
@@ -4900,7 +4372,7 @@
       "file_type": "code",
       "norm_label": "dayheader()",
       "source_file": "src/components/common/TxList.tsx",
-      "source_location": "L41"
+      "source_location": "L42"
     },
     {
       "id": "src_components_common_txlist_daylabel",
@@ -4936,7 +4408,7 @@
       "file_type": "code",
       "norm_label": "txrow()",
       "source_file": "src/components/common/TxList.tsx",
-      "source_location": "L67"
+      "source_location": "L70"
     },
     {
       "id": "src_modules_finance_screens_accountdetailscreen_accountdetailscreen",
@@ -4948,7 +4420,7 @@
       "file_type": "code",
       "norm_label": "accountdetailscreen()",
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L37"
+      "source_location": "L39"
     },
     {
       "id": "src_modules_finance_screens_accountdetailscreen_action",
@@ -4960,7 +4432,19 @@
       "file_type": "code",
       "norm_label": "action()",
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L197"
+      "source_location": "L205"
+    },
+    {
+      "id": "src_modules_reminder_screens_reminderformscreen_chip",
+      "label": "Chip()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 34,
+      "community_name": "Text",
+      "file_type": "code",
+      "norm_label": "chip()",
+      "source_file": "src/modules/reminder/screens/ReminderFormScreen.tsx",
+      "source_location": "L21"
     },
     {
       "id": "src_modules_transaction_screens_cashflowscreen_cashflowscreen",
@@ -5239,6 +4723,78 @@
       "source_location": "L15"
     },
     {
+      "id": "src_modules_dashboard_hooks_usedashboarddata_usedashboarddata",
+      "label": "useDashboardData()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "usedashboarddata()",
+      "source_file": "src/modules/dashboard/hooks/useDashboardData.ts",
+      "source_location": "L30"
+    },
+    {
+      "id": "src_services_allocationservice_getbalances",
+      "label": "getBalances()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "getbalances()",
+      "source_file": "src/services/AllocationService.ts",
+      "source_location": "L71"
+    },
+    {
+      "id": "src_services_allocationservice_getmarkedsavings",
+      "label": "getMarkedSavings()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "getmarkedsavings()",
+      "source_file": "src/services/AllocationService.ts",
+      "source_location": "L60"
+    },
+    {
+      "id": "src_services_allocationservice_getuntrackedinvestment",
+      "label": "getUntrackedInvestment()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "getuntrackedinvestment()",
+      "source_file": "src/services/AllocationService.ts",
+      "source_location": "L93"
+    },
+    {
+      "id": "src_services_allocationservice_savingspocketids",
+      "label": "savingsPocketIds()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "savingspocketids()",
+      "source_file": "src/services/AllocationService.ts",
+      "source_location": "L51"
+    },
+    {
+      "id": "src_services_passiveincomescheduler_runpassiveincomeschedule",
+      "label": "runPassiveIncomeSchedule()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "runpassiveincomeschedule()",
+      "source_file": "src/services/PassiveIncomeScheduler.ts",
+      "source_location": "L19"
+    },
+    {
       "id": "src_components_common_dateinput_buildcalendardays",
       "label": "buildCalendarDays()",
       "_callable": true,
@@ -5249,6 +4805,270 @@
       "norm_label": "buildcalendardays()",
       "source_file": "src/components/common/DateInput.tsx",
       "source_location": "L21"
+    },
+    {
+      "id": "src_modules_settings_screens_datascreen_datascreen",
+      "label": "DataScreen()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "DataScreen.tsx",
+      "file_type": "code",
+      "norm_label": "datascreen()",
+      "source_file": "src/modules/settings/screens/DataScreen.tsx",
+      "source_location": "L58"
+    },
+    {
+      "id": "src_modules_settings_screens_datascreen_row",
+      "label": "Row()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "DataScreen.tsx",
+      "file_type": "code",
+      "norm_label": "row()",
+      "source_file": "src/modules/settings/screens/DataScreen.tsx",
+      "source_location": "L30"
+    },
+    {
+      "id": "src_services_categoryservice_normalizeexpensecategories",
+      "label": "normalizeExpenseCategories()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "DataScreen.tsx",
+      "file_type": "code",
+      "norm_label": "normalizeexpensecategories()",
+      "source_file": "src/services/CategoryService.ts",
+      "source_location": "L33"
+    },
+    {
+      "id": "src_utils_budget_isspendkind",
+      "label": "isSpendKind()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "DataScreen.tsx",
+      "file_type": "code",
+      "norm_label": "isspendkind()",
+      "source_file": "src/utils/budget.ts",
+      "source_location": "L36"
+    },
+    {
+      "id": "src_utils_budget_kindfromlegacycategory",
+      "label": "kindFromLegacyCategory()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "DataScreen.tsx",
+      "file_type": "code",
+      "norm_label": "kindfromlegacycategory()",
+      "source_file": "src/utils/budget.ts",
+      "source_location": "L57"
+    },
+    {
+      "id": "src_services_notificationservice_cancelbyprefix",
+      "label": "cancelByPrefix()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "ReminderScheduler.ts",
+      "file_type": "code",
+      "norm_label": "cancelbyprefix()",
+      "source_file": "src/services/NotificationService.ts",
+      "source_location": "L39"
+    },
+    {
+      "id": "src_services_notificationservice_refreshbillreminders",
+      "label": "refreshBillReminders()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "ReminderScheduler.ts",
+      "file_type": "code",
+      "norm_label": "refreshbillreminders()",
+      "source_file": "src/services/NotificationService.ts",
+      "source_location": "L130"
+    },
+    {
+      "id": "src_services_notificationservice_refreshbirthdayreminders",
+      "label": "refreshBirthdayReminders()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "ReminderScheduler.ts",
+      "file_type": "code",
+      "norm_label": "refreshbirthdayreminders()",
+      "source_file": "src/services/NotificationService.ts",
+      "source_location": "L191"
+    },
+    {
+      "id": "src_services_notificationservice_refreshdailyreminders",
+      "label": "refreshDailyReminders()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "ReminderScheduler.ts",
+      "file_type": "code",
+      "norm_label": "refreshdailyreminders()",
+      "source_file": "src/services/NotificationService.ts",
+      "source_location": "L167"
+    },
+    {
+      "id": "src_services_notificationservice_refreshdebtreminders",
+      "label": "refreshDebtReminders()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "ReminderScheduler.ts",
+      "file_type": "code",
+      "norm_label": "refreshdebtreminders()",
+      "source_file": "src/services/NotificationService.ts",
+      "source_location": "L75"
+    },
+    {
+      "id": "src_services_notificationservice_scheduleat",
+      "label": "scheduleAt()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "ReminderScheduler.ts",
+      "file_type": "code",
+      "norm_label": "scheduleat()",
+      "source_file": "src/services/NotificationService.ts",
+      "source_location": "L48"
+    },
+    {
+      "id": "src_services_notificationservice_scheduledebtoccurrence",
+      "label": "scheduleDebtOccurrence()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "ReminderScheduler.ts",
+      "file_type": "code",
+      "norm_label": "scheduledebtoccurrence()",
+      "source_file": "src/services/NotificationService.ts",
+      "source_location": "L91"
+    },
+    {
+      "id": "src_services_reminderscheduler_apply",
+      "label": "apply()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "ReminderScheduler.ts",
+      "file_type": "code",
+      "norm_label": "apply()",
+      "source_file": "src/services/ReminderScheduler.ts",
+      "source_location": "L69"
+    },
+    {
+      "id": "src_services_reminderscheduler_loop",
+      "label": "loop()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "ReminderScheduler.ts",
+      "file_type": "code",
+      "norm_label": "loop()",
+      "source_file": "src/services/ReminderScheduler.ts",
+      "source_location": "L82"
+    },
+    {
+      "id": "src_services_reminderscheduler_refreshallreminders",
+      "label": "refreshAllReminders()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "ReminderScheduler.ts",
+      "file_type": "code",
+      "norm_label": "refreshallreminders()",
+      "source_file": "src/services/ReminderScheduler.ts",
+      "source_location": "L101"
+    },
+    {
+      "id": "src_storage_mmkv_getsettings",
+      "label": "getSettings()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "ReminderScheduler.ts",
+      "file_type": "code",
+      "norm_label": "getsettings()",
+      "source_file": "src/storage/mmkv.ts",
+      "source_location": "L12"
+    },
+    {
+      "id": "src_utils_debt_currentdebtdue",
+      "label": "currentDebtDue()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "ReminderScheduler.ts",
+      "file_type": "code",
+      "norm_label": "currentdebtdue()",
+      "source_file": "src/utils/debt.ts",
+      "source_location": "L90"
+    },
+    {
+      "id": "src_utils_debt_dueinmonth",
+      "label": "dueInMonth()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "ReminderScheduler.ts",
+      "file_type": "code",
+      "norm_label": "dueinmonth()",
+      "source_file": "src/utils/debt.ts",
+      "source_location": "L81"
+    },
+    {
+      "id": "src_modules_debt_usedebts_usedebts",
+      "label": "useDebts()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "ExpenseModel.ts",
+      "file_type": "code",
+      "norm_label": "usedebts()",
+      "source_file": "src/modules/debt/useDebts.ts",
+      "source_location": "L8"
+    },
+    {
+      "id": "src_services_debtreminderbackgroundtask_notifiedkey",
+      "label": "notifiedKey()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "ExpenseModel.ts",
+      "file_type": "code",
+      "norm_label": "notifiedkey()",
+      "source_file": "src/services/DebtReminderBackgroundTask.ts",
+      "source_location": "L18"
+    },
+    {
+      "id": "src_utils_debt_builddebtinfos",
+      "label": "buildDebtInfos()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "ExpenseModel.ts",
+      "file_type": "code",
+      "norm_label": "builddebtinfos()",
+      "source_file": "src/utils/debt.ts",
+      "source_location": "L34"
+    },
+    {
+      "id": "src_utils_debt_tohexstring",
+      "label": "toHexString()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "ExpenseModel.ts",
+      "file_type": "code",
+      "norm_label": "tohexstring()",
+      "source_file": "src/utils/debt.ts",
+      "source_location": "L5"
     },
     {
       "id": "src_modules_finance_screens_activityscreen_activityscreen",
@@ -5321,78 +5141,6 @@
       "norm_label": "rangelabel()",
       "source_file": "src/modules/finance/screens/ActivityScreen.tsx",
       "source_location": "L75"
-    },
-    {
-      "id": "src_modules_finance_screens_walletscreen_heroaction",
-      "label": "HeroAction()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 52,
-      "community_name": "ActivityScreen.tsx",
-      "file_type": "code",
-      "norm_label": "heroaction()",
-      "source_file": "src/modules/finance/screens/WalletScreen.tsx",
-      "source_location": "L199"
-    },
-    {
-      "id": "src_modules_finance_screens_walletscreen_legend",
-      "label": "Legend()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 52,
-      "community_name": "ActivityScreen.tsx",
-      "file_type": "code",
-      "norm_label": "legend()",
-      "source_file": "src/modules/finance/screens/WalletScreen.tsx",
-      "source_location": "L187"
-    },
-    {
-      "id": "src_modules_finance_screens_walletscreen_walletscreen",
-      "label": "WalletScreen()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 52,
-      "community_name": "ActivityScreen.tsx",
-      "file_type": "code",
-      "norm_label": "walletscreen()",
-      "source_file": "src/modules/finance/screens/WalletScreen.tsx",
-      "source_location": "L15"
-    },
-    {
-      "id": "src_modules_finance_useaccounts_useaccounts",
-      "label": "useAccounts()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 52,
-      "community_name": "ActivityScreen.tsx",
-      "file_type": "code",
-      "norm_label": "useaccounts()",
-      "source_file": "src/modules/finance/useAccounts.ts",
-      "source_location": "L17"
-    },
-    {
-      "id": "src_services_accountservice_accountlabel",
-      "label": "accountLabel()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 52,
-      "community_name": "ActivityScreen.tsx",
-      "file_type": "code",
-      "norm_label": "accountlabel()",
-      "source_file": "src/services/AccountService.ts",
-      "source_location": "L28"
-    },
-    {
-      "id": "src_services_accountservice_accounttypemeta",
-      "label": "accountTypeMeta()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 52,
-      "community_name": "ActivityScreen.tsx",
-      "file_type": "code",
-      "norm_label": "accounttypemeta()",
-      "source_file": "src/services/AccountService.ts",
-      "source_location": "L32"
     },
     {
       "id": "src_modules_settings_components_profileavatar_avatarcolor",
@@ -5611,6 +5359,78 @@
       "source_location": "L16"
     },
     {
+      "id": "src_modules_finance_screens_walletscreen_heroaction",
+      "label": "HeroAction()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 55,
+      "community_name": "WalletScreen.tsx",
+      "file_type": "code",
+      "norm_label": "heroaction()",
+      "source_file": "src/modules/finance/screens/WalletScreen.tsx",
+      "source_location": "L221"
+    },
+    {
+      "id": "src_modules_finance_screens_walletscreen_legend",
+      "label": "Legend()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 55,
+      "community_name": "WalletScreen.tsx",
+      "file_type": "code",
+      "norm_label": "legend()",
+      "source_file": "src/modules/finance/screens/WalletScreen.tsx",
+      "source_location": "L209"
+    },
+    {
+      "id": "src_modules_finance_screens_walletscreen_walletscreen",
+      "label": "WalletScreen()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 55,
+      "community_name": "WalletScreen.tsx",
+      "file_type": "code",
+      "norm_label": "walletscreen()",
+      "source_file": "src/modules/finance/screens/WalletScreen.tsx",
+      "source_location": "L15"
+    },
+    {
+      "id": "src_modules_finance_useaccounts_useaccounts",
+      "label": "useAccounts()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 55,
+      "community_name": "WalletScreen.tsx",
+      "file_type": "code",
+      "norm_label": "useaccounts()",
+      "source_file": "src/modules/finance/useAccounts.ts",
+      "source_location": "L17"
+    },
+    {
+      "id": "src_services_accountservice_accounttypemeta",
+      "label": "accountTypeMeta()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 55,
+      "community_name": "WalletScreen.tsx",
+      "file_type": "code",
+      "norm_label": "accounttypemeta()",
+      "source_file": "src/services/AccountService.ts",
+      "source_location": "L32"
+    },
+    {
+      "id": "src_services_accountservice_addadjustment",
+      "label": "addAdjustment()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 55,
+      "community_name": "WalletScreen.tsx",
+      "file_type": "code",
+      "norm_label": "addadjustment()",
+      "source_file": "src/services/AccountService.ts",
+      "source_location": "L116"
+    },
+    {
       "id": "src_modules_investment_investmentnavigator_investmentnavigator",
       "label": "InvestmentNavigator()",
       "_callable": true,
@@ -5633,6 +5453,150 @@
       "norm_label": "field()",
       "source_file": "src/modules/investment/screens/InvestmentFormScreen.tsx",
       "source_location": "L185"
+    },
+    {
+      "id": "src_modules_dashboard_components_goalscard_goalscard",
+      "label": "GoalsCard()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 57,
+      "community_name": "GoalService.ts",
+      "file_type": "code",
+      "norm_label": "goalscard()",
+      "source_file": "src/modules/dashboard/components/GoalsCard.tsx",
+      "source_location": "L15"
+    },
+    {
+      "id": "src_modules_goal_usegoals_usegoals",
+      "label": "useGoals()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 57,
+      "community_name": "GoalService.ts",
+      "file_type": "code",
+      "norm_label": "usegoals()",
+      "source_file": "src/modules/goal/useGoals.ts",
+      "source_location": "L8"
+    },
+    {
+      "id": "src_services_goalservice_buildgoalinfo",
+      "label": "buildGoalInfo()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 57,
+      "community_name": "GoalService.ts",
+      "file_type": "code",
+      "norm_label": "buildgoalinfo()",
+      "source_file": "src/services/GoalService.ts",
+      "source_location": "L55"
+    },
+    {
+      "id": "src_services_goalservice_buildgoalinfos",
+      "label": "buildGoalInfos()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 57,
+      "community_name": "GoalService.ts",
+      "file_type": "code",
+      "norm_label": "buildgoalinfos()",
+      "source_file": "src/services/GoalService.ts",
+      "source_location": "L90"
+    },
+    {
+      "id": "src_services_goalservice_goalavailable",
+      "label": "goalAvailable()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 57,
+      "community_name": "GoalService.ts",
+      "file_type": "code",
+      "norm_label": "goalavailable()",
+      "source_file": "src/services/GoalService.ts",
+      "source_location": "L104"
+    },
+    {
+      "id": "src_services_goalservice_goalstatus",
+      "label": "goalStatus()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 57,
+      "community_name": "GoalService.ts",
+      "file_type": "code",
+      "norm_label": "goalstatus()",
+      "source_file": "src/services/GoalService.ts",
+      "source_location": "L95"
+    },
+    {
+      "id": "src_services_goalservice_savedfrom",
+      "label": "savedFrom()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 57,
+      "community_name": "GoalService.ts",
+      "file_type": "code",
+      "norm_label": "savedfrom()",
+      "source_file": "src/services/GoalService.ts",
+      "source_location": "L27"
+    },
+    {
+      "id": "src_modules_debt_screens_debtformscreen_debtformscreen",
+      "label": "DebtFormScreen()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 58,
+      "community_name": "DebtFormScreen.tsx",
+      "file_type": "code",
+      "norm_label": "debtformscreen()",
+      "source_file": "src/modules/debt/screens/DebtFormScreen.tsx",
+      "source_location": "L24"
+    },
+    {
+      "id": "src_modules_debt_screens_debtformscreen_tonumber",
+      "label": "toNumber()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 58,
+      "community_name": "DebtFormScreen.tsx",
+      "file_type": "code",
+      "norm_label": "tonumber()",
+      "source_file": "src/modules/debt/screens/DebtFormScreen.tsx",
+      "source_location": "L22"
+    },
+    {
+      "id": "src_services_allocationservice_getloanincome",
+      "label": "getLoanIncome()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 58,
+      "community_name": "DebtFormScreen.tsx",
+      "file_type": "code",
+      "norm_label": "getloanincome()",
+      "source_file": "src/services/AllocationService.ts",
+      "source_location": "L142"
+    },
+    {
+      "id": "src_services_allocationservice_syncloanincome",
+      "label": "syncLoanIncome()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 58,
+      "community_name": "DebtFormScreen.tsx",
+      "file_type": "code",
+      "norm_label": "syncloanincome()",
+      "source_file": "src/services/AllocationService.ts",
+      "source_location": "L150"
+    },
+    {
+      "id": "src_utils_journal_loanref",
+      "label": "loanRef()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 58,
+      "community_name": "DebtFormScreen.tsx",
+      "file_type": "code",
+      "norm_label": "loanref()",
+      "source_file": "src/utils/journal.ts",
+      "source_location": "L17"
     },
     {
       "id": "src_components_charts_groupedbarchart_groupedbarchart",
@@ -5765,6 +5729,30 @@
       "norm_label": "toinputs()",
       "source_file": "src/modules/settings/screens/ParametersScreen.tsx",
       "source_location": "L20"
+    },
+    {
+      "id": "src_modules_reminder_usereminders_usereminders",
+      "label": "useReminders()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 60,
+      "community_name": "@realm/react",
+      "file_type": "code",
+      "norm_label": "usereminders()",
+      "source_file": "src/modules/reminder/useReminders.ts",
+      "source_location": "L7"
+    },
+    {
+      "id": "src_utils_reminder_buildreminderinfos",
+      "label": "buildReminderInfos()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 60,
+      "community_name": "@realm/react",
+      "file_type": "code",
+      "norm_label": "buildreminderinfos()",
+      "source_file": "src/utils/reminder.ts",
+      "source_location": "L108"
     },
     {
       "id": "src_services_applockservice_hashpin",
@@ -6563,28 +6551,6 @@
       "norm_label": "styles",
       "source_file": "src/modules/income/screens/IncomeFormScreen.tsx",
       "source_location": "L324"
-    },
-    {
-      "id": "src_services_goalservice",
-      "label": "GoalService.ts",
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "ExpenseFormScreen.tsx",
-      "file_type": "code",
-      "norm_label": "goalservice.ts",
-      "source_file": "src/services/GoalService.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_services_goalservice_goal_icons",
-      "label": "GOAL_ICONS",
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "ExpenseFormScreen.tsx",
-      "file_type": "code",
-      "norm_label": "goal_icons",
-      "source_file": "src/services/GoalService.ts",
-      "source_location": "L9"
     },
     {
       "id": "ref_hookform_resolvers",
@@ -8560,7 +8526,7 @@
       "label": "realm.ts",
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "code",
       "norm_label": "realm.ts",
       "source_file": "src/database/realm.ts",
@@ -8571,216 +8537,29 @@
       "label": "realmConfig",
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "code",
       "norm_label": "realmconfig",
       "source_file": "src/database/realm.ts",
       "source_location": "L8"
     },
     {
-      "id": "src_models_accountmodel",
-      "label": "AccountModel.ts",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "accountmodel.ts",
-      "source_file": "src/models/AccountModel.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_models_categorymodel",
-      "label": "CategoryModel.ts",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "categorymodel.ts",
-      "source_file": "src/models/CategoryModel.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_models_debtmodel",
-      "label": "DebtModel.ts",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "debtmodel.ts",
-      "source_file": "src/models/DebtModel.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_models_expensemodel",
-      "label": "ExpenseModel.ts",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "expensemodel.ts",
-      "source_file": "src/models/ExpenseModel.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_models_goalmodel",
-      "label": "GoalModel.ts",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "goalmodel.ts",
-      "source_file": "src/models/GoalModel.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_models_incomemodel",
-      "label": "IncomeModel.ts",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "incomemodel.ts",
-      "source_file": "src/models/IncomeModel.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_models_index",
-      "label": "models/index.ts",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "models/index.ts",
-      "source_file": "src/models/index.ts",
-      "source_location": "L1"
-    },
-    {
       "id": "src_models_index_all_models",
       "label": "ALL_MODELS",
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "code",
       "norm_label": "all_models",
       "source_file": "src/models/index.ts",
       "source_location": "L25"
     },
     {
-      "id": "src_models_investmentmodel",
-      "label": "InvestmentModel.ts",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "investmentmodel.ts",
-      "source_file": "src/models/InvestmentModel.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_models_passiveincomemodel",
-      "label": "PassiveIncomeModel.ts",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "passiveincomemodel.ts",
-      "source_file": "src/models/PassiveIncomeModel.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_models_physicalassetmodel",
-      "label": "PhysicalAssetModel.ts",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "physicalassetmodel.ts",
-      "source_file": "src/models/PhysicalAssetModel.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_models_remindermodel",
-      "label": "ReminderModel.ts",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "remindermodel.ts",
-      "source_file": "src/models/ReminderModel.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_models_transfermodel",
-      "label": "TransferModel.ts",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "transfermodel.ts",
-      "source_file": "src/models/TransferModel.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_modules_birthday_birthdayrecap",
-      "label": "birthdayRecap.ts",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "birthdayrecap.ts",
-      "source_file": "src/modules/birthday/birthdayRecap.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_modules_dashboard_hooks_usedashboarddata",
-      "label": "useDashboardData.ts",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "usedashboarddata.ts",
-      "source_file": "src/modules/dashboard/hooks/useDashboardData.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_modules_debt_usedebts",
-      "label": "useDebts.ts",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "usedebts.ts",
-      "source_file": "src/modules/debt/useDebts.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_modules_finance_useaccounts",
-      "label": "useAccounts.ts",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "useaccounts.ts",
-      "source_file": "src/modules/finance/useAccounts.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_modules_goal_usegoals",
-      "label": "useGoals.ts",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "usegoals.ts",
-      "source_file": "src/modules/goal/useGoals.ts",
-      "source_location": "L1"
-    },
-    {
       "id": "src_modules_reminder_screens_reminderformscreen",
       "label": "ReminderFormScreen.tsx",
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "code",
       "norm_label": "reminderformscreen.tsx",
       "source_file": "src/modules/reminder/screens/ReminderFormScreen.tsx",
@@ -8791,304 +8570,29 @@
       "label": "styles",
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "code",
       "norm_label": "styles",
       "source_file": "src/modules/reminder/screens/ReminderFormScreen.tsx",
       "source_location": "L160"
     },
     {
-      "id": "src_modules_reminder_usereminders",
-      "label": "useReminders.ts",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "usereminders.ts",
-      "source_file": "src/modules/reminder/useReminders.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_modules_settings_screens_datascreen",
-      "label": "DataScreen.tsx",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "datascreen.tsx",
-      "source_file": "src/modules/settings/screens/DataScreen.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_modules_settings_screens_datascreen_styles",
-      "label": "styles",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "styles",
-      "source_file": "src/modules/settings/screens/DataScreen.tsx",
-      "source_location": "L277"
-    },
-    {
-      "id": "src_modules_transaction_screens_cashflowscreen",
-      "label": "CashflowScreen.tsx",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "cashflowscreen.tsx",
-      "source_file": "src/modules/transaction/screens/CashflowScreen.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_modules_transaction_screens_cashflowscreen_income_emojis",
-      "label": "INCOME_EMOJIS",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "income_emojis",
-      "source_file": "src/modules/transaction/screens/CashflowScreen.tsx",
-      "source_location": "L37"
-    },
-    {
-      "id": "src_modules_transaction_screens_cashflowscreen_styles",
-      "label": "styles",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "styles",
-      "source_file": "src/modules/transaction/screens/CashflowScreen.tsx",
-      "source_location": "L411"
-    },
-    {
-      "id": "src_services_accountservice",
-      "label": "AccountService.ts",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "accountservice.ts",
-      "source_file": "src/services/AccountService.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_services_accountservice_getmainaccountid",
-      "label": "getMainAccountId",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "getmainaccountid",
-      "source_file": "src/services/AccountService.ts",
-      "source_location": "L87"
-    },
-    {
-      "id": "src_services_allocationservice",
-      "label": "AllocationService.ts",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "allocationservice.ts",
-      "source_file": "src/services/AllocationService.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_services_debtreminderbackgroundtask",
-      "label": "DebtReminderBackgroundTask.ts",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "debtreminderbackgroundtask.ts",
-      "source_file": "src/services/DebtReminderBackgroundTask.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_services_debtreminderbackgroundtask_legacy_task_names",
-      "label": "LEGACY_TASK_NAMES",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "legacy_task_names",
-      "source_file": "src/services/DebtReminderBackgroundTask.ts",
-      "source_location": "L77"
-    },
-    {
-      "id": "src_services_devseeder",
-      "label": "DevSeeder.ts",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "devseeder.ts",
-      "source_file": "src/services/DevSeeder.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_services_devseeder_income_categories",
-      "label": "INCOME_CATEGORIES",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "income_categories",
-      "source_file": "src/services/DevSeeder.ts",
-      "source_location": "L20"
-    },
-    {
-      "id": "src_services_devseeder_spend_rows",
-      "label": "SPEND_ROWS",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "spend_rows",
-      "source_file": "src/services/DevSeeder.ts",
-      "source_location": "L11"
-    },
-    {
-      "id": "src_services_notificationservice",
-      "label": "NotificationService.ts",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "notificationservice.ts",
-      "source_file": "src/services/NotificationService.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_services_notificationservice_daily_reminder_hours",
-      "label": "DAILY_REMINDER_HOURS",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "daily_reminder_hours",
-      "source_file": "src/services/NotificationService.ts",
-      "source_location": "L7"
-    },
-    {
-      "id": "src_services_passiveincomescheduler",
-      "label": "PassiveIncomeScheduler.ts",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "passiveincomescheduler.ts",
-      "source_file": "src/services/PassiveIncomeScheduler.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_services_passiveincomescheduler_category_label",
-      "label": "CATEGORY_LABEL",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "category_label",
-      "source_file": "src/services/PassiveIncomeScheduler.ts",
-      "source_location": "L9"
-    },
-    {
-      "id": "src_services_reminderscheduler",
-      "label": "ReminderScheduler.ts",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "reminderscheduler.ts",
-      "source_file": "src/services/ReminderScheduler.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_services_reminderservice",
-      "label": "ReminderService.ts",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "reminderservice.ts",
-      "source_file": "src/services/ReminderService.ts",
-      "source_location": "L1"
-    },
-    {
       "id": "src_utils_debt",
       "label": "debt.ts",
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "code",
       "norm_label": "debt.ts",
       "source_file": "src/utils/debt.ts",
       "source_location": "L1"
     },
     {
-      "id": "src_utils_journal",
-      "label": "journal.ts",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "journal.ts",
-      "source_file": "src/utils/journal.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_utils_journal_exclude_non_earned",
-      "label": "EXCLUDE_NON_EARNED",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "exclude_non_earned",
-      "source_file": "src/utils/journal.ts",
-      "source_location": "L14"
-    },
-    {
-      "id": "src_utils_journal_loan_category",
-      "label": "LOAN_CATEGORY",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "loan_category",
-      "source_file": "src/utils/journal.ts",
-      "source_location": "L4"
-    },
-    {
-      "id": "src_utils_journal_non_earned_categories",
-      "label": "NON_EARNED_CATEGORIES",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "non_earned_categories",
-      "source_file": "src/utils/journal.ts",
-      "source_location": "L11"
-    },
-    {
-      "id": "src_utils_journal_opening_category",
-      "label": "OPENING_CATEGORY",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "code",
-      "norm_label": "opening_category",
-      "source_file": "src/utils/journal.ts",
-      "source_location": "L2"
-    },
-    {
       "id": "src_utils_reminder",
       "label": "reminder.ts",
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "code",
       "norm_label": "reminder.ts",
       "source_file": "src/utils/reminder.ts",
@@ -9099,7 +8603,7 @@
       "label": "REPEAT_OPTIONS",
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "code",
       "norm_label": "repeat_options",
       "source_file": "src/utils/reminder.ts",
@@ -9110,52 +8614,18 @@
       "label": "dayjs",
       "_origin": "ast",
       "community": 21,
-      "community_name": "DataScreen.tsx",
+      "community_name": "ReminderFormScreen.tsx",
       "file_type": "concept",
       "norm_label": "dayjs",
       "source_file": "package.json",
       "source_location": "L13"
     },
     {
-      "id": "ref_realm",
-      "label": "realm",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "concept",
-      "norm_label": "realm",
-      "source_file": "package.json",
-      "source_location": "L36"
-    },
-    {
-      "id": "ref_realm_react",
-      "label": "@realm/react",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "concept",
-      "norm_label": "@realm/react",
-      "source_file": "package.json",
-      "source_location": "L11"
-    },
-    {
-      "id": "docs_project_context_realm_models_10_total",
-      "label": "Realm Models (10 total)",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "DataScreen.tsx",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "realm models (10 total)",
-      "source_file": "docs/project-context.md",
-      "source_location": "L49"
-    },
-    {
       "id": "src_modules_finance_screens_accountformscreen",
       "label": "AccountFormScreen.tsx",
       "_origin": "ast",
       "community": 22,
-      "community_name": "AccountFormScreen.tsx",
+      "community_name": "AccountService.ts",
       "file_type": "code",
       "norm_label": "accountformscreen.tsx",
       "source_file": "src/modules/finance/screens/AccountFormScreen.tsx",
@@ -9166,18 +8636,29 @@
       "label": "styles",
       "_origin": "ast",
       "community": 22,
-      "community_name": "AccountFormScreen.tsx",
+      "community_name": "AccountService.ts",
       "file_type": "code",
       "norm_label": "styles",
       "source_file": "src/modules/finance/screens/AccountFormScreen.tsx",
       "source_location": "L241"
     },
     {
+      "id": "src_services_accountservice",
+      "label": "AccountService.ts",
+      "_origin": "ast",
+      "community": 22,
+      "community_name": "AccountService.ts",
+      "file_type": "code",
+      "norm_label": "accountservice.ts",
+      "source_file": "src/services/AccountService.ts",
+      "source_location": "L1"
+    },
+    {
       "id": "src_services_accountservice_account_presets",
       "label": "ACCOUNT_PRESETS",
       "_origin": "ast",
       "community": 22,
-      "community_name": "AccountFormScreen.tsx",
+      "community_name": "AccountService.ts",
       "file_type": "code",
       "norm_label": "account_presets",
       "source_file": "src/services/AccountService.ts",
@@ -9188,11 +8669,22 @@
       "label": "ACCOUNT_TYPES",
       "_origin": "ast",
       "community": 22,
-      "community_name": "AccountFormScreen.tsx",
+      "community_name": "AccountService.ts",
       "file_type": "code",
       "norm_label": "account_types",
       "source_file": "src/services/AccountService.ts",
       "source_location": "L20"
+    },
+    {
+      "id": "src_services_accountservice_getmainaccountid",
+      "label": "getMainAccountId",
+      "_origin": "ast",
+      "community": 22,
+      "community_name": "AccountService.ts",
+      "file_type": "code",
+      "norm_label": "getmainaccountid",
+      "source_file": "src/services/AccountService.ts",
+      "source_location": "L62"
     },
     {
       "id": "dompetku_prd",
@@ -9758,28 +9250,6 @@
       "source_location": "L138"
     },
     {
-      "id": "src_modules_goal_screens_goalformscreen",
-      "label": "GoalFormScreen.tsx",
-      "_origin": "ast",
-      "community": 25,
-      "community_name": "formatCurrency",
-      "file_type": "code",
-      "norm_label": "goalformscreen.tsx",
-      "source_file": "src/modules/goal/screens/GoalFormScreen.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_modules_goal_screens_goalformscreen_styles",
-      "label": "styles",
-      "_origin": "ast",
-      "community": 25,
-      "community_name": "formatCurrency",
-      "file_type": "code",
-      "norm_label": "styles",
-      "source_file": "src/modules/goal/screens/GoalFormScreen.tsx",
-      "source_location": "L154"
-    },
-    {
       "id": "src_modules_goal_screens_goallistscreen",
       "label": "GoalListScreen.tsx",
       "_origin": "ast",
@@ -9879,26 +9349,48 @@
       "source_location": "L20"
     },
     {
-      "id": "src_modules_debt_screens_debtformscreen",
-      "label": "DebtFormScreen.tsx",
+      "id": "src_modules_finance_screens_transferformscreen",
+      "label": "TransferFormScreen.tsx",
       "_origin": "ast",
       "community": 26,
       "community_name": "BackButton",
       "file_type": "code",
-      "norm_label": "debtformscreen.tsx",
-      "source_file": "src/modules/debt/screens/DebtFormScreen.tsx",
+      "norm_label": "transferformscreen.tsx",
+      "source_file": "src/modules/finance/screens/TransferFormScreen.tsx",
       "source_location": "L1"
     },
     {
-      "id": "src_modules_debt_screens_debtformscreen_styles",
+      "id": "src_modules_finance_screens_transferformscreen_styles",
       "label": "styles",
       "_origin": "ast",
       "community": 26,
       "community_name": "BackButton",
       "file_type": "code",
       "norm_label": "styles",
-      "source_file": "src/modules/debt/screens/DebtFormScreen.tsx",
-      "source_location": "L186"
+      "source_file": "src/modules/finance/screens/TransferFormScreen.tsx",
+      "source_location": "L123"
+    },
+    {
+      "id": "src_modules_goal_screens_goalformscreen",
+      "label": "GoalFormScreen.tsx",
+      "_origin": "ast",
+      "community": 26,
+      "community_name": "BackButton",
+      "file_type": "code",
+      "norm_label": "goalformscreen.tsx",
+      "source_file": "src/modules/goal/screens/GoalFormScreen.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_modules_goal_screens_goalformscreen_styles",
+      "label": "styles",
+      "_origin": "ast",
+      "community": 26,
+      "community_name": "BackButton",
+      "file_type": "code",
+      "norm_label": "styles",
+      "source_file": "src/modules/goal/screens/GoalFormScreen.tsx",
+      "source_location": "L154"
     },
     {
       "id": "src_utils_date",
@@ -10747,7 +10239,7 @@
       "file_type": "code",
       "norm_label": "styles",
       "source_file": "src/components/common/TxList.tsx",
-      "source_location": "L103"
+      "source_location": "L106"
     },
     {
       "id": "src_components_common_txlist_tx_icon_size",
@@ -10758,7 +10250,7 @@
       "file_type": "code",
       "norm_label": "tx_icon_size",
       "source_file": "src/components/common/TxList.tsx",
-      "source_location": "L101"
+      "source_location": "L104"
     },
     {
       "id": "src_modules_finance_screens_accountdetailscreen",
@@ -10780,7 +10272,7 @@
       "file_type": "code",
       "norm_label": "styles",
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L206"
+      "source_location": "L214"
     },
     {
       "id": "dompetku_prd_11_data_models",
@@ -11585,6 +11077,204 @@
       "source_location": "L101"
     },
     {
+      "id": "src_models_accountmodel",
+      "label": "AccountModel.ts",
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "accountmodel.ts",
+      "source_file": "src/models/AccountModel.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_models_incomemodel",
+      "label": "IncomeModel.ts",
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "incomemodel.ts",
+      "source_file": "src/models/IncomeModel.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_models_index",
+      "label": "models/index.ts",
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "models/index.ts",
+      "source_file": "src/models/index.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_models_passiveincomemodel",
+      "label": "PassiveIncomeModel.ts",
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "passiveincomemodel.ts",
+      "source_file": "src/models/PassiveIncomeModel.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_models_transfermodel",
+      "label": "TransferModel.ts",
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "transfermodel.ts",
+      "source_file": "src/models/TransferModel.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_modules_dashboard_hooks_usedashboarddata",
+      "label": "useDashboardData.ts",
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "usedashboarddata.ts",
+      "source_file": "src/modules/dashboard/hooks/useDashboardData.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_modules_finance_useaccounts",
+      "label": "useAccounts.ts",
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "useaccounts.ts",
+      "source_file": "src/modules/finance/useAccounts.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_modules_transaction_screens_cashflowscreen",
+      "label": "CashflowScreen.tsx",
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "cashflowscreen.tsx",
+      "source_file": "src/modules/transaction/screens/CashflowScreen.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_modules_transaction_screens_cashflowscreen_income_emojis",
+      "label": "INCOME_EMOJIS",
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "income_emojis",
+      "source_file": "src/modules/transaction/screens/CashflowScreen.tsx",
+      "source_location": "L37"
+    },
+    {
+      "id": "src_modules_transaction_screens_cashflowscreen_styles",
+      "label": "styles",
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "styles",
+      "source_file": "src/modules/transaction/screens/CashflowScreen.tsx",
+      "source_location": "L411"
+    },
+    {
+      "id": "src_services_allocationservice",
+      "label": "AllocationService.ts",
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "allocationservice.ts",
+      "source_file": "src/services/AllocationService.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_services_passiveincomescheduler",
+      "label": "PassiveIncomeScheduler.ts",
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "passiveincomescheduler.ts",
+      "source_file": "src/services/PassiveIncomeScheduler.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_services_passiveincomescheduler_category_label",
+      "label": "CATEGORY_LABEL",
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "category_label",
+      "source_file": "src/services/PassiveIncomeScheduler.ts",
+      "source_location": "L9"
+    },
+    {
+      "id": "src_utils_journal",
+      "label": "journal.ts",
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "journal.ts",
+      "source_file": "src/utils/journal.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_utils_journal_exclude_non_earned",
+      "label": "EXCLUDE_NON_EARNED",
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "exclude_non_earned",
+      "source_file": "src/utils/journal.ts",
+      "source_location": "L14"
+    },
+    {
+      "id": "src_utils_journal_loan_category",
+      "label": "LOAN_CATEGORY",
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "loan_category",
+      "source_file": "src/utils/journal.ts",
+      "source_location": "L4"
+    },
+    {
+      "id": "src_utils_journal_non_earned_categories",
+      "label": "NON_EARNED_CATEGORIES",
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "non_earned_categories",
+      "source_file": "src/utils/journal.ts",
+      "source_location": "L11"
+    },
+    {
+      "id": "src_utils_journal_opening_category",
+      "label": "OPENING_CATEGORY",
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "CashflowScreen.tsx",
+      "file_type": "code",
+      "norm_label": "opening_category",
+      "source_file": "src/utils/journal.ts",
+      "source_location": "L2"
+    },
+    {
       "id": "src_components_common_dateinput",
       "label": "DateInput.tsx",
       "_origin": "ast",
@@ -11734,6 +11424,160 @@
       "norm_label": "settings module",
       "source_file": "dompetku-prd.md",
       "source_location": "L411"
+    },
+    {
+      "id": "src_models_categorymodel",
+      "label": "CategoryModel.ts",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "DataScreen.tsx",
+      "file_type": "code",
+      "norm_label": "categorymodel.ts",
+      "source_file": "src/models/CategoryModel.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_models_investmentmodel",
+      "label": "InvestmentModel.ts",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "DataScreen.tsx",
+      "file_type": "code",
+      "norm_label": "investmentmodel.ts",
+      "source_file": "src/models/InvestmentModel.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_models_physicalassetmodel",
+      "label": "PhysicalAssetModel.ts",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "DataScreen.tsx",
+      "file_type": "code",
+      "norm_label": "physicalassetmodel.ts",
+      "source_file": "src/models/PhysicalAssetModel.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_models_remindermodel",
+      "label": "ReminderModel.ts",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "DataScreen.tsx",
+      "file_type": "code",
+      "norm_label": "remindermodel.ts",
+      "source_file": "src/models/ReminderModel.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_modules_settings_screens_datascreen",
+      "label": "DataScreen.tsx",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "DataScreen.tsx",
+      "file_type": "code",
+      "norm_label": "datascreen.tsx",
+      "source_file": "src/modules/settings/screens/DataScreen.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_modules_settings_screens_datascreen_styles",
+      "label": "styles",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "DataScreen.tsx",
+      "file_type": "code",
+      "norm_label": "styles",
+      "source_file": "src/modules/settings/screens/DataScreen.tsx",
+      "source_location": "L277"
+    },
+    {
+      "id": "src_services_devseeder",
+      "label": "DevSeeder.ts",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "DataScreen.tsx",
+      "file_type": "code",
+      "norm_label": "devseeder.ts",
+      "source_file": "src/services/DevSeeder.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_services_devseeder_income_categories",
+      "label": "INCOME_CATEGORIES",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "DataScreen.tsx",
+      "file_type": "code",
+      "norm_label": "income_categories",
+      "source_file": "src/services/DevSeeder.ts",
+      "source_location": "L20"
+    },
+    {
+      "id": "src_services_devseeder_spend_rows",
+      "label": "SPEND_ROWS",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "DataScreen.tsx",
+      "file_type": "code",
+      "norm_label": "spend_rows",
+      "source_file": "src/services/DevSeeder.ts",
+      "source_location": "L11"
+    },
+    {
+      "id": "src_services_reminderservice",
+      "label": "ReminderService.ts",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "DataScreen.tsx",
+      "file_type": "code",
+      "norm_label": "reminderservice.ts",
+      "source_file": "src/services/ReminderService.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "ref_realm",
+      "label": "realm",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "DataScreen.tsx",
+      "file_type": "concept",
+      "norm_label": "realm",
+      "source_file": "package.json",
+      "source_location": "L36"
+    },
+    {
+      "id": "src_services_notificationservice",
+      "label": "NotificationService.ts",
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "ReminderScheduler.ts",
+      "file_type": "code",
+      "norm_label": "notificationservice.ts",
+      "source_file": "src/services/NotificationService.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_services_notificationservice_daily_reminder_hours",
+      "label": "DAILY_REMINDER_HOURS",
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "ReminderScheduler.ts",
+      "file_type": "code",
+      "norm_label": "daily_reminder_hours",
+      "source_file": "src/services/NotificationService.ts",
+      "source_location": "L7"
+    },
+    {
+      "id": "src_services_reminderscheduler",
+      "label": "ReminderScheduler.ts",
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "ReminderScheduler.ts",
+      "file_type": "code",
+      "norm_label": "reminderscheduler.ts",
+      "source_file": "src/services/ReminderScheduler.ts",
+      "source_location": "L1"
     },
     {
       "id": "dompetku_prd_15_future_roadmap",
@@ -12118,26 +11962,104 @@
       "source_location": "L7"
     },
     {
-      "id": "src_modules_finance_components_accountpicker",
-      "label": "AccountPicker.tsx",
+      "id": "src_models_debtmodel",
+      "label": "DebtModel.ts",
       "_origin": "ast",
-      "community": 52,
-      "community_name": "ActivityScreen.tsx",
+      "community": 51,
+      "community_name": "ExpenseModel.ts",
       "file_type": "code",
-      "norm_label": "accountpicker.tsx",
-      "source_file": "src/modules/finance/components/AccountPicker.tsx",
+      "norm_label": "debtmodel.ts",
+      "source_file": "src/models/DebtModel.ts",
       "source_location": "L1"
     },
     {
-      "id": "src_modules_finance_components_accountpicker_styles",
-      "label": "styles",
+      "id": "src_models_expensemodel",
+      "label": "ExpenseModel.ts",
       "_origin": "ast",
-      "community": 52,
-      "community_name": "ActivityScreen.tsx",
+      "community": 51,
+      "community_name": "ExpenseModel.ts",
       "file_type": "code",
-      "norm_label": "styles",
-      "source_file": "src/modules/finance/components/AccountPicker.tsx",
-      "source_location": "L94"
+      "norm_label": "expensemodel.ts",
+      "source_file": "src/models/ExpenseModel.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_models_goalmodel",
+      "label": "GoalModel.ts",
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "ExpenseModel.ts",
+      "file_type": "code",
+      "norm_label": "goalmodel.ts",
+      "source_file": "src/models/GoalModel.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_modules_birthday_birthdayrecap",
+      "label": "birthdayRecap.ts",
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "ExpenseModel.ts",
+      "file_type": "code",
+      "norm_label": "birthdayrecap.ts",
+      "source_file": "src/modules/birthday/birthdayRecap.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_modules_debt_usedebts",
+      "label": "useDebts.ts",
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "ExpenseModel.ts",
+      "file_type": "code",
+      "norm_label": "usedebts.ts",
+      "source_file": "src/modules/debt/useDebts.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_modules_goal_usegoals",
+      "label": "useGoals.ts",
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "ExpenseModel.ts",
+      "file_type": "code",
+      "norm_label": "usegoals.ts",
+      "source_file": "src/modules/goal/useGoals.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_services_debtreminderbackgroundtask",
+      "label": "DebtReminderBackgroundTask.ts",
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "ExpenseModel.ts",
+      "file_type": "code",
+      "norm_label": "debtreminderbackgroundtask.ts",
+      "source_file": "src/services/DebtReminderBackgroundTask.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_services_debtreminderbackgroundtask_legacy_task_names",
+      "label": "LEGACY_TASK_NAMES",
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "ExpenseModel.ts",
+      "file_type": "code",
+      "norm_label": "legacy_task_names",
+      "source_file": "src/services/DebtReminderBackgroundTask.ts",
+      "source_location": "L77"
+    },
+    {
+      "id": "docs_project_context_realm_models_10_total",
+      "label": "Realm Models (10 total)",
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "ExpenseModel.ts",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "realm models (10 total)",
+      "source_file": "docs/project-context.md",
+      "source_location": "L49"
     },
     {
       "id": "src_modules_finance_screens_activityscreen",
@@ -12182,50 +12104,6 @@
       "norm_label": "types",
       "source_file": "src/modules/finance/screens/ActivityScreen.tsx",
       "source_location": "L46"
-    },
-    {
-      "id": "src_modules_finance_screens_transferformscreen",
-      "label": "TransferFormScreen.tsx",
-      "_origin": "ast",
-      "community": 52,
-      "community_name": "ActivityScreen.tsx",
-      "file_type": "code",
-      "norm_label": "transferformscreen.tsx",
-      "source_file": "src/modules/finance/screens/TransferFormScreen.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_modules_finance_screens_transferformscreen_styles",
-      "label": "styles",
-      "_origin": "ast",
-      "community": 52,
-      "community_name": "ActivityScreen.tsx",
-      "file_type": "code",
-      "norm_label": "styles",
-      "source_file": "src/modules/finance/screens/TransferFormScreen.tsx",
-      "source_location": "L123"
-    },
-    {
-      "id": "src_modules_finance_screens_walletscreen",
-      "label": "WalletScreen.tsx",
-      "_origin": "ast",
-      "community": 52,
-      "community_name": "ActivityScreen.tsx",
-      "file_type": "code",
-      "norm_label": "walletscreen.tsx",
-      "source_file": "src/modules/finance/screens/WalletScreen.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_modules_finance_screens_walletscreen_styles",
-      "label": "styles",
-      "_origin": "ast",
-      "community": 52,
-      "community_name": "ActivityScreen.tsx",
-      "file_type": "code",
-      "norm_label": "styles",
-      "source_file": "src/modules/finance/screens/WalletScreen.tsx",
-      "source_location": "L223"
     },
     {
       "id": "src_modules_settings_components_profileavatar",
@@ -12481,6 +12359,50 @@
       "source_location": "L44"
     },
     {
+      "id": "src_modules_finance_components_accountpicker",
+      "label": "AccountPicker.tsx",
+      "_origin": "ast",
+      "community": 55,
+      "community_name": "WalletScreen.tsx",
+      "file_type": "code",
+      "norm_label": "accountpicker.tsx",
+      "source_file": "src/modules/finance/components/AccountPicker.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_modules_finance_components_accountpicker_styles",
+      "label": "styles",
+      "_origin": "ast",
+      "community": 55,
+      "community_name": "WalletScreen.tsx",
+      "file_type": "code",
+      "norm_label": "styles",
+      "source_file": "src/modules/finance/components/AccountPicker.tsx",
+      "source_location": "L94"
+    },
+    {
+      "id": "src_modules_finance_screens_walletscreen",
+      "label": "WalletScreen.tsx",
+      "_origin": "ast",
+      "community": 55,
+      "community_name": "WalletScreen.tsx",
+      "file_type": "code",
+      "norm_label": "walletscreen.tsx",
+      "source_file": "src/modules/finance/screens/WalletScreen.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_modules_finance_screens_walletscreen_styles",
+      "label": "styles",
+      "_origin": "ast",
+      "community": 55,
+      "community_name": "WalletScreen.tsx",
+      "file_type": "code",
+      "norm_label": "styles",
+      "source_file": "src/modules/finance/screens/WalletScreen.tsx",
+      "source_location": "L245"
+    },
+    {
       "id": "src_components_common_investmentsuccessanimation",
       "label": "InvestmentSuccessAnimation.tsx",
       "_origin": "ast",
@@ -12599,7 +12521,7 @@
       "file_type": "code",
       "norm_label": "investment_category",
       "source_file": "src/services/AllocationService.ts",
-      "source_location": "L157"
+      "source_location": "L182"
     },
     {
       "id": "src_utils_finance_passive_income_frequencies",
@@ -12611,6 +12533,50 @@
       "norm_label": "passive_income_frequencies",
       "source_file": "src/utils/finance.ts",
       "source_location": "L37"
+    },
+    {
+      "id": "src_services_goalservice",
+      "label": "GoalService.ts",
+      "_origin": "ast",
+      "community": 57,
+      "community_name": "GoalService.ts",
+      "file_type": "code",
+      "norm_label": "goalservice.ts",
+      "source_file": "src/services/GoalService.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_services_goalservice_goal_icons",
+      "label": "GOAL_ICONS",
+      "_origin": "ast",
+      "community": 57,
+      "community_name": "GoalService.ts",
+      "file_type": "code",
+      "norm_label": "goal_icons",
+      "source_file": "src/services/GoalService.ts",
+      "source_location": "L9"
+    },
+    {
+      "id": "src_modules_debt_screens_debtformscreen",
+      "label": "DebtFormScreen.tsx",
+      "_origin": "ast",
+      "community": 58,
+      "community_name": "DebtFormScreen.tsx",
+      "file_type": "code",
+      "norm_label": "debtformscreen.tsx",
+      "source_file": "src/modules/debt/screens/DebtFormScreen.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_modules_debt_screens_debtformscreen_styles",
+      "label": "styles",
+      "_origin": "ast",
+      "community": 58,
+      "community_name": "DebtFormScreen.tsx",
+      "file_type": "code",
+      "norm_label": "styles",
+      "source_file": "src/modules/debt/screens/DebtFormScreen.tsx",
+      "source_location": "L186"
     },
     {
       "id": "src_modules_transaction_screens_reportscreen",
@@ -12711,6 +12677,28 @@
       "norm_label": "default_kind_targets",
       "source_file": "src/utils/budget.ts",
       "source_location": "L30"
+    },
+    {
+      "id": "src_modules_reminder_usereminders",
+      "label": "useReminders.ts",
+      "_origin": "ast",
+      "community": 60,
+      "community_name": "@realm/react",
+      "file_type": "code",
+      "norm_label": "usereminders.ts",
+      "source_file": "src/modules/reminder/useReminders.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "ref_realm_react",
+      "label": "@realm/react",
+      "_origin": "ast",
+      "community": 60,
+      "community_name": "@realm/react",
+      "file_type": "concept",
+      "norm_label": "@realm/react",
+      "source_file": "package.json",
+      "source_location": "L11"
     },
     {
       "id": "src_utils_sha256",
@@ -13454,6 +13442,17 @@
       "type": "external"
     },
     {
+      "id": "src_services_accountservice_getaccountbalances",
+      "label": "src_services_accountservice_getaccountbalances",
+      "community": 22,
+      "community_name": "AccountService.ts",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "src_services_accountservice_getaccountbalances",
+      "source_file": "",
+      "type": "external"
+    },
+    {
       "id": "ref_expo_constants",
       "label": "ref_expo_constants",
       "community": 29,
@@ -14003,7 +14002,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/common/TxList.tsx",
-      "source_location": "L44",
+      "source_location": "L45",
       "weight": 1.0
     },
     {
@@ -14015,7 +14014,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/common/TxList.tsx",
-      "source_location": "L44",
+      "source_location": "L45",
       "weight": 1.0
     },
     {
@@ -14027,7 +14026,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/common/TxList.tsx",
-      "source_location": "L47",
+      "source_location": "L49",
       "weight": 1.0
     },
     {
@@ -14039,7 +14038,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/common/TxList.tsx",
-      "source_location": "L79",
+      "source_location": "L82",
       "weight": 1.0
     },
     {
@@ -16607,7 +16606,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L110",
+      "source_location": "L116",
       "weight": 1.0
     },
     {
@@ -16619,7 +16618,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L117",
+      "source_location": "L123",
       "weight": 1.0
     },
     {
@@ -16631,7 +16630,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L120",
+      "source_location": "L126",
       "weight": 1.0
     },
     {
@@ -16643,7 +16642,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L127",
+      "source_location": "L133",
       "weight": 1.0
     },
     {
@@ -16655,7 +16654,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L137",
+      "source_location": "L143",
       "weight": 1.0
     },
     {
@@ -16667,7 +16666,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L139",
+      "source_location": "L145",
       "weight": 1.0
     },
     {
@@ -16679,7 +16678,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L155",
+      "source_location": "L162",
       "weight": 1.0
     },
     {
@@ -16691,7 +16690,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L184",
+      "source_location": "L192",
       "weight": 1.0
     },
     {
@@ -16703,7 +16702,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L39",
+      "source_location": "L41",
       "weight": 1.0
     },
     {
@@ -16715,7 +16714,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L60",
+      "source_location": "L63",
       "weight": 1.0
     },
     {
@@ -16727,7 +16726,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L63",
+      "source_location": "L66",
       "weight": 1.0
     },
     {
@@ -16739,7 +16738,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L65",
+      "source_location": "L68",
       "weight": 1.0
     },
     {
@@ -16751,7 +16750,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L201",
+      "source_location": "L209",
       "weight": 1.0
     },
     {
@@ -16828,7 +16827,7 @@
     },
     {
       "source": "src_modules_finance_screens_accountformscreen_accountformscreen",
-      "target": "src_services_accountservice_getaccountbalances",
+      "target": "src_services_allocationservice_getaccountbalances",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -17231,7 +17230,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/WalletScreen.tsx",
-      "source_location": "L218",
+      "source_location": "L240",
       "weight": 1.0
     },
     {
@@ -17243,7 +17242,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/WalletScreen.tsx",
-      "source_location": "L192",
+      "source_location": "L214",
       "weight": 1.0
     },
     {
@@ -17255,7 +17254,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/WalletScreen.tsx",
-      "source_location": "L194",
+      "source_location": "L216",
       "weight": 1.0
     },
     {
@@ -17267,7 +17266,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/WalletScreen.tsx",
-      "source_location": "L118",
+      "source_location": "L123",
       "weight": 1.0
     },
     {
@@ -17279,7 +17278,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/WalletScreen.tsx",
-      "source_location": "L122",
+      "source_location": "L127",
       "weight": 1.0
     },
     {
@@ -17296,18 +17295,6 @@
     },
     {
       "source": "src_modules_finance_screens_walletscreen_walletscreen",
-      "target": "src_components_common_button_button",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/modules/finance/screens/WalletScreen.tsx",
-      "source_location": "L179",
-      "weight": 1.0
-    },
-    {
-      "source": "src_modules_finance_screens_walletscreen_walletscreen",
       "target": "src_modules_finance_useaccounts_useaccounts",
       "relation": "calls",
       "_origin": "ast",
@@ -17320,6 +17307,18 @@
     },
     {
       "source": "src_modules_finance_screens_walletscreen_walletscreen",
+      "target": "src_components_common_button_button",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/modules/finance/screens/WalletScreen.tsx",
+      "source_location": "L201",
+      "weight": 1.0
+    },
+    {
+      "source": "src_modules_finance_screens_walletscreen_walletscreen",
       "target": "src_services_accountservice_accounttypemeta",
       "relation": "calls",
       "_origin": "ast",
@@ -17327,7 +17326,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/WalletScreen.tsx",
-      "source_location": "L33",
+      "source_location": "L38",
       "weight": 1.0
     },
     {
@@ -17339,7 +17338,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/WalletScreen.tsx",
-      "source_location": "L46",
+      "source_location": "L51",
       "weight": 1.0
     },
     {
@@ -17351,7 +17350,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/WalletScreen.tsx",
-      "source_location": "L57",
+      "source_location": "L62",
       "weight": 1.0
     },
     {
@@ -17363,12 +17362,12 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/WalletScreen.tsx",
-      "source_location": "L70",
+      "source_location": "L75",
       "weight": 1.0
     },
     {
       "source": "src_modules_finance_useaccounts_useaccounts",
-      "target": "src_services_accountservice_getaccountbalances",
+      "target": "src_services_allocationservice_getaccountbalances",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -20267,7 +20266,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/AccountService.ts",
-      "source_location": "L142",
+      "source_location": "L117",
       "weight": 1.0
     },
     {
@@ -20279,7 +20278,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/AccountService.ts",
-      "source_location": "L125",
+      "source_location": "L100",
       "weight": 1.0
     },
     {
@@ -20291,19 +20290,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/AccountService.ts",
-      "source_location": "L83",
+      "source_location": "L58",
       "weight": 1.0
     },
     {
       "source": "src_services_accountservice_setaccountbalance",
-      "target": "src_services_accountservice_getaccountbalances",
+      "target": "src_services_allocationservice_getaccountbalances",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/AccountService.ts",
-      "source_location": "L101",
+      "source_location": "L76",
       "weight": 1.0
     },
     {
@@ -20315,7 +20314,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/AccountService.ts",
-      "source_location": "L105",
+      "source_location": "L80",
       "weight": 1.0
     },
     {
@@ -20327,7 +20326,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/AccountService.ts",
-      "source_location": "L107",
+      "source_location": "L82",
       "weight": 1.0
     },
     {
@@ -20339,7 +20338,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/AccountService.ts",
-      "source_location": "L113",
+      "source_location": "L88",
       "weight": 1.0
     },
     {
@@ -20351,43 +20350,31 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/AccountService.ts",
-      "source_location": "L114",
+      "source_location": "L89",
       "weight": 1.0
     },
     {
       "source": "src_services_allocationservice_getbalances",
-      "target": "src_services_allocationservice_getsavingstransfernet",
+      "target": "src_services_allocationservice_savingspocketids",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/AllocationService.ts",
-      "source_location": "L66",
+      "source_location": "L79",
       "weight": 1.0
     },
     {
       "source": "src_services_allocationservice_getbalances",
-      "target": "src_services_allocationservice_getspendablebalance",
+      "target": "src_services_allocationservice_getmarkedsavings",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/AllocationService.ts",
-      "source_location": "L67",
-      "weight": 1.0
-    },
-    {
-      "source": "src_services_allocationservice_getbalances",
-      "target": "src_services_allocationservice_getsavingsbalance",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/services/AllocationService.ts",
-      "source_location": "L68",
+      "source_location": "L83",
       "weight": 1.0
     },
     {
@@ -20399,19 +20386,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/AllocationService.ts",
-      "source_location": "L118",
-      "weight": 1.0
-    },
-    {
-      "source": "src_services_allocationservice_routesaleproceeds",
-      "target": "src_services_allocationservice_mainaccountid",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/services/AllocationService.ts",
-      "source_location": "L101",
+      "source_location": "L143",
       "weight": 1.0
     },
     {
@@ -20423,7 +20398,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/AllocationService.ts",
-      "source_location": "L86",
+      "source_location": "L111",
+      "weight": 1.0
+    },
+    {
+      "source": "src_services_allocationservice_routesaleproceeds",
+      "target": "src_services_allocationservice_mainaccountid",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/services/AllocationService.ts",
+      "source_location": "L126",
       "weight": 1.0
     },
     {
@@ -20435,7 +20422,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/AllocationService.ts",
-      "source_location": "L130",
+      "source_location": "L155",
       "weight": 1.0
     },
     {
@@ -20447,7 +20434,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/AllocationService.ts",
-      "source_location": "L150",
+      "source_location": "L175",
       "weight": 1.0
     },
     {
@@ -20459,7 +20446,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/AllocationService.ts",
-      "source_location": "L195",
+      "source_location": "L220",
       "weight": 1.0
     },
     {
@@ -21935,7 +21922,7 @@
       "confidence_score": 1.0,
       "context": "export",
       "source_file": "src/services/AccountService.ts",
-      "source_location": "L87",
+      "source_location": "L52",
       "weight": 1.0
     },
     {
@@ -29044,6 +29031,18 @@
     },
     {
       "source": "src_modules_finance_screens_accountformscreen",
+      "target": "src_services_allocationservice_getaccountbalances",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/modules/finance/screens/AccountFormScreen.tsx",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "src_modules_finance_screens_accountformscreen",
       "target": "src_utils_currency_formatcurrency",
       "relation": "imports",
       "_origin": "ast",
@@ -29765,6 +29764,18 @@
     {
       "source": "src_modules_finance_useaccounts",
       "target": "src_services_accountservice_getunassigned",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/modules/finance/useAccounts.ts",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "src_modules_finance_useaccounts",
+      "target": "src_services_allocationservice_getaccountbalances",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -35844,6 +35855,18 @@
       "context": "import",
       "source_file": "src/services/AccountService.ts",
       "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "src_services_accountservice",
+      "target": "src_services_allocationservice_getaccountbalances",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/services/AccountService.ts",
+      "source_location": "L9",
       "weight": 1.0
     },
     {
@@ -54608,7 +54631,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/common/TxList.tsx",
-      "source_location": "L101",
+      "source_location": "L104",
       "weight": 1.0
     },
     {
@@ -54619,7 +54642,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/common/TxList.tsx",
-      "source_location": "L103",
+      "source_location": "L106",
       "weight": 1.0
     },
     {
@@ -54663,7 +54686,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/common/TxList.tsx",
-      "source_location": "L41",
+      "source_location": "L42",
       "weight": 1.0
     },
     {
@@ -54674,7 +54697,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/common/TxList.tsx",
-      "source_location": "L53",
+      "source_location": "L56",
       "weight": 1.0
     },
     {
@@ -54685,7 +54708,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/common/TxList.tsx",
-      "source_location": "L67",
+      "source_location": "L70",
       "weight": 1.0
     },
     {
@@ -56472,17 +56495,6 @@
     },
     {
       "source": "src_modules_finance_screens_accountdetailscreen",
-      "target": "src_modules_finance_screens_accountdetailscreen_action",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L197",
-      "weight": 1.0
-    },
-    {
-      "source": "src_modules_finance_screens_accountdetailscreen",
       "target": "src_modules_finance_screens_accountdetailscreen_props",
       "relation": "contains",
       "_origin": "ast",
@@ -56494,13 +56506,24 @@
     },
     {
       "source": "src_modules_finance_screens_accountdetailscreen",
+      "target": "src_modules_finance_screens_accountdetailscreen_action",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
+      "source_location": "L205",
+      "weight": 1.0
+    },
+    {
+      "source": "src_modules_finance_screens_accountdetailscreen",
       "target": "src_modules_finance_screens_accountdetailscreen_styles",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L206",
+      "source_location": "L214",
       "weight": 1.0
     },
     {
@@ -56522,7 +56545,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L37",
+      "source_location": "L39",
       "weight": 1.0
     },
     {
@@ -56775,7 +56798,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/modules/finance/screens/WalletScreen.tsx",
-      "source_location": "L187",
+      "source_location": "L209",
       "weight": 1.0
     },
     {
@@ -56786,7 +56809,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/modules/finance/screens/WalletScreen.tsx",
-      "source_location": "L199",
+      "source_location": "L221",
       "weight": 1.0
     },
     {
@@ -56797,7 +56820,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/modules/finance/screens/WalletScreen.tsx",
-      "source_location": "L223",
+      "source_location": "L245",
       "weight": 1.0
     },
     {
@@ -58617,35 +58640,13 @@
     },
     {
       "source": "src_services_accountservice",
-      "target": "src_services_accountservice_setaccountbalance",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/services/AccountService.ts",
-      "source_location": "L100",
-      "weight": 1.0
-    },
-    {
-      "source": "src_services_accountservice",
-      "target": "src_services_accountservice_addopeningbalance",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/services/AccountService.ts",
-      "source_location": "L122",
-      "weight": 1.0
-    },
-    {
-      "source": "src_services_accountservice",
       "target": "src_services_accountservice_addadjustment",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/AccountService.ts",
-      "source_location": "L141",
+      "source_location": "L116",
       "weight": 1.0
     },
     {
@@ -58656,7 +58657,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/AccountService.ts",
-      "source_location": "L151",
+      "source_location": "L126",
       "weight": 1.0
     },
     {
@@ -58716,24 +58717,13 @@
     },
     {
       "source": "src_services_accountservice",
-      "target": "src_services_accountservice_getaccountbalances",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/services/AccountService.ts",
-      "source_location": "L59",
-      "weight": 1.0
-    },
-    {
-      "source": "src_services_accountservice",
       "target": "src_services_accountservice_getunassigned",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/AccountService.ts",
-      "source_location": "L80",
+      "source_location": "L55",
       "weight": 1.0
     },
     {
@@ -58744,7 +58734,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/AccountService.ts",
-      "source_location": "L87",
+      "source_location": "L62",
       "weight": 1.0
     },
     {
@@ -58755,7 +58745,29 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/AccountService.ts",
-      "source_location": "L90",
+      "source_location": "L65",
+      "weight": 1.0
+    },
+    {
+      "source": "src_services_accountservice",
+      "target": "src_services_accountservice_setaccountbalance",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/services/AccountService.ts",
+      "source_location": "L75",
+      "weight": 1.0
+    },
+    {
+      "source": "src_services_accountservice",
+      "target": "src_services_accountservice_addopeningbalance",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/services/AccountService.ts",
+      "source_location": "L97",
       "weight": 1.0
     },
     {
@@ -58771,13 +58783,24 @@
     },
     {
       "source": "src_services_allocationservice",
+      "target": "src_services_allocationservice_routesaleproceeds",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/services/AllocationService.ts",
+      "source_location": "L101",
+      "weight": 1.0
+    },
+    {
+      "source": "src_services_allocationservice",
       "target": "src_services_allocationservice_deletelinkedtransactions",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/AllocationService.ts",
-      "source_location": "L111",
+      "source_location": "L136",
       "weight": 1.0
     },
     {
@@ -58788,7 +58811,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/AllocationService.ts",
-      "source_location": "L117",
+      "source_location": "L142",
       "weight": 1.0
     },
     {
@@ -58799,7 +58822,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/AllocationService.ts",
-      "source_location": "L125",
+      "source_location": "L150",
       "weight": 1.0
     },
     {
@@ -58810,7 +58833,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/AllocationService.ts",
-      "source_location": "L157",
+      "source_location": "L182",
       "weight": 1.0
     },
     {
@@ -58821,34 +58844,23 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/AllocationService.ts",
-      "source_location": "L172",
+      "source_location": "L197",
       "weight": 1.0
     },
     {
       "source": "src_services_allocationservice",
-      "target": "src_services_allocationservice_getsavingstransfernet",
+      "target": "src_services_allocationservice_getaccountbalances",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/AllocationService.ts",
-      "source_location": "L28",
+      "source_location": "L31",
       "weight": 1.0
     },
     {
       "source": "src_services_allocationservice",
-      "target": "src_services_allocationservice_getspendablebalance",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/services/AllocationService.ts",
-      "source_location": "L44",
-      "weight": 1.0
-    },
-    {
-      "source": "src_services_allocationservice",
-      "target": "src_services_allocationservice_getsavingsbalance",
+      "target": "src_services_allocationservice_savingspocketids",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -58859,13 +58871,13 @@
     },
     {
       "source": "src_services_allocationservice",
-      "target": "src_services_allocationservice_getuntrackedinvestment",
+      "target": "src_services_allocationservice_getmarkedsavings",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/AllocationService.ts",
-      "source_location": "L61",
+      "source_location": "L60",
       "weight": 1.0
     },
     {
@@ -58876,18 +58888,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/AllocationService.ts",
-      "source_location": "L65",
+      "source_location": "L71",
       "weight": 1.0
     },
     {
       "source": "src_services_allocationservice",
-      "target": "src_services_allocationservice_routesaleproceeds",
+      "target": "src_services_allocationservice_getuntrackedinvestment",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/AllocationService.ts",
-      "source_location": "L76",
+      "source_location": "L93",
       "weight": 1.0
     },
     {
@@ -61435,5 +61447,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "172e81dd778fb210c347afcd773cd55c23d93755"
+  "built_at_commit": "f50ea432e54cb280ab78e89b4f7fd5f8c9746a0a"
 }

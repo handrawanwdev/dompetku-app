@@ -13,45 +13,77 @@ export function mainAccountId(realm: Realm): string {
   return main ? main._id.toHexString() : '';
 }
 
-// Satu saldo, dua bagian:
-// - bisa dipakai = semua pemasukan − uang keluar yang diambil dari saldo
-//   (termasuk yang disisihkan ke Tabungan)
-// - tabungan     = uang yang disisihkan − yang dibayar pakai tabungan
-// - pindah saldo ke kantong tabungan ikut jadi tabungan, pindah keluar dari
-//   kantong tabungan mengurangi tabungan (saldo total tetap)
-// Saldo total = bisa dipakai + tabungan.
+// Satu saldo, dua bagian: bisa dipakai + tabungan.
+// - saldo total  = semua pemasukan − uang keluar sungguhan (tidak berubah oleh
+//                  Sisihkan ke Tabungan atau pindah saldo)
+// - tabungan     = saldo kantong tabungan + uang yang disisihkan tapi masih ada
+//                  di kantong harian (atau tanpa kantong)
+// - bisa dipakai = saldo total − tabungan
+// Dengan begitu angka Tabungan di Dashboard = total grup Tabungan di Dompet.
+
+/** Uang keluar yang benar-benar meninggalkan kantong (bukan sekadar disisihkan). */
+const MOVING_EXPENSE = 'accountId != "" AND source != "adjust" AND (kind != "saving" OR source == "savings")';
+
+/** Sisihkan ke Tabungan yang uangnya ditaruh di kantong lain (kantong tabungan). */
+const SAVED_TO_POCKET = 'kind == "saving" AND source != "savings" AND source != "adjust" AND toAccountId != ""';
+
+/** Saldo tiap kantong, key = id hex. */
+export function getAccountBalances(realm: Realm): Map<string, number> {
+  const map = new Map<string, number>();
+  for (const a of realm.objects(AccountModel)) map.set(a._id.toHexString(), 0);
+  const add = (id: string, v: number) => {
+    if (map.has(id)) map.set(id, (map.get(id) ?? 0) + v);
+  };
+  for (const i of realm.objects(IncomeModel).filtered('accountId != ""')) add(i.accountId, i.allocationCash);
+  for (const e of realm.objects(ExpenseModel).filtered(MOVING_EXPENSE)) add(e.accountId, -e.amount);
+  // Sisihkan ke kantong tabungan: uang pindah dari kantong asal ke kantong tabungan.
+  for (const e of realm.objects(ExpenseModel).filtered(SAVED_TO_POCKET)) {
+    add(e.accountId, -e.amount);
+    add(e.toAccountId, e.amount);
+  }
+  for (const t of realm.objects(TransferModel)) {
+    add(t.fromId, -t.amount);
+    add(t.toId, t.amount);
+  }
+  return map;
+}
+
+function savingsPocketIds(realm: Realm): Set<string> {
+  return new Set(realm.objects(AccountModel).filtered('isSavings == true').map((a) => a._id.toHexString()));
+}
 
 /**
- * Bersih pindah saldo masuk ke kantong tabungan dari kantong harian (atau dari
- * "belum masuk kantong"), dikurangi yang dipindah keluar. Antar kantong tabungan = 0.
+ * Tabungan yang ditandai lewat Sisihkan ke Tabungan tapi uangnya tidak berada di
+ * kantong tabungan (tetap di kantong harian / tanpa kantong), dikurangi yang
+ * dipakai ("bayar pakai tabungan") dari luar kantong tabungan.
  */
-export function getSavingsTransferNet(realm: Realm): number {
-  const savingsIds = new Set(
-    realm.objects(AccountModel).filtered('isSavings == true').map((a) => a._id.toHexString()),
-  );
-  if (savingsIds.size === 0) return 0;
-  let net = 0;
-  for (const t of realm.objects(TransferModel)) {
-    const toSavings = savingsIds.has(t.toId);
-    const fromSavings = savingsIds.has(t.fromId);
-    if (toSavings && !fromSavings) net += t.amount;
-    else if (fromSavings && !toSavings) net -= t.amount;
+function getMarkedSavings(realm: Realm, savingsIds: Set<string>): number {
+  let v = 0;
+  for (const e of realm.objects(ExpenseModel).filtered('kind == "saving" AND source != "savings"')) {
+    if (!savingsIds.has(e.toAccountId || e.accountId)) v += e.amount;
   }
-  return net;
+  for (const e of realm.objects(ExpenseModel).filtered('source == "savings"')) {
+    if (!savingsIds.has(e.accountId)) v -= e.amount;
+  }
+  return v;
 }
 
-/** Bagian saldo yang bebas dipakai. */
-export function getSpendableBalance(realm: Realm, transferNet = getSavingsTransferNet(realm)): number {
+export function getBalances(realm: Realm, pocketBalances = getAccountBalances(realm)) {
   const totalIn = realm.objects(IncomeModel).sum('allocationCash') ?? 0;
-  const totalOut = realm.objects(ExpenseModel).filtered('source == "cash"').sum('amount') ?? 0;
-  return totalIn - totalOut - transferNet;
-}
-
-/** Bagian saldo yang disisihkan sebagai tabungan. */
-export function getSavingsBalance(realm: Realm, transferNet = getSavingsTransferNet(realm)): number {
+  const cashOut = realm.objects(ExpenseModel).filtered('source == "cash"').sum('amount') ?? 0;
   const saved = realm.objects(ExpenseModel).filtered('kind == "saving" AND source != "savings"').sum('amount') ?? 0;
   const used = realm.objects(ExpenseModel).filtered('source == "savings"').sum('amount') ?? 0;
-  return saved - used + transferNet;
+  // Sisihkan (source cash) keluar lalu masuk lagi sebagai tabungan: saldo total tetap.
+  const total = totalIn - cashOut + saved - used;
+
+  const savingsIds = savingsPocketIds(realm);
+  let inSavingsPockets = 0;
+  savingsIds.forEach((id) => (inSavingsPockets += pocketBalances.get(id) ?? 0));
+  /** Bagian tabungan yang uangnya masih di kantong harian. */
+  const markedSavings = getMarkedSavings(realm, savingsIds);
+  const savings = inSavingsPockets + markedSavings;
+
+  return { spendable: total - savings, savings, total, markedSavings };
 }
 
 /**
@@ -60,13 +92,6 @@ export function getSavingsBalance(realm: Realm, transferNet = getSavingsTransfer
  */
 export function getUntrackedInvestment(realm: Realm): number {
   return realm.objects(ExpenseModel).filtered('kind == "invest" AND assetRef == "" AND isInternal == false').sum('amount') ?? 0;
-}
-
-export function getBalances(realm: Realm) {
-  const net = getSavingsTransferNet(realm);
-  const spendable = getSpendableBalance(realm, net);
-  const savings = getSavingsBalance(realm, net);
-  return { spendable, savings, total: spendable + savings };
 }
 
 /**

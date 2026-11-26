@@ -150,7 +150,7 @@ export function IncomeFormScreen() {
   };
 
   const handleDelete = () => {
-    Alert.alert('Hapus pemasukan', 'Saldo kamu akan dihitung ulang tanpa pemasukan ini.', [
+    Alert.alert('Hapus uang masuk', 'Saldo kamu akan dihitung ulang tanpa catatan ini.', [
       { text: 'Batal', style: 'cancel' },
       {
         text: 'Hapus',
@@ -299,7 +299,7 @@ export function IncomeFormScreen() {
           {/* Delete */}
           {isEdit && (
             <Button
-              title="Hapus pemasukan"
+              title="Hapus uang masuk"
               onPress={handleDelete}
               variant="danger"
               fullWidth

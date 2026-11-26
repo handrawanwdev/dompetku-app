@@ -63,17 +63,21 @@ function FilterChips({
   selected,
   accent,
   onSelect,
+  allLabel = "Semua",
+  style,
 }: {
   options: ChipOption[];
   selected: string;
   accent: string;
   onSelect: (key: string) => void;
+  allLabel?: string;
+  style?: object;
 }) {
-  const all: ChipOption[] = [{ key: ALL, label: "Semua" }, ...options];
+  const all: ChipOption[] = [{ key: ALL, label: allLabel }, ...options];
   return (
     <ScrollView
       horizontal
-      style={styles.chipScroll}
+      style={[styles.chipScroll, style]}
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.chipRow}
     >
@@ -113,6 +117,7 @@ export function CashflowScreen() {
   const [month, setMonth] = useState(thisMonth);
   const [incomeFilter, setIncomeFilter] = useState(ALL);
   const [expenseFilter, setExpenseFilter] = useState(ALL);
+  const [pocket, setPocket] = useState(ALL);
 
   const ym = month.format("YYYY-MM");
   const isCurrentMonth = month.isSame(thisMonth, "month");
@@ -126,6 +131,8 @@ export function CashflowScreen() {
     for (const a of accounts) map[a._id.toHexString()] = a.name;
     return map;
   }, [accounts]);
+  // Kantong yang dipilih sudah dihapus: anggap semua kantong.
+  const activePocket = pocket !== ALL && !accountName[pocket] ? ALL : pocket;
 
   const incomeEmoji = useMemo(() => {
     const map: Record<string, string> = { ...INCOME_EMOJIS };
@@ -133,14 +140,25 @@ export function CashflowScreen() {
     return map;
   }, [categories]);
 
-  const monthIncomes = useMemo(
-    () => allIncomes.filtered("date BEGINSWITH $0 AND isInternal == false", ym).sorted([["date", true], ["createdAt", true]]),
-    [allIncomes, ym],
+  // Filter kantong: uang masuk ke kantong itu; uang keluar dari kantong itu
+  // (atau disisihkan ke kantong itu).
+  const monthIncomes = useMemo(() => {
+    const base = allIncomes.filtered("date BEGINSWITH $0 AND isInternal == false", ym);
+    return (activePocket === ALL ? base : base.filtered("accountId == $0", activePocket)).sorted([["date", true], ["createdAt", true]]);
+  }, [allIncomes, ym, activePocket]);
+  const monthExpenses = useMemo(() => {
+    const base = allExpenses.filtered("date BEGINSWITH $0 AND isInternal == false", ym);
+    return (activePocket === ALL ? base : base.filtered("accountId == $0 OR toAccountId == $0", activePocket)).sorted([["date", true], ["createdAt", true]]);
+  }, [allExpenses, ym, activePocket]);
+
+  const pocketOptions = useMemo<ChipOption[]>(
+    () =>
+      accounts
+        .sorted([["isMain", true], ["createdAt", false]])
+        .map((a) => ({ key: a._id.toHexString(), label: a.name })),
+    [accounts],
   );
-  const monthExpenses = useMemo(
-    () => allExpenses.filtered("date BEGINSWITH $0 AND isInternal == false", ym).sorted([["date", true], ["createdAt", true]]),
-    [allExpenses, ym],
-  );
+
 
   const incomeTotal = useMemo(() => monthIncomes.reduce((s, i) => s + i.amount, 0), [monthIncomes]);
   const expenseTotal = useMemo(() => monthExpenses.reduce((s, e) => s + e.amount, 0), [monthExpenses]);
@@ -189,11 +207,19 @@ export function CashflowScreen() {
   );
   const filteredTotal = useMemo(() => items.reduce((s, i) => s + i.data.amount, 0), [items]);
 
-  const changeMonth = (m: dayjs.Dayjs) => {
-    setMonth(m);
+  const resetFilters = () => {
     setIncomeFilter(ALL);
     setExpenseFilter(ALL);
   };
+  const changeMonth = (m: dayjs.Dayjs) => {
+    setMonth(m);
+    resetFilters();
+  };
+  const changePocket = (key: string) => {
+    setPocket(key);
+    resetFilters();
+  };
+  const showPocketName = activePocket === ALL;
 
   const accent = isIncome ? COLORS.income : COLORS.expense;
 
@@ -207,14 +233,15 @@ export function CashflowScreen() {
         const isOpening = i.category === OPENING_CATEGORY;
         const isLoan = i.ref.startsWith("debt:");
         // Saldo awal & uang pinjaman diatur dari sumbernya, jadi ketuk = buka halaman sumbernya.
-        let subtitle = i.note || undefined;
+        const acc = showPocketName ? accountName[i.accountId] : undefined;
+        let subtitle = [acc, i.note].filter(Boolean).join(" · ") || undefined;
         let onPress: (() => void) | undefined = () => navigation.navigate("IncomeForm", { id: i._id.toHexString() });
         if (isOpening) {
-          const acc = accountName[i.accountId];
-          subtitle = acc ? `Uang yang sudah ada di ${acc}` : "Uang yang sudah ada";
+          const at = accountName[i.accountId];
+          subtitle = at ? `Uang yang sudah ada di ${at}` : "Uang yang sudah ada";
           onPress = () => navigation.navigate("Tabs", { screen: "Wallet" });
         } else if (isLoan) {
-          subtitle = i.note || "Uang dari pinjaman";
+          subtitle = [acc, i.note || "Uang dari pinjaman"].filter(Boolean).join(" · ");
           onPress = () => navigation.navigate("Debts");
         } else if (isLockedIncome(i)) {
           onPress = undefined;
@@ -237,6 +264,10 @@ export function CashflowScreen() {
       const e = item.data;
       const meta = KIND_META[isSpendKind(e.kind) ? e.kind : "need"];
       const kept = isKeptKind(e.kind);
+      const from = showPocketName ? accountName[e.accountId] : undefined;
+      const to = e.toAccountId ? accountName[e.toAccountId] : undefined;
+      // "BCA", atau "BCA → Jago" untuk yang disisihkan ke kantong tabungan.
+      const where = from && to ? `${from} → ${to}` : !showPocketName && to ? `→ ${to}` : from;
       return (
         <TxRow
           first={first}
@@ -244,7 +275,7 @@ export function CashflowScreen() {
           iconBg={meta.color + "1A"}
           icon={<MaterialIcons name={meta.icon} size={ICON_SIZES.lg} color={meta.color} />}
           title={e.category}
-          subtitle={e.note ? `${meta.label} · ${e.note}` : meta.label}
+          subtitle={[meta.label, where, e.note].filter(Boolean).join(" · ")}
           badge={e.source === "savings" ? { label: "dari tabungan", color: COLORS.saving } : undefined}
           amount={`${kept ? "" : "−"}${formatCurrency(e.amount)}`}
           amountColor={kept ? meta.color : COLORS.expense}
@@ -252,7 +283,7 @@ export function CashflowScreen() {
         />
       );
     },
-    [navigation, incomeEmoji, accountName],
+    [navigation, incomeEmoji, accountName, showPocketName],
   );
 
   const renderSectionHeader = useCallback(
@@ -309,7 +340,7 @@ export function CashflowScreen() {
         </TouchableOpacity>
       )}
 
-      {/* Pemasukan / Uang keluar */}
+      {/* Uang masuk / Uang keluar */}
       <View style={styles.segment}>
         {(["expense", "income"] as const).map((tab) => {
           const active = activeTab === tab;
@@ -330,7 +361,7 @@ export function CashflowScreen() {
                   color={active ? color : COLORS.textSecondary}
                 />
                 <Text style={[styles.segLabel, active && { color: COLORS.text }]}>
-                  {tab === "income" ? "Pemasukan" : "Uang keluar"}
+                  {tab === "income" ? "Uang masuk" : "Uang keluar"}
                 </Text>
               </View>
               <Text style={[styles.segAmount, { color: active ? color : COLORS.textSecondary }]} numberOfLines={1}>
@@ -341,6 +372,17 @@ export function CashflowScreen() {
         })}
       </View>
 
+      {/* Filter kantong (berlaku untuk uang masuk & keluar) */}
+      {pocketOptions.length > 1 && (
+        <FilterChips
+          options={pocketOptions}
+          selected={activePocket}
+          accent={COLORS.primary}
+          onSelect={changePocket}
+          allLabel="Semua kantong"
+        />
+      )}
+
       {/* Filter kategori / jenis (hanya yang ada di bulan ini) */}
       {(isIncome ? incomeOptions : expenseOptions).length > 1 && (
         <FilterChips
@@ -348,6 +390,7 @@ export function CashflowScreen() {
           selected={filter}
           accent={accent}
           onSelect={isIncome ? setIncomeFilter : setExpenseFilter}
+          style={pocketOptions.length > 1 ? styles.chipScrollTight : undefined}
         />
       )}
 
@@ -381,7 +424,7 @@ export function CashflowScreen() {
           isIncome ? (
             <EmptyState
               emoji="💰"
-              title={`Belum ada pemasukan di ${month.format("MMMM")}`}
+              title={`Belum ada uang masuk di ${month.format("MMMM")}`}
               subtitle="Gajian atau dapat uang? Catat lewat tombol +."
             />
           ) : (
@@ -454,6 +497,7 @@ const styles = StyleSheet.create({
   segAmount: { fontSize: FONTS.lg, fontWeight: "800", marginTop: 2 },
 
   chipScroll: { flexGrow: 0, flexShrink: 0, marginTop: SPACING.md },
+  chipScrollTight: { marginTop: SPACING.sm },
   chipRow: { paddingHorizontal: SPACING.lg, gap: SPACING.sm },
   chip: {
     flexDirection: "row",

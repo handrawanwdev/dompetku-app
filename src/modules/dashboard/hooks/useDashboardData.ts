@@ -33,7 +33,7 @@ export function useDashboardData() {
 
   const incomes = useQuery(IncomeModel);
   const expenses = useQuery(ExpenseModel);
-  // Pindah saldo ke/dari kantong tabungan mengubah porsi tabungan (getBalances).
+  // Pindah saldo ke/dari kantong tabungan mengubah porsi tabungan (getBalances & Pembagian).
   const transfers = useQuery(TransferModel);
   const accounts = useQuery(AccountModel);
   const debtInfos = useDebts();
@@ -84,6 +84,18 @@ export function useDashboardData() {
       byKind[isSpendKind(e.kind) ? e.kind : "need"] += e.amount;
     }
     const monthlyExpense = byKind.need + byKind.obligation + byKind.want;
+
+    // Pindah saldo dari kantong harian ke kantong tabungan juga menabung: ikut
+    // dihitung ke porsi Tabungan (bersih, ditarik balik mengurangi, minimal 0).
+    // Saldo awal / penyesuaian (tanpa kantong asal) dan antar kantong tabungan tidak.
+    const savingsIds = new Set(accounts.filtered("isSavings == true").map((a) => a._id.toHexString()));
+    const dailyIds = new Set(accounts.filtered("isSavings == false").map((a) => a._id.toHexString()));
+    let movedToSavings = 0;
+    for (const t of transfers.filtered("date >= $0 AND date <= $1", monthStart, monthEnd)) {
+      if (dailyIds.has(t.fromId) && savingsIds.has(t.toId)) movedToSavings += t.amount;
+      else if (savingsIds.has(t.fromId) && dailyIds.has(t.toId)) movedToSavings -= t.amount;
+    }
+    byKind.saving += Math.max(0, movedToSavings);
 
     const prevIncome = incomes
       .filtered(REAL_INCOME, prevMonthStart, prevMonthEnd)

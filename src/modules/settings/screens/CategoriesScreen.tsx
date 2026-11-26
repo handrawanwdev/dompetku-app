@@ -76,7 +76,7 @@ export function CategoriesScreen() {
               onPress={() => setActiveTab(tab)}
             >
               <Text style={[styles.tabText, activeTab === tab && styles.tabTextActive]}>
-                {tab === 'income' ? 'Pemasukan' : 'Uang keluar'}
+                {tab === 'income' ? 'Uang masuk' : 'Uang keluar'}
               </Text>
             </TouchableOpacity>
           ))}
