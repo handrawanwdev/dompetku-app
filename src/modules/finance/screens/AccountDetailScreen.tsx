@@ -27,6 +27,8 @@ interface Row {
   meta: string;
   /** Perubahan saldo kantong ini. 0 = cuma ditandai (sisihkan ke tabungan). */
   delta: number;
+  /** Uang masuk/keluar sungguhan. false = pindah saldo & penyesuaian (cuma pindah tempat/koreksi). */
+  counted: boolean;
   amount: number;
   icon: keyof typeof MaterialIcons.glyphMap;
   color: string;
@@ -54,6 +56,7 @@ export function AccountDetailScreen({ navigation, route }: Props) {
         label: i.category,
         meta: i.note,
         delta: i.allocationCash,
+        counted: !i.isInternal,
         amount: i.allocationCash,
         icon: i.isInternal ? 'tune' : 'south-west',
         color: i.isInternal ? COLORS.textSecondary : COLORS.income,
@@ -74,6 +77,7 @@ export function AccountDetailScreen({ navigation, route }: Props) {
         label: e.category,
         meta: [e.isInternal ? '' : m.label, where, e.note].filter(Boolean).join(' · '),
         delta: incoming ? e.amount : kept && !movedOut ? 0 : -e.amount,
+        counted: !e.isInternal,
         amount: e.amount,
         icon: e.isInternal ? 'tune' : m.icon,
         color: e.isInternal ? COLORS.textSecondary : m.color,
@@ -95,9 +99,10 @@ export function AccountDetailScreen({ navigation, route }: Props) {
         key: 't' + t._id.toHexString(),
         date: t.date,
         createdAt: t.createdAt.getTime(),
-        label: other ? (incoming ? `Dari ${other}` : `Ke ${other}`) : t.note || 'Penyesuaian saldo',
+        label: other ? (incoming ? `Pindah dari ${other}` : `Pindah ke ${other}`) : t.note || 'Penyesuaian saldo',
         meta: [other ? transferKind(t.fromId, t.toId) : '', other ? t.note : ''].filter(Boolean).join(' · '),
         delta: incoming ? t.amount : -t.amount,
+        counted: false,
         amount: t.amount,
         icon: other ? 'swap-horiz' : 'tune',
         color: other ? COLORS.primary : COLORS.textSecondary,
@@ -107,7 +112,8 @@ export function AccountDetailScreen({ navigation, route }: Props) {
     return out.sort((a, b) => (a.date === b.date ? b.createdAt - a.createdAt : a.date < b.date ? 1 : -1));
   }, [incomes, expenses, savedHere, transfers, id, byId, navigation]);
 
-  const sections = useMemo(() => groupByDate(rows, (r) => r.date, (r) => r.delta), [rows]);
+  // Total harian cuma dari uang masuk/keluar sungguhan, bukan pindah saldo.
+  const sections = useMemo(() => groupByDate(rows, (r) => r.date, (r) => (r.counted ? r.delta : 0)), [rows]);
 
   if (!info) {
     // Kantong baru saja dihapus.
@@ -125,7 +131,7 @@ export function AccountDetailScreen({ navigation, route }: Props) {
       title={item.label}
       subtitle={item.meta}
       amount={`${item.delta > 0 ? '+' : item.delta < 0 ? '−' : ''}${formatCurrency(item.amount)}`}
-      amountColor={item.delta > 0 ? COLORS.income : item.delta < 0 ? COLORS.text : COLORS.textMuted}
+      amountColor={!item.counted || item.delta === 0 ? COLORS.textMuted : item.delta > 0 ? COLORS.income : COLORS.text}
       onPress={item.open}
     />
   );
@@ -152,7 +158,9 @@ export function AccountDetailScreen({ navigation, route }: Props) {
 
       <SectionList
         sections={sections}
-        renderSectionHeader={({ section }) => <DayHeader date={section.date} total={section.total} withYear />}
+        renderSectionHeader={({ section }) => (
+          <DayHeader date={section.date} total={section.data.some((r) => r.counted) ? section.total : null} withYear />
+        )}
         stickySectionHeadersEnabled={false}
         keyExtractor={(r) => r.key}
         renderItem={renderItem}

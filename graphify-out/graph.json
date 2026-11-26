@@ -1421,7 +1421,7 @@
       "file_type": "code",
       "norm_label": "txrowprops",
       "source_file": "src/components/common/TxList.tsx",
-      "source_location": "L53"
+      "source_location": "L56"
     },
     {
       "id": "src_modules_finance_screens_accountdetailscreen_props",
@@ -4900,7 +4900,7 @@
       "file_type": "code",
       "norm_label": "dayheader()",
       "source_file": "src/components/common/TxList.tsx",
-      "source_location": "L41"
+      "source_location": "L42"
     },
     {
       "id": "src_components_common_txlist_daylabel",
@@ -4936,7 +4936,7 @@
       "file_type": "code",
       "norm_label": "txrow()",
       "source_file": "src/components/common/TxList.tsx",
-      "source_location": "L67"
+      "source_location": "L70"
     },
     {
       "id": "src_modules_finance_screens_accountdetailscreen_accountdetailscreen",
@@ -4948,7 +4948,7 @@
       "file_type": "code",
       "norm_label": "accountdetailscreen()",
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L37"
+      "source_location": "L39"
     },
     {
       "id": "src_modules_finance_screens_accountdetailscreen_action",
@@ -4960,7 +4960,7 @@
       "file_type": "code",
       "norm_label": "action()",
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L197"
+      "source_location": "L205"
     },
     {
       "id": "src_modules_transaction_screens_cashflowscreen_cashflowscreen",
@@ -10747,7 +10747,7 @@
       "file_type": "code",
       "norm_label": "styles",
       "source_file": "src/components/common/TxList.tsx",
-      "source_location": "L103"
+      "source_location": "L106"
     },
     {
       "id": "src_components_common_txlist_tx_icon_size",
@@ -10758,7 +10758,7 @@
       "file_type": "code",
       "norm_label": "tx_icon_size",
       "source_file": "src/components/common/TxList.tsx",
-      "source_location": "L101"
+      "source_location": "L104"
     },
     {
       "id": "src_modules_finance_screens_accountdetailscreen",
@@ -10780,7 +10780,7 @@
       "file_type": "code",
       "norm_label": "styles",
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L206"
+      "source_location": "L214"
     },
     {
       "id": "dompetku_prd_11_data_models",
@@ -14003,7 +14003,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/common/TxList.tsx",
-      "source_location": "L44",
+      "source_location": "L45",
       "weight": 1.0
     },
     {
@@ -14015,7 +14015,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/common/TxList.tsx",
-      "source_location": "L44",
+      "source_location": "L45",
       "weight": 1.0
     },
     {
@@ -14027,7 +14027,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/common/TxList.tsx",
-      "source_location": "L47",
+      "source_location": "L49",
       "weight": 1.0
     },
     {
@@ -14039,7 +14039,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/common/TxList.tsx",
-      "source_location": "L79",
+      "source_location": "L82",
       "weight": 1.0
     },
     {
@@ -16607,7 +16607,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L110",
+      "source_location": "L116",
       "weight": 1.0
     },
     {
@@ -16619,7 +16619,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L117",
+      "source_location": "L123",
       "weight": 1.0
     },
     {
@@ -16631,7 +16631,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L120",
+      "source_location": "L126",
       "weight": 1.0
     },
     {
@@ -16643,7 +16643,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L127",
+      "source_location": "L133",
       "weight": 1.0
     },
     {
@@ -16655,7 +16655,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L137",
+      "source_location": "L143",
       "weight": 1.0
     },
     {
@@ -16667,7 +16667,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L139",
+      "source_location": "L145",
       "weight": 1.0
     },
     {
@@ -16679,7 +16679,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L155",
+      "source_location": "L162",
       "weight": 1.0
     },
     {
@@ -16691,7 +16691,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L184",
+      "source_location": "L192",
       "weight": 1.0
     },
     {
@@ -16703,7 +16703,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L39",
+      "source_location": "L41",
       "weight": 1.0
     },
     {
@@ -16715,7 +16715,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L60",
+      "source_location": "L63",
       "weight": 1.0
     },
     {
@@ -16727,7 +16727,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L63",
+      "source_location": "L66",
       "weight": 1.0
     },
     {
@@ -16739,7 +16739,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L65",
+      "source_location": "L68",
       "weight": 1.0
     },
     {
@@ -16751,7 +16751,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L201",
+      "source_location": "L209",
       "weight": 1.0
     },
     {
@@ -54608,7 +54608,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/common/TxList.tsx",
-      "source_location": "L101",
+      "source_location": "L104",
       "weight": 1.0
     },
     {
@@ -54619,7 +54619,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/common/TxList.tsx",
-      "source_location": "L103",
+      "source_location": "L106",
       "weight": 1.0
     },
     {
@@ -54663,7 +54663,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/common/TxList.tsx",
-      "source_location": "L41",
+      "source_location": "L42",
       "weight": 1.0
     },
     {
@@ -54674,7 +54674,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/common/TxList.tsx",
-      "source_location": "L53",
+      "source_location": "L56",
       "weight": 1.0
     },
     {
@@ -54685,7 +54685,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/common/TxList.tsx",
-      "source_location": "L67",
+      "source_location": "L70",
       "weight": 1.0
     },
     {
@@ -56472,17 +56472,6 @@
     },
     {
       "source": "src_modules_finance_screens_accountdetailscreen",
-      "target": "src_modules_finance_screens_accountdetailscreen_action",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L197",
-      "weight": 1.0
-    },
-    {
-      "source": "src_modules_finance_screens_accountdetailscreen",
       "target": "src_modules_finance_screens_accountdetailscreen_props",
       "relation": "contains",
       "_origin": "ast",
@@ -56494,13 +56483,24 @@
     },
     {
       "source": "src_modules_finance_screens_accountdetailscreen",
+      "target": "src_modules_finance_screens_accountdetailscreen_action",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
+      "source_location": "L205",
+      "weight": 1.0
+    },
+    {
+      "source": "src_modules_finance_screens_accountdetailscreen",
       "target": "src_modules_finance_screens_accountdetailscreen_styles",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L206",
+      "source_location": "L214",
       "weight": 1.0
     },
     {
@@ -56522,7 +56522,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/modules/finance/screens/AccountDetailScreen.tsx",
-      "source_location": "L37",
+      "source_location": "L39",
       "weight": 1.0
     },
     {
@@ -61435,5 +61435,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "172e81dd778fb210c347afcd773cd55c23d93755"
+  "built_at_commit": "153780ed49401b6fcc378a0a5c590648fc72972b"
 }

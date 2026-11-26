@@ -316,7 +316,7 @@
       "file_type": "code",
       "norm_label": "dueitem",
       "source_file": "src/utils/reminder.ts",
-      "source_location": "L106"
+      "source_location": "L115"
     },
     {
       "id": "src_theme_index_theme",
@@ -758,7 +758,7 @@
       "file_type": "code",
       "norm_label": "billreminderinput",
       "source_file": "src/services/NotificationService.ts",
-      "source_location": "L110"
+      "source_location": "L115"
     },
     {
       "id": "src_services_notificationservice_debtreminderinput",
@@ -771,7 +771,7 @@
       "file_type": "code",
       "norm_label": "debtreminderinput",
       "source_file": "src/services/NotificationService.ts",
-      "source_location": "L51"
+      "source_location": "L56"
     },
     {
       "id": "src_services_reminderscheduler_snapshot",
@@ -3376,7 +3376,7 @@
       "file_type": "code",
       "norm_label": "cancelbyprefix()",
       "source_file": "src/services/NotificationService.ts",
-      "source_location": "L34"
+      "source_location": "L39"
     },
     {
       "id": "src_services_notificationservice_refreshbillreminders",
@@ -3388,7 +3388,7 @@
       "file_type": "code",
       "norm_label": "refreshbillreminders()",
       "source_file": "src/services/NotificationService.ts",
-      "source_location": "L125"
+      "source_location": "L130"
     },
     {
       "id": "src_services_notificationservice_refreshbirthdayreminders",
@@ -3400,7 +3400,7 @@
       "file_type": "code",
       "norm_label": "refreshbirthdayreminders()",
       "source_file": "src/services/NotificationService.ts",
-      "source_location": "L193"
+      "source_location": "L191"
     },
     {
       "id": "src_services_notificationservice_refreshdailyreminders",
@@ -3412,7 +3412,7 @@
       "file_type": "code",
       "norm_label": "refreshdailyreminders()",
       "source_file": "src/services/NotificationService.ts",
-      "source_location": "L162"
+      "source_location": "L167"
     },
     {
       "id": "src_services_notificationservice_refreshdebtreminders",
@@ -3424,7 +3424,7 @@
       "file_type": "code",
       "norm_label": "refreshdebtreminders()",
       "source_file": "src/services/NotificationService.ts",
-      "source_location": "L70"
+      "source_location": "L75"
     },
     {
       "id": "src_services_notificationservice_scheduleat",
@@ -3436,7 +3436,7 @@
       "file_type": "code",
       "norm_label": "scheduleat()",
       "source_file": "src/services/NotificationService.ts",
-      "source_location": "L43"
+      "source_location": "L48"
     },
     {
       "id": "src_services_notificationservice_scheduledebtoccurrence",
@@ -3448,7 +3448,7 @@
       "file_type": "code",
       "norm_label": "scheduledebtoccurrence()",
       "source_file": "src/services/NotificationService.ts",
-      "source_location": "L86"
+      "source_location": "L91"
     },
     {
       "id": "src_services_passiveincomescheduler_runpassiveincomeschedule",
@@ -3472,7 +3472,7 @@
       "file_type": "code",
       "norm_label": "apply()",
       "source_file": "src/services/ReminderScheduler.ts",
-      "source_location": "L65"
+      "source_location": "L69"
     },
     {
       "id": "src_services_reminderscheduler_loop",
@@ -3484,7 +3484,7 @@
       "file_type": "code",
       "norm_label": "loop()",
       "source_file": "src/services/ReminderScheduler.ts",
-      "source_location": "L78"
+      "source_location": "L82"
     },
     {
       "id": "src_services_reminderscheduler_refreshallreminders",
@@ -3496,7 +3496,7 @@
       "file_type": "code",
       "norm_label": "refreshallreminders()",
       "source_file": "src/services/ReminderScheduler.ts",
-      "source_location": "L97"
+      "source_location": "L101"
     },
     {
       "id": "src_storage_mmkv_getsettings",
@@ -3640,7 +3640,7 @@
       "file_type": "code",
       "norm_label": "buildreminderinfo()",
       "source_file": "src/utils/reminder.ts",
-      "source_location": "L54"
+      "source_location": "L57"
     },
     {
       "id": "src_utils_reminder_buildreminderinfos",
@@ -3652,7 +3652,7 @@
       "file_type": "code",
       "norm_label": "buildreminderinfos()",
       "source_file": "src/utils/reminder.ts",
-      "source_location": "L99"
+      "source_location": "L108"
     },
     {
       "id": "src_utils_reminder_isrepeat",
@@ -4828,7 +4828,7 @@
       "file_type": "code",
       "norm_label": "requestnotificationpermissions()",
       "source_file": "src/services/NotificationService.ts",
-      "source_location": "L25"
+      "source_location": "L30"
     },
     {
       "id": "src_components_common_assetsuccessanimation_assetsuccessanimation",
@@ -20819,7 +20819,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/NotificationService.ts",
-      "source_location": "L126",
+      "source_location": "L131",
       "weight": 1.0
     },
     {
@@ -20831,7 +20831,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/NotificationService.ts",
-      "source_location": "L132",
+      "source_location": "L137",
       "weight": 1.0
     },
     {
@@ -20843,7 +20843,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/NotificationService.ts",
-      "source_location": "L137",
+      "source_location": "L142",
       "weight": 1.0
     },
     {
@@ -20855,7 +20855,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/NotificationService.ts",
-      "source_location": "L194",
+      "source_location": "L192",
       "weight": 1.0
     },
     {
@@ -20867,7 +20867,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/NotificationService.ts",
-      "source_location": "L163",
+      "source_location": "L168",
       "weight": 1.0
     },
     {
@@ -20879,7 +20879,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/NotificationService.ts",
-      "source_location": "L170",
+      "source_location": "L177",
       "weight": 1.0
     },
     {
@@ -20891,7 +20891,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/NotificationService.ts",
-      "source_location": "L71",
+      "source_location": "L76",
       "weight": 1.0
     },
     {
@@ -20903,7 +20903,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/NotificationService.ts",
-      "source_location": "L78",
+      "source_location": "L83",
       "weight": 1.0
     },
     {
@@ -20915,7 +20915,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/NotificationService.ts",
-      "source_location": "L79",
+      "source_location": "L84",
       "weight": 1.0
     },
     {
@@ -20927,7 +20927,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/NotificationService.ts",
-      "source_location": "L81",
+      "source_location": "L86",
       "weight": 1.0
     },
     {
@@ -20939,7 +20939,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/NotificationService.ts",
-      "source_location": "L90",
+      "source_location": "L95",
       "weight": 1.0
     },
     {
@@ -20951,7 +20951,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/NotificationService.ts",
-      "source_location": "L93",
+      "source_location": "L98",
       "weight": 1.0
     },
     {
@@ -20975,7 +20975,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/ReminderScheduler.ts",
-      "source_location": "L66",
+      "source_location": "L70",
       "weight": 1.0
     },
     {
@@ -20987,7 +20987,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/ReminderScheduler.ts",
-      "source_location": "L68",
+      "source_location": "L72",
       "weight": 1.0
     },
     {
@@ -20999,7 +20999,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/ReminderScheduler.ts",
-      "source_location": "L68",
+      "source_location": "L72",
       "weight": 1.0
     },
     {
@@ -21011,7 +21011,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/ReminderScheduler.ts",
-      "source_location": "L69",
+      "source_location": "L73",
       "weight": 1.0
     },
     {
@@ -21023,7 +21023,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/ReminderScheduler.ts",
-      "source_location": "L71",
+      "source_location": "L75",
       "weight": 1.0
     },
     {
@@ -21035,7 +21035,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/ReminderScheduler.ts",
-      "source_location": "L72",
+      "source_location": "L76",
       "weight": 1.0
     },
     {
@@ -21047,7 +21047,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/ReminderScheduler.ts",
-      "source_location": "L84",
+      "source_location": "L88",
       "weight": 1.0
     },
     {
@@ -21059,7 +21059,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/ReminderScheduler.ts",
-      "source_location": "L100",
+      "source_location": "L104",
       "weight": 1.0
     },
     {
@@ -21071,7 +21071,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/ReminderScheduler.ts",
-      "source_location": "L103",
+      "source_location": "L107",
       "weight": 1.0
     },
     {
@@ -21095,7 +21095,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/ReminderScheduler.ts",
-      "source_location": "L49",
+      "source_location": "L51",
       "weight": 1.0
     },
     {
@@ -21107,7 +21107,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/ReminderScheduler.ts",
-      "source_location": "L56",
+      "source_location": "L60",
       "weight": 1.0
     },
     {
@@ -21280,6 +21280,18 @@
     },
     {
       "source": "src_utils_reminder_buildreminderinfo",
+      "target": "src_utils_debt_paidstatus",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/utils/reminder.ts",
+      "source_location": "L102",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_reminder_buildreminderinfo",
       "target": "src_utils_reminder_isrepeat",
       "relation": "calls",
       "_origin": "ast",
@@ -21287,7 +21299,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/utils/reminder.ts",
-      "source_location": "L57",
+      "source_location": "L60",
       "weight": 1.0
     },
     {
@@ -21299,7 +21311,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/utils/reminder.ts",
-      "source_location": "L58",
+      "source_location": "L61",
       "weight": 1.0
     },
     {
@@ -21311,7 +21323,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/utils/reminder.ts",
-      "source_location": "L70",
+      "source_location": "L75",
       "weight": 1.0
     },
     {
@@ -21323,7 +21335,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/utils/reminder.ts",
-      "source_location": "L77",
+      "source_location": "L82",
       "weight": 1.0
     },
     {
@@ -21335,19 +21347,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/utils/reminder.ts",
-      "source_location": "L78",
-      "weight": 1.0
-    },
-    {
-      "source": "src_utils_reminder_buildreminderinfo",
-      "target": "src_utils_debt_paidstatus",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/utils/reminder.ts",
-      "source_location": "L93",
+      "source_location": "L83",
       "weight": 1.0
     },
     {
@@ -21359,7 +21359,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/utils/reminder.ts",
-      "source_location": "L101",
+      "source_location": "L110",
       "weight": 1.0
     },
     {
@@ -22091,7 +22091,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "src/utils/reminder.ts",
-      "source_location": "L111",
+      "source_location": "L120",
       "weight": 1.0
     },
     {
@@ -22115,7 +22115,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "src/utils/reminder.ts",
-      "source_location": "L51",
+      "source_location": "L54",
       "weight": 1.0
     },
     {
@@ -59547,7 +59547,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/NotificationService.ts",
-      "source_location": "L110",
+      "source_location": "L115",
       "weight": 1.0
     },
     {
@@ -59558,7 +59558,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/NotificationService.ts",
-      "source_location": "L125",
+      "source_location": "L130",
       "weight": 1.0
     },
     {
@@ -59569,7 +59569,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/NotificationService.ts",
-      "source_location": "L162",
+      "source_location": "L167",
       "weight": 1.0
     },
     {
@@ -59580,7 +59580,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/NotificationService.ts",
-      "source_location": "L193",
+      "source_location": "L191",
       "weight": 1.0
     },
     {
@@ -59591,7 +59591,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/NotificationService.ts",
-      "source_location": "L25",
+      "source_location": "L30",
       "weight": 1.0
     },
     {
@@ -59602,7 +59602,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/NotificationService.ts",
-      "source_location": "L34",
+      "source_location": "L39",
       "weight": 1.0
     },
     {
@@ -59613,7 +59613,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/NotificationService.ts",
-      "source_location": "L43",
+      "source_location": "L48",
       "weight": 1.0
     },
     {
@@ -59624,7 +59624,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/NotificationService.ts",
-      "source_location": "L51",
+      "source_location": "L56",
       "weight": 1.0
     },
     {
@@ -59646,7 +59646,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/NotificationService.ts",
-      "source_location": "L70",
+      "source_location": "L75",
       "weight": 1.0
     },
     {
@@ -59657,7 +59657,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/NotificationService.ts",
-      "source_location": "L86",
+      "source_location": "L91",
       "weight": 1.0
     },
     {
@@ -59680,6 +59680,17 @@
       "confidence_score": 1.0,
       "source_file": "src/services/PassiveIncomeScheduler.ts",
       "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "src_services_reminderscheduler",
+      "target": "src_services_reminderscheduler_refreshallreminders",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/services/ReminderScheduler.ts",
+      "source_location": "L101",
       "weight": 1.0
     },
     {
@@ -59712,7 +59723,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/ReminderScheduler.ts",
-      "source_location": "L65",
+      "source_location": "L69",
       "weight": 1.0
     },
     {
@@ -59723,18 +59734,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/ReminderScheduler.ts",
-      "source_location": "L78",
-      "weight": 1.0
-    },
-    {
-      "source": "src_services_reminderscheduler",
-      "target": "src_services_reminderscheduler_refreshallreminders",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/services/ReminderScheduler.ts",
-      "source_location": "L97",
+      "source_location": "L82",
       "weight": 1.0
     },
     {
@@ -61037,13 +61037,24 @@
     },
     {
       "source": "src_utils_reminder",
+      "target": "src_utils_reminder_buildreminderinfos",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/utils/reminder.ts",
+      "source_location": "L108",
+      "weight": 1.0
+    },
+    {
+      "source": "src_utils_reminder",
       "target": "src_utils_reminder_dueitem",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/utils/reminder.ts",
-      "source_location": "L106",
+      "source_location": "L115",
       "weight": 1.0
     },
     {
@@ -61120,7 +61131,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/utils/reminder.ts",
-      "source_location": "L54",
+      "source_location": "L57",
       "weight": 1.0
     },
     {
@@ -61132,17 +61143,6 @@
       "confidence_score": 1.0,
       "source_file": "src/utils/reminder.ts",
       "source_location": "L6",
-      "weight": 1.0
-    },
-    {
-      "source": "src_utils_reminder",
-      "target": "src_utils_reminder_buildreminderinfos",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/utils/reminder.ts",
-      "source_location": "L99",
       "weight": 1.0
     },
     {

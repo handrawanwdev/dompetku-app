@@ -38,14 +38,17 @@ export function dayLabel(date: string, withYear = false): string {
   return d.format(withYear && !d.isSame(today, 'year') ? 'dddd, D MMM YYYY' : 'dddd, D MMM');
 }
 
-export function DayHeader({ date, total, withYear }: { date: string; total: number; withYear?: boolean }) {
+/** `total` null = tidak ditampilkan (mis. hari itu cuma ada pindah saldo). */
+export function DayHeader({ date, total, withYear }: { date: string; total: number | null; withYear?: boolean }) {
   return (
     <View style={styles.dayHeader}>
       <Text style={styles.dayLabel}>{dayLabel(date, withYear)}</Text>
-      <Text style={styles.dayTotal}>
-        {total >= 0 ? '+' : '−'}
-        {formatCurrency(Math.abs(total))}
-      </Text>
+      {total !== null && (
+        <Text style={styles.dayTotal}>
+          {total >= 0 ? '+' : '−'}
+          {formatCurrency(Math.abs(total))}
+        </Text>
+      )}
     </View>
   );
 }

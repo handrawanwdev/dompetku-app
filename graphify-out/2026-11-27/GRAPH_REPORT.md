@@ -1,7 +1,7 @@
 # Graph Report - Dompetku  (2026-11-27)
 
 ## Corpus Check
-- 174 files · ~204,969 words
+- 174 files · ~205,085 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 2 file(s) not represented in the graph (top: (none) 2)
 
