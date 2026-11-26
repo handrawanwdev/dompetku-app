@@ -52,7 +52,7 @@ export function SummaryGrid({ summary }: { summary: Summary }) {
 
   return (
     <>
-      <SectionTitle>Ringkasan</SectionTitle>
+      <SectionTitle icon="account-balance-wallet">Posisi uang</SectionTitle>
       <View style={styles.grid}>
         {items.map((item) => (
           <View key={item.label} style={{ flexBasis: basis, flexGrow: 1 }}>

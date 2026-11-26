@@ -25,8 +25,8 @@ export function ObligationsCard({ urgent, normal, onPress }: Props) {
   const nearest = urgent[0] ?? normal[0];
 
   return (
-    <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
-      <Card style={styles.card} padding={SPACING.xl}>
+    <TouchableOpacity activeOpacity={0.8} onPress={onPress} accessibilityRole="button">
+      <Card style={styles.card} padding={SPACING.lg}>
         <View style={styles.header}>
           <View style={styles.titleRow}>
             <MaterialIcons name="receipt-long" size={ICON_SIZES.sm} color={COLORS.text} />
@@ -65,12 +65,11 @@ export function ObligationsCard({ urgent, normal, onPress }: Props) {
 }
 
 const styles = StyleSheet.create({
-  card: { marginBottom: SPACING.sm, borderColor: COLORS.border },
+  card: { marginTop: SPACING.xl },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: SPACING.md,
   },
   titleRow: { flexDirection: "row", alignItems: "center", gap: SPACING.xs },
   title: { fontSize: FONTS.md, fontWeight: "700", color: COLORS.text },

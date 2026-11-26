@@ -5,6 +5,11 @@ import { currentDebtDue, dueInMonth } from '../utils/debt';
 
 /** Fixed local times reminders fire at when nothing has been recorded yet today. */
 const DAILY_REMINDER_HOURS = [10, 15, 20];
+/**
+ * Berapa hari ke depan pengingat harian dijadwalkan. Cukup panjang supaya tetap
+ * muncul walau app tidak dibuka & background task telat (Android yang mengatur).
+ */
+const DAILY_DAYS_AHEAD = 7;
 /** Jam ucapan & pengingat ulang tahun. */
 const BIRTHDAY_HOUR = 8;
 /** Local hour debt due-date reminders fire at. */
@@ -118,9 +123,9 @@ export interface BillReminderInput {
 }
 
 /**
- * Pengingat tagihan buatan user: H-3 dan hari H jam 09:00, hanya untuk jatuh
- * tempo terdekat (batas 64 notif terjadwal di iOS). Periode berikutnya
- * dijadwalkan ulang saat app dibuka atau dari background task.
+ * Pengingat tagihan buatan user: H-3 dan hari H jam 09:00. Tiap tagihan dikirim
+ * dua jatuh tempo ke depan (lihat ReminderScheduler). Jadwal digeser maju saat
+ * app dibuka atau dari background task.
  */
 export async function refreshBillReminders(bills: BillReminderInput[]) {
   await cancelByPrefix('bill-');
@@ -155,34 +160,27 @@ export async function refreshBillReminders(bills: BillReminderInput[]) {
 }
 
 /**
- * (Re)schedules the 3x/day "belum mencatat" reminders. Skips today's remaining
- * slots when income or expense has already been recorded today; always seeds
- * tomorrow's slots as a fallback (self-corrects next time the app is opened).
+ * Pengingat "belum catat" 3x sehari untuk DAILY_DAYS_AHEAD hari ke depan. Sisa
+ * jadwal hari ini dilewati kalau sudah ada catatan hari ini. Dijadwalkan ulang
+ * (dan digeser maju) tiap data berubah, app dibuka, atau background task jalan.
  */
 export async function refreshDailyReminders(recordedToday: boolean) {
   await cancelByPrefix('daily-');
   const now = dayjs();
 
-  for (const hour of DAILY_REMINDER_HOURS) {
-    if (!recordedToday) {
-      const fireToday = now.hour(hour).minute(0).second(0);
-      if (fireToday.isAfter(now)) {
-        await scheduleAt(
-          `daily-today-${hour}`,
-          fireToday.toDate(),
-          '💰 Belum catat transaksi hari ini',
-          'Yuk catat pemasukan atau pengeluaran hari ini di Dompetku',
-        );
-      }
+  for (let day = 0; day < DAILY_DAYS_AHEAD; day++) {
+    if (day === 0 && recordedToday) continue;
+    const date = now.add(day, 'day');
+    for (const hour of DAILY_REMINDER_HOURS) {
+      const at = date.hour(hour).minute(0).second(0).millisecond(0);
+      if (!at.isAfter(now)) continue;
+      await scheduleAt(
+        `daily-${at.format('YYYY-MM-DD')}-${hour}`,
+        at.toDate(),
+        '💰 Belum catat transaksi hari ini',
+        'Yuk catat pemasukan atau pengeluaran hari ini di Dompetku',
+      );
     }
-
-    const fireTomorrow = now.add(1, 'day').hour(hour).minute(0).second(0);
-    await scheduleAt(
-      `daily-tomorrow-${hour}`,
-      fireTomorrow.toDate(),
-      '💰 Belum catat transaksi hari ini',
-      'Yuk catat pemasukan atau pengeluaran hari ini di Dompetku',
-    );
   }
 }
 

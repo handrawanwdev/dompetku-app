@@ -7,6 +7,7 @@ import { formatCurrency } from "../../../utils/currency";
 import { goalStatus } from "../../../services/GoalService";
 import { useRootNavigation } from "../../../navigation/types";
 import { useGoals } from "../../goal/useGoals";
+import { SectionTitle } from "./SectionTitle";
 
 const MAX = 3;
 
@@ -20,17 +21,12 @@ export function GoalsCard() {
 
   return (
     <>
-      <View style={styles.head}>
-        <View style={styles.titleRow}>
-          <MaterialIcons name="flag" size={ICON_SIZES.sm} color={COLORS.primary} />
-          <Text style={styles.title}>Goal</Text>
-        </View>
-        {active.length > 0 && (
-          <TouchableOpacity onPress={() => nav.navigate("Goals")} hitSlop={8}>
-            <Text style={styles.link}>Lihat semua</Text>
-          </TouchableOpacity>
-        )}
-      </View>
+      <SectionTitle
+        icon="flag"
+        action={active.length > 0 ? { label: "Lihat semua", onPress: () => nav.navigate("Goals") } : undefined}
+      >
+        Goal
+      </SectionTitle>
 
       {shown.length === 0 ? (
         <TouchableOpacity
@@ -90,16 +86,6 @@ export function GoalsCard() {
 }
 
 const styles = StyleSheet.create({
-  head: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: SPACING.xl,
-    marginBottom: SPACING.sm,
-  },
-  titleRow: { flexDirection: "row", alignItems: "center", gap: SPACING.sm },
-  title: { fontSize: FONTS.lg, fontWeight: "700", color: COLORS.text },
-  link: { fontSize: FONTS.sm, fontWeight: "600", color: COLORS.primary },
   empty: { flexDirection: "row", alignItems: "center", gap: SPACING.md },
   emptyIcon: {
     width: 40,

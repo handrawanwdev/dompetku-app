@@ -1,55 +1,39 @@
 import React, { useState, useMemo, useCallback } from "react";
 import {
   View,
-  FlatList,
+  SectionList,
   ScrollView,
   TouchableOpacity,
   StyleSheet,
   StatusBar,
-  ListRenderItemInfo,
-  TextStyle,
+  SectionListRenderItemInfo,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useQuery } from "@realm/react";
 import { MaterialIcons } from "@expo/vector-icons";
 import dayjs from "dayjs";
 
-import { COLORS, FONTS, ICON_SIZES, SPACING, RADIUS } from "../../../theme";
-import {
-  Card,
-  Text,
-  EmptyState,
-  AmountDisplay,
-  FAB,
-} from "../../../components/common";
+import { COLORS, FONTS, ICON_SIZES, SPACING, RADIUS, SHADOWS } from "../../../theme";
+import { Text, EmptyState, FAB, TxRow, DayHeader, groupByDate, type DaySection } from "../../../components/common";
 import { IncomeModel } from "../../../models/IncomeModel";
 import { ExpenseModel } from "../../../models/ExpenseModel";
+import { CategoryModel } from "../../../models/CategoryModel";
+import { AccountModel } from "../../../models/AccountModel";
 import { formatCurrency } from "../../../utils/currency";
-import { formatDate } from "../../../utils/date";
 import { useRootNavigation } from "../../../navigation/types";
 import { KIND_META, SPEND_KINDS, isSpendKind, isKeptKind, type SpendKind } from "../../../utils/budget";
-import { OPENING_CATEGORY, LOAN_CATEGORY, isLockedIncome } from "../../../utils/journal";
-
+import {
+  OPENING_CATEGORY,
+  LOAN_CATEGORY,
+  EXCLUDE_NON_EARNED,
+  isLockedIncome,
+} from "../../../utils/journal";
 
 type ActiveTab = "income" | "expense";
 
-// ─── Month Options ────────────────────────────────────────────────────────────
+const ALL = "all";
 
-interface MonthOption {
-  label: string;
-  yearMonth: string;
-}
-
-function buildMonthOptions(): MonthOption[] {
-  const monthStart = dayjs().startOf("month");
-  return [0, 1, 2].map((offset) => {
-    const d = monthStart.subtract(offset, "month");
-    return { label: d.format("MMM YYYY"), yearMonth: d.format("YYYY-MM") };
-  });
-}
-
-// ─── Category Maps ────────────────────────────────────────────────────────────
-
+// Emoji cadangan kalau kategori pemasukan tidak ada di daftar Kategori.
 const INCOME_EMOJIS: Record<string, string> = {
   Gaji: "💼",
   Freelance: "💻",
@@ -61,219 +45,54 @@ const INCOME_EMOJIS: Record<string, string> = {
   [LOAN_CATEGORY]: "🤝",
 };
 
+// Sama dengan Dashboard & kalender: hasil kerja/usaha dikurangi uang yang benar-benar terpakai.
+const EARNED_FILTER = `date BEGINSWITH $0 AND isInternal == false AND ${EXCLUDE_NON_EARNED}`;
+const SPENT_FILTER = 'date BEGINSWITH $0 AND isInternal == false AND kind != "saving" AND kind != "invest"';
 
-// ─── Income Item ──────────────────────────────────────────────────────────────
+// ─── Filter chips ─────────────────────────────────────────────────────────────
 
-function IncomeItem({
-  item,
-  onPress,
-}: {
-  item: IncomeModel;
-  onPress: () => void;
-}) {
-  const emoji = INCOME_EMOJIS[item.category] ?? "💰";
-  return (
-    <TouchableOpacity
-      onPress={onPress}
-      activeOpacity={0.7}
-      style={styles.itemContainer}
-    >
-      <View style={styles.itemLeft}>
-        <View
-          style={[
-            styles.emojiContainer,
-            { backgroundColor: COLORS.income + "15" },
-          ]}
-        >
-          <Text style={styles.emoji}>{emoji}</Text>
-        </View>
-        <View style={styles.itemInfo}>
-          <Text style={styles.itemCategory}>{item.category}</Text>
-          <Text style={styles.itemDate}>{formatDate(item.date)}</Text>
-          {item.note ? (
-            <Text style={styles.itemNote} numberOfLines={1}>
-              {item.note}
-            </Text>
-          ) : null}
-        </View>
-      </View>
-      <Text style={[styles.itemAmount, { color: COLORS.income }]}>
-        + {formatCurrency(item.amount)}
-      </Text>
-    </TouchableOpacity>
-  );
+interface ChipOption {
+  key: string;
+  label: string;
+  emoji?: string;
+  color?: string;
 }
 
-// ─── Expense Item ─────────────────────────────────────────────────────────────
-
-function ExpenseItem({
-  item,
-  onPress,
-}: {
-  item: ExpenseModel;
-  onPress: () => void;
-}) {
-  const meta = KIND_META[isSpendKind(item.kind) ? item.kind : "need"];
-  const isSaving = isKeptKind(item.kind);
-
-  return (
-    <TouchableOpacity
-      onPress={onPress}
-      activeOpacity={0.7}
-      style={styles.itemContainer}
-    >
-      <View style={styles.itemLeft}>
-        <View style={[styles.emojiContainer, { backgroundColor: meta.color + "1A" }]}>
-          <MaterialIcons name={meta.icon} size={ICON_SIZES.lg} color={meta.color} />
-        </View>
-        <View style={styles.itemInfo}>
-          <View style={styles.itemTopRow}>
-            <Text style={styles.itemCategory}>{item.category}</Text>
-            {item.source === "savings" && (
-              <View style={[styles.sourceBadge, { backgroundColor: COLORS.saving + "1A" }]}>
-                <Text style={[styles.sourceBadgeText, { color: COLORS.saving }] as TextStyle[]}>
-                  dari tabungan
-                </Text>
-              </View>
-            )}
-          </View>
-          <Text style={styles.itemDate}>
-            {meta.label} · {formatDate(item.date)}
-          </Text>
-          {item.note ? (
-            <Text style={styles.itemNote} numberOfLines={1}>
-              {item.note}
-            </Text>
-          ) : null}
-        </View>
-      </View>
-      <Text style={[styles.itemAmount, { color: isSaving ? meta.color : COLORS.expense }]}>
-        {isSaving ? "" : "- "}
-        {formatCurrency(item.amount)}
-      </Text>
-    </TouchableOpacity>
-  );
-}
-
-// ─── Month Filter ─────────────────────────────────────────────────────────────
-
-function MonthFilter({
+function FilterChips({
   options,
   selected,
-  activeColor,
+  accent,
   onSelect,
 }: {
-  options: MonthOption[];
+  options: ChipOption[];
   selected: string;
-  activeColor: string;
-  onSelect: (ym: string) => void;
+  accent: string;
+  onSelect: (key: string) => void;
 }) {
-  return (
-    <View style={styles.filterRow}>
-      {options.map((opt) => {
-        const isActive = opt.yearMonth === selected;
-        return (
-          <TouchableOpacity
-            key={opt.yearMonth}
-            onPress={() => onSelect(opt.yearMonth)}
-            style={[
-              styles.filterChip,
-              isActive && {
-                backgroundColor: activeColor,
-                borderColor: activeColor,
-              },
-            ]}
-            activeOpacity={0.7}
-          >
-            <Text
-              style={[
-                styles.filterChipText,
-                isActive && styles.filterChipTextActive,
-              ]}
-            >
-              {opt.label}
-            </Text>
-          </TouchableOpacity>
-        );
-      })}
-    </View>
-  );
-}
-
-// ─── Category Filter ──────────────────────────────────────────────────────────
-
-const ALL_CATEGORY = "all";
-
-interface CategoryOption {
-  label: string;
-  emoji: string;
-}
-
-function CategoryFilter({
-  categories,
-  selected,
-  activeColor,
-  onSelect,
-}: {
-  categories: CategoryOption[];
-  selected: string;
-  activeColor: string;
-  onSelect: (name: string) => void;
-}) {
+  const all: ChipOption[] = [{ key: ALL, label: "Semua" }, ...options];
   return (
     <ScrollView
       horizontal
-      style={styles.categoryScroll}
+      style={styles.chipScroll}
       showsHorizontalScrollIndicator={false}
-      contentContainerStyle={styles.categoryRow}
+      contentContainerStyle={styles.chipRow}
     >
-      <TouchableOpacity
-        onPress={() => onSelect(ALL_CATEGORY)}
-        style={[
-          styles.categoryChip,
-          selected === ALL_CATEGORY && {
-            backgroundColor: activeColor + "1A",
-            borderColor: activeColor,
-          },
-        ]}
-        activeOpacity={0.7}
-      >
-        <Text
-          style={[
-            styles.categoryChipText,
-            selected === ALL_CATEGORY && {
-              color: activeColor,
-              fontWeight: "700",
-            },
-          ]}
-        >
-          Semua
-        </Text>
-      </TouchableOpacity>
-      {categories.map((cat) => {
-        const isActive = cat.label === selected;
+      {all.map((opt) => {
+        const active = opt.key === selected;
         return (
           <TouchableOpacity
-            key={cat.label}
-            onPress={() => onSelect(cat.label)}
-            style={[
-              styles.categoryChip,
-              isActive && {
-                backgroundColor: activeColor + "1A",
-                borderColor: activeColor,
-              },
-            ]}
+            key={opt.key}
+            onPress={() => onSelect(opt.key)}
             activeOpacity={0.7}
+            accessibilityRole="button"
+            accessibilityState={{ selected: active }}
+            style={[styles.chip, active && { backgroundColor: accent, borderColor: accent }]}
           >
-            {cat.emoji ? <Text style={styles.categoryChipEmoji}>{cat.emoji}</Text> : null}
-            <Text
-              style={[
-                styles.categoryChipText,
-                isActive && { color: activeColor, fontWeight: "700" },
-              ]}
-            >
-              {cat.label}
-            </Text>
+            {opt.emoji ? <Text style={styles.chipEmoji}>{opt.emoji}</Text> : null}
+            {!opt.emoji && opt.color ? (
+              <View style={[styles.chipDot, { backgroundColor: active ? COLORS.onPrimary : opt.color }]} />
+            ) : null}
+            <Text style={[styles.chipText, active && styles.chipTextActive]}>{opt.label}</Text>
           </TouchableOpacity>
         );
       })}
@@ -283,300 +102,302 @@ function CategoryFilter({
 
 // ─── Screen ───────────────────────────────────────────────────────────────────
 
+type Item = { kind: "income"; data: IncomeModel } | { kind: "expense"; data: ExpenseModel };
+
+type Section = DaySection<Item>;
+
 export function CashflowScreen() {
   const navigation = useRootNavigation();
-  const [activeTab, setActiveTab] = useState<ActiveTab>("income");
-  const monthOptions = useMemo(() => buildMonthOptions(), []);
-  const [incomeMonth, setIncomeMonth] = useState(monthOptions[0].yearMonth);
-  const [expenseMonth, setExpenseMonth] = useState(monthOptions[0].yearMonth);
-  const [incomeCategory, setIncomeCategory] = useState(ALL_CATEGORY);
-  const [expenseCategory, setExpenseCategory] = useState(ALL_CATEGORY);
+  const thisMonth = dayjs().startOf("month");
+  const [activeTab, setActiveTab] = useState<ActiveTab>("expense");
+  const [month, setMonth] = useState(thisMonth);
+  const [incomeFilter, setIncomeFilter] = useState(ALL);
+  const [expenseFilter, setExpenseFilter] = useState(ALL);
+
+  const ym = month.format("YYYY-MM");
+  const isCurrentMonth = month.isSame(thisMonth, "month");
 
   const allIncomes = useQuery(IncomeModel);
   const allExpenses = useQuery(ExpenseModel);
+  const categories = useQuery(CategoryModel);
+  const accounts = useQuery(AccountModel);
+  const accountName = useMemo(() => {
+    const map: Record<string, string> = {};
+    for (const a of accounts) map[a._id.toHexString()] = a.name;
+    return map;
+  }, [accounts]);
 
-  const incomeCategories = useMemo(
+  const incomeEmoji = useMemo(() => {
+    const map: Record<string, string> = { ...INCOME_EMOJIS };
+    for (const c of categories.filtered('type == "income"')) map[c.name] = c.emoji;
+    return map;
+  }, [categories]);
+
+  const monthIncomes = useMemo(
+    () => allIncomes.filtered("date BEGINSWITH $0 AND isInternal == false", ym).sorted([["date", true], ["createdAt", true]]),
+    [allIncomes, ym],
+  );
+  const monthExpenses = useMemo(
+    () => allExpenses.filtered("date BEGINSWITH $0 AND isInternal == false", ym).sorted([["date", true], ["createdAt", true]]),
+    [allExpenses, ym],
+  );
+
+  const incomeTotal = useMemo(() => monthIncomes.reduce((s, i) => s + i.amount, 0), [monthIncomes]);
+  const expenseTotal = useMemo(() => monthExpenses.reduce((s, e) => s + e.amount, 0), [monthExpenses]);
+  const net = useMemo(
     () =>
-      Object.entries(INCOME_EMOJIS).map(([label, emoji]) => ({ label, emoji })),
-    [],
-  );
-  const expenseCategories = useMemo(
-    () => SPEND_KINDS.map((k) => ({ label: KIND_META[k].label, emoji: "" })),
-    [],
-  );
-  const selectedKind: SpendKind | undefined = SPEND_KINDS.find(
-    (k) => KIND_META[k].label === expenseCategory,
+      allIncomes.filtered(EARNED_FILTER, ym).reduce((s, i) => s + i.amount, 0) -
+      allExpenses.filtered(SPENT_FILTER, ym).reduce((s, e) => s + e.amount, 0),
+    [allIncomes, allExpenses, ym],
   );
 
-  const filteredIncomes = useMemo(
-    () =>
-      (incomeCategory === ALL_CATEGORY
-        ? allIncomes.filtered("date BEGINSWITH $0 AND isInternal == false", incomeMonth)
-        : allIncomes.filtered(
-            "date BEGINSWITH $0 AND isInternal == false AND category == $1",
-            incomeMonth,
-            incomeCategory,
-          )
-      ).sorted("date", true),
-    [allIncomes, incomeMonth, incomeCategory],
-  );
-  const filteredExpenses = useMemo(
-    () =>
-      (selectedKind
-        ? allExpenses.filtered(
-            "date BEGINSWITH $0 AND isInternal == false AND kind == $1",
-            expenseMonth,
-            selectedKind,
-          )
-        : allExpenses.filtered("date BEGINSWITH $0 AND isInternal == false", expenseMonth)
-      ).sorted("date", true),
-    [allExpenses, expenseMonth, selectedKind],
-  );
+  // Chip hanya untuk kategori/jenis yang ada di bulan ini, urut dari total terbesar.
+  const incomeOptions = useMemo<ChipOption[]>(() => {
+    const totals = new Map<string, number>();
+    for (const i of monthIncomes) totals.set(i.category, (totals.get(i.category) ?? 0) + i.amount);
+    return [...totals.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .map(([name]) => ({ key: name, label: name, emoji: incomeEmoji[name] ?? "💰" }));
+  }, [monthIncomes, incomeEmoji]);
 
-  const incomeTotal = useMemo(
-    () => filteredIncomes.reduce((s, i) => s + i.amount, 0),
-    [filteredIncomes],
-  );
-  const expenseTotal = useMemo(
-    () => filteredExpenses.reduce((s, e) => s + e.amount, 0),
-    [filteredExpenses],
-  );
+  const expenseOptions = useMemo<ChipOption[]>(() => {
+    const present = new Set<string>();
+    for (const e of monthExpenses) present.add(isSpendKind(e.kind) ? e.kind : "need");
+    return SPEND_KINDS.filter((k) => present.has(k)).map((k) => ({
+      key: k,
+      label: KIND_META[k].label,
+      color: KIND_META[k].color,
+    }));
+  }, [monthExpenses]);
 
-  const renderIncome = useCallback(
-    ({ item }: ListRenderItemInfo<IncomeModel>) => (
-      <IncomeItem
-        item={item}
-        onPress={() => {
-          // Saldo awal & pinjaman diubah dari sumbernya, bukan form pemasukan.
-          if (isLockedIncome(item)) return;
-          navigation.navigate("IncomeForm", { id: item._id.toHexString() });
-        }}
-      />
-    ),
-    [navigation],
-  );
+  const isIncome = activeTab === "income";
+  const filter = isIncome ? incomeFilter : expenseFilter;
+  const selectedKind = !isIncome && filter !== ALL ? (filter as SpendKind) : undefined;
 
-  const renderExpense = useCallback(
-    ({ item }: ListRenderItemInfo<ExpenseModel>) => (
-      <ExpenseItem
-        item={item}
-        onPress={() =>
-          navigation.navigate("ExpenseForm", { id: item._id.toHexString() })
+  const items = useMemo<Item[]>(() => {
+    if (isIncome) {
+      const src = incomeFilter === ALL ? monthIncomes : monthIncomes.filtered("category == $0", incomeFilter);
+      return src.map((data) => ({ kind: "income" as const, data }));
+    }
+    const src = expenseFilter === ALL ? monthExpenses : monthExpenses.filter((e) => (isSpendKind(e.kind) ? e.kind : "need") === expenseFilter);
+    return src.map((data) => ({ kind: "expense" as const, data }));
+  }, [isIncome, incomeFilter, expenseFilter, monthIncomes, monthExpenses]);
+
+  const sections = useMemo(
+    () => groupByDate(items, (i) => i.data.date, (i) => (i.kind === "income" ? i.data.amount : -i.data.amount)),
+    [items],
+  );
+  const filteredTotal = useMemo(() => items.reduce((s, i) => s + i.data.amount, 0), [items]);
+
+  const changeMonth = (m: dayjs.Dayjs) => {
+    setMonth(m);
+    setIncomeFilter(ALL);
+    setExpenseFilter(ALL);
+  };
+
+  const accent = isIncome ? COLORS.income : COLORS.expense;
+
+  const renderItem = useCallback(
+    ({ item, index, section }: SectionListRenderItemInfo<Item, Section>) => {
+      const first = index === 0;
+      const last = index === section.data.length - 1;
+
+      if (item.kind === "income") {
+        const i = item.data;
+        const isOpening = i.category === OPENING_CATEGORY;
+        const isLoan = i.ref.startsWith("debt:");
+        // Saldo awal & uang pinjaman diatur dari sumbernya, jadi ketuk = buka halaman sumbernya.
+        let subtitle = i.note || undefined;
+        let onPress: (() => void) | undefined = () => navigation.navigate("IncomeForm", { id: i._id.toHexString() });
+        if (isOpening) {
+          const acc = accountName[i.accountId];
+          subtitle = acc ? `Uang yang sudah ada di ${acc}` : "Uang yang sudah ada";
+          onPress = () => navigation.navigate("Tabs", { screen: "Wallet" });
+        } else if (isLoan) {
+          subtitle = i.note || "Uang dari pinjaman";
+          onPress = () => navigation.navigate("Debts");
+        } else if (isLockedIncome(i)) {
+          onPress = undefined;
         }
-      />
-    ),
-    [navigation],
+        return (
+          <TxRow
+            first={first}
+            last={last}
+            iconBg={COLORS.income + "15"}
+            icon={<Text style={styles.rowEmoji}>{incomeEmoji[i.category] ?? "💰"}</Text>}
+            title={i.category}
+            subtitle={subtitle}
+            amount={`+${formatCurrency(i.amount)}`}
+            amountColor={COLORS.income}
+            onPress={onPress}
+          />
+        );
+      }
+
+      const e = item.data;
+      const meta = KIND_META[isSpendKind(e.kind) ? e.kind : "need"];
+      const kept = isKeptKind(e.kind);
+      return (
+        <TxRow
+          first={first}
+          last={last}
+          iconBg={meta.color + "1A"}
+          icon={<MaterialIcons name={meta.icon} size={ICON_SIZES.lg} color={meta.color} />}
+          title={e.category}
+          subtitle={e.note ? `${meta.label} · ${e.note}` : meta.label}
+          badge={e.source === "savings" ? { label: "dari tabungan", color: COLORS.saving } : undefined}
+          amount={`${kept ? "" : "−"}${formatCurrency(e.amount)}`}
+          amountColor={kept ? meta.color : COLORS.expense}
+          onPress={() => navigation.navigate("ExpenseForm", { id: e._id.toHexString() })}
+        />
+      );
+    },
+    [navigation, incomeEmoji, accountName],
   );
 
-  const incomeKey = useCallback(
-    (item: IncomeModel) => item._id.toHexString(),
-    [],
-  );
-  const expenseKey = useCallback(
-    (item: ExpenseModel) => item._id.toHexString(),
+  const renderSectionHeader = useCallback(
+    ({ section }: { section: Section }) => <DayHeader date={section.date} total={section.total} />,
     [],
   );
 
-  const accentColor = activeTab === "income" ? COLORS.income : COLORS.expense;
-  const selectedMonth = activeTab === "income" ? incomeMonth : expenseMonth;
-  const currentMonthLabel = monthOptions.find(
-    (m) => m.yearMonth === selectedMonth,
-  )?.label;
-  const currentTotal = activeTab === "income" ? incomeTotal : expenseTotal;
+  const keyExtractor = useCallback((item: Item) => item.data._id.toHexString(), []);
+
+  const filterLabel = isIncome
+    ? incomeFilter
+    : selectedKind
+      ? KIND_META[selectedKind].label
+      : "";
 
   return (
     <SafeAreaView style={styles.safe} edges={["top"]}>
       <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
 
-      {/* Header */}
-      <View style={styles.header}>
-        <View style={styles.headerBadge}>
-          <Text style={styles.headerBadgeLabel}>Bulan Ini</Text>
-          <Text
-            style={[
-              styles.headerBadgeNet,
-              {
-                color:
-                  incomeTotal - expenseTotal >= 0
-                    ? COLORS.income
-                    : COLORS.expense,
-              },
-            ]}
+      {/* Navigasi bulan + selisih bulan itu */}
+      <View style={styles.monthBar}>
+        <TouchableOpacity
+          style={styles.navBtn}
+          onPress={() => changeMonth(month.subtract(1, "month"))}
+          accessibilityRole="button"
+          accessibilityLabel="Bulan sebelumnya"
+          hitSlop={8}
+        >
+          <MaterialIcons name="chevron-left" size={ICON_SIZES.xxl} color={COLORS.text} />
+        </TouchableOpacity>
+
+        <View style={styles.monthCenter}>
+          <Text style={styles.monthTitle}>{month.format("MMMM YYYY")}</Text>
+          <Text style={[styles.monthNet, { color: net >= 0 ? COLORS.income : COLORS.expense }]}>
+            Selisih {net >= 0 ? "+" : "−"}
+            {formatCurrency(Math.abs(net))}
+          </Text>
+        </View>
+
+        <TouchableOpacity
+          style={[styles.navBtn, isCurrentMonth && styles.navBtnDisabled]}
+          onPress={() => changeMonth(month.add(1, "month"))}
+          disabled={isCurrentMonth}
+          accessibilityRole="button"
+          accessibilityLabel="Bulan berikutnya"
+          hitSlop={8}
+        >
+          <MaterialIcons name="chevron-right" size={ICON_SIZES.xxl} color={COLORS.text} />
+        </TouchableOpacity>
+      </View>
+      {!isCurrentMonth && (
+        <TouchableOpacity onPress={() => changeMonth(thisMonth)} style={styles.backToNow} hitSlop={6}>
+          <Text style={styles.backToNowText}>Kembali ke bulan ini</Text>
+        </TouchableOpacity>
+      )}
+
+      {/* Pemasukan / Uang keluar */}
+      <View style={styles.segment}>
+        {(["expense", "income"] as const).map((tab) => {
+          const active = activeTab === tab;
+          const color = tab === "income" ? COLORS.income : COLORS.expense;
+          return (
+            <TouchableOpacity
+              key={tab}
+              style={[styles.segItem, active && styles.segItemActive]}
+              onPress={() => setActiveTab(tab)}
+              activeOpacity={0.8}
+              accessibilityRole="tab"
+              accessibilityState={{ selected: active }}
+            >
+              <View style={styles.segLabelRow}>
+                <MaterialIcons
+                  name={tab === "income" ? "south-west" : "north-east"}
+                  size={ICON_SIZES.xs}
+                  color={active ? color : COLORS.textSecondary}
+                />
+                <Text style={[styles.segLabel, active && { color: COLORS.text }]}>
+                  {tab === "income" ? "Pemasukan" : "Uang keluar"}
+                </Text>
+              </View>
+              <Text style={[styles.segAmount, { color: active ? color : COLORS.textSecondary }]} numberOfLines={1}>
+                {formatCurrency(tab === "income" ? incomeTotal : expenseTotal)}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+
+      {/* Filter kategori / jenis (hanya yang ada di bulan ini) */}
+      {(isIncome ? incomeOptions : expenseOptions).length > 1 && (
+        <FilterChips
+          options={isIncome ? incomeOptions : expenseOptions}
+          selected={filter}
+          accent={accent}
+          onSelect={isIncome ? setIncomeFilter : setExpenseFilter}
+        />
+      )}
+
+      {filter !== ALL && (
+        <View style={styles.filterInfo}>
+          <Text style={styles.filterInfoText} numberOfLines={1}>
+            {filterLabel} · {items.length} transaksi · {formatCurrency(filteredTotal)}
+          </Text>
+          <TouchableOpacity
+            onPress={() => (isIncome ? setIncomeFilter(ALL) : setExpenseFilter(ALL))}
+            hitSlop={8}
+            accessibilityRole="button"
+            accessibilityLabel="Hapus filter"
           >
-            {incomeTotal - expenseTotal >= 0 ? "+" : ""}
-            {formatCurrency(incomeTotal - expenseTotal)}
-          </Text>
+            <MaterialIcons name="close" size={ICON_SIZES.sm} color={COLORS.textSecondary} />
+          </TouchableOpacity>
         </View>
-      </View>
+      )}
 
-      {/* Tab Switcher */}
-      <View style={styles.tabBar}>
-        <TouchableOpacity
-          style={[
-            styles.tabItem,
-            activeTab === "income" && {
-              backgroundColor: COLORS.income + "15",
-              borderBottomColor: COLORS.income,
-            },
-          ]}
-          onPress={() => setActiveTab("income")}
-          activeOpacity={0.8}
-        >
-          <View style={styles.tabLabelRow}>
-            <MaterialIcons
-              name="arrow-downward"
-              size={ICON_SIZES.xs}
-              color={activeTab === "income" ? COLORS.income : COLORS.textSecondary}
+      <SectionList
+        key={activeTab}
+        sections={sections}
+        renderItem={renderItem}
+        renderSectionHeader={renderSectionHeader}
+        keyExtractor={keyExtractor}
+        stickySectionHeadersEnabled={false}
+        style={styles.list}
+        contentContainerStyle={styles.listContent}
+        showsVerticalScrollIndicator={false}
+        ListEmptyComponent={
+          isIncome ? (
+            <EmptyState
+              emoji="💰"
+              title={`Belum ada pemasukan di ${month.format("MMMM")}`}
+              subtitle="Gajian atau dapat uang? Catat lewat tombol +."
             />
-            <Text
-              style={[
-                styles.tabLabel,
-                activeTab === "income" && {
-                  color: COLORS.income,
-                  fontWeight: "700",
-                },
-              ]}
-            >
-              Pemasukan
-            </Text>
-          </View>
-          <Text style={[styles.tabAmount, { color: COLORS.income }]}>
-            {formatCurrency(incomeTotal)}
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[
-            styles.tabItem,
-            activeTab === "expense" && {
-              backgroundColor: COLORS.expense + "15",
-              borderBottomColor: COLORS.expense,
-            },
-          ]}
-          onPress={() => setActiveTab("expense")}
-          activeOpacity={0.8}
-        >
-          <View style={styles.tabLabelRow}>
-            <MaterialIcons
-              name="arrow-upward"
-              size={ICON_SIZES.xs}
-              color={activeTab === "expense" ? COLORS.expense : COLORS.textSecondary}
+          ) : (
+            <EmptyState
+              emoji="💸"
+              title={`Belum ada uang keluar di ${month.format("MMMM")}`}
+              subtitle="Catat kebutuhan, keinginan, atau tabungan lewat tombol +."
             />
-            <Text
-              style={[
-                styles.tabLabel,
-                activeTab === "expense" && {
-                  color: COLORS.expense,
-                  fontWeight: "700",
-                },
-              ]}
-            >
-              Uang keluar
-            </Text>
-          </View>
-          <Text style={[styles.tabAmount, { color: COLORS.expense }]}>
-            {formatCurrency(expenseTotal)}
-          </Text>
-        </TouchableOpacity>
-      </View>
+          )
+        }
+      />
 
-      {/* Body (light bg, no gaps exposing the dark root behind it) */}
-      <View style={styles.body}>
-        {/* Summary Card */}
-        <View style={styles.summaryWrapper}>
-          <Card style={styles.summaryCard}>
-            <Text style={styles.summaryLabel}>
-              Total {activeTab === "income" ? "pemasukan" : "uang keluar"}{" "}
-              {currentMonthLabel}
-            </Text>
-            <AmountDisplay
-              amount={currentTotal}
-              size="xl"
-              style={{ color: accentColor }}
-            />
-            <Text style={styles.summaryCount}>
-              {activeTab === "income"
-                ? filteredIncomes.length
-                : filteredExpenses.length}{" "}
-              transaksi
-            </Text>
-          </Card>
-        </View>
-
-        {/* Month Filter */}
-        {activeTab === "income" ? (
-          <MonthFilter
-            options={monthOptions}
-            selected={incomeMonth}
-            activeColor={COLORS.income}
-            onSelect={setIncomeMonth}
-          />
-        ) : (
-          <MonthFilter
-            options={monthOptions}
-            selected={expenseMonth}
-            activeColor={COLORS.expense}
-            onSelect={setExpenseMonth}
-          />
-        )}
-
-        {/* Category Filter */}
-        <Text style={styles.categoryLabel}>{activeTab === "income" ? "Kategori" : "Jenis"}</Text>
-        {activeTab === "income" ? (
-          <CategoryFilter
-            categories={incomeCategories}
-            selected={incomeCategory}
-            activeColor={COLORS.income}
-            onSelect={setIncomeCategory}
-          />
-        ) : (
-          <CategoryFilter
-            categories={expenseCategories}
-            selected={expenseCategory}
-            activeColor={COLORS.expense}
-            onSelect={setExpenseCategory}
-          />
-        )}
-
-        {/* List */}
-        {activeTab === "income" ? (
-          <FlatList
-            data={filteredIncomes as unknown as IncomeModel[]}
-            renderItem={renderIncome}
-            keyExtractor={incomeKey}
-            contentContainerStyle={styles.listContent}
-            showsVerticalScrollIndicator={false}
-            ListEmptyComponent={
-              <EmptyState
-                emoji="💰"
-                title="Belum ada pemasukan"
-                subtitle="Gajian atau dapat uang? Catat lewat tombol +."
-              />
-            }
-          />
-        ) : (
-          <FlatList
-            data={filteredExpenses as unknown as ExpenseModel[]}
-            renderItem={renderExpense}
-            keyExtractor={expenseKey}
-            contentContainerStyle={styles.listContent}
-            showsVerticalScrollIndicator={false}
-            ListEmptyComponent={
-              <EmptyState
-                emoji="💸"
-                title="Belum ada uang keluar"
-                subtitle="Catat kebutuhan, keinginan, atau tabungan lewat tombol +."
-              />
-            }
-          />
-        )}
-      </View>
-
-      {/* FAB */}
       <FAB
-        color={accentColor}
+        color={accent}
         onPress={() =>
-          activeTab === "income"
+          isIncome
             ? navigation.navigate("IncomeForm", {})
             : navigation.navigate("ExpenseForm", { kind: selectedKind })
         }
@@ -589,164 +410,78 @@ export function CashflowScreen() {
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: COLORS.background },
-  body: { flex: 1, backgroundColor: COLORS.background },
 
-  header: {
+  monthBar: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: COLORS.background,
-    paddingHorizontal: SPACING.lg,
+    paddingHorizontal: SPACING.md,
     paddingTop: SPACING.md,
-    paddingBottom: SPACING.sm,
   },
-  headerBadge: { alignItems: "flex-start" },
-  headerBadgeLabel: {
-    fontSize: FONTS.xs,
-    color: COLORS.textMuted,
-    textTransform: "uppercase",
-    letterSpacing: 0.5,
+  navBtn: {
+    width: 40,
+    height: 40,
+    borderRadius: RADIUS.round,
+    backgroundColor: COLORS.card,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    alignItems: "center",
+    justifyContent: "center",
   },
-  headerBadgeNet: { fontSize: FONTS.lg, fontWeight: "700" },
+  navBtnDisabled: { opacity: 0.35 },
+  monthCenter: { flex: 1, alignItems: "center" },
+  monthTitle: { fontSize: FONTS.xl, fontWeight: "700", color: COLORS.text },
+  monthNet: { fontSize: FONTS.sm, fontWeight: "600", marginTop: 2 },
+  backToNow: { alignSelf: "center", marginTop: SPACING.xs },
+  backToNowText: { fontSize: FONTS.sm, fontWeight: "600", color: COLORS.primary },
 
-  tabBar: {
+  segment: {
     flexDirection: "row",
-    backgroundColor: COLORS.background,
-    paddingHorizontal: SPACING.lg,
-    paddingBottom: SPACING.xs,
-    gap: SPACING.xs,
+    marginHorizontal: SPACING.lg,
+    marginTop: SPACING.md,
+    padding: 4,
+    borderRadius: RADIUS.lg,
+    backgroundColor: COLORS.subtleBg,
   },
-  tabItem: {
+  segItem: {
     flex: 1,
     alignItems: "center",
     paddingVertical: SPACING.sm,
-    borderTopLeftRadius: RADIUS.md,
-    borderTopRightRadius: RADIUS.md,
-    borderBottomWidth: 3,
-    borderBottomColor: "transparent",
-  },
-  tabLabelRow: { flexDirection: "row", alignItems: "center", gap: 4 },
-  tabLabel: {
-    fontSize: FONTS.sm,
-    color: COLORS.textSecondary,
-    fontWeight: "600",
-  },
-  tabAmount: { fontSize: FONTS.xs, marginTop: 2 },
-
-  summaryWrapper: {
-    paddingHorizontal: SPACING.lg,
-    paddingTop: SPACING.md,
-    marginBottom: SPACING.sm,
-    backgroundColor: COLORS.background,
-  },
-  summaryCard: { padding: SPACING.lg },
-  summaryLabel: {
-    fontSize: FONTS.sm,
-    color: COLORS.textSecondary,
-    marginBottom: SPACING.xs,
-  },
-  summaryCount: {
-    fontSize: FONTS.sm,
-    color: COLORS.textMuted,
-    marginTop: SPACING.xs,
-  },
-
-  filterRow: {
-    flexDirection: "row",
-    paddingHorizontal: SPACING.lg,
-    gap: SPACING.sm,
-    marginBottom: SPACING.sm,
-    backgroundColor: COLORS.background,
-  },
-  filterChip: {
-    paddingVertical: 5,
-    paddingHorizontal: SPACING.sm,
-    borderRadius: RADIUS.round,
-    backgroundColor: COLORS.surface,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-  },
-  filterChipText: {
-    fontSize: FONTS.xs,
-    color: COLORS.textSecondary,
-    fontWeight: "500",
-  },
-  filterChipTextActive: { color: COLORS.onPrimary },
-
-  categoryLabel: {
-    fontSize: FONTS.xs,
-    color: COLORS.textMuted,
-    textTransform: "uppercase",
-    letterSpacing: 0.5,
-    paddingHorizontal: SPACING.lg,
-    marginBottom: SPACING.xs,
-  },
-  categoryScroll: { flexGrow: 0, flexShrink: 0 },
-  categoryRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingLeft: SPACING.lg,
-    paddingRight: 0,
-    gap: 6,
-    marginBottom: SPACING.md,
-  },
-  categoryChip: {
-    flexDirection: "row",
-    alignSelf: "flex-start",
-    alignItems: "center",
-    gap: 3,
-    paddingVertical: 4,
-    paddingHorizontal: SPACING.sm,
-    borderRadius: RADIUS.round,
-    backgroundColor: "transparent",
-    borderWidth: 1,
-    borderColor: COLORS.border,
-  },
-  categoryChipEmoji: { fontSize: 11 },
-  categoryChipText: {
-    fontSize: 11,
-    color: COLORS.textSecondary,
-    fontWeight: "500",
-  },
-
-  listContent: {
-    paddingHorizontal: SPACING.lg,
-    paddingBottom: 100,
-    flexGrow: 1,
-    backgroundColor: COLORS.background,
-  },
-
-  itemContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    backgroundColor: COLORS.card,
-    borderRadius: RADIUS.lg,
-    padding: SPACING.md,
-    marginBottom: SPACING.sm,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-  },
-  itemLeft: { flexDirection: "row", alignItems: "center", flex: 1 },
-  emojiContainer: {
-    width: 40,
-    height: 40,
     borderRadius: RADIUS.md,
+  },
+  segItemActive: { backgroundColor: COLORS.card, ...SHADOWS.sm },
+  segLabelRow: { flexDirection: "row", alignItems: "center", gap: 4 },
+  segLabel: { fontSize: FONTS.sm, fontWeight: "600", color: COLORS.textSecondary },
+  segAmount: { fontSize: FONTS.lg, fontWeight: "800", marginTop: 2 },
+
+  chipScroll: { flexGrow: 0, flexShrink: 0, marginTop: SPACING.md },
+  chipRow: { paddingHorizontal: SPACING.lg, gap: SPACING.sm },
+  chip: {
+    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
-    marginRight: SPACING.md,
+    gap: 6,
+    paddingVertical: 6,
+    paddingHorizontal: SPACING.md,
+    borderRadius: RADIUS.round,
+    backgroundColor: COLORS.card,
+    borderWidth: 1,
+    borderColor: COLORS.border,
   },
-  emoji: { fontSize: 20 },
-  itemInfo: { flex: 1 },
-  itemTopRow: { flexDirection: "row", alignItems: "center", gap: SPACING.sm },
-  itemCategory: { fontSize: FONTS.md, fontWeight: "600", color: COLORS.text },
-  sourceBadge: {
-    paddingHorizontal: SPACING.sm,
-    paddingVertical: 2,
-    borderRadius: RADIUS.sm,
+  chipEmoji: { fontSize: FONTS.sm },
+  chipDot: { width: 8, height: 8, borderRadius: 4 },
+  chipText: { fontSize: FONTS.sm, fontWeight: "600", color: COLORS.textSecondary },
+  chipTextActive: { color: COLORS.onPrimary },
+
+  filterInfo: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: SPACING.sm,
+    marginHorizontal: SPACING.lg,
+    marginTop: SPACING.sm,
   },
-  sourceBadgeText: { fontSize: FONTS.xs, fontWeight: "600" },
-  itemDate: { fontSize: FONTS.sm, color: COLORS.textSecondary, marginTop: 2 },
-  itemNote: { fontSize: FONTS.xs, color: COLORS.textMuted, marginTop: 2 },
-  itemAmount: { fontSize: FONTS.md, fontWeight: "700", marginLeft: SPACING.sm },
+  filterInfoText: { flex: 1, fontSize: FONTS.sm, color: COLORS.textSecondary },
+
+  list: { flex: 1 },
+  listContent: { paddingHorizontal: SPACING.lg, paddingBottom: 110, flexGrow: 1 },
+
+  rowEmoji: { fontSize: 20 },
 });

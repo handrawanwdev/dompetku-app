@@ -7,12 +7,15 @@ export function formatCurrency(amount: number, currency = 'IDR'): string {
   }).format(amount);
 }
 
+// Format Indonesia: koma desimal, tanpa ",0" (6jt, 6,2jt, 1,5M)
+const oneDecimal = (v: number) => v.toFixed(1).replace(/\.0$/, '').replace('.', ',');
+
 export function formatCompact(amount: number): string {
   if (Math.abs(amount) >= 1_000_000_000) {
-    return `${(amount / 1_000_000_000).toFixed(1)}M`;
+    return `${oneDecimal(amount / 1_000_000_000)}M`;
   }
   if (Math.abs(amount) >= 1_000_000) {
-    return `${(amount / 1_000_000).toFixed(1)}jt`;
+    return `${oneDecimal(amount / 1_000_000)}jt`;
   }
   if (Math.abs(amount) >= 1_000) {
     return `${(amount / 1_000).toFixed(0)}rb`;

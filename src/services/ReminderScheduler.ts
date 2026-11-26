@@ -46,11 +46,15 @@ function snapshot(realm: Realm): Snapshot {
       startDate: d.debt.startDate,
       paidThisMonth: d.paidThisMonth,
     }));
-  const bills = buildReminderInfos(realm.objects(ReminderModel)).flatMap((i) =>
-    i.due
-      ? [{ id: i.id, title: i.reminder.title, amount: i.reminder.amount, due: i.due.format('YYYY-MM-DD'), period: i.duePeriod }]
-      : [],
-  );
+  // Dua jatuh tempo ke depan per tagihan (yang terdekat + periode sesudahnya), supaya
+  // pengingat periode berikutnya tetap ada walau app tidak dibuka.
+  const bills = buildReminderInfos(realm.objects(ReminderModel)).flatMap((i) => {
+    const base = { id: i.id, title: i.reminder.title, amount: i.reminder.amount };
+    const out: BillReminderInput[] = [];
+    if (i.due) out.push({ ...base, due: i.due.format('YYYY-MM-DD'), period: i.duePeriod });
+    if (i.due && i.followingDue) out.push({ ...base, due: i.followingDue.format('YYYY-MM-DD'), period: i.followingPeriod });
+    return out;
+  });
 
   return {
     settings: (getSettings() ?? {}) as Partial<AppSettings>,

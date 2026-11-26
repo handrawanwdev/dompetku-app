@@ -64,7 +64,7 @@ export function MainMenuCard() {
 }
 
 const styles = StyleSheet.create({
-  card: { marginTop: SPACING.md },
+  card: { marginTop: SPACING.xl },
   head: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', paddingHorizontal: SPACING.xs, marginBottom: SPACING.md },
   headTitle: { fontSize: FONTS.md, fontWeight: '700', color: COLORS.text },
   headLink: { fontSize: FONTS.sm, fontWeight: '600', color: COLORS.primary },

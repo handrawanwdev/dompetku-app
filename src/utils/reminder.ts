@@ -44,6 +44,9 @@ export interface ReminderInfo<R extends ReminderLike = ReminderLike> {
   due: Dayjs | null;
   /** Periode milik `due`; disimpan ke lastDonePeriod saat dibayar. */
   duePeriod: string;
+  /** Jatuh tempo periode sesudah `due` (untuk jadwal notif ke depan). null = pengingat sekali. */
+  followingDue: Dayjs | null;
+  followingPeriod: string;
   /** Periode berjalan sudah dibayar. */
   paidCurrent: boolean;
   /** Jatuh tempo periode berjalan jatuh di bulan ini. */
@@ -65,6 +68,8 @@ export function buildReminderInfo<R extends ReminderLike>(r: R, now: Date = new 
       repeat,
       due: done ? null : start,
       duePeriod: 'once',
+      followingDue: null,
+      followingPeriod: '',
       paidCurrent: done,
       currentInThisMonth: start.isSame(today, 'month'),
       status: done ? null : dueStatus(start.diff(today, 'day'), `Jatuh tempo ${start.format('D MMM YYYY')}`),
@@ -79,6 +84,8 @@ export function buildReminderInfo<R extends ReminderLike>(r: R, now: Date = new 
   const paidCurrent = r.lastDonePeriod !== '' && r.lastDonePeriod >= curPeriod;
   const next = anchor.add(1, unit);
   const due = paidCurrent ? occurrenceIn(repeat, start, next) : current;
+  const dueAnchor = paidCurrent ? next : anchor;
+  const followingAnchor = dueAnchor.add(1, unit);
   const daysUntil = due.diff(today, 'day');
 
   return {
@@ -87,6 +94,8 @@ export function buildReminderInfo<R extends ReminderLike>(r: R, now: Date = new 
     repeat,
     due,
     duePeriod: paidCurrent ? periodOf(repeat, next) : curPeriod,
+    followingDue: occurrenceIn(repeat, start, followingAnchor),
+    followingPeriod: periodOf(repeat, followingAnchor),
     paidCurrent,
     currentInThisMonth: current.isSame(today, 'month'),
     status: paidCurrent

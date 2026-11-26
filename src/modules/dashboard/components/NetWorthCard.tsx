@@ -32,6 +32,8 @@ function Trend({ value, goodWhenUp }: { value: number; goodWhenUp: boolean }) {
 
 export function NetWorthCard({ summary }: Props) {
   const ratio = Math.min(summary.expenseRatio, 100);
+  // Rincian supaya angka kekayaan bersih (bisa minus) langsung terbaca asalnya.
+  const gross = summary.netWorth + summary.totalDebt;
 
   return (
     <View style={styles.card}>
@@ -39,6 +41,11 @@ export function NetWorthCard({ summary }: Props) {
       <Text style={styles.amount} numberOfLines={1}>
         {formatCurrency(summary.netWorth)}
       </Text>
+      {summary.totalDebt > 0 ? (
+        <Text style={styles.breakdown} numberOfLines={1}>
+          Harta {formatCompact(gross)}  −  utang {formatCompact(summary.totalDebt)}
+        </Text>
+      ) : null}
 
       <View style={styles.row}>
         <View style={styles.pill}>
@@ -105,10 +112,10 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     color: COLORS.heroText,
     marginTop: SPACING.xs,
-    marginBottom: SPACING.lg,
     letterSpacing: -0.5,
   },
-  row: { flexDirection: "row", gap: SPACING.sm },
+  breakdown: { fontSize: FONTS.sm, color: COLORS.heroMuted, marginTop: 2 },
+  row: { flexDirection: "row", gap: SPACING.sm, marginTop: SPACING.lg },
   pill: {
     flex: 1,
     backgroundColor: "rgba(255,255,255,0.12)",

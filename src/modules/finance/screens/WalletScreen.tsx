@@ -26,10 +26,11 @@ export function WalletScreen() {
     { key: 'daily', title: 'Sehari-hari', icon: 'account-balance-wallet' as const, color: COLORS.primary, items: daily, total: sum(daily) + (showUnassigned ? unassigned : 0) },
     { key: 'savings', title: 'Tabungan', icon: 'lock' as const, color: COLORS.saving, items: saved, total: sum(saved) },
   ].filter((g) => g.items.length > 0 || g.key === 'savings' || showUnassigned);
+  const dailyTotal = groups.find((g) => g.key === 'daily')?.total ?? 0;
+  const savedTotal = groups.find((g) => g.key === 'savings')?.total ?? 0;
 
   const renderPocket = (a: (typeof list)[number], i: number) => {
     const m = accountTypeMeta(a.account.type);
-    const share = totals.total > 0 ? Math.max(0, a.balance) / totals.total : 0;
     return (
       <TouchableOpacity
         key={a.id}
@@ -49,15 +50,12 @@ export function WalletScreen() {
               </View>
             )}
           </View>
-          {a.account.subName ? (
-            <Text style={styles.sub} numberOfLines={1}>{a.account.subName}</Text>
-          ) : null}
-          <Text style={styles.meta}>
-            {m.label}
-            {share > 0 ? ` · ${Math.round(share * 100)}% dari saldo` : ''}
+          <Text style={styles.meta} numberOfLines={1}>
+            {a.account.subName || m.label}
           </Text>
         </View>
         <Text style={[styles.amount, a.balance < 0 && { color: COLORS.dangerText }]}>{formatCurrency(a.balance)}</Text>
+        <MaterialIcons name="chevron-right" size={ICON_SIZES.md} color={COLORS.textMuted} />
       </TouchableOpacity>
     );
   };
@@ -104,17 +102,27 @@ export function WalletScreen() {
 
         <View style={styles.hero}>
           <Text style={styles.heroLabel}>Saldo total</Text>
-          <Text style={[styles.heroAmount, totals.total < 0 && { color: COLORS.dangerText }]} numberOfLines={1}>
+          <Text style={styles.heroAmount} numberOfLines={1}>
             {formatCurrency(totals.total)}
           </Text>
-          <Text style={styles.heroSub}>
-            Bisa dipakai {formatCurrency(totals.spendable)} · Tabungan {formatCurrency(totals.savings)}
-          </Text>
           {hasAccounts && (
-            <View style={styles.actions}>
-              <HeroAction icon="swap-horiz" label="Pindah saldo" onPress={() => nav.navigate('TransferForm', {})} disabled={list.length < 2} />
-              <HeroAction icon="add" label="Tambah kantong" onPress={() => nav.navigate('AccountForm', {})} />
-            </View>
+            <>
+              {/* Porsi sehari-hari vs tabungan, sama dengan total grup di bawah */}
+              {dailyTotal > 0 && savedTotal > 0 && (
+                <View style={styles.split}>
+                  <View style={[styles.splitPart, { flex: dailyTotal, backgroundColor: COLORS.heroText }]} />
+                  <View style={[styles.splitPart, { flex: savedTotal, backgroundColor: COLORS.incomeLight }]} />
+                </View>
+              )}
+              <View style={styles.legend}>
+                <Legend color={COLORS.heroText} label="Sehari-hari" value={dailyTotal} />
+                <Legend color={COLORS.incomeLight} label="Tabungan" value={savedTotal} />
+              </View>
+              <View style={styles.actions}>
+                <HeroAction icon="swap-horiz" label="Pindah saldo" onPress={() => nav.navigate('TransferForm', {})} disabled={list.length < 2} />
+                <HeroAction icon="add" label="Tambah kantong" onPress={() => nav.navigate('AccountForm', {})} />
+              </View>
+            </>
           )}
         </View>
 
@@ -153,11 +161,13 @@ export function WalletScreen() {
                     </TouchableOpacity>
                   )}
                 </View>
+                {g.key === 'savings' && g.items.length > 0 && (
+                  <Text style={styles.footnote}>
+                    Saat Sisihkan ke Tabungan, pilih kantong tabungan supaya uangnya ikut pindah ke sana.
+                  </Text>
+                )}
               </View>
             ))}
-            <Text style={styles.footnote}>
-              Saat Sisihkan ke Tabungan, pilih kantong tabungan supaya uangnya ikut pindah ke sana.
-            </Text>
           </>
         ) : (
           <View style={styles.empty}>
@@ -171,6 +181,18 @@ export function WalletScreen() {
         )}
       </ScrollView>
     </SafeAreaView>
+  );
+}
+
+function Legend({ color, label, value }: { color: string; label: string; value: number }) {
+  return (
+    <View style={styles.legendItem}>
+      <View style={styles.legendHead}>
+        <View style={[styles.legendDot, { backgroundColor: color }]} />
+        <Text style={styles.legendLabel}>{label}</Text>
+      </View>
+      <Text style={styles.legendValue} numberOfLines={1}>{formatCurrency(value)}</Text>
+    </View>
   );
 }
 
@@ -192,7 +214,7 @@ function HeroAction({
       disabled={disabled}
       activeOpacity={0.7}
     >
-      <MaterialIcons name={icon} size={ICON_SIZES.md} color={COLORS.primary} />
+      <MaterialIcons name={icon} size={ICON_SIZES.md} color={COLORS.heroText} />
       <Text style={styles.actionLabel}>{label}</Text>
     </TouchableOpacity>
   );
@@ -213,10 +235,17 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primarySoft,
   },
   historyLabel: { fontSize: FONTS.sm, fontWeight: '700', color: COLORS.primary },
-  hero: { backgroundColor: COLORS.surface, borderRadius: RADIUS.xl, padding: SPACING.xl, ...SHADOWS.sm },
-  heroLabel: { fontSize: FONTS.sm, color: COLORS.textSecondary, fontWeight: '600' },
-  heroAmount: { fontSize: FONTS.xxl, fontWeight: '800', color: COLORS.text, marginTop: SPACING.xs },
-  heroSub: { fontSize: FONTS.sm, color: COLORS.textSecondary, marginTop: SPACING.xs },
+  hero: { backgroundColor: COLORS.primaryDark, borderRadius: RADIUS.xl, padding: SPACING.xl, ...SHADOWS.lg },
+  heroLabel: { fontSize: FONTS.sm, color: COLORS.heroMuted, fontWeight: '600' },
+  heroAmount: { fontSize: FONTS.xxxl, fontWeight: '800', color: COLORS.heroText, marginTop: SPACING.xs, letterSpacing: -0.5 },
+  split: { flexDirection: 'row', height: 8, gap: 3, marginTop: SPACING.lg },
+  splitPart: { height: 8, minWidth: 8, borderRadius: RADIUS.round },
+  legend: { flexDirection: 'row', gap: SPACING.md, marginTop: SPACING.md },
+  legendItem: { flex: 1 },
+  legendHead: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  legendDot: { width: 8, height: 8, borderRadius: 4 },
+  legendLabel: { fontSize: FONTS.xs, color: COLORS.heroMuted, fontWeight: '600' },
+  legendValue: { fontSize: FONTS.md, color: COLORS.heroText, fontWeight: '700', marginTop: 2 },
   actions: { flexDirection: 'row', gap: SPACING.sm, marginTop: SPACING.lg },
   action: {
     flex: 1,
@@ -226,9 +255,9 @@ const styles = StyleSheet.create({
     gap: SPACING.xs,
     paddingVertical: SPACING.md,
     borderRadius: RADIUS.md,
-    backgroundColor: COLORS.primarySoft,
+    backgroundColor: 'rgba(255,255,255,0.14)',
   },
-  actionLabel: { fontSize: FONTS.sm, fontWeight: '700', color: COLORS.primary },
+  actionLabel: { fontSize: FONTS.sm, fontWeight: '700', color: COLORS.heroText },
   sectionHead: { flexDirection: 'row', alignItems: 'center', gap: SPACING.xs, marginTop: SPACING.xl, marginBottom: SPACING.sm },
   section: { flex: 1, fontSize: FONTS.lg, fontWeight: '700', color: COLORS.text },
   sectionTotal: { fontSize: FONTS.md, fontWeight: '700', color: COLORS.textSecondary },
@@ -237,17 +266,17 @@ const styles = StyleSheet.create({
     borderRadius: RADIUS.lg,
     borderWidth: 1,
     borderColor: COLORS.border,
-    paddingHorizontal: SPACING.lg,
+    paddingLeft: SPACING.lg,
+    paddingRight: SPACING.sm,
   },
-  row: { flexDirection: 'row', alignItems: 'center', gap: SPACING.md, paddingVertical: SPACING.md },
-  rowBorder: { borderTopWidth: 1, borderTopColor: COLORS.border },
+  row: { flexDirection: 'row', alignItems: 'center', gap: SPACING.md, paddingVertical: SPACING.md, minHeight: 64 },
+  rowBorder: { borderTopWidth: 1, borderTopColor: COLORS.subtleBg },
   icon: { width: 40, height: 40, borderRadius: RADIUS.round, alignItems: 'center', justifyContent: 'center' },
   nameRow: { flexDirection: 'row', alignItems: 'center', gap: SPACING.xs },
   name: { fontSize: FONTS.md, fontWeight: '700', color: COLORS.text, flexShrink: 1 },
   badge: { backgroundColor: COLORS.primarySoft, borderRadius: RADIUS.round, paddingHorizontal: 6, paddingVertical: 1 },
   badgeText: { fontSize: FONTS.xs, fontWeight: '700', color: COLORS.primary },
-  sub: { fontSize: FONTS.sm, color: COLORS.textSecondary, marginTop: 1 },
-  meta: { fontSize: FONTS.xs, color: COLORS.textSecondary, marginTop: 2 },
+  meta: { fontSize: FONTS.sm, color: COLORS.textSecondary, marginTop: 2 },
   amount: { fontSize: FONTS.md, fontWeight: '700', color: COLORS.text },
   footnote: { fontSize: FONTS.xs, color: COLORS.textMuted, marginTop: SPACING.md, lineHeight: 18 },
   empty: {

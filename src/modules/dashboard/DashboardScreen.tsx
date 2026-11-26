@@ -52,14 +52,18 @@ export function DashboardScreen() {
         {/* Menu utama: pintasan ke halaman lain, bisa diatur */}
         <MainMenuCard />
 
-        {/* Porsi tiap jenis uang keluar vs targetnya */}
-        <BudgetSplitCard income={d.summary.monthlyIncome} byKind={d.summary.byKind} />
+        {/* Tagihan & cicilan terdekat — yang perlu ditindak, jadi di atas */}
+        <ObligationsCard
+          urgent={d.urgentReminders}
+          normal={d.normalReminders}
+          onPress={() => d.setShowReminders(true)}
+        />
 
-        {/* Cash / Savings / Investment / Debt — posisi keuangan sekilas */}
+        {/* Bisa dipakai / Tabungan / Investasi / Aset — posisi keuangan sekilas */}
         <SummaryGrid summary={d.summary} />
 
-        {/* Target tabungan: progres dari setoran yang ditandai goal */}
-        <GoalsCard />
+        {/* Porsi tiap jenis uang keluar vs targetnya */}
+        <BudgetSplitCard income={d.summary.monthlyIncome} byKind={d.summary.byKind} />
 
         {/* Seberapa berat cicilan dibanding pemasukan */}
         <DebtRatioCard
@@ -70,12 +74,8 @@ export function DashboardScreen() {
           monthlyIncome={d.summary.monthlyIncome}
         />
 
-        {/* Debt/Obligations detail + Upcoming payment */}
-        <ObligationsCard
-          urgent={d.urgentReminders}
-          normal={d.normalReminders}
-          onPress={() => d.setShowReminders(true)}
-        />
+        {/* Target tabungan: progres dari setoran yang ditandai goal */}
+        <GoalsCard />
 
         {/* Kalender masuk/keluar per hari, bisa ganti bulan & lihat detail hari */}
         <CashflowCalendarCard />

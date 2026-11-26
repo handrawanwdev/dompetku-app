@@ -1,12 +1,12 @@
 import React, { useMemo } from 'react';
-import { View, FlatList, StyleSheet, StatusBar, TouchableOpacity, ListRenderItemInfo } from 'react-native';
+import { View, SectionList, StyleSheet, StatusBar, TouchableOpacity, SectionListRenderItemInfo } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useQuery } from '@realm/react';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import { COLORS, FONTS, ICON_SIZES, RADIUS, SPACING, SHADOWS } from '../../../theme';
-import { Text, BackButton } from '../../../components/common';
+import { Text, BackButton, TxRow, DayHeader, groupByDate, type DaySection } from '../../../components/common';
 import { IncomeModel } from '../../../models/IncomeModel';
 import { ExpenseModel } from '../../../models/ExpenseModel';
 import { TransferModel } from '../../../models/TransferModel';
@@ -14,7 +14,6 @@ import { accountLabel, accountTypeMeta } from '../../../services/AccountService'
 import { isLockedIncome } from '../../../utils/journal';
 import { kindMeta } from '../../../utils/budget';
 import { formatCurrency } from '../../../utils/currency';
-import { formatDate } from '../../../utils/date';
 import type { RootStackParamList } from '../../../navigation/types';
 import { useAccounts } from '../useAccounts';
 
@@ -53,7 +52,7 @@ export function AccountDetailScreen({ navigation, route }: Props) {
         date: i.date,
         createdAt: i.createdAt.getTime(),
         label: i.category,
-        meta: [formatDate(i.date), i.note].filter(Boolean).join(' · '),
+        meta: i.note,
         delta: i.allocationCash,
         amount: i.allocationCash,
         icon: i.isInternal ? 'tune' : 'south-west',
@@ -73,7 +72,7 @@ export function AccountDetailScreen({ navigation, route }: Props) {
         date: e.date,
         createdAt: e.createdAt.getTime(),
         label: e.category,
-        meta: [e.isInternal ? '' : m.label, formatDate(e.date), where, e.note].filter(Boolean).join(' · '),
+        meta: [e.isInternal ? '' : m.label, where, e.note].filter(Boolean).join(' · '),
         delta: incoming ? e.amount : kept && !movedOut ? 0 : -e.amount,
         amount: e.amount,
         icon: e.isInternal ? 'tune' : m.icon,
@@ -97,7 +96,7 @@ export function AccountDetailScreen({ navigation, route }: Props) {
         date: t.date,
         createdAt: t.createdAt.getTime(),
         label: other ? (incoming ? `Dari ${other}` : `Ke ${other}`) : t.note || 'Penyesuaian saldo',
-        meta: [other ? transferKind(t.fromId, t.toId) : '', formatDate(t.date), other ? t.note : ''].filter(Boolean).join(' · '),
+        meta: [other ? transferKind(t.fromId, t.toId) : '', other ? t.note : ''].filter(Boolean).join(' · '),
         delta: incoming ? t.amount : -t.amount,
         amount: t.amount,
         icon: other ? 'swap-horiz' : 'tune',
@@ -108,6 +107,8 @@ export function AccountDetailScreen({ navigation, route }: Props) {
     return out.sort((a, b) => (a.date === b.date ? b.createdAt - a.createdAt : a.date < b.date ? 1 : -1));
   }, [incomes, expenses, savedHere, transfers, id, byId, navigation]);
 
+  const sections = useMemo(() => groupByDate(rows, (r) => r.date, (r) => r.delta), [rows]);
+
   if (!info) {
     // Kantong baru saja dihapus.
     return <SafeAreaView style={styles.safe} />;
@@ -115,20 +116,18 @@ export function AccountDetailScreen({ navigation, route }: Props) {
 
   const m = accountTypeMeta(info.account.type);
 
-  const renderItem = ({ item }: ListRenderItemInfo<Row>) => (
-    <TouchableOpacity style={styles.item} onPress={item.open} disabled={!item.open} activeOpacity={0.7}>
-      <View style={[styles.itemIcon, { backgroundColor: item.color + '1A' }]}>
-        <MaterialIcons name={item.icon} size={ICON_SIZES.md} color={item.color} />
-      </View>
-      <View style={{ flex: 1 }}>
-        <Text style={styles.itemLabel} numberOfLines={1}>{item.label}</Text>
-        <Text style={styles.itemMeta} numberOfLines={1}>{item.meta}</Text>
-      </View>
-      <Text style={[styles.itemAmount, { color: item.delta > 0 ? COLORS.income : item.delta < 0 ? COLORS.text : COLORS.textMuted }]}>
-        {item.delta > 0 ? '+ ' : item.delta < 0 ? '- ' : ''}
-        {formatCurrency(item.amount)}
-      </Text>
-    </TouchableOpacity>
+  const renderItem = ({ item, index, section }: SectionListRenderItemInfo<Row, DaySection<Row>>) => (
+    <TxRow
+      first={index === 0}
+      last={index === section.data.length - 1}
+      iconBg={item.color + '1A'}
+      icon={<MaterialIcons name={item.icon} size={ICON_SIZES.lg} color={item.color} />}
+      title={item.label}
+      subtitle={item.meta}
+      amount={`${item.delta > 0 ? '+' : item.delta < 0 ? '−' : ''}${formatCurrency(item.amount)}`}
+      amountColor={item.delta > 0 ? COLORS.income : item.delta < 0 ? COLORS.text : COLORS.textMuted}
+      onPress={item.open}
+    />
   );
 
   return (
@@ -151,8 +150,10 @@ export function AccountDetailScreen({ navigation, route }: Props) {
         </TouchableOpacity>
       </View>
 
-      <FlatList
-        data={rows}
+      <SectionList
+        sections={sections}
+        renderSectionHeader={({ section }) => <DayHeader date={section.date} total={section.total} withYear />}
+        stickySectionHeadersEnabled={false}
         keyExtractor={(r) => r.key}
         renderItem={renderItem}
         contentContainerStyle={styles.content}
@@ -184,7 +185,7 @@ export function AccountDetailScreen({ navigation, route }: Props) {
                 <Action icon="tune" label="Samakan saldo" onPress={() => navigation.navigate('AccountForm', { id })} />
               </View>
             </View>
-            <Text style={styles.section}>Riwayat</Text>
+            {rows.length > 0 && <Text style={styles.section}>Riwayat</Text>}
           </>
         }
         ListEmptyComponent={<Text style={styles.empty}>Belum ada catatan di kantong ini.</Text>}
@@ -226,18 +227,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primarySoft,
   },
   actionLabel: { fontSize: FONTS.sm, fontWeight: '700', color: COLORS.primary },
-  section: { fontSize: FONTS.lg, fontWeight: '700', color: COLORS.text, marginTop: SPACING.xl, marginBottom: SPACING.sm },
-  item: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: SPACING.md,
-    paddingVertical: SPACING.md,
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.border,
-  },
+  section: { fontSize: FONTS.lg, fontWeight: '700', color: COLORS.text, marginTop: SPACING.xl, marginBottom: -SPACING.xs },
   itemIcon: { width: 36, height: 36, borderRadius: RADIUS.round, alignItems: 'center', justifyContent: 'center' },
-  itemLabel: { fontSize: FONTS.md, fontWeight: '600', color: COLORS.text },
-  itemMeta: { fontSize: FONTS.xs, color: COLORS.textSecondary, marginTop: 2 },
-  itemAmount: { fontSize: FONTS.md, fontWeight: '700' },
   empty: { fontSize: FONTS.sm, color: COLORS.textSecondary, textAlign: 'center', marginTop: SPACING.xl },
 });

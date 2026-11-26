@@ -126,9 +126,9 @@
     "semantic_hash": ""
   },
   "src/components/common/index.ts": {
-    "mtime": 1795453890.7768664,
-    "seen": 1795454046.3914404,
-    "ast_hash": "3350633192f495d1e57259baca0dca1c",
+    "mtime": 1795716419.0424144,
+    "seen": 1795716511.8810577,
+    "ast_hash": "1e62f7757b7877f56079508832dc24d5",
     "semantic_hash": ""
   },
   "src/constants/index.ts": {
@@ -210,9 +210,9 @@
     "semantic_hash": ""
   },
   "src/modules/dashboard/DashboardScreen.tsx": {
-    "mtime": 1795543562.0796795,
-    "seen": 1795543672.8315527,
-    "ast_hash": "fff24baed670058afc2fc5818fe90597",
+    "mtime": 1795715459.3884404,
+    "seen": 1795715493.0958686,
+    "ast_hash": "1ead060276bb25dc91501f48469fcef7",
     "semantic_hash": ""
   },
   "src/modules/dashboard/components/DebtRatioCard.tsx": {
@@ -222,9 +222,9 @@
     "semantic_hash": ""
   },
   "src/modules/dashboard/components/NetWorthCard.tsx": {
-    "mtime": 1795541054.1440132,
-    "seen": 1795541084.605338,
-    "ast_hash": "4338272d4514355bb27120139e31261c",
+    "mtime": 1795715419.2700768,
+    "seen": 1795715493.0958781,
+    "ast_hash": "955073f3d83a1db0c1856afadf12817d",
     "semantic_hash": ""
   },
   "src/modules/dashboard/components/RemindersSection.tsx": {
@@ -234,15 +234,15 @@
     "semantic_hash": ""
   },
   "src/modules/dashboard/components/SectionTitle.tsx": {
-    "mtime": 1795451596.3211508,
-    "seen": 1795451893.633877,
-    "ast_hash": "c0917be392a1155e584a48db7ca126ba",
+    "mtime": 1795715412.8976526,
+    "seen": 1795715493.095884,
+    "ast_hash": "660fc7063e39df9e2458e7bdcceac18e",
     "semantic_hash": ""
   },
   "src/modules/dashboard/components/SummaryGrid.tsx": {
-    "mtime": 1795541354.762716,
-    "seen": 1795541361.803027,
-    "ast_hash": "3d0577bf3a2e74c18cf054f7a71b7004",
+    "mtime": 1795715446.867762,
+    "seen": 1795715493.095885,
+    "ast_hash": "9e927b30139d2794b994543318e1fa55",
     "semantic_hash": ""
   },
   "src/modules/dashboard/components/index.ts": {
@@ -360,9 +360,9 @@
     "semantic_hash": ""
   },
   "src/modules/transaction/screens/CashflowScreen.tsx": {
-    "mtime": 1795620788.9701083,
-    "seen": 1795620832.5129893,
-    "ast_hash": "68a20b6049c62859bcc72df2e3db45f1",
+    "mtime": 1795716541.535172,
+    "seen": 1795717201.1037679,
+    "ast_hash": "3b762588e45fd36195d542bb63651f5e",
     "semantic_hash": ""
   },
   "src/modules/transaction/types.ts": {
@@ -396,9 +396,9 @@
     "semantic_hash": ""
   },
   "src/services/NotificationService.ts": {
-    "mtime": 1795621960.8662994,
-    "seen": 1795621993.3859909,
-    "ast_hash": "952104d0269309b76f4199857b9d5130",
+    "mtime": 1795717128.800915,
+    "seen": 1795717201.103786,
+    "ast_hash": "2a777eb1b20c14f9c6c422269cfbf411",
     "semantic_hash": ""
   },
   "src/services/PassiveIncomeScheduler.ts": {
@@ -432,9 +432,9 @@
     "semantic_hash": ""
   },
   "src/utils/currency.ts": {
-    "mtime": 1782750087.1167996,
-    "seen": 1795450128.0575006,
-    "ast_hash": "5cb363f95d4ccc9bac29a4442596eace",
+    "mtime": 1795715412.7114098,
+    "seen": 1795715493.0959718,
+    "ast_hash": "86cc6966e220968a2f1e690dba9e9299",
     "semantic_hash": ""
   },
   "src/utils/date.ts": {
@@ -612,9 +612,9 @@
     "semantic_hash": ""
   },
   "src/modules/dashboard/components/ObligationsCard.tsx": {
-    "mtime": 1795543562.079507,
-    "seen": 1795543672.831562,
-    "ast_hash": "93aff4e82dfc09acbd2826934b675898",
+    "mtime": 1795715459.3881586,
+    "seen": 1795715493.0958798,
+    "ast_hash": "df3fbb988ce3a77cde3cad782eceaeee",
     "semantic_hash": ""
   },
   "src/components/common/SavingSuccessAnimation.tsx": {
@@ -822,9 +822,9 @@
     "semantic_hash": ""
   },
   "src/modules/dashboard/components/BudgetSplitCard.tsx": {
-    "mtime": 1795539268.5098798,
-    "seen": 1795539307.3928456,
-    "ast_hash": "c1704f710f2699efdcc61e5461e22923",
+    "mtime": 1795715438.4198174,
+    "seen": 1795715493.0958724,
+    "ast_hash": "52303804ff107ddc3f56951ea27af4ab",
     "semantic_hash": ""
   },
   "src/utils/budget.ts": {
@@ -858,9 +858,9 @@
     "semantic_hash": ""
   },
   "src/modules/dashboard/components/MainMenuCard.tsx": {
-    "mtime": 1795454805.5353851,
-    "seen": 1795454883.7695453,
-    "ast_hash": "65d1611a6591ff527be7094d97a2058f",
+    "mtime": 1795715446.8756783,
+    "seen": 1795715493.0958772,
+    "ast_hash": "32f8ba2c047b75e5ac88769028753bf9",
     "semantic_hash": ""
   },
   "src/modules/dashboard/screens/MenuEditScreen.tsx": {
@@ -870,9 +870,9 @@
     "semantic_hash": ""
   },
   "src/modules/finance/screens/WalletScreen.tsx": {
-    "mtime": 1795541354.7623186,
-    "seen": 1795541361.803045,
-    "ast_hash": "537777bd6b72683f37339ba1bc719baf",
+    "mtime": 1795716493.8076801,
+    "seen": 1795716511.881147,
+    "ast_hash": "b82f5aceb829194b02f1e2cc15aa699e",
     "semantic_hash": ""
   },
   "src/modules/settings/screens/DataScreen.tsx": {
@@ -948,9 +948,9 @@
     "semantic_hash": ""
   },
   "src/modules/finance/screens/AccountDetailScreen.tsx": {
-    "mtime": 1795620908.4838884,
-    "seen": 1795620922.4114428,
-    "ast_hash": "5da4ada90529a0748fde74a7ccbe77d3",
+    "mtime": 1795716467.200977,
+    "seen": 1795716511.8811393,
+    "ast_hash": "69ec57a56806101d543e804418050188",
     "semantic_hash": ""
   },
   "src/modules/finance/screens/AccountFormScreen.tsx": {
@@ -1032,9 +1032,9 @@
     "semantic_hash": ""
   },
   "src/modules/dashboard/components/GoalsCard.tsx": {
-    "mtime": 1795539396.2724197,
-    "seen": 1795539435.0099034,
-    "ast_hash": "41de551691173d7c77fd7230953750d1",
+    "mtime": 1795715446.8753736,
+    "seen": 1795715493.0958757,
+    "ast_hash": "54d6a623290a35fa0a2c7239f829b689",
     "semantic_hash": ""
   },
   "src/modules/goal/screens/GoalDetailScreen.tsx": {
@@ -1152,9 +1152,9 @@
     "semantic_hash": ""
   },
   "src/services/ReminderScheduler.ts": {
-    "mtime": 1795621954.0921237,
-    "seen": 1795621993.385994,
-    "ast_hash": "7fa85ad243e985280bcf7bdc0274eb91",
+    "mtime": 1795717128.79954,
+    "seen": 1795717201.1037881,
+    "ast_hash": "47e6fc912483e21675ce62d4f76ef186",
     "semantic_hash": ""
   },
   "src/services/ReminderService.ts": {
@@ -1164,9 +1164,9 @@
     "semantic_hash": ""
   },
   "src/utils/reminder.ts": {
-    "mtime": 1795543404.5849128,
-    "seen": 1795543672.8316588,
-    "ast_hash": "b52c577d8e071ddd9e099a9a7e1320b8",
+    "mtime": 1795717128.798897,
+    "seen": 1795717201.103803,
+    "ast_hash": "4756ad64719aec5bc8a940ff67324b08",
     "semantic_hash": ""
   },
   "src/modules/birthday/BirthdaySurprise.tsx": {
@@ -1209,6 +1209,12 @@
     "mtime": 1795544664.2434695,
     "seen": 1795544694.699126,
     "ast_hash": "702e0fa231d824c30926315972f4cc28",
+    "semantic_hash": ""
+  },
+  "src/components/common/TxList.tsx": {
+    "mtime": 1795716418.7442586,
+    "seen": 1795716511.8810558,
+    "ast_hash": "fb492bea7697458bee98010907717f70",
     "semantic_hash": ""
   }
 }
